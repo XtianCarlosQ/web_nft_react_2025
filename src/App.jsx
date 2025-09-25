@@ -3,6 +3,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import { LanguageProvider } from "./context/LanguageContext";
 import { GridProvider } from "./context/GridContext";
 import Navbar from "./components/layout/Navbar";
+import { Routes, Route, Link } from "react-router-dom";
 import Hero from "./components/sections/Hero";
 import Products from "./components/sections/Products";
 import Team from "./components/sections/Team";
@@ -21,16 +22,37 @@ const App = () => {
           <div className="min-h-screen bg-white transition-colors duration-300">
             <Navbar />
             <GridOverlay />
-            <main className="container-app pt-20">
-              <Hero />
-              <About />
-              <Products />
-              <Services />
-              <Team />
-              <Partners />
-            </main>
-            <Footer />
-            <WhatsAppButton />
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <>
+                    <main className="container-app pt-20">
+                      <Hero />
+                      <About />
+                      <Products limit={3} />
+                      <Services />
+                      <Team />
+                      <Partners />
+                    </main>
+                    <Footer />
+                    <WhatsAppButton />
+                  </>
+                }
+              />
+              <Route
+                path="/productos"
+                element={
+                  <>
+                    <main className="container-app pt-20">
+                      <Products />
+                    </main>
+                    <Footer />
+                    <WhatsAppButton />
+                  </>
+                }
+              />
+            </Routes>
           </div>
         </GridProvider>
       </ThemeProvider>

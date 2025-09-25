@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import { useLanguage } from "../../context/LanguageContext";
 import { GridToggleButton } from "../GridOverlay";
@@ -13,29 +14,29 @@ const Navbar = () => {
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
-            <a href="#inicio" className="flex items-center">
+            <Link to="/" className="flex items-center">
               <img
                 src="/src/assets/images/logo/logo_NFT.png"
                 alt="Fiberstech Logo"
                 className="h-16"
               />
-            </a>
+            </Link>
           </div>
 
           {/* Navigation Links */}
           <div className="hidden md:flex space-x-2">
-            <a
-              href="#inicio"
+            <Link
+              to="/"
               className="px-3 py-1 rounded-lg font-semibold text-lg text-gray-700 hover:text-gray-900 hover:bg-gray-200 transition-colors"
             >
               Inicio
-            </a>
-            <a
-              href="#productos"
+            </Link>
+            <Link
+              to="/productos"
               className="px-3 py-1 rounded-lg font-semibold text-lg text-gray-700 hover:text-gray-900 hover:bg-gray-200 transition-colors"
             >
               Productos
-            </a>
+            </Link>
             <a
               href="#servicios"
               className="px-3 py-1 rounded-lg font-semibold text-lg text-gray-700 hover:text-gray-900 hover:bg-gray-200 transition-colors"
