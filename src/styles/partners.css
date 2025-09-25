@@ -1,0 +1,20 @@
+@layer utilities {
+  .partners-marquee {
+    animation: partners-marquee-scroll 28s linear infinite;
+  }
+
+  @keyframes partners-marquee-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .partners-marquee {
+      animation: none;
+    }
+  }
+}

@@ -1,0 +1,176 @@
+import React, { useState, useEffect } from "react";
+
+const Hero = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slides = [
+    {
+      image: "/src/assets/images/hero/Edgar_fibra_portada4-1536x799.jpg",
+      title: "Innovación en Tecnología Textil",
+      subtitle: "Soluciones avanzadas para la industria de fibras",
+    },
+    {
+      image: "/src/assets/images/hero/banner3-1536x1023.jpg",
+      title: "Investigación y Desarrollo",
+      subtitle: "Laboratorios equipados con tecnología de última generación",
+    },
+    {
+      image: "/src/assets/images/hero/IMG_4648-scaled.jpg",
+      title: "Presencia Internacional",
+      subtitle: "Compartiendo conocimiento en conferencias globales",
+    },
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  return (
+    <section
+      id="inicio"
+      className="relative overflow-hidden rounded-[1rem] shadow-lg"
+    >
+      {/* Aspect Ratio 16:9 wrapper */}
+      <div
+        className="relative w-full rounded-[1rem] overflow-hidden"
+        style={{ paddingTop: "56.25%" }}
+      >
+        {/* Slides */}
+        <div className="absolute inset-0 rounded-[1rem] overflow-hidden">
+          {slides.map((slide, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-2000 ease-in-out rounded-[1rem] overflow-hidden
+              ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
+            >
+              {/* Overlay gradient - Removido el rojo para ver las imágenes claramente */}
+              <div className="absolute inset-0 bg-black/0 z-10 rounded-[1rem]" />
+
+              {/* Background image with 3D effect (img-based for better responsiveness) */}
+              <div
+                className="absolute inset-0 transition-all duration-[2000ms] rounded-[1rem] overflow-hidden"
+                style={{
+                  transform:
+                    index === currentSlide
+                      ? "scale(1) perspective(1000px) rotateY(0deg)"
+                      : index === (currentSlide + 1) % slides.length
+                      ? "scale(0.9) perspective(1000px) rotateY(-15deg) translateX(5%)"
+                      : "scale(0.9) perspective(1000px) rotateY(15deg) translateX(-5%)",
+                  transformOrigin: "center center",
+                  backfaceVisibility: "hidden",
+                }}
+              >
+                {/* images rounded 1rem */}
+                <img
+                  src={slide.image}
+                  alt={slide.title}
+                  className="w-full h-full object-cover object-center rounded-[1rem]"
+                  loading="eager"
+                />
+              </div>
+
+              {/* Content */}
+              <div className="relative h-full flex items-center z-20 ">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                  <h1
+                    className="text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-6 opacity-0 translate-y-8 animate-fadeIn drop-shadow-lg "
+                    style={{
+                      animation:
+                        index === currentSlide
+                          ? "fadeInUp 0.8s ease forwards 0.5s"
+                          : "none",
+                    }}
+                  >
+                    {slide.title}
+                  </h1>
+                  <p
+                    className="text-xl sm:text-2xl text-white mb-8 max-w-3xl mx-auto opacity-0 translate-y-8 animate-fadeIn drop-shadow-md"
+                    style={{
+                      animation:
+                        index === currentSlide
+                          ? "fadeInUp 0.8s ease forwards 0.7s"
+                          : "none",
+                    }}
+                  >
+                    {slide.subtitle}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Navigation Arrows */}
+      <button
+        onClick={prevSlide}
+        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all hover:scale-110 backdrop-blur-sm"
+        aria-label="Anterior"
+      >
+        <svg
+          className="w-6 h-6 text-white"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </button>
+      <button
+        onClick={nextSlide}
+        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all hover:scale-110 backdrop-blur-sm"
+        aria-label="Siguiente"
+      >
+        <svg
+          className="w-6 h-6 text-white"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
+      </button>
+
+      {/* Dots navigation */}
+      <div className="absolute bottom-3 md:bottom-5 lg:bottom-7 left-1/2 transform -translate-x-1/2 z-30 flex space-x-2">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentSlide(index)}
+            className={`w-3 h-3 rounded-full transition-colors
+              ${
+                index === currentSlide
+                  ? "bg-white"
+                  : "bg-white/50 hover:bg-white/75"
+              }`}
+          />
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default Hero;

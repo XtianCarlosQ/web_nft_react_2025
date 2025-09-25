@@ -1,0 +1,43 @@
+/* LIGHT THEME */
+.light {
+  --clr-primary-400: hsl(223, 64%, 44%);
+  --clr-primary-500: hsl(223, 64%, 40%);
+  --clr-primary-600: hsl(223, 64%, 36%);
+  --clr-primary-700: hsl(223, 64%, 32%);
+
+  --grid-color-col: rgba(0, 128, 255, 0.08);
+  --grid-color-row: rgba(0, 128, 255, 0.04);
+}
+
+/* DARK THEME */
+.dark {
+  --clr-primary-400: hsl(223, 64%, 44%);
+  --clr-primary-500: hsl(223, 64%, 40%);
+  --clr-primary-600: hsl(223, 64%, 36%);
+  --clr-primary-700: hsl(223, 64%, 32%);
+
+  --grid-color-col: rgba(0, 128, 255, 0.08);
+  --grid-color-row: rgba(0, 128, 255, 0.04);
+}
+
+/* Grid Overlay Background */
+.grid-overlay-bg {
+  position: absolute;
+  inset: 0;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  background-image: repeating-linear-gradient(
+      to right,
+      var(--grid-color-col) 0,
+      var(--grid-color-col) var(--colw),
+      transparent var(--colw),
+      transparent calc(var(--colw) + var(--gutter))
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      var(--grid-color-row) 0,
+      var(--grid-color-row) var(--row-height),
+      transparent var(--row-height),
+      transparent calc(var(--row-height) * 2)
+    );
+}
