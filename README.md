@@ -1,12 +1,83 @@
-# React + Vite
+<div align="center">
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Fiberstech — Landing 2025
 
-Currently, two official plugins are available:
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=061e26)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=fff)](https://vitejs.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1-38B2AC?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES2023-F7DF1E?logo=javascript&logoColor=000)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![License](https://img.shields.io/badge/Code_Style-Prettier-ff69b4?logo=prettier&logoColor=white)](https://prettier.io)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Landing minimalista construida con React + Vite y Tailwind CSS v4.1. Incluye un sistema de grilla reutilizable (12/8/4 columnas), componentes accesibles y diseño responsive.
 
-## Expanding the ESLint configuration
+</div>
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Secciones de la Landing
+
+- Hero: slider 16:9 con bordes redondeados y overlay para legibilidad.
+- About: bloque informativo + video, estadísticas y diferenciales de valor.
+- Products: cards con imagen, features, CTA y botón para descargar folleto (PDF).
+- Partners: carrusel tipo marquee de instituciones/aliados.
+- Team: carrusel de 3 en 3 con overlay de especialidades al hover.
+- Footer: marca + contacto + redes, en 2 columnas desde md.
+
+## Stack y arquitectura
+
+- React 18 + Vite 5 (HMR, build rápido)
+- Tailwind CSS 4.1 (utilidades y diseño escalable)
+- Grilla utilitaria 12/8/4 (clases `container-app`, `grid-ctx`, `span-*`, `start-*`)
+- Assets locales (imágenes y PDF en `src/assets`)
+
+## Estructura principal
+
+```
+src/
+	components/
+		layout/
+			Navbar.jsx
+			Footer.jsx
+		sections/
+			Hero.jsx
+			About.jsx
+			Products.jsx
+			Partners.jsx
+			Team.jsx
+	styles/
+		grid-overlay.css
+		partners.css
+```
+
+## Cómo ejecutar
+
+Requisitos: Node.js 18+ y npm.
+
+```powershell
+# Instalar dependencias
+npm install
+
+# Ambiente de desarrollo (HMR)
+npm run dev
+
+# Build de producción
+npm run build
+
+# Previsualizar el build localmente
+npm run preview
+```
+
+## Notas destacadas
+
+- Slider del Hero mantiene proporción 16:9, sin solaparse con el navbar fijo.
+- Team/Partners usan transiciones suaves y bordes redondeados consistentes.
+- Footer responsivo: dos columnas desde `md`, íconos de contacto y redes.
+- Productos: botón “Descargar Folleto Empresarial” abre el PDF en nueva pestaña.
+
+## Próximos pasos (roadmap)
+
+- Páginas internas para cada sección (rutas dedicadas).
+- Marcado de navegación activo por sección (scroll spy / IntersectionObserver).
+- Internacionalización (i18n) usando el contexto de idioma.
+
+---
+
+Si este repo te es útil, considera darle una ⭐ en GitHub.
