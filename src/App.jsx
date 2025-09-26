@@ -29,7 +29,7 @@ const App = () => {
                   <>
                     <main className="container-app pt-20">
                       <Hero />
-                      <About />
+                      <About resume />
                       <Products limit={3} />
                       <Services limit={3} />
                       <Team />
@@ -58,6 +58,18 @@ const App = () => {
                   <>
                     <main className="container-app pt-20">
                       <Services />
+                    </main>
+                    <Footer />
+                    <WhatsAppButton />
+                  </>
+                }
+              />
+              <Route
+                path="/nosotros"
+                element={
+                  <>
+                    <main className="container-app pt-20">
+                      <About />
                     </main>
                     <Footer />
                     <WhatsAppButton />

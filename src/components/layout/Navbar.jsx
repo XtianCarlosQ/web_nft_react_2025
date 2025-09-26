@@ -49,12 +49,12 @@ const Navbar = () => {
             >
               Investigación
             </a>
-            <a
-              href="#nosotros"
+            <Link
+              to="/nosotros"
               className="px-3 py-1 rounded-lg font-semibold text-lg text-gray-700 hover:text-gray-900 hover:bg-gray-200 transition-colors"
             >
               Nosotros
-            </a>
+            </Link>
             <a
               href="#contacto"
               className="px-3 py-1 rounded-lg font-semibold text-lg text-gray-700 hover:text-gray-900 hover:bg-gray-200 transition-colors"

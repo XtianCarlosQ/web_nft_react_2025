@@ -170,7 +170,7 @@ const Products = ({ limit }) => {
     <section id="productos" className="py-8 bg-gray-0 rounded-3xl shadow-lg">
       <div className="max-w-7xl mx-auto px-4">
         <div className="mb-10">
-          <h2 className="text-3xl font-bold text-center mb-3 tracking-tight">
+          <h2 className="text-2xl font-bold text-center mb-3 tracking-tight">
             Nuestros <span className="text-red-600">Productos</span>
           </h2>
           <p className="text-center text-[15px] text-gray-600 max-w-4xl mx-auto leading-snug">
