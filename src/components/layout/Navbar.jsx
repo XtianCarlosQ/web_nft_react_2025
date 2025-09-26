@@ -37,12 +37,12 @@ const Navbar = () => {
             >
               Productos
             </Link>
-            <a
-              href="#servicios"
+            <Link
+              to="/servicios"
               className="px-3 py-1 rounded-lg font-semibold text-lg text-gray-700 hover:text-gray-900 hover:bg-gray-200 transition-colors"
             >
               Servicios
-            </a>
+            </Link>
             <a
               href="#investigacion"
               className="px-3 py-1 rounded-lg font-semibold text-lg text-gray-700 hover:text-gray-900 hover:bg-gray-200 transition-colors"

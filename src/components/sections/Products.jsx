@@ -32,7 +32,7 @@ const ProductCard = ({ product }) => {
 
           {/* Features List - Fixed height */}
           <div className="h-36">
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               {product.features.map((feature, index) => (
                 <li
                   key={index}
