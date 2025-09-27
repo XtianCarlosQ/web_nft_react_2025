@@ -10,6 +10,7 @@ import Team from "./components/sections/Team";
 import About from "./components/sections/About";
 import Services from "./components/sections/Services";
 import Partners from "./components/sections/Partners";
+import Contact from "./components/sections/Contact";
 import Footer from "./components/layout/Footer";
 import WhatsAppButton from "./components/common/WhatsAppButton";
 import GridOverlay from "./components/GridOverlay";
@@ -70,6 +71,21 @@ const App = () => {
                   <>
                     <main className="container-app pt-20">
                       <About />
+                    </main>
+                    <Footer />
+                    <WhatsAppButton />
+                  </>
+                }
+              />
+            </Routes>
+            {/* Standalone Contact route uses the same shell (Navbar global, Footer + WhatsApp here) */}
+            <Routes>
+              <Route
+                path="/contacto"
+                element={
+                  <>
+                    <main className="container-app pt-20">
+                      <Contact />
                     </main>
                     <Footer />
                     <WhatsAppButton />

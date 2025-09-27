@@ -55,12 +55,12 @@ const Navbar = () => {
             >
               Nosotros
             </Link>
-            <a
-              href="#contacto"
+            <Link
+              to="/contacto"
               className="px-3 py-1 rounded-lg font-semibold text-lg text-gray-700 hover:text-gray-900 hover:bg-gray-200 transition-colors"
             >
               Contacto
-            </a>
+            </Link>
           </div>
 
           {/* Language and Theme Toggles */}
