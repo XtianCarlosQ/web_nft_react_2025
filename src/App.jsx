@@ -11,6 +11,7 @@ import About from "./components/sections/About";
 import Services from "./components/sections/Services";
 import Partners from "./components/sections/Partners";
 import Contact from "./components/sections/Contact";
+import ProductDetail from "./pages/products/ProductDetail";
 import Footer from "./components/layout/Footer";
 import WhatsAppButton from "./components/common/WhatsAppButton";
 import GridOverlay from "./components/GridOverlay";
@@ -77,15 +78,24 @@ const App = () => {
                   </>
                 }
               />
-            </Routes>
-            {/* Standalone Contact route uses the same shell (Navbar global, Footer + WhatsApp here) */}
-            <Routes>
               <Route
                 path="/contacto"
                 element={
                   <>
                     <main className="container-app pt-20">
                       <Contact />
+                    </main>
+                    <Footer />
+                    <WhatsAppButton />
+                  </>
+                }
+              />
+              <Route
+                path="/productos/:productId"
+                element={
+                  <>
+                    <main className="pt-16">
+                      <ProductDetail />
                     </main>
                     <Footer />
                     <WhatsAppButton />

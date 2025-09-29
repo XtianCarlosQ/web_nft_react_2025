@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import brochurePdf from "../../assets/images/products/CATALOGO 2025_NFT_1.pdf";
 import { Brain, Clock, Award, Microscope } from "lucide-react";
 
@@ -47,12 +48,12 @@ const ProductCard = ({ product }) => {
 
           {/* Button Section - Fixed position at bottom */}
           <div className="mt-auto">
-            <a
-              href={`/productos/${product.id}`}
+            <Link
+              to={`/productos/${product.id}`}
               className="block w-full text-center border border-red-600 text-red-600 py-2 px-4 rounded text-sm font-medium hover:bg-red-600 hover:text-white transition-colors duration-300"
             >
               Ver Detalles
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -64,16 +65,29 @@ const ProductCard = ({ product }) => {
 const Products = ({ limit }) => {
   const products = [
     {
+      id: "fiber-med-2",
+      name: "FIBER MED",
+      image: "/src/assets/images/products/FIBER MED V1.0.png",
+      description:
+        "Medulador inteligente de fibras con IA para análisis automático de medulación en fibras de origen animal.",
+      features: [
+        "Análisis con IA integrada",
+        "8 kg, portátil",
+        "Fibras blancas y claras",
+        "Reportes automáticos",
+      ],
+    },
+    {
       id: "fiber-med",
       name: "FIBER MED V2.0",
       image: "/src/assets/images/products/FIBER MED V2.0.jpg",
       description:
-        "Equipo electrónico portátil inteligente con IA para análisis de medulación en fibras.",
+        "Versión mejorada que analiza fibras de diferentes colores en 40 segundos caracterizando más de 3000 fibras por muestra.",
       features: [
-        "Resultados en 40 segundos",
-        "3,000+ fibras/muestra",
-        "IA integrada",
-        "Multi-color compatible",
+        "Múltiples colores de fibra",
+        "40 segundos/muestra",
+        "3000+ fibras analizadas",
+        "Cámara infrarroja",
       ],
     },
     {
@@ -81,40 +95,14 @@ const Products = ({ limit }) => {
       name: "FIBER EC",
       image: "/src/assets/images/products/FIBER EC.png",
       description:
-        "Caracterizador electrónico integral que mide todas las propiedades físicas importantes de las fibras animales con precisión científica.",
+        "Caracterizador electrónico que evalúa calidad de fibras mediante interpretación de imágenes digitales.",
       features: [
-        "Análisis MDF completo",
-        "Factor de Picazón",
-        "Factor de confort",
-        "Monitoreo ambiental",
+        "MDF, CVMDF, DEMDF",
+        "Factor de Picazón/Confort",
+        "Multi-especie",
+        "Carcasa fibra de carbono",
       ],
     },
-    {
-      id: "fiber-tst",
-      name: "FIBER TST",
-      image: "/src/assets/images/products/FIBER TST.png",
-      description:
-        "Medidor especializado de resistencia a la tracción de fibras individuales.",
-      features: [
-        "Medición de tracción precisa",
-        "Gráficos en tiempo real",
-        "Alta precisión",
-        "Datos para aplicaciones textiles",
-      ],
-    },
-    {
-      id: "fiber-med-v1",
-      name: "FIBER MED V1.0",
-      image: "/src/assets/images/products/FIBER MED V1.0.png",
-      description:
-        "Versión previa del FIBER MED orientada a fibras claras y análisis semi-automatizado.",
-      features: [
-        "Reconocimiento por tipo de medulación",
-        "Resultados automatizados",
-        "Diseño compacto",
-      ],
-    },
-
     {
       id: "s-fiber-ec",
       name: "S-FIBER EC",
@@ -133,11 +121,25 @@ const Products = ({ limit }) => {
       name: "FIBER DEN",
       image: "/src/assets/images/products/Fiber-Den-3.png",
       description:
-        "Densímetro de fibras portátil para capturar imágenes y calcular densidad de fibras y conductos pilosos.",
+        "Densímetro portátil con mini microscopio para análisis de densidad de fibras y conductos pilosos.",
       features: [
-        "Mini microscopio digital",
-        "Procesamiento en PC/Tablet/Smartphone",
-        "Resultados rápidos",
+        "Solo 200g de peso",
+        "Sensor 2MP",
+        "Área 0.25-9.0 mm²",
+        "Software incluido",
+      ],
+    },
+    {
+      id: "fiber-tst",
+      name: "FIBER TST",
+      image: "/src/assets/images/products/FIBER TST.png",
+      description:
+        "Medidor de esfuerzo a la tracción con tecnología de muestreo en tiempo real y graficado automático.",
+      features: [
+        "Velocidad 6-64 mm/s",
+        "Gráficos en tiempo real",
+        "Máximo 30 kg",
+        "Sistema neumático",
       ],
     },
     {
@@ -145,11 +147,12 @@ const Products = ({ limit }) => {
       name: "MOSIVILLE",
       image: "/src/assets/images/products/Mosiville.png",
       description:
-        "Sistema para monitoreo inalámbrico y en tiempo real de signos vitales en animales.",
+        "Sistema para monitoreo inalámbrico y en tiempo real de signos vitales en diversos animales.",
       features: [
-        "Smartphone/Tablet/PC",
-        "Monitoreo en tiempo real",
-        "Alertas configurables",
+        "Solo 80g de peso",
+        "Monitoreo inalámbrico",
+        "Múltiples especies",
+        "Detección de arritmias",
       ],
     },
     {
@@ -157,11 +160,12 @@ const Products = ({ limit }) => {
       name: "MEDULÓMETRO",
       image: "/src/assets/images/products/medulometro.png",
       description:
-        "Versión básica del FIBER MED con microscopio de proyección computarizado y semi-automatizado.",
+        "Versión básica del FIBER MED. Microscopio de proyección computarizado para análisis de medulación.",
       features: [
-        "Evaluación de calidad de fibra",
-        "Mediciones de características físicas",
-        "Interfaz amigable",
+        "Microscopio digital",
+        "Semi-automatizado",
+        "10 kg de peso",
+        "Multi-especie",
       ],
     },
   ];
@@ -233,14 +237,14 @@ const Products = ({ limit }) => {
           {/* CTA Button */}
           <div className="text-center mt-8 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8">
             {limit && (
-              <a
-                href="/productos"
+              <Link
+                to="/productos"
                 className="bg-red-600 hover:bg-red-700 text-white 
                              font-semibold py-3 px-8 rounded-lg 
                              transition-all duration-300 shadow-lg hover:shadow-xl"
               >
                 Ver Todos los Productos
-              </a>
+              </Link>
             )}
             <a
               href={brochurePdf}

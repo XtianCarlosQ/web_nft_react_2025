@@ -1,4 +1,5 @@
 import React from "react";
+import { Phone, Mail } from "lucide-react";
 
 const socials = [
   {
@@ -79,7 +80,7 @@ const Footer = () => {
 
   return (
     <footer
-      className={`${bgClass} text-neutral-200 mt-16 relative overflow-hidden w-full`}
+      className={`${bgClass} text-neutral-200 mt-4 relative overflow-hidden w-full`}
     >
       {/* Top row: 2 columns */}
       <div className="container-app pt-10 pb-4">
@@ -88,9 +89,9 @@ const Footer = () => {
           <div className="md:pr-8">
             <div className="flex items-center gap-3">
               <img
-                src="/src/assets/images/logo/logo_NFT-200x251.png"
+                className="h-10 w-auto object-contain rounded-sm"
+                src="/src/assets/images/logo/logo_NFT-300x269.png"
                 alt="NFT logo"
-                className="h-10 w-auto object-contain"
               />
               <div>
                 <p className="text-sm uppercase tracking-widest text-red-400">
@@ -113,47 +114,21 @@ const Footer = () => {
             <ul className="space-y-2 text-sm text-neutral-300">
               <li>
                 <a
-                  href="mailto:info@fiberstech.com"
-                  className="hover:text-white flex items-center"
+                  href="mailto:edgarquispe62@gmail.com"
+                  className="hover:text-white flex items-center hover:underline"
                 >
-                  <svg
-                    className="w-4 h-4 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 8.25V18a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18V8.25M21 8.25l-8.4 5.25a2.25 2.25 0 01-2.4 0L3 8.25M21 8.25V6A2.25 2.25 0 0018.75 3.75H5.25A2.25 2.25 0 003 6v2.25"
-                    />
-                  </svg>
+                  <Mail className="w-4 h-4 mr-2" />
                   edgarquispe62@gmail.com
                 </a>
               </li>
-              <li className="lg:whitespace-nowrap">
+              <li className="lg:whitespace-nowrap ">
                 <a
                   href="https://wa.me/51988496839"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-white flex items-center"
+                  className="hover:text-white hover:underline flex items-center"
                 >
-                  <svg
-                    className="w-4 h-4 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M2.25 4.5l2.25-2.25a1.5 1.5 0 012.25.375l1.125 2.25a1.5 1.5 0 01-.225 1.65l-.9 1.05a15.75 15.75 0 006.225 6.225l1.05-.9a1.5 1.5 0 011.65-.225l2.25 1.125a1.5 1.5 0 01.375 2.25L19.5 21.75a2.25 2.25 0 01-2.4.6c-2.595-.84-5.04-2.28-7.125-4.365C7.89 15.9 6.45 13.455 5.61 10.86a2.25 2.25 0 01.6-2.4z"
-                    />
-                  </svg>
+                  <Phone className="w-4 h-4 mr-2" />
                   +51 988 496 839
                 </a>
               </li>
