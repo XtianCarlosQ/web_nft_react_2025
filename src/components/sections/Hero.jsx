@@ -5,17 +5,17 @@ const Hero = () => {
 
   const slides = [
     {
-      image: "/src/assets/images/hero/Edgar_fibra_portada4-1536x799.jpg",
+      image: "/assets/images/hero/Edgar_fibra_portada4-1536x799.jpg",
       title: "Innovación en Tecnología Textil",
       subtitle: "Soluciones avanzadas para la industria de fibras",
     },
     {
-      image: "/src/assets/images/hero/banner3-1536x1023.jpg",
+      image: "/assets/images/hero/banner3-1536x1023.jpg",
       title: "Investigación y Desarrollo",
       subtitle: "Laboratorios equipados con tecnología de última generación",
     },
     {
-      image: "/src/assets/images/hero/IMG_4648-scaled.jpg",
+      image: "/assets/images/hero/IMG_4648-scaled.jpg",
       title: "Presencia Internacional",
       subtitle: "Compartiendo conocimiento en conferencias globales",
     },

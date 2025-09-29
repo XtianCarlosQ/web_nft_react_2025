@@ -6,7 +6,7 @@ const TeamMemberCard = ({ member }) => {
       {/* Imagen del miembro */}
       <div className="aspect-[3/4] relative">
         <img
-          src={member.image || "/src/assets/images/team/placeholder.jpg"}
+          src={member.image || "/assets/images/team/placeholder.jpg"}
           alt={member.name}
           className="w-full h-full object-cover object-center rounded-2xl"
         />
@@ -52,7 +52,7 @@ const Team = () => {
     {
       name: "Edgar Quispe Peña",
       position: "CEO",
-      image: "/src/assets/images/team/edgar-quispe-2.jpg",
+      image: "/assets/images/team/edgar-quispe-2.jpg",
       skills: [
         "PhD, Ingeniero Zootecnista",
         "Inventor e investigador RENACYT (Categoría Carlos Monge - Nivel II)",
@@ -63,7 +63,7 @@ const Team = () => {
     {
       name: "Max Quispe Bonilla",
       position: "CTO",
-      image: "/src/assets/images/team/max-quispe.jpg",
+      image: "/assets/images/team/max-quispe.jpg",
       skills: [
         "PhD (c), Ing. Electrónico",
         "Inventor",
@@ -74,7 +74,7 @@ const Team = () => {
     {
       name: "Christian Quispe Bonilla",
       position: "AI Specialist",
-      image: "/src/assets/images/team/carlos-quispe3.png",
+      image: "/assets/images/team/carlos-quispe3.png",
       skills: [
         "Ingeniero Físico",
         "Especialista en IA",
@@ -85,7 +85,7 @@ const Team = () => {
     {
       name: "Henry Chico",
       position: "CRO",
-      image: "/src/assets/images/team/henry-chico.jpg",
+      image: "/assets/images/team/henry-chico.jpg",
       skills: [
         "Magister en Agronegocios",
         "Experto en desarrollo de negocios",
@@ -96,7 +96,7 @@ const Team = () => {
     {
       name: "Adolfo Poma",
       position: "Technical Specialist",
-      image: "/src/assets/images/team/adolfo-poma.jpg",
+      image: "/assets/images/team/adolfo-poma.jpg",
       skills: [
         "Ingeniero Zootecnista",
         "Investigador RENACYT",
@@ -107,7 +107,7 @@ const Team = () => {
     {
       name: "Tania Rodriguez",
       position: "Secretaria",
-      image: "/src/assets/images/team/Tania-Rodriguez.jpg",
+      image: "/assets/images/team/Tania-Rodriguez.jpg",
       skills: [
         "Secretaria administrativa",
         "Bilingüe Español-Inglés",

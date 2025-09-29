@@ -2,23 +2,23 @@ import React from "react";
 import "../../styles/partners.css";
 
 const partners = [
-  { src: "/src/assets/images/partners/Maxcorp.png", alt: "Maxcorp" },
-  { src: "/src/assets/images/partners/U-LIMA.png", alt: "Universidad de Lima" },
-  { src: "/src/assets/images/partners/INTA.png", alt: "INTA" },
+  { src: "/assets/images/partners/Maxcorp.png", alt: "Maxcorp" },
+  { src: "/assets/images/partners/U-LIMA.png", alt: "Universidad de Lima" },
+  { src: "/assets/images/partners/INTA.png", alt: "INTA" },
   {
-    src: "/src/assets/images/partners/UCC.png",
+    src: "/assets/images/partners/UCC.png",
     alt: "Universidad Católica de Córdoba",
   },
-  { src: "/src/assets/images/partners/UNALM.png", alt: "UNALM" },
-  { src: "/src/assets/images/partners/UNMSM.png", alt: "UNMSM" },
-  { src: "/src/assets/images/partners/UNCP.png", alt: "UNCP" },
-  { src: "/src/assets/images/partners/UNH.png", alt: "UNH" },
+  { src: "/assets/images/partners/UNALM.png", alt: "UNALM" },
+  { src: "/assets/images/partners/UNMSM.png", alt: "UNMSM" },
+  { src: "/assets/images/partners/UNCP.png", alt: "UNCP" },
+  { src: "/assets/images/partners/UNH.png", alt: "UNH" },
   {
-    src: "/src/assets/images/partners/U-PUNO.png",
+    src: "/assets/images/partners/U-PUNO.png",
     alt: "Universidad Nacional del Altiplano Puno",
   },
   {
-    src: "/src/assets/images/partners/Municipalidad_Corani.png",
+    src: "/assets/images/partners/Municipalidad_Corani.png",
     alt: "Municipalidad de Corani",
   },
 ];

@@ -25,7 +25,7 @@ const productsData = {
     tagline: "Medulador Inteligente de Fibras",
     description:
       "Equipo portátil que determina la incidencia de medulación en fibras de origen animal usando inteligencia artificial para interpretar imágenes digitales.",
-    image: "/src/assets/images/products/FIBER MED V1.0.png",
+    image: "/assets/images/products/FIBER MED V1.0.png",
     category: "Análisis de Medulación",
     features: [
       {
@@ -72,7 +72,7 @@ const productsData = {
       en: "https://fiberstech.com/wp-content/uploads/2024/07/Data-Sheet_FIBER_MED-1.pdf",
     },
     youtubeVideo: "https://www.youtube.com/watch?v=35Yf4dK-hyI&t=1s", // Video OK
-    additionalImages: ["/src/assets/images/products/FIBER MED V1.0.png"], // Foto OK
+    additionalImages: ["/assets/images/products/FIBER MED V1.0.png"], // Foto OK
   },
   "fiber-med": {
     id: "fiber-med",
@@ -80,7 +80,7 @@ const productsData = {
     tagline: "Medulador Inteligente Avanzado",
     description:
       "Versión mejorada del FIBER MED que determina medulación en fibras de diferentes colores, incluyendo fibras oscuras con decoloración. Evalúa cada muestra en 40 segundos caracterizando más de 3000 fibras.",
-    image: "/src/assets/images/products/FIBER MED V2.0.jpg",
+    image: "/assets/images/products/FIBER MED V2.0.jpg",
     category: "Análisis de Medulación Avanzado",
     features: [
       {
@@ -127,7 +127,7 @@ const productsData = {
       en: "https://fiberstech.com/wp-content/uploads/2024/07/Data-Sheet_FIBER_MED-V2.0.pdf",
     },
     youtubeVideo: "https://www.youtube.com/watch?v=-RJHbgvkm5M", // video OK
-    additionalImages: ["/src/assets/images/products/FIBER MED V2.0.jpg"], // Foto OK
+    additionalImages: ["/assets/images/products/FIBER MED V2.0.jpg"], // Foto OK
   },
   "fiber-ec": {
     id: "fiber-ec",
@@ -135,7 +135,7 @@ const productsData = {
     tagline: "Caracterizador Electrónico de Fibras",
     description:
       "Caracterizador electrónico que evalúa la calidad de fibras de origen animal mediante tecnología de interpretación de imágenes digitales.",
-    image: "/src/assets/images/products/FIBER EC.png",
+    image: "/assets/images/products/FIBER EC.png",
     category: "Caracterización de Fibras",
     features: [
       {
@@ -182,7 +182,7 @@ const productsData = {
       en: "https://fiberstech.com/wp-content/uploads/2024/07/Data-Sheet_S_FIBER_EC.pdf",
     },
     youtubeVideo: "https://www.youtube.com/watch?v=VzxlbyXc_0Y", // Video OK
-    additionalImages: ["/src/assets/images/products/FIBER EC.png"], // Foto OK
+    additionalImages: ["/assets/images/products/FIBER EC.png"], // Foto OK
   },
   "s-fiber-ec": {
     id: "s-fiber-ec",
@@ -190,7 +190,7 @@ const productsData = {
     tagline: "Caracterizador Portátil de Campo",
     description:
       "Versión básica y portátil del FIBER EC, diseñada para evaluaciones en campo con mochila de transporte incluida. Trabaja en altitudes hasta 5,300 m.s.n.m.",
-    image: "/src/assets/images/products/S-FIBER EC.png",
+    image: "/assets/images/products/S-FIBER EC.png",
     category: "Caracterización Portátil",
     features: [
       {
@@ -237,7 +237,7 @@ const productsData = {
       en: "https://fiberstech.com/wp-content/uploads/2024/07/Data-Sheet_S_FIBER_EC.pdf",
     },
     youtubeVideo: "https://www.youtube.com/watch?v=HW_8GKVgmdw", // Video OK
-    additionalImages: ["/src/assets/images/products/S-FIBER EC.png"], // Foto OK
+    additionalImages: ["/assets/images/products/S-FIBER EC.png"], // Foto OK
   },
   "fiber-den": {
     id: "fiber-den",
@@ -245,7 +245,7 @@ const productsData = {
     tagline: "Densímetro de Fibras Portátil",
     description:
       "Mini microscopio digital portátil que captura imágenes de fibras en piel rasurada para determinar densidad de fibras y conductos pilosos.",
-    image: "/src/assets/images/products/Fiber-Den-3.png",
+    image: "/assets/images/products/Fiber-Den-3.png",
     category: "Análisis de Densidad",
     features: [
       {
@@ -294,7 +294,7 @@ const productsData = {
       en: "https://fiberstech.com/wp-content/uploads/2024/07/Data-Sheet_FIBER_DEN.pdf",
     },
     youtubeVideo: "https://www.youtube.com/watch?v=2lgmUXohYIE", // Video OK
-    additionalImages: ["/src/assets/images/products/Fiber-Den-1.png"], // Fotos OK
+    additionalImages: ["/assets/images/products/Fiber-Den-1.png"], // Fotos OK
   },
   "fiber-tst": {
     id: "fiber-tst",
@@ -302,7 +302,7 @@ const productsData = {
     tagline: "Medidor de Esfuerzo a la Tracción",
     description:
       "Medidor de esfuerzo a la tracción de fibras (Tensile Strength Tester) que utiliza tecnología de muestreo de datos en tiempo real con almacenamiento y graficado automático.",
-    image: "/src/assets/images/products/FIBER TST.png",
+    image: "/assets/images/products/FIBER TST.png",
     category: "Análisis de Resistencia",
     features: [
       {
@@ -356,7 +356,7 @@ const productsData = {
       en: "https://fiberstech.com/fiber-tst/",
     },
     youtubeVideo: "https://www.youtube.com/watch?v=-b4Ztxmlbjw", // Video Genérico
-    additionalImages: ["/src/assets/images/products/FIBER TST.png"], // Foto OK
+    additionalImages: ["/assets/images/products/FIBER TST.png"], // Foto OK
   },
   mosiville: {
     id: "mosiville",
@@ -364,7 +364,7 @@ const productsData = {
     tagline: "Monitor de Signos Vitales Animal",
     description:
       "Sistema de monitoreo inalámbrico en tiempo real de signos vitales de diversos animales mediante smartphone, tablet o PC, utilizando algoritmos avanzados de procesamiento digital.",
-    image: "/src/assets/images/products/Mosiville.png",
+    image: "/assets/images/products/Mosiville.png",
     category: "Monitoreo Veterinario",
     features: [
       {
@@ -411,7 +411,7 @@ const productsData = {
       en: "https://fiberstech.com/mosiville/",
     },
     youtubeVideo: "https://www.youtube.com/watch?v=-b4Ztxmlbjw", // Video Genérico
-    additionalImages: ["/src/assets/images/products/Mosiville.png"], // Foto OK
+    additionalImages: ["/assets/images/products/Mosiville.png"], // Foto OK
   },
   medulometro: {
     id: "medulometro",
@@ -419,7 +419,7 @@ const productsData = {
     tagline: "Microscopio de Proyección Computarizado",
     description:
       "Versión básica del FIBER MED. Microscopio de proyección computarizado y semi-automatizado para evaluar la calidad de fibras mediante interpretación de imágenes digitales.",
-    image: "/src/assets/images/products/medulometro.png",
+    image: "/assets/images/products/medulometro.png",
     category: "Análisis Básico de Medulación",
     features: [
       {
@@ -471,7 +471,7 @@ const productsData = {
       en: "https://fiberstech.com/medulometro/",
     },
     youtubeVideo: "https://www.youtube.com/watch?v=-b4Ztxmlbjw", // Video Genérico
-    additionalImages: ["/src/assets/images/products/medulometro.png"], // Foto OK
+    additionalImages: ["/assets/images/products/medulometro.png"], // Foto OK
   },
 };
 
@@ -592,7 +592,7 @@ const ProductMediaCarousel = ({ product }) => {
             alt={currentItem.alt}
             className="w-full h-auto rounded-xl max-h-80 object-contain"
             onError={(e) => {
-              e.target.src = "/src/assets/images/logo/logo_NFT.png";
+              e.target.src = "/assets/images/logo/logo_NFT.png";
             }}
           />
         )}

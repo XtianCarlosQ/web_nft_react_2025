@@ -16,7 +16,7 @@ const Navbar = () => {
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="flex items-center">
               <img
-                src="/src/assets/images/logo/logo_NFT.png"
+                src="/assets/images/logo/logo_NFT.png"
                 alt="Fiberstech Logo"
                 className="h-16"
               />

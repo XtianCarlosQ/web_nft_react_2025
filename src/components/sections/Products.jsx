@@ -67,7 +67,7 @@ const Products = ({ limit }) => {
     {
       id: "fiber-med-2",
       name: "FIBER MED",
-      image: "/src/assets/images/products/FIBER MED V1.0.png",
+      image: "/assets/images/products/FIBER MED V1.0.png",
       description:
         "Medulador inteligente de fibras con IA para análisis automático de medulación en fibras de origen animal.",
       features: [
@@ -80,7 +80,7 @@ const Products = ({ limit }) => {
     {
       id: "fiber-med",
       name: "FIBER MED V2.0",
-      image: "/src/assets/images/products/FIBER MED V2.0.jpg",
+      image: "/assets/images/products/FIBER MED V2.0.jpg",
       description:
         "Versión mejorada que analiza fibras de diferentes colores en 40 segundos caracterizando más de 3000 fibras por muestra.",
       features: [
@@ -93,7 +93,7 @@ const Products = ({ limit }) => {
     {
       id: "fiber-ec",
       name: "FIBER EC",
-      image: "/src/assets/images/products/FIBER EC.png",
+      image: "/assets/images/products/FIBER EC.png",
       description:
         "Caracterizador electrónico que evalúa calidad de fibras mediante interpretación de imágenes digitales.",
       features: [
@@ -106,7 +106,7 @@ const Products = ({ limit }) => {
     {
       id: "s-fiber-ec",
       name: "S-FIBER EC",
-      image: "/src/assets/images/products/S-FIBER EC.png",
+      image: "/assets/images/products/S-FIBER EC.png",
       description:
         "Versión portátil del FIBER EC, diseñada para uso en campo. Perfecta para evaluaciones in-situ con la misma precisión.",
       features: [
@@ -119,7 +119,7 @@ const Products = ({ limit }) => {
     {
       id: "fiber-den",
       name: "FIBER DEN",
-      image: "/src/assets/images/products/Fiber-Den-3.png",
+      image: "/assets/images/products/Fiber-Den-3.png",
       description:
         "Densímetro portátil con mini microscopio para análisis de densidad de fibras y conductos pilosos.",
       features: [
@@ -132,7 +132,7 @@ const Products = ({ limit }) => {
     {
       id: "fiber-tst",
       name: "FIBER TST",
-      image: "/src/assets/images/products/FIBER TST.png",
+      image: "/assets/images/products/FIBER TST.png",
       description:
         "Medidor de esfuerzo a la tracción con tecnología de muestreo en tiempo real y graficado automático.",
       features: [
@@ -145,7 +145,7 @@ const Products = ({ limit }) => {
     {
       id: "mosiville",
       name: "MOSIVILLE",
-      image: "/src/assets/images/products/Mosiville.png",
+      image: "/assets/images/products/Mosiville.png",
       description:
         "Sistema para monitoreo inalámbrico y en tiempo real de signos vitales en diversos animales.",
       features: [
@@ -158,7 +158,7 @@ const Products = ({ limit }) => {
     {
       id: "medulometro",
       name: "MEDULÓMETRO",
-      image: "/src/assets/images/products/medulometro.png",
+      image: "/assets/images/products/medulometro.png",
       description:
         "Versión básica del FIBER MED. Microscopio de proyección computarizado para análisis de medulación.",
       features: [
