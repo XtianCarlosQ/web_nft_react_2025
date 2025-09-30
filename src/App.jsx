@@ -13,6 +13,7 @@ import Partners from "./components/sections/Partners";
 import Contact from "./components/sections/Contact";
 import ProductDetail from "./pages/products/ProductDetail";
 import InvestigacionLanding from "./pages/investigacion/InvestigacionLanding";
+import InvestigacionDetail from "./pages/investigacion/InvestigacionDetail";
 import Footer from "./components/layout/Footer";
 import WhatsAppButton from "./components/common/WhatsAppButton";
 import GridOverlay from "./components/GridOverlay";
@@ -109,6 +110,18 @@ const App = () => {
                   <>
                     <main className="pt-16">
                       <InvestigacionLanding />
+                    </main>
+                    <Footer />
+                    <WhatsAppButton />
+                  </>
+                }
+              />
+              <Route
+                path="/investigacion/:slug"
+                element={
+                  <>
+                    <main className="pt-16">
+                      <InvestigacionDetail />
                     </main>
                     <Footer />
                     <WhatsAppButton />

@@ -355,7 +355,7 @@ const ArticleCard = ({ article }) => {
   };
 
   return (
-    <div className="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 flex flex-col">
+    <Link to={`/investigacion/${article.slug}`} className="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 flex flex-col">
       {/* Imagen - relación 16:9, ring y bordes redondeados */}
       <div className="relative overflow-hidden flex-shrink-0 rounded-t-2xl bg-gray-50 ring-1 ring-gray-200 aspect-[16/9]">
         {!imageError && article.localImage ? (
@@ -472,7 +472,7 @@ const ArticleCard = ({ article }) => {
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
