@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../../styles/partners.css";
 
 const partners = [
@@ -64,14 +65,14 @@ const Partners = () => {
 
         {/* CTA */}
         <div className="mt-10 text-center gap-10 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
-          <a
-            href="#investigacion"
+          <Link
+            to="/investigacion"
             className="bg-red-600 hover:bg-red-700 text-white 
                            font-semibold py-3 px-8 rounded-lg 
                            transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             Ver más sobre Investigación
-          </a>
+          </Link>
         </div>
       </div>
     </section>

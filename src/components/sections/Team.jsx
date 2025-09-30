@@ -107,7 +107,7 @@ const Team = () => {
     {
       name: "Tania Rodriguez",
       position: "Secretaria",
-      image: "/assets/images/team/Tania-Rodriguez.jpg",
+      image: "/assets/images/team/tania-rodriguez.jpg",
       skills: [
         "Secretaria administrativa",
         "Bilingüe Español-Inglés",

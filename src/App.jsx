@@ -12,6 +12,7 @@ import Services from "./components/sections/Services";
 import Partners from "./components/sections/Partners";
 import Contact from "./components/sections/Contact";
 import ProductDetail from "./pages/products/ProductDetail";
+import InvestigacionLanding from "./pages/investigacion/InvestigacionLanding";
 import Footer from "./components/layout/Footer";
 import WhatsAppButton from "./components/common/WhatsAppButton";
 import GridOverlay from "./components/GridOverlay";
@@ -96,6 +97,18 @@ const App = () => {
                   <>
                     <main className="pt-16">
                       <ProductDetail />
+                    </main>
+                    <Footer />
+                    <WhatsAppButton />
+                  </>
+                }
+              />
+              <Route
+                path="/investigacion"
+                element={
+                  <>
+                    <main className="pt-16">
+                      <InvestigacionLanding />
                     </main>
                     <Footer />
                     <WhatsAppButton />
