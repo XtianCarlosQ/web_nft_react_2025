@@ -10,6 +10,7 @@ import {
   ExternalLink,
   ChevronDown,
   X,
+  Settings,
 } from "lucide-react";
 
 const InvestigacionLanding = () => {
@@ -47,6 +48,48 @@ const InvestigacionLanding = () => {
   const uniqueYears = [
     ...new Set(articles.map((article) => new Date(article.date).getFullYear())),
   ].sort((a, b) => b - a);
+
+  // KPIs para el encabezado
+  const publicationsCount = articles.length;
+  const journalsCount = new Set(articles.map((a) => a.journal)).size;
+  const yearsRange = articles.length
+    ? {
+        min: Math.min(...articles.map((a) => new Date(a.date).getFullYear())),
+        max: Math.max(...articles.map((a) => new Date(a.date).getFullYear())),
+      }
+    : { min: 0, max: 0 };
+  const yearsOfResearch = articles.length
+    ? yearsRange.max - yearsRange.min + 1
+    : 0;
+  const productsCount = 9; // A la fecha, solicitados por el cliente
+
+  // Definir items de KPI para renderizar con map (escalable)
+  const kpiItems = [
+    {
+      id: "pubs",
+      Icon: BookOpen,
+      value: publicationsCount,
+      label: "Publicaciones",
+    },
+    {
+      id: "years",
+      Icon: Calendar,
+      value: yearsOfResearch,
+      label: "Años de Investigación",
+    },
+    {
+      id: "journals",
+      Icon: Award,
+      value: journalsCount,
+      label: "Revistas Científicas",
+    },
+    {
+      id: "products",
+      Icon: Settings,
+      value: productsCount,
+      label: "Productos desarrollados",
+    },
+  ];
 
   // Filtrar y ordenar artículos
   useEffect(() => {
@@ -120,56 +163,53 @@ const InvestigacionLanding = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container-app pt-8 pb-12">
-        {/* Hero Section */}
+        {/* Encabezado */}
         <div className="grid-ctx mb-8">
           <div className="span-12 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900 mb-3">
               Centro de <span className="text-red-600">Investigación</span>
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
-              Descubre nuestro legado científico: {articles.length}{" "}
+            <p className="text-gray-600 text-lg md:text-lg max-w-4xl mx-auto">
+              Descubre nuestro legado científico: {publicationsCount}{" "}
               publicaciones que impulsan la innovación en tecnología de fibras
               textiles
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              <div className="bg-white p-6 rounded-xl shadow-lg">
-                <BookOpen className="h-8 w-8 text-red-600 mx-auto mb-2" />
-                <h3 className="text-2xl font-bold text-gray-900">
-                  {articles.length}
-                </h3>
-                <p className="text-gray-600">Publicaciones</p>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-lg">
-                <Calendar className="h-8 w-8 text-red-600 mx-auto mb-2" />
-                <h3 className="text-2xl font-bold text-gray-900">
-                  {uniqueYears.length}
-                </h3>
-                <p className="text-gray-600">Años de Investigación</p>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-lg">
-                <Award className="h-8 w-8 text-red-600 mx-auto mb-2" />
-                <h3 className="text-2xl font-bold text-gray-900">
-                  {uniqueJournals.length}
-                </h3>
-                <p className="text-gray-600">Revistas Científicas</p>
-              </div>
+          </div>
+          {/* KPIs */}
+          <div className="span-12">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
+              {kpiItems.map(({ id, Icon, value, label }) => (
+                <div
+                  key={id}
+                  className="bg-white rounded-2xl shadow-md p-5 h-32 flex flex-col items-center justify-center text-center transition duration-200 hover:shadow-lg hover:-translate-y-1"
+                >
+                  <div className="text-center">
+                    <div className="text-red-600/90 flex justify-center">
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <div className="mt-3 text-3xl font-bold text-gray-900">
+                      {value}
+                    </div>
+                    <div className="text-gray-500 text-sm">{label}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
-
         {/* Filtros y Búsqueda */}
         <div className="grid-ctx mb-8">
           <div className="span-12">
             <div className="bg-white rounded-2xl shadow-lg p-6">
               {/* Barra de búsqueda */}
-              <div className="relative mb-6">
+              <div className="relative mb-4">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                 <input
                   type="text"
                   placeholder="Buscar por título, abstract o palabras clave..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-0 focus:ring-red-500 focus:border-red-500"
                 />
               </div>
 
@@ -207,7 +247,7 @@ const InvestigacionLanding = () => {
                 <select
                   value={selectedJournal}
                   onChange={(e) => setSelectedJournal(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500"
                 >
                   <option value="">Todas las revistas</option>
                   {uniqueJournals.map((journal) => (
@@ -220,7 +260,7 @@ const InvestigacionLanding = () => {
                 <select
                   value={selectedYear}
                   onChange={(e) => setSelectedYear(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500"
                 >
                   <option value="">Todos los años</option>
                   {uniqueYears.map((year) => (
@@ -233,7 +273,7 @@ const InvestigacionLanding = () => {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500"
                 >
                   <option value="date-desc">Más recientes</option>
                   <option value="date-asc">Más antiguas</option>
@@ -283,7 +323,7 @@ const InvestigacionLanding = () => {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8">
                 {filteredArticles.map((article) => (
                   <ArticleCard key={article.slug} article={article} />
                 ))}
@@ -315,14 +355,14 @@ const ArticleCard = ({ article }) => {
   };
 
   return (
-    <div className="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-2 h-[580px] flex flex-col">
-      {/* Imagen - Sin hover scale para evitar recortes */}
-      <div className="aspect-video relative overflow-hidden flex-shrink-0">
+    <div className="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 flex flex-col">
+      {/* Imagen - relación 16:9, ring y bordes redondeados */}
+      <div className="relative overflow-hidden flex-shrink-0 rounded-t-2xl bg-gray-50 ring-1 ring-gray-200 aspect-[16/9]">
         {!imageError && article.localImage ? (
           <img
             src={article.localImage}
             alt={article.title}
-            className="w-full h-full object-contain bg-gray-50"
+            className="w-full h-full object-contain rounded-t-2xl"
             onError={(e) => {
               console.log("❌ Error cargando imagen:", e.target.src);
               console.log("📂 Ruta del artículo:", article.localImage);
@@ -352,31 +392,31 @@ const ArticleCard = ({ article }) => {
       </div>
 
       {/* Contenido */}
-      <div className="p-5 flex-1 flex flex-col">
-        {/* Metadata - Altura fija */}
-        <div className="flex items-center justify-between mb-3 h-6 flex-shrink-0">
+      <div className="p-3 sm:p-4 md:p-5 flex-1 flex flex-col min-h-0">
+        {/* Metadata */}
+        <div className="flex items-center justify-between mb-2 sm:mb-3 flex-shrink-0">
           <span className="bg-red-100 text-red-800 text-xs font-semibold px-2 py-1 rounded-full">
             {article.journal}
           </span>
-          <span className="text-sm text-gray-500">
+          <span className="text-xs sm:text-sm text-gray-500">
             {formatDate(article.date)}
           </span>
         </div>
 
-        {/* Título - Altura fija para simetría */}
-        <div className="mb-3 h-16 flex-shrink-0">
-          <h3 className="text-base font-bold text-gray-900 line-clamp-3 group-hover:text-red-600 transition-colors leading-tight">
+        {/* Título */}
+        <div className="mb-2 sm:mb-3 flex-shrink-0 min-h-[3.5rem] sm:min-h-[3.75rem] md:min-h-[3.75rem] lg:min-h-[3.75rem] xl:min-h-[3.75rem]">
+          <h3 className="text-sm sm:text-base font-bold text-gray-900 line-clamp-3 group-hover:text-red-600 transition-colors leading-tight">
             {article.title}
           </h3>
         </div>
 
-        {/* Resumen - Altura fija para simetría */}
-        <div className="text-gray-600 text-xs mb-3 h-16 overflow-hidden flex-shrink-0">
+        {/* Resumen */}
+        <div className="text-gray-600 text-xs mb-2 sm:mb-3 flex-shrink-0 min-h-[3.75rem] sm:min-h-[3.75rem] md:min-h-[3.75rem] lg:min-h-[3.75rem] xl:min-h-[3.75rem]">
           <p
             className="leading-relaxed"
             style={{
               display: "-webkit-box",
-              WebkitLineClamp: 4,
+              WebkitLineClamp: 3,
               WebkitBoxOrient: "vertical",
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -386,29 +426,24 @@ const ArticleCard = ({ article }) => {
           </p>
         </div>
 
-        {/* Keywords - Altura fija */}
-        <div className="flex flex-wrap gap-1 mb-3 h-8 overflow-hidden flex-shrink-0">
+        {/* Keywords: fixed 2-row height, chips constant height */}
+        <div className="flex flex-wrap gap-1 mb-2 sm:mb-3 flex-shrink-0 h-[3.25rem] overflow-hidden content-start">
           {article.keywords && article.keywords.length > 0 && (
             <>
-              {article.keywords.slice(0, 3).map((keyword, index) => (
+              {article.keywords.slice(0, 6).map((keyword, index) => (
                 <span
                   key={index}
-                  className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded"
+                  className="bg-gray-100 text-gray-600 text-xs inline-flex items-center h-6 px-2 rounded whitespace-nowrap"
                 >
                   {keyword}
                 </span>
               ))}
-              {article.keywords.length > 3 && (
-                <span className="text-xs text-gray-400">
-                  +{article.keywords.length - 3} más
-                </span>
-              )}
             </>
           )}
         </div>
 
-        {/* Productos relacionados - Altura fija */}
-        <div className="border-t pt-2 mb-3 h-16 overflow-hidden flex-shrink-0">
+        {/* Productos relacionados */}
+        <div className="border-t pt-1 sm:pt-2 flex-shrink-0">
           {article.products && article.products.length > 0 ? (
             <>
               <p className="text-xs text-gray-500 mb-1">
@@ -431,19 +466,10 @@ const ArticleCard = ({ article }) => {
               </div>
             </>
           ) : (
-            <div className="text-xs text-gray-400">Sin productos relacionados</div>
+            <div className="text-xs text-gray-400">
+              Sin productos relacionados
+            </div>
           )}
-        </div>
-
-        {/* Botón Ver Detalle - Siempre al final */}
-        <div className="mt-auto">
-          <button
-            onClick={handleViewDetail}
-            className="w-full bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
-          >
-            <BookOpen className="h-4 w-4" />
-            Ver Detalle
-          </button>
         </div>
       </div>
     </div>
