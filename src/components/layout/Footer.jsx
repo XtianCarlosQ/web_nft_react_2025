@@ -1,5 +1,6 @@
 import React from "react";
 import { Phone, Mail } from "lucide-react";
+import { useLanguage } from "../../context/LanguageContext";
 
 const socials = [
   {
@@ -75,6 +76,7 @@ const socials = [
 ];
 
 const Footer = () => {
+  const { t } = useLanguage();
   const variant = "dark"; // change to "red" to try red background
   const bgClass = variant === "red" ? "bg-red-700/60" : "bg-black/70";
 
@@ -95,22 +97,23 @@ const Footer = () => {
               />
               <div>
                 <p className="text-sm uppercase tracking-widest text-red-400">
-                  NATURAL FIBERB'S TECH
+                  {t("footer.brandSmall")}
                 </p>
                 <p className="text-xs text-neutral-300">
-                  Centro de I+D en tecnología textil
+                  {t("footer.brandDesc")}
                 </p>
               </div>
             </div>
             <p className="mt-4 text-sm text-neutral-300 max-w-xl">
-              Diseñamos y desarrollamos tecnología para análisis de fibras,
-              integrando ciencia, ingeniería y experiencia de campo.
+              {t("footer.brandLong")}
             </p>
           </div>
 
           {/* 2) Arriba Derecha: Contacto */}
           <div className="md:pl-8 mt-8 md:mt-0">
-            <h3 className="text-sm font-semibold text-white mb-3">Contacto</h3>
+            <h3 className="text-sm font-semibold text-white mb-3">
+              {t("footer.contact")}
+            </h3>
             <ul className="space-y-2 text-sm text-neutral-300">
               <li>
                 <a
@@ -133,7 +136,7 @@ const Footer = () => {
                 </a>
               </li>
               <li className="lg:whitespace-nowrap">
-                <span>Lima, Perú • Atención internacional</span>
+                <span>{t("footer.locationLine")}</span>
               </li>
             </ul>
           </div>
@@ -165,7 +168,7 @@ const Footer = () => {
       <div className="container-app py-3">
         <div className="flex items-center justify-between">
           <p className="text-xs text-neutral-300">
-            © 2025 Fiberstech — Diseñado por Christian QB (XtianDev)
+            {t("footer.copyright", { year: new Date().getFullYear() })}
           </p>
         </div>
       </div>

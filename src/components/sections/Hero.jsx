@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from "react";
+import { useLanguage } from "../../context/LanguageContext";
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { t } = useLanguage();
 
   const slides = [
     {
       image: "/assets/images/hero/Edgar_fibra_portada4-1536x799.jpg",
-      title: "Innovación en Tecnología Textil",
-      subtitle: "Soluciones avanzadas para la industria de fibras",
+      title: t("hero.slides.0.title"),
+      subtitle: t("hero.slides.0.subtitle"),
     },
     {
       image: "/assets/images/hero/banner3-1536x1023.jpg",
-      title: "Investigación y Desarrollo",
-      subtitle: "Laboratorios equipados con tecnología de última generación",
+      title: t("hero.slides.1.title"),
+      subtitle: t("hero.slides.1.subtitle"),
     },
     {
       image: "/assets/images/hero/IMG_4648-scaled.jpg",
-      title: "Presencia Internacional",
-      subtitle: "Compartiendo conocimiento en conferencias globales",
+      title: t("hero.slides.2.title"),
+      subtitle: t("hero.slides.2.subtitle"),
     },
   ];
 
@@ -116,7 +118,7 @@ const Hero = () => {
       <button
         onClick={prevSlide}
         className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all hover:scale-110 backdrop-blur-sm"
-        aria-label="Anterior"
+        aria-label={t("hero.prev")}
       >
         <svg
           className="w-6 h-6 text-white"
@@ -136,7 +138,7 @@ const Hero = () => {
       <button
         onClick={nextSlide}
         className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all hover:scale-110 backdrop-blur-sm"
-        aria-label="Siguiente"
+        aria-label={t("hero.next")}
       >
         <svg
           className="w-6 h-6 text-white"

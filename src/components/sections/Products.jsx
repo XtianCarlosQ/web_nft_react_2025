@@ -2,8 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import brochurePdf from "../../assets/images/products/CATALOGO 2025_NFT_1.pdf";
 import { Brain, Clock, Award, Microscope } from "lucide-react";
+import { useLanguage } from "../../context/LanguageContext";
 
 const ProductCard = ({ product }) => {
+  const { t } = useLanguage();
+  const raw = t(`products.cards.${product.id}`);
+  const cardT = raw && typeof raw === "object" ? raw : {};
   return (
     <div className="bg-white rounded-2xl shadow hover:shadow-xl transition-all duration-500 group">
       {/* Card Container */}
@@ -27,14 +31,14 @@ const ProductCard = ({ product }) => {
               {product.name}
             </h3>
             <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
-              {product.description}
+              {cardT.description || product.description}
             </p>
           </div>
 
           {/* Features List - Fixed height */}
           <div className="h-36">
             <ul className="space-y-1">
-              {product.features.map((feature, index) => (
+              {(cardT.features || product.features).map((feature, index) => (
                 <li
                   key={index}
                   className="flex items-start text-sm text-gray-600"
@@ -52,7 +56,7 @@ const ProductCard = ({ product }) => {
               to={`/productos/${product.id}`}
               className="block w-full text-center btn-cta py-2 px-4 text-sm font-medium cursor-pointer"
             >
-              Ver Detalles
+              {t("products.viewDetails")}
             </Link>
           </div>
         </div>
@@ -63,18 +67,22 @@ const ProductCard = ({ product }) => {
 
 // limit: cantidad máxima de productos a mostrar (undefined para todos)
 const Products = ({ limit }) => {
+  const { t } = useLanguage();
   const products = [
     {
       id: "fiber-med-2",
       name: "FIBER MED",
       image: "/assets/images/products/FIBER MED V1.0.png",
       description:
+        t("products.cards.fiber-med-2.description") ||
         "Medulador inteligente de fibras con IA para análisis automático de medulación en fibras de origen animal.",
       features: [
-        "Análisis con IA integrada",
-        "8 kg, portátil",
-        "Fibras blancas y claras",
-        "Reportes automáticos",
+        ...(t("products.cards.fiber-med-2.features") || [
+          "Análisis con IA integrada",
+          "8 kg, portátil",
+          "Fibras blancas y claras",
+          "Reportes automáticos",
+        ]),
       ],
     },
     {
@@ -82,12 +90,15 @@ const Products = ({ limit }) => {
       name: "FIBER MED V2.0",
       image: "/assets/images/products/FIBER MED V2.0.jpg",
       description:
+        t("products.cards.fiber-med.description") ||
         "Versión mejorada que analiza fibras de diferentes colores en 40 segundos caracterizando más de 3000 fibras por muestra.",
       features: [
-        "Múltiples colores de fibra",
-        "40 segundos/muestra",
-        "3000+ fibras analizadas",
-        "Cámara infrarroja",
+        ...(t("products.cards.fiber-med.features") || [
+          "Múltiples colores de fibra",
+          "40 segundos/muestra",
+          "3000+ fibras analizadas",
+          "Cámara infrarroja",
+        ]),
       ],
     },
     {
@@ -95,12 +106,15 @@ const Products = ({ limit }) => {
       name: "FIBER EC",
       image: "/assets/images/products/FIBER EC.png",
       description:
+        t("products.cards.fiber-ec.description") ||
         "Caracterizador electrónico que evalúa calidad de fibras mediante interpretación de imágenes digitales.",
       features: [
-        "MDF, CVMDF, DEMDF",
-        "Factor de Picazón/Confort",
-        "Multi-especie",
-        "Carcasa fibra de carbono",
+        ...(t("products.cards.fiber-ec.features") || [
+          "MDF, CVMDF, DEMDF",
+          "Factor de Picazón/Confort",
+          "Multi-especie",
+          "Carcasa fibra de carbono",
+        ]),
       ],
     },
     {
@@ -108,12 +122,15 @@ const Products = ({ limit }) => {
       name: "S-FIBER EC",
       image: "/assets/images/products/S-FIBER EC.png",
       description:
+        t("products.cards.s-fiber-ec.description") ||
         "Versión portátil del FIBER EC, diseñada para uso en campo. Perfecta para evaluaciones in-situ con la misma precisión.",
       features: [
-        "Solo 3.8 kg",
-        "Hasta 5,300 m.s.n.m.",
-        "-7°C a 45°C",
-        "Mochila incluida",
+        ...(t("products.cards.s-fiber-ec.features") || [
+          "Solo 3.8 kg",
+          "Hasta 5,300 m.s.n.m.",
+          "-7°C a 45°C",
+          "Mochila incluida",
+        ]),
       ],
     },
     {
@@ -121,12 +138,15 @@ const Products = ({ limit }) => {
       name: "FIBER DEN",
       image: "/assets/images/products/Fiber-Den-3.png",
       description:
+        t("products.cards.fiber-den.description") ||
         "Densímetro portátil con mini microscopio para análisis de densidad de fibras y conductos pilosos.",
       features: [
-        "Solo 200g de peso",
-        "Sensor 2MP",
-        "Área 0.25-9.0 mm²",
-        "Software incluido",
+        ...(t("products.cards.fiber-den.features") || [
+          "Solo 200g de peso",
+          "Sensor 2MP",
+          "Área 0.25-9.0 mm²",
+          "Software incluido",
+        ]),
       ],
     },
     {
@@ -134,12 +154,15 @@ const Products = ({ limit }) => {
       name: "FIBER TST",
       image: "/assets/images/products/FIBER TST.png",
       description:
+        t("products.cards.fiber-tst.description") ||
         "Medidor de esfuerzo a la tracción con tecnología de muestreo en tiempo real y graficado automático.",
       features: [
-        "Velocidad 6-64 mm/s",
-        "Gráficos en tiempo real",
-        "Máximo 30 kg",
-        "Sistema neumático",
+        ...(t("products.cards.fiber-tst.features") || [
+          "Velocidad 6-64 mm/s",
+          "Gráficos en tiempo real",
+          "Máximo 30 kg",
+          "Sistema neumático",
+        ]),
       ],
     },
     {
@@ -147,12 +170,15 @@ const Products = ({ limit }) => {
       name: "MOSIVILLE",
       image: "/assets/images/products/Mosiville.png",
       description:
+        t("products.cards.mosiville.description") ||
         "Sistema para monitoreo inalámbrico y en tiempo real de signos vitales en diversos animales.",
       features: [
-        "Solo 80g de peso",
-        "Monitoreo inalámbrico",
-        "Múltiples especies",
-        "Detección de arritmias",
+        ...(t("products.cards.mosiville.features") || [
+          "Solo 80g de peso",
+          "Monitoreo inalámbrico",
+          "Múltiples especies",
+          "Detección de arritmias",
+        ]),
       ],
     },
     {
@@ -160,12 +186,15 @@ const Products = ({ limit }) => {
       name: "MEDULÓMETRO",
       image: "/assets/images/products/medulometro.png",
       description:
+        t("products.cards.medulometro.description") ||
         "Versión básica del FIBER MED. Microscopio de proyección computarizado para análisis de medulación.",
       features: [
-        "Microscopio digital",
-        "Semi-automatizado",
-        "10 kg de peso",
-        "Multi-especie",
+        ...(t("products.cards.medulometro.features") || [
+          "Microscopio digital",
+          "Semi-automatizado",
+          "10 kg de peso",
+          "Multi-especie",
+        ]),
       ],
     },
   ];
@@ -175,37 +204,23 @@ const Products = ({ limit }) => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="mb-10">
           <h2 className="text-2xl font-bold text-center mb-3 tracking-tight">
-            Nuestros <span className="text-red-600">Productos</span>
+            {t("products.title").split(" ")[0]}{" "}
+            <span className="text-red-600">
+              {t("products.title").split(" ").slice(1).join(" ")}
+            </span>
           </h2>
           <p className="text-center text-[15px] text-gray-600 max-w-4xl mx-auto leading-snug">
-            Tecnología de vanguardia para análisis de fibras animales,
-            desarrollada con los más altos estándares de precisión e innovación
+            {t("products.lead")}
           </p>
         </div>
 
         {/* Insights / Highlights - stacked layout */}
         <div className="mb-6 grid grid-cols-1 md:grid-cols-4 sm:grid-cols-2 gap-4 ">
           {[
-            {
-              icon: Brain,
-              title: "IA Avanzada",
-              description: "Algoritmos de machine learning propios",
-            },
-            {
-              icon: Clock,
-              title: "40 Segundos",
-              description: "Resultados ultrarrápidos",
-            },
-            {
-              icon: Award,
-              title: "630K+ Fibras",
-              description: "Analizadas mundialmente",
-            },
-            {
-              icon: Microscope,
-              title: "Precisión Científica",
-              description: "Validado internacionalmente",
-            },
+            { icon: Brain, ...t("products.highlights.0") },
+            { icon: Clock, ...t("products.highlights.1") },
+            { icon: Award, ...t("products.highlights.2") },
+            { icon: Microscope, ...t("products.highlights.3") },
           ].map(({ icon: Icon, title, description }, i) => (
             <div
               key={i}
@@ -258,7 +273,7 @@ const Products = ({ limit }) => {
                              font-semibold py-3 px-8 rounded-lg 
                              transition-all duration-300 shadow-lg hover:shadow-xl"
               >
-                Ver Todos los Productos
+                {t("products.viewAll")}
               </Link>
             )}
             <a
@@ -269,7 +284,7 @@ const Products = ({ limit }) => {
                            font-semibold py-3 px-8 rounded-lg 
                            transition-all duration-300 shadow-xl hover:shadow-2xl"
             >
-              Descargar Folleto Empresarial
+              {t("products.brochureLong")}
             </a>
           </div>
         </div>

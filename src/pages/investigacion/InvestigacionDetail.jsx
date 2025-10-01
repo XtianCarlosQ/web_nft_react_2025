@@ -1,3 +1,4 @@
+import { useLanguage } from "../../context/LanguageContext";
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -12,6 +13,7 @@ const PHONE_NUMBER = "51988496839"; // usado en otras partes del sitio
 
 const InvestigacionDetail = () => {
   const { slug } = useParams();
+  const { t, language } = useLanguage();
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [doiUrl, setDoiUrl] = useState("");
@@ -80,20 +82,23 @@ const InvestigacionDetail = () => {
     }
     // Fallback a WhatsApp si no hay DOI
     const text = encodeURIComponent(
-      `Artículo/DOI no encontrado. ¿Desea solicitar el escrito a los autores? Hola, me gustaría leer su artículo "${
-        article?.title ?? "(sin título)"
-      }".`
+      t("researchDetail.waFallback", {
+        title: article?.title ?? "(sin título)",
+      })
     );
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${text}`, "_blank");
   };
 
   const formatDate = (dateString) => {
     try {
-      return new Date(dateString).toLocaleDateString("es-ES", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
+      return new Date(dateString).toLocaleDateString(
+        language === "en" ? "en-US" : "es-ES",
+        {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }
+      );
     } catch {
       return dateString;
     }
@@ -112,9 +117,11 @@ const InvestigacionDetail = () => {
       <div className="container-app py-12">
         <div className="bg-white rounded-2xl p-8 shadow-sm text-center">
           <CircleAlert className="h-8 w-8 text-red-500 mx-auto mb-3" />
-          <h2 className="text-lg font-semibold mb-2">Artículo no encontrado</h2>
+          <h2 className="text-lg font-semibold mb-2">
+            {t("researchDetail.notFound")}
+          </h2>
           <Link to="/investigacion" className="text-red-600 hover:underline">
-            Volver a Investigación
+            {t("research.back")}
           </Link>
         </div>
       </div>
@@ -154,7 +161,7 @@ const InvestigacionDetail = () => {
           {article.keywords && article.keywords.length > 0 && (
             <div className="mt-4 text-gray-600">
               <h2 className="text-base font-semibold text-gray-900 mb-2">
-                {article.lang === "es" ? "Palabras clave" : "Keywords"}
+                {t("researchDetail.keywords")}
               </h2>
               <div className="flex flex-wrap gap-2">
                 {article.keywords.map((k, i) => (
@@ -172,7 +179,7 @@ const InvestigacionDetail = () => {
           {/* Abstract completo */}
           <div className="mt-5">
             <h2 className="text-base font-semibold text-gray-900 mb-2">
-              Abstract
+              {t("researchDetail.abstract")}
             </h2>
             <p className="text-gray-700 text-sm text-justify leading-relaxed">
               {article.abstract}
@@ -185,7 +192,8 @@ const InvestigacionDetail = () => {
               onClick={openPublication}
               className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
             >
-              <ExternalLink className="h-4 w-4" /> Publicación (DOI)
+              <ExternalLink className="h-4 w-4" />{" "}
+              {t("researchDetail.openPublication")}
             </button>
             {pdfUrl && (
               <a
@@ -194,7 +202,7 @@ const InvestigacionDetail = () => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg"
               >
-                <FileText className="h-4 w-4" /> PDF
+                <FileText className="h-4 w-4" /> {t("researchDetail.pdf")}
               </a>
             )}
           </div>
@@ -209,6 +217,7 @@ const InvestigacionDetail = () => {
 
 // Bloque de cita con botón copiar
 const CitationBlock = ({ article, doiUrl }) => {
+  const { t } = useLanguage();
   const [style, setStyle] = useState("APA");
   const authorsRaw = article.author || article.autor || article.authors; // soporta futuras claves
 
@@ -284,9 +293,13 @@ const CitationBlock = ({ article, doiUrl }) => {
   return (
     <div className="mt-8">
       <div className="flex items-center text-sm justify-between mt-24 mb-8">
-        <h3 className="text-base font-semibold text-gray-900">Cita</h3>
+        <h3 className="text-base font-semibold text-gray-900">
+          {t("researchDetail.citation")}
+        </h3>
         <div className="flex items-center gap-2">
-          <h2 className="text-base font-semibold text-gray-900">Formato: </h2>
+          <h2 className="text-base font-semibold text-gray-900">
+            {t("researchDetail.format")}{" "}
+          </h2>
           <button
             className={`px-3 py-1 rounded border ${
               style === "APA"
@@ -310,17 +323,16 @@ const CitationBlock = ({ article, doiUrl }) => {
           <button
             onClick={copy}
             className="ml-2 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
-            title="Copiar cita"
+            title={t("researchDetail.copy")}
           >
-            Copiar
+            {t("researchDetail.copy")}
           </button>
         </div>
       </div>
       <p className="text-gray-700 text-sm leading-relaxed">{text}</p>
       {!authorsRaw && (
         <p className="mt-2 text-xs text-gray-500">
-          Sugerencia: agrega el campo "author" al posts.json para mejorar la
-          cita.
+          {t("researchDetail.authorsMissing")}
         </p>
       )}
     </div>

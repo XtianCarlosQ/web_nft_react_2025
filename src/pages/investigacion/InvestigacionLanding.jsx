@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLanguage } from "../../context/LanguageContext";
 import { Link } from "react-router-dom";
 import {
   Search,
@@ -14,6 +15,7 @@ import {
 } from "lucide-react";
 
 const InvestigacionLanding = () => {
+  const { t } = useLanguage();
   const [articles, setArticles] = useState([]);
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -69,25 +71,25 @@ const InvestigacionLanding = () => {
       id: "pubs",
       Icon: BookOpen,
       value: publicationsCount,
-      label: "Publicaciones",
+      label: t("research.publications"),
     },
     {
       id: "years",
       Icon: Calendar,
       value: yearsOfResearch,
-      label: "Años de Investigación",
+      label: t("research.years"),
     },
     {
       id: "journals",
       Icon: Award,
       value: journalsCount,
-      label: "Revistas Científicas",
+      label: t("research.journals"),
     },
     {
       id: "products",
       Icon: Settings,
       value: productsCount,
-      label: "Productos desarrollados",
+      label: t("research.products"),
     },
   ];
 
@@ -154,7 +156,7 @@ const InvestigacionLanding = () => {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Cargando investigaciones...</p>
+          <p className="text-gray-600">{t("research.loading")}</p>
         </div>
       </div>
     );
@@ -167,12 +169,13 @@ const InvestigacionLanding = () => {
         <div className="grid-ctx mb-8">
           <div className="span-12 text-center">
             <h1 className="text-3xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900 mb-3">
-              Centro de <span className="text-red-600">Investigación</span>
+              {t("research.center").split(" ")[0]}{" "}
+              <span className="text-red-600">
+                {t("research.center").split(" ").slice(1).join(" ")}
+              </span>
             </h1>
             <p className="text-gray-600 text-lg md:text-lg max-w-4xl mx-auto">
-              Descubre nuestro legado científico: {publicationsCount}{" "}
-              publicaciones que impulsan la innovación en tecnología de fibras
-              textiles
+              {t("research.landing.headerLead", { count: publicationsCount })}
             </p>
           </div>
           {/* KPIs */}
@@ -206,7 +209,7 @@ const InvestigacionLanding = () => {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                 <input
                   type="text"
-                  placeholder="Buscar por título, abstract o palabras clave..."
+                  placeholder={t("research.landing.searchPlaceholder")}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-0 focus:ring-red-500 focus:border-red-500"
@@ -220,7 +223,7 @@ const InvestigacionLanding = () => {
                   className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition-colors"
                 >
                   <Filter className="h-5 w-5" />
-                  Filtros
+                  {t("research.landing.filters")}
                   <ChevronDown
                     className={`h-4 w-4 transition-transform ${
                       showFilters ? "rotate-180" : ""
@@ -233,7 +236,7 @@ const InvestigacionLanding = () => {
                     className="flex items-center gap-2 text-red-600 hover:text-red-700 px-4 py-2 rounded-lg transition-colors"
                   >
                     <X className="h-4 w-4" />
-                    Limpiar
+                    {t("research.landing.clear")}
                   </button>
                 )}
               </div>
@@ -249,7 +252,7 @@ const InvestigacionLanding = () => {
                   onChange={(e) => setSelectedJournal(e.target.value)}
                   className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500"
                 >
-                  <option value="">Todas las revistas</option>
+                  <option value="">{t("research.landing.allJournals")}</option>
                   {uniqueJournals.map((journal) => (
                     <option key={journal} value={journal}>
                       {journal}
@@ -262,7 +265,7 @@ const InvestigacionLanding = () => {
                   onChange={(e) => setSelectedYear(e.target.value)}
                   className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500"
                 >
-                  <option value="">Todos los años</option>
+                  <option value="">{t("research.landing.allYears")}</option>
                   {uniqueYears.map((year) => (
                     <option key={year} value={year}>
                       {year}
@@ -275,10 +278,18 @@ const InvestigacionLanding = () => {
                   onChange={(e) => setSortBy(e.target.value)}
                   className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500"
                 >
-                  <option value="date-desc">Más recientes</option>
-                  <option value="date-asc">Más antiguas</option>
-                  <option value="title-asc">A-Z</option>
-                  <option value="title-desc">Z-A</option>
+                  <option value="date-desc">
+                    {t("research.landing.sort.dateDesc")}
+                  </option>
+                  <option value="date-asc">
+                    {t("research.landing.sort.dateAsc")}
+                  </option>
+                  <option value="title-asc">
+                    {t("research.landing.sort.titleAsc")}
+                  </option>
+                  <option value="title-desc">
+                    {t("research.landing.sort.titleDesc")}
+                  </option>
                 </select>
 
                 <div className="hidden md:flex items-center">
@@ -288,7 +299,7 @@ const InvestigacionLanding = () => {
                       className="flex items-center gap-2 text-red-600 hover:text-red-700 px-4 py-2 rounded-lg transition-colors"
                     >
                       <X className="h-4 w-4" />
-                      Limpiar filtros
+                      {t("research.landing.clearFilters")}
                     </button>
                   )}
                 </div>
@@ -296,8 +307,10 @@ const InvestigacionLanding = () => {
 
               {/* Contador de resultados */}
               <div className="mt-4 text-sm text-gray-600">
-                Mostrando {filteredArticles.length} de {articles.length}{" "}
-                investigaciones
+                {t("research.landing.resultsCount", {
+                  shown: filteredArticles.length,
+                  total: articles.length,
+                })}
               </div>
             </div>
           </div>
@@ -310,22 +323,25 @@ const InvestigacionLanding = () => {
               <div className="text-center py-12">
                 <BookOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  No se encontraron investigaciones
+                  {t("research.landing.emptyTitle")}
                 </h3>
                 <p className="text-gray-600 mb-4">
-                  Intenta ajustar los filtros de búsqueda
+                  {t("research.landing.emptyDesc")}
                 </p>
                 <button
                   onClick={clearFilters}
                   className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-colors"
                 >
-                  Limpiar filtros
+                  {t("research.landing.clearFilters")}
                 </button>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8">
-                {filteredArticles.map((article) => (
-                  <ArticleCard key={article.slug} article={article} />
+                {filteredArticles.map((article, idx) => (
+                  <ArticleCard
+                    key={`${article.slug}-${idx}`}
+                    article={article}
+                  />
                 ))}
               </div>
             )}
@@ -339,6 +355,7 @@ const InvestigacionLanding = () => {
 // Componente para cada tarjeta de artículo
 const ArticleCard = ({ article }) => {
   const [imageError, setImageError] = useState(false);
+  const { t } = useLanguage();
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("es-ES", {
@@ -383,10 +400,12 @@ const ArticleCard = ({ article }) => {
           <div className="w-full h-full bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center">
             <div className="text-center">
               <BookOpen className="h-12 w-12 text-red-300 mx-auto mb-2" />
-              <p className="text-xs text-red-400">Imagen no disponible</p>
+              <p className="text-xs text-red-400">
+                {t("research.landing.imageNotAvailable")}
+              </p>
               {imageError && (
                 <p className="text-xs text-red-500 mt-1">
-                  Ruta: {article.localImage}
+                  {t("research.landing.path")} {article.localImage}
                 </p>
               )}
             </div>
@@ -450,7 +469,7 @@ const ArticleCard = ({ article }) => {
           {article.products && article.products.length > 0 ? (
             <>
               <p className="text-xs text-gray-500 mb-1">
-                Productos relacionados:
+                {t("research.landing.relatedProducts")}
               </p>
               <div className="flex flex-wrap gap-1">
                 {article.products.slice(0, 2).map((product, index) => (
@@ -463,14 +482,16 @@ const ArticleCard = ({ article }) => {
                 ))}
                 {article.products.length > 2 && (
                   <span className="text-xs text-gray-400">
-                    +{article.products.length - 2} más
+                    {t("research.landing.moreCount", {
+                      count: article.products.length - 2,
+                    })}
                   </span>
                 )}
               </div>
             </>
           ) : (
             <div className="text-xs text-gray-400">
-              Sin productos relacionados
+              {t("research.landing.noRelatedProducts")}
             </div>
           )}
         </div>

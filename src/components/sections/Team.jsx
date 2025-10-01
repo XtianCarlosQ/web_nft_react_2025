@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLanguage } from "../../context/LanguageContext";
 
 const TeamMemberCard = ({ member }) => {
   return (
@@ -49,6 +50,7 @@ const TeamMemberCard = ({ member }) => {
 };
 
 const Team = () => {
+  const { t } = useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Reduciendo la cantidad de miembros mostrados en la landing
@@ -146,14 +148,16 @@ const Team = () => {
           {/* Header */}
           <div className="col-span-12 text-center mb-12">
             <h2 className="text-2xl font-bold mb-4">
-              Nuestro <span className="text-red-600">Equipo</span>
+              {t("team.title").split(" ")[0]}{" "}
+              <span className="text-red-600">
+                {t("team.title").split(" ").slice(1).join(" ")}
+              </span>
             </h2>
             <h3 className="text-xl md:text-xl font-bold text-gray-900 mb-4">
-              Conoce a Nuestros Colaboradores
+              {t("team.subtitle")}
             </h3>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Un equipo multidisciplinario de expertos en tecnología,
-              investigación y desarrollo
+              {t("team.description")}
             </p>
           </div>
 

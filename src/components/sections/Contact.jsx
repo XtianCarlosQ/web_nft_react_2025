@@ -9,6 +9,7 @@ import {
   MessageCircle,
   Building,
 } from "lucide-react";
+import { useLanguage } from "../../context/LanguageContext";
 
 // Contact form component
 // - Simple controlled form
@@ -21,6 +22,7 @@ const ContactForm = () => {
     company: "",
     message: "",
   });
+  const { t } = useLanguage();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -45,10 +47,10 @@ const ContactForm = () => {
       className="space-y-6 bg-white p-7 md:p-8 rounded-2xl shadow-lg border border-gray-200"
     >
       <div className="text-center mb-2">
-        <h3 className="text-2xl font-bold text-gray-900 mb-1">Contáctanos</h3>
-        <p className="text-gray-600 text-sm">
-          Estamos aquí para ayudarte con tus consultas
-        </p>
+        <h3 className="text-2xl font-bold text-gray-900 mb-1">
+          {t("contact.contactUs")}
+        </h3>
+        <p className="text-gray-600 text-sm">{t("contact.weAreHere")}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -57,7 +59,7 @@ const ContactForm = () => {
           <input
             type="text"
             name="name"
-            placeholder="Nombre"
+            placeholder={t("contact.placeholders.name")}
             value={formData.name}
             onChange={handleInputChange}
             required
@@ -69,7 +71,7 @@ const ContactForm = () => {
           <input
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder={t("contact.placeholders.email")}
             value={formData.email}
             onChange={handleInputChange}
             required
@@ -83,7 +85,7 @@ const ContactForm = () => {
         <input
           type="text"
           name="company"
-          placeholder="Empresa (opcional)"
+          placeholder={t("contact.placeholders.company")}
           value={formData.company}
           onChange={handleInputChange}
           className="w-full border border-gray-300 rounded-lg py-2.5 pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
@@ -94,7 +96,7 @@ const ContactForm = () => {
         <MessageCircle className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
         <textarea
           name="message"
-          placeholder="Cuéntanos sobre tu proyecto o consulta..."
+          placeholder={t("contact.placeholders.message")}
           value={formData.message}
           onChange={handleInputChange}
           required
@@ -107,12 +109,11 @@ const ContactForm = () => {
         type="submit"
         className="w-full inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-5 rounded-lg transition-colors"
       >
-        <Send className="h-5 w-5" /> Enviar Consulta
+        <Send className="h-5 w-5" /> {t("contact.sendInquiry")}
       </button>
 
       <p className="text-xs text-gray-500 text-center">
-        Al enviar este formulario, se abrirá tu cliente de correo con la
-        información completada.
+        {t("contact.mailtoNote")}
       </p>
     </form>
   );
@@ -124,28 +125,29 @@ const ContactForm = () => {
 // - Social links use Footer-style SVGs with theme-friendly color and brand hovers
 // - Map is omitted for security; we render a safe placeholder instead
 const Contact = () => {
+  const { t } = useLanguage();
   const contactInfo = [
     {
       icon: Mail,
-      title: "Email",
+      title: t("contact.titles.email"),
       details: ["edgarquispe62@gmail.com"],
       action: "mailto:edgarquispe62@gmail.com",
     },
     {
       icon: Phone,
-      title: "Teléfono",
+      title: t("contact.titles.phone"),
       details: ["+51 988 496 839"],
       action: "tel:+51988496839",
     },
     {
       icon: Clock,
-      title: "Horarios",
+      title: t("contact.titles.hours"),
       details: ["Lun - Vie: 9:00 - 18:00", "Sáb: 9:00 - 13:00"],
       action: null,
     },
     {
       icon: MapPin,
-      title: "Ubicación",
+      title: t("contact.titles.location"),
       details: ["La Molina", "Lima, Perú"],
       action: null,
     },
@@ -225,11 +227,17 @@ const Contact = () => {
         <div className="grid-ctx mb-[40px]">
           <div className="span-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              Hablemos de tu <span className="text-red-600">Proyecto</span>
+              {t("contact.talk").split(" ")[0]} de tu{" "}
+              <span className="text-red-600">
+                {
+                  t("contact.talk").split(" ")[
+                    t("contact.talk").split(" ").length - 1
+                  ]
+                }
+              </span>
             </h2>
             <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto">
-              ¿Tienes preguntas sobre nuestros productos? ¿Necesitas una
-              solución personalizada? Nuestro equipo está listo para ayudarte.
+              {t("contact.lead")}
             </p>
           </div>
         </div>
@@ -239,7 +247,7 @@ const Contact = () => {
           <div className="span-12 lg:span-6 space-y-8">
             <div>
               <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                Información de Contacto
+                {t("contact.contactInfo")}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
                 {contactInfo.map((info, index) => {
@@ -286,7 +294,7 @@ const Contact = () => {
             {/* Social Links */}
             <div>
               <h4 className="text-2xl font-bold text-gray-900 mb-6">
-                Síguenos
+                {t("contact.followUs")}
               </h4>
               <div className="flex space-x-4 m-6">
                 {socialLinks.map((social, index) => (
@@ -315,14 +323,14 @@ const Contact = () => {
         <div className="grid-ctx mb-[30px]">
           <div className="span-12 bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">
-              Nuestra Ubicación
+              {t("contact.location")}
             </h3>
             <div className="h-64 bg-gradient-to-br from-red-50 to-red-100 rounded-lg flex items-center justify-center">
               <div className="text-center">
                 <MapPin className="h-12 w-12 text-red-300 mx-auto mb-2" />
                 <p className="text-gray-600">La Molina, Lima - Perú</p>
                 <p className="text-sm text-gray-500 mt-1">
-                  Mapa interactivo próximamente
+                  {t("contact.mapSoon")}
                 </p>
               </div>
             </div>

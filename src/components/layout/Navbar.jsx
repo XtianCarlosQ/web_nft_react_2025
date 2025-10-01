@@ -6,7 +6,7 @@ import { GridToggleButton } from "../GridOverlay";
 
 const Navbar = () => {
   const { darkMode, toggleDarkMode } = useTheme();
-  const { language, toggleLanguage } = useLanguage();
+  const { language, toggleLanguage, t } = useLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
 
@@ -62,7 +62,7 @@ const Navbar = () => {
           {/* Navigation Links - Desktop (lg+) */}
           <div className="hidden lg:flex space-x-2 ml-auto">
             <Link to="/" className={navClass(activeInicio)}>
-              Inicio
+              {t("nav.home")}
             </Link>
             {/* Productos dropdown (desktop) */}
             <div className="relative group">
@@ -72,7 +72,7 @@ const Navbar = () => {
                   activeProductos
                 )} flex items-center gap-1`}
               >
-                Productos
+                {t("nav.products")}
                 <svg
                   className="w-4 h-4"
                   viewBox="0 0 20 20"
@@ -106,16 +106,16 @@ const Navbar = () => {
               </div>
             </div>
             <Link to="/servicios" className={navClass(activeServicios)}>
-              Servicios
+              {t("nav.services")}
             </Link>
             <Link to="/investigacion" className={navClass(activeInvestigacion)}>
-              Investigación
+              {t("nav.research")}
             </Link>
             <Link to="/nosotros" className={navClass(activeNosotros)}>
-              Nosotros
+              {t("nav.about")}
             </Link>
             <Link to="/contacto" className={navClass(activeContacto)}>
-              Contacto
+              {t("nav.contact")}
             </Link>
           </div>
 
@@ -233,7 +233,7 @@ const Navbar = () => {
               onClick={() => setMobileOpen(false)}
               className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
             >
-              Inicio
+              {t("nav.home")}
             </Link>
             {/* Productos accordion */}
             <button
@@ -241,7 +241,7 @@ const Navbar = () => {
               onClick={() => setMobileProductsOpen((v) => !v)}
               className="w-full flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
             >
-              <span>Productos</span>
+              <span>{t("nav.products")}</span>
               <svg
                 className={`w-5 h-5 transition-transform ${
                   mobileProductsOpen ? "rotate-180" : "rotate-0"
@@ -289,28 +289,28 @@ const Navbar = () => {
               onClick={() => setMobileOpen(false)}
               className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
             >
-              Servicios
+              {t("nav.services")}
             </Link>
             <Link
               to="/investigacion"
               onClick={() => setMobileOpen(false)}
               className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
             >
-              Investigación
+              {t("nav.research")}
             </Link>
             <Link
               to="/nosotros"
               onClick={() => setMobileOpen(false)}
               className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
             >
-              Nosotros
+              {t("nav.about")}
             </Link>
             <Link
               to="/contacto"
               onClick={() => setMobileOpen(false)}
               className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
             >
-              Contacto
+              {t("nav.contact")}
             </Link>
           </div>
         )}

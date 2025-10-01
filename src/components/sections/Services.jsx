@@ -1,4 +1,5 @@
 import React from "react";
+import { useLanguage } from "../../context/LanguageContext";
 import {
   Brain,
   Settings,
@@ -11,6 +12,7 @@ import {
 // ================= ServiceCard =================
 // Tarjeta individual de servicio (altura fija para alineación de grid)
 const ServiceCard = ({ service }) => {
+  const { t } = useLanguage();
   const handleWhatsAppClick = () => {
     const message = encodeURIComponent(
       `Buen día, estoy interesado en el servicio de ${service.title}`
@@ -78,7 +80,7 @@ const ServiceCard = ({ service }) => {
             >
               <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z" />
             </svg>
-            Consultar
+            {t("services.consult")}
           </button>
         </div>
       </div>
@@ -88,79 +90,80 @@ const ServiceCard = ({ service }) => {
 
 // ================= Services (lista) =================
 const Services = ({ limit }) => {
-  const services = [
+  const { t } = useLanguage();
+  const serviceIcons = [Brain, Settings, BookOpen, Users, BarChart3, Lightbulb];
+  // Fallback list in case i18n is missing or wrong type
+  const fallbackServices = [
     {
-      title: "Análisis con IA",
-      icon: Brain,
+      title: "Consultoría Técnica",
       description:
-        "Utilizamos algoritmos avanzados de inteligencia artificial para proporcionar análisis precisos y detallados de fibras animales.",
+        "Acompañamiento experto para optimizar procesos, interpretar resultados y elevar la calidad de tus análisis.",
       features: [
-        "Machine Learning",
-        "Procesamiento de imágenes",
-        "Análisis predictivo",
-        "Reportes automáticos",
+        "Optimización de procesos",
+        "Interpretación de resultados",
+        "Buenas prácticas y normativas",
+        "Diagnóstico y roadmap",
       ],
     },
     {
-      title: "Proyectos Personalizados",
-      icon: Settings,
+      title: "Implementación y Soporte",
       description:
-        "Desarrollamos soluciones tecnológicas a medida para necesidades específicas de análisis y caracterización de fibras.",
+        "Instalación, puesta en marcha y mantenimiento de equipos con soporte técnico dedicado.",
+      features: [
+        "Instalación y calibración",
+        "Mantenimiento preventivo",
+        "Soporte remoto y onsite",
+        "Actualizaciones de software",
+      ],
+    },
+    {
+      title: "Capacitación y Entrenamiento",
+      description:
+        "Programas de formación para el uso de equipos, protocolos y análisis de resultados.",
+      features: [
+        "Cursos presenciales y online",
+        "Material didáctico",
+        "Certificación",
+        "Workshops prácticos",
+      ],
+    },
+    {
+      title: "Proyectos a Medida",
+      description:
+        "Desarrollo de soluciones tecnológicas personalizadas según tus necesidades.",
       features: [
         "Integración de sistemas",
-        "Soporte técnico",
-        "Mantenimiento especializado",
-      ],
-    },
-    {
-      title: "Capacitación Técnica",
-      icon: BookOpen,
-      description:
-        "Programas de formación especializados para el manejo de equipos y comprensión de análisis de fibras animales.",
-      features: [
-        "Cursos presenciales",
-        "Capacitación online",
-        "Certificación técnica",
-        "Material didáctico",
-      ],
-    },
-    {
-      title: "Asesorías Especializadas",
-      icon: Users,
-      description:
-        "Consultoría experta para optimización de procesos, interpretación de resultados y mejora de calidad.",
-      features: [
-        "Consultoría técnica",
-        "Optimización de procesos",
-        "Interpretación de datos",
-        "Mejores prácticas",
+        "Automatización",
+        "Paneles e informes a medida",
+        "Escalabilidad",
       ],
     },
     {
       title: "Análisis de Laboratorio",
-      icon: BarChart3,
       description:
-        "Servicios completos de análisis de fibras en nuestro laboratorio certificado con tecnología de punta.",
+        "Servicios especializados de caracterización de fibras con precisión científica.",
       features: [
-        "Análisis completo",
-        "Certificación de calidad",
+        "MDF, CVMDF, DEMDF",
+        "Factores de confort",
+        "Protocolos validados",
         "Reportes técnicos",
-        "Muestras de referencia",
       ],
     },
     {
       title: "I+D Colaborativo",
-      icon: Lightbulb,
       description:
-        "Proyectos de investigación y desarrollo en colaboración con universidades e instituciones especializadas.",
+        "Investigación aplicada junto a universidades e instituciones para crear nuevas soluciones.",
       features: [
-        "Investigación aplicada",
+        "Publicaciones y patentes",
         "Desarrollo conjunto",
-        "Publicaciones científicas",
         "Transferencia tecnológica",
+        "Prototipado",
       ],
     },
   ];
+  const rawCards = t("services.cards");
+  const list = Array.isArray(rawCards) ? rawCards : fallbackServices;
+  const services = list.map((c, i) => ({ ...c, icon: serviceIcons[i] || Brain }));
 
   const benefits = [
     "Más de 15 años de experiencia en el sector",
@@ -178,11 +181,13 @@ const Services = ({ limit }) => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="mb-10">
           <h2 className="text-2xl font-bold text-center mb-3 tracking-tight">
-            Nuestros <span className="text-red-600">Servicios</span>
+            {t("services.title").split(" ")[0]}{" "}
+            <span className="text-red-600">
+              {t("services.title").split(" ").slice(1).join(" ")}
+            </span>
           </h2>
           <p className="text-center text-[15px] text-gray-600 max-w-4xl mx-auto leading-snug">
-            Ofrecemos soluciones integrales que van más allá de la venta de
-            equipos, brindando acompañamiento completo en cada proyecto
+            {t("services.lead")}
           </p>
         </div>
         <div className="max-w-6xl mx-auto">
@@ -195,10 +200,10 @@ const Services = ({ limit }) => {
             <>
               <div className="mt-14 bg-white rounded-3xl border border-gray-100 shadow-3xl py-8 px-12">
                 <h3 className="text-2xl font-bold text-center mb-6">
-                  ¿Por qué elegir Fiberstech?
+                  {t("services.whyChoose")}
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {benefits.map((b, i) => (
+                  {(t("services.benefits") || benefits).map((b, i) => (
                     <div
                       key={i}
                       className="flex items-start text-md text-gray-700"
@@ -223,7 +228,7 @@ const Services = ({ limit }) => {
                   }}
                   className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-10 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
-                  Consultar Sobre Servicios
+                  {t("services.consultAbout")}
                 </button>
               </div>
             </>
@@ -234,7 +239,7 @@ const Services = ({ limit }) => {
                 href="/servicios"
                 className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
               >
-                Ver Todos los Servicios
+                {t("services.ctaAll")}
               </a>
             </div>
           )}

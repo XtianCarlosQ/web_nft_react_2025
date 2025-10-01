@@ -1,3 +1,4 @@
+import { useLanguage } from "../../context/LanguageContext";
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
@@ -569,6 +570,7 @@ const ProductMediaCarousel = ({ product }) => {
 
   const currentItem = mediaItems[currentIndex];
 
+  const { t } = useLanguage();
   return (
     <div className="relative h-full flex flex-col">
       {/* Main Media Display with spotlight background */}
@@ -650,8 +652,10 @@ const ProductMediaCarousel = ({ product }) => {
               ) : (
                 <Camera className="h-6 w-6" />
               )}
-              {currentItem.type === "video" ? "Video" : "Imagen"} -{" "}
-              {currentIndex + 1} de {totalItems}
+              {currentItem.type === "video"
+                ? t("productDetail.ui.mediaVideo")
+                : t("productDetail.ui.mediaImage")}{" "}- {" "}
+              {currentIndex + 1} / {totalItems}
             </span>
           </div>
         </>
@@ -662,23 +666,52 @@ const ProductMediaCarousel = ({ product }) => {
 
 // Main ProductDetail component
 const ProductDetail = () => {
+  const { t } = useLanguage();
   const { productId } = useParams();
   const product = productsData[productId];
+
+  // Merge translations for product content (category, tagline, description, feature titles/descriptions)
+  const overlayText = (key) => {
+    const fullKey = `productContent.${productId}.${key}`;
+    const val = t(fullKey);
+    // Ignore when t() returns the key path itself
+    return typeof val === "string" && val !== fullKey ? val : null;
+  };
+  const overlayArray = (key) => {
+    const fullKey = `productContent.${productId}.${key}`;
+    const val = t(fullKey);
+    return Array.isArray(val) ? val : null;
+  };
+
+  // Build localized product view
+  const localized = product
+    ? {
+        ...product,
+        category: overlayText("category") || product.category,
+        tagline: overlayText("tagline") || product.tagline,
+        description: overlayText("description") || product.description,
+        features: overlayArray("features")
+          ? overlayArray("features").map((f, i) => ({
+              icon: product.features?.[i]?.icon || BarChart3,
+              title: f.title || product.features?.[i]?.title,
+              description: f.description || product.features?.[i]?.description,
+            }))
+          : product.features,
+      }
+    : null;
 
   // Handle product not found
   if (!product) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">
-            Producto no encontrado
-          </h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">{t("productDetail.ui.notFound")}</h1>
           <Link
             to="/productos"
             className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
           >
             <ArrowLeft className="h-5 w-5" />
-            Volver a Productos
+            {t("productDetail.ui.backToProducts")}
           </Link>
         </div>
       </div>
@@ -701,17 +734,17 @@ const ProductDetail = () => {
           <div className="span-12">
             <div className="flex items-center gap-2 text-sm text-gray-500">
               <Link to="/" className="hover:text-red-600 transition-colors">
-                Inicio
+                {t("nav.home")}
               </Link>
               <ChevronRight className="h-4 w-4" />
               <Link
                 to="/productos"
                 className="hover:text-red-600 transition-colors"
               >
-                Productos
+                {t("nav.products")}
               </Link>
               <ChevronRight className="h-4 w-4" />
-              <span className="text-gray-900">{product.name}</span>
+              <span className="text-gray-900">{localized.name}</span>
             </div>
           </div>
         </div>
@@ -721,18 +754,16 @@ const ProductDetail = () => {
           <div className="span-12">
             <div className="mb-4">
               <div className="flex items-center justify-left mb-3 gap-8">
-                <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">
-                  {product.name}
-                </h1>
+                <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">{localized.name}</h1>
                 <span className="bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full">
-                  {product.category}
+                  {localized.category}
                 </span>
               </div>
               <p className="text-lg text-red-600 font-medium mb-3">
-                {product.tagline}
+                {localized.tagline}
               </p>
               <p className="text-gray-700 leading-relaxed mb-4">
-                {product.description}
+                {localized.description}
               </p>
             </div>
 
@@ -743,7 +774,7 @@ const ProductDetail = () => {
                 className="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl"
               >
                 <Zap className="h-5 w-5" />
-                Solicitar Cotización
+                {t("productDetail.whatsapp")}
               </button>
               <div className="flex gap-2">
                 <a
@@ -753,7 +784,7 @@ const ProductDetail = () => {
                   className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-700 font-semibold py-3 px-4 rounded-xl border border-gray-200 transition-colors"
                 >
                   <Download className="h-4 w-4" />
-                  Ficha ES
+                  {t("productDetail.ui.datasheetES")}
                 </a>
                 <a
                   href={product.technicalSheets.en}
@@ -762,7 +793,7 @@ const ProductDetail = () => {
                   className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-700 font-semibold py-3 px-4 rounded-xl border border-gray-200 transition-colors"
                 >
                   <Download className="h-4 w-4" />
-                  Ficha EN
+                  {t("productDetail.ui.datasheetEN")}
                 </a>
               </div>
             </div>
@@ -772,12 +803,10 @@ const ProductDetail = () => {
         {/* Features Section */}
         <div className="grid-ctx mb-6">
           <div className="span-12">
-            <h2 className="text-2xl font-bold text-gray-900 text-center mb-6">
-              Características Principales
-            </h2>
+            <h2 className="text-2xl font-bold text-gray-900 text-center mb-6">{t("productDetail.ui.mainFeatures")}</h2>
           </div>
           <div className="span-12 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {product.features.map((feature, index) => (
+            {localized.features.map((feature, index) => (
               <FeatureCard key={index} {...feature} />
             ))}
           </div>
@@ -789,15 +818,24 @@ const ProductDetail = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
               {/* Specifications Card */}
               <div className="bg-white rounded-2xl p-6 shadow-lg h-full">
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
-                  Especificaciones Técnicas
-                </h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">{t("productDetail.ui.technicalSpecs")}</h3>
                 <div className="space-y-1">
-                  {Object.entries(product.specifications).map(
-                    ([key, value]) => (
-                      <SpecRow key={key} label={key} value={value} />
-                    )
-                  )}
+                  {Object.entries(product.specifications).map(([key, value]) => {
+                    // Allow overriding of specific spec values via i18n (e.g., Tipo/Type). If t() returns the key itself, treat as missing.
+                    const overrideKey = `productDetail.specValues.${productId}.${key}`;
+                    const override = t(overrideKey);
+                    const finalValue =
+                      typeof override === "string" && override !== overrideKey && override.trim()
+                        ? override
+                        : value;
+                    return (
+                      <SpecRow
+                        key={key}
+                        label={t(`productDetail.specLabels.${key}`) || key}
+                        value={finalValue}
+                      />
+                    );
+                  })}
                 </div>
               </div>
 
@@ -813,21 +851,19 @@ const ProductDetail = () => {
         <div className="grid-ctx mb-8">
           <div className="span-12">
             <div className="bg-white rounded-2xl p-6 shadow-lg">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">
-                Capacidades
-              </h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">{t("productDetail.ui.capabilities")}</h3>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                {product.capabilities.map((capability, index) => (
-                  <CapabilityItem key={index}>{capability}</CapabilityItem>
-                ))}
+                {(t(`productContent.${productId}.capabilities`) || product.capabilities).map(
+                  (capability, index) => (
+                    <CapabilityItem key={index}>{capability}</CapabilityItem>
+                  )
+                )}
               </div>
 
               {/* Software section for FIBER DEN */}
               {product.software && (
                 <>
-                  <h4 className="text-lg font-semibold text-gray-900 mt-6 mb-4">
-                    Software Incluido
-                  </h4>
+                  <h4 className="text-lg font-semibold text-gray-900 mt-6 mb-4">{t("productDetail.ui.softwareIncluded")}</h4>
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                     {product.software.map((software, index) => (
                       <CapabilityItem key={index}>{software}</CapabilityItem>
@@ -843,24 +879,23 @@ const ProductDetail = () => {
         <div className="grid-ctx">
           <div className="span-12 bg-gradient-to-r from-red-600 to-red-700 rounded-2xl p-6 text-center text-white">
             <h2 className="text-xl font-bold mb-3">
-              ¿Interesado en {product.name}?
+              {t("productDetail.interested", { name: product.name })}
             </h2>
             <p className="text-red-100 mb-4 max-w-xl mx-auto">
-              Contáctanos para obtener una demostración personalizada y
-              cotización detallada.
+              {t("productDetail.contactForDemo")}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <button
                 onClick={handleWhatsAppContact}
-                className="bg-white text-red-600 hover:bg-gray-100 font-semibold py-3 px-6 rounded-xl transition-colors"
+                className="bg-white/95 text-red-700 hover:bg-white focus:outline-none focus:ring-2 focus:ring-white/80 font-semibold py-3 px-6 rounded-xl transition-colors shadow-sm"
               >
-                Contactar por WhatsApp
+                {t("productDetail.whatsapp")}
               </button>
               <Link
                 to="/contacto"
-                className="bg-red-800 hover:bg-red-900 text-white font-semibold py-3 px-6 rounded-xl transition-colors"
+                className="bg-red-800 hover:bg-red-900 text-white font-semibold py-3 px-6 rounded-xl transition-colors shadow-sm"
               >
-                Ir a Contacto
+                {t("productDetail.goContact")}
               </Link>
             </div>
           </div>

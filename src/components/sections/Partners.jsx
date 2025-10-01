@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../../styles/partners.css";
+import { useLanguage } from "../../context/LanguageContext";
 
 const partners = [
   { src: "/assets/images/partners/Maxcorp.png", alt: "Maxcorp" },
@@ -25,6 +26,7 @@ const partners = [
 ];
 
 const Partners = () => {
+  const { t } = useLanguage();
   const marqueeLogos = [...partners, ...partners];
 
   return (
@@ -33,10 +35,14 @@ const Partners = () => {
         <div className="grid-ctx items-end mb-8">
           <div className="span-12">
             <p className="text-xs tracking-widest uppercase text-gray-500 mb-2">
-              En investigación científica
+              {t("partners.tagline")}
             </p>
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
-              Nuestros <span className="text-red-600">Partners</span>
+              {t("partners.title").split(" ")[0]}{" "}
+              {t("partners.title").split(" ")[1]}{" "}
+              <span className="text-red-600">
+                {t("partners.title").split(" ")[2] || ""}
+              </span>
             </h2>
           </div>
         </div>
@@ -71,7 +77,7 @@ const Partners = () => {
                            font-semibold py-3 px-8 rounded-lg 
                            transition-all duration-300 shadow-lg hover:shadow-xl"
           >
-            Ver más sobre Investigación
+            {t("partners.cta")}
           </Link>
         </div>
       </div>
