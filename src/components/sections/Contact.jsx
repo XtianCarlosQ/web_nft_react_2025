@@ -241,14 +241,14 @@ const Contact = () => {
               <h3 className="text-2xl font-bold text-gray-900 mb-6">
                 Información de Contacto
               </h3>
-              <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-4 sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
                 {contactInfo.map((info, index) => {
                   const IconComponent = info.icon;
                   return (
                     <div
                       key={index}
-                      // Smaller cards: width ~90%, reduced visual height via compact content, slightly increased padding for balance
-                      className="bg-white w-[90%] mx-auto p-7 md:p-8 rounded-2xl shadow-lg border border-gray-200"
+                      // Responsive card padding and width to avoid overflow; allow word breaks for long content
+                      className="bg-white w-[100%] mx-auto p-6 md:p-3 lg:p-5 rounded-2xl shadow-lg border border-gray-200"
                     >
                       <div className="flex items-center mb-2">
                         <div className="w-9 h-9 bg-red-50 rounded-lg flex items-center justify-center mr-3">
@@ -258,16 +258,16 @@ const Contact = () => {
                           {info.title}
                         </h4>
                       </div>
-                      <div className="space-y-0.5">
+                      <div className="space-y-0.5 break-words break-all">
                         {info.details.map((detail, idx) => (
                           <p
                             key={idx}
-                            className="text-gray-600 text-sm leading-relaxed"
+                            className="text-gray-600 text-[13px] md:text-[12px] leading-relaxed"
                           >
                             {info.action ? (
                               <a
                                 href={info.action}
-                                className="hover:text-red-600 transition-colors"
+                                className="hover:text-red-600 transition-colors break-words"
                               >
                                 {detail}
                               </a>

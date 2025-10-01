@@ -2,13 +2,13 @@ import React, { useState } from "react";
 
 const TeamMemberCard = ({ member }) => {
   return (
-    <div className="relative group overflow-hidden rounded-2xl shadow-lg transition-transform duration-900 hover:shadow-xl">
+    <div className="relative group overflow-hidden rounded-2xl shadow-lg transition-transform duration-900 hover:shadow-xl w-full max-w-[300px] sm:max-w-[360px] mx-auto">
       {/* Imagen del miembro */}
-      <div className="aspect-[3/4] relative">
+      <div className="aspect-[3/4] relative overflow-hidden rounded-2xl">
         <img
           src={member.image || "/assets/images/team/placeholder.jpg"}
           alt={member.name}
-          className="w-full h-full object-cover object-center rounded-2xl"
+          className="w-full h-full object-cover object-center"
         />
         {/* Overlay con skills */}
         <div className="absolute inset-0 bg-gradient-to-t from-red-400/70 via-red-900/50 to-red-900/30 translate-y-full transition-transform duration-800 ease-out group-hover:translate-y-0 flex flex-col justify-center px-6 text-white/95 backdrop-blur-[2px] rounded-2xl ring-1 ring-white/10">
@@ -37,8 +37,12 @@ const TeamMemberCard = ({ member }) => {
       </div>
       {/* Información del miembro: Nombre-Title */}
       <div className="absolute bottom-0 left-0 right-0 p-4 bg-white/40 backdrop-blur-sm rounded-b-2xl">
-        <h3 className="text-xl font-bold text-gray-900">{member.name}</h3>
-        <p className="text-red-600 font-medium">{member.position}</p>
+        <h3 className="text-xs md:text-lg lg:text-xl font-bold text-gray-900">
+          {member.name}
+        </h3>
+        <p className="text-xs md:text-lg lg:text-xl text-red-600 font-medium">
+          {member.position}
+        </p>
       </div>
     </div>
   );
@@ -135,10 +139,10 @@ const Team = () => {
   return (
     <section
       id="nosotros"
-      className="py-10 mg-10 bg-gray-20 rounded-3xl shadow-lg"
+      className="py-10 my-10 bg-gray-50 rounded-3xl shadow-lg overflow-x-hidden"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-12 gap-8">
+      <div className="container-app">
+        <div className="grid grid-cols-12 gap-4 md:gap-8 w-full max-w-full box-border">
           {/* Header */}
           <div className="col-span-12 text-center mb-12">
             <h2 className="text-2xl font-bold mb-4">
@@ -154,15 +158,18 @@ const Team = () => {
           </div>
 
           {/* Team Members Carousel */}
-          <div className="col-span-12 relative">
-            <div className="overflow-hidden rounded-3xl">
+          <div className="col-span-12 relative w-full max-w-full min-w-0">
+            <div className="overflow-hidden rounded-3xl w-full">
               <div
-                className="flex transition-transform duration-500 ease-in-out"
+                className="flex transition-transform duration-500 ease-in-out w-full max-w-full min-w-0"
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
               >
                 {pages.map((page, pageIndex) => (
-                  <div key={pageIndex} className="w-full flex-shrink-0">
-                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
+                  <div
+                    key={pageIndex}
+                    className="w-full max-w-full min-w-0 flex-shrink-0"
+                  >
+                    <div className="flex flex-col items-center w-full max-w-full min-w-0 box-border gap-4 sm:gap-6 md:grid md:grid-cols-3 md:justify-items-center">
                       {page.map((member) => (
                         <TeamMemberCard key={member.name} member={member} />
                       ))}
