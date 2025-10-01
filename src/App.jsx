@@ -17,6 +17,7 @@ import InvestigacionDetail from "./pages/investigacion/InvestigacionDetail";
 import Footer from "./components/layout/Footer";
 import WhatsAppButton from "./components/common/WhatsAppButton";
 import GridOverlay from "./components/GridOverlay";
+import ScrollToTop from "./components/ScrollToTop";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
         <GridProvider>
           <div className="min-h-screen bg-white transition-colors duration-300">
             <Navbar />
+            <ScrollToTop />
             <GridOverlay />
             <Routes>
               <Route

@@ -248,13 +248,15 @@ const SectionCTA = ({ resume }) => (
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="/nosotros"
+                href="/#nosotros"
                 className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
               >
                 Más Sobre Nosotros
               </a>
               <a
-                href="#contacto"
+                href="https://wa.me/51988496839?text=Hola%2C%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20la%20empresa%20y%20sus%20soluciones."
+                target="_blank"
+                rel="noreferrer"
                 className="bg-white hover:bg-red-600 text-red-600 hover:text-white border-2 border-red-600 font-semibold py-3 px-8 rounded-lg transition-all duration-300"
               >
                 Contactanos
