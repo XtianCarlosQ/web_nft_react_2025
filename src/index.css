@@ -1,5 +1,198 @@
 @import "tailwindcss";
 
+/* Theme variables */
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --text: #111827; /* gray-900 */
+  --muted: #6b7280; /* gray-500 */
+  --border: #e5e7eb; /* gray-200 */
+  --primary: #dc2626; /* red-600 */
+  --primary-700: #b91c1c; /* red-700 */
+  --elev-1: rgba(17, 24, 39, 0.06);
+  --bg-gradient: none;
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(17, 24, 39, 0.08);
+}
+
+.dark {
+  --bg: #0b0c0f; /* near-black with blue-ish undertone */
+  --surface: #121316; /* cards/nav background */
+  --text: #e5e7eb; /* gray-200 */
+  --muted: #9ca3af; /* gray-400 */
+  --border: #1f2937; /* gray-800 */
+  --primary: #f05252; /* red-500 slightly brighter */
+  --primary-700: #fb6a6a; /* red-400 hover */
+  --elev-1: rgba(0, 0, 0, 0.35);
+  /* layered gradient: subtle tech vibe */
+  --bg-gradient: radial-gradient(
+      1200px 600px at -10% -20%,
+      rgba(240, 82, 82, 0.14),
+      transparent 60%
+    ),
+    radial-gradient(
+      1000px 500px at 110% -10%,
+      rgba(248, 113, 113, 0.12),
+      transparent 55%
+    ),
+    radial-gradient(
+      800px 400px at 50% 120%,
+      rgba(99, 102, 241, 0.08),
+      transparent 60%
+    ),
+    linear-gradient(180deg, rgba(12, 12, 14, 1) 0%, rgba(14, 15, 18, 1) 100%);
+  --glass-bg: rgba(255, 255, 255, 0.045);
+  --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+/* App surfaces */
+.app-theme {
+  background: var(--bg);
+  background-image: var(--bg-gradient);
+  color: var(--text);
+}
+
+.app-theme .min-h-screen.bg-white {
+  background: transparent !important;
+}
+
+.app-theme .bg-white {
+  background-color: var(--surface) !important;
+}
+.app-theme .bg-gray-50 {
+  background-color: var(--surface) !important;
+}
+.app-theme .bg-gray-200 {
+  background-color: var(--border) !important;
+}
+.app-theme .text-gray-900 {
+  color: var(--text) !important;
+}
+.app-theme .text-gray-700 {
+  color: var(--muted) !important;
+}
+.app-theme .text-gray-600 {
+  color: var(--muted) !important;
+}
+.app-theme .text-gray-500 {
+  color: var(--muted) !important;
+}
+.app-theme .border-gray-200 {
+  border-color: var(--border) !important;
+}
+.app-theme .shadow-md,
+.app-theme .shadow-lg,
+.app-theme .shadow-xl,
+.app-theme .shadow-2xl {
+  box-shadow: 0 8px 24px var(--elev-1) !important;
+}
+
+.app-theme .bg-red-600 {
+  background-color: var(--primary) !important;
+}
+.app-theme .hover\:bg-red-700:hover {
+  background-color: var(--primary-700) !important;
+}
+.app-theme .border-red-600 {
+  border-color: var(--primary) !important;
+}
+.app-theme .text-red-600 {
+  color: var(--primary) !important;
+}
+.app-theme .hover\:bg-gray-200:hover {
+  background-color: var(--border) !important;
+}
+.app-theme .hover\:bg-gray-100:hover {
+  background-color: var(--border) !important;
+}
+
+/* Glassmorphism surfaces in dark mode */
+.app-theme.dark nav.bg-white {
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.04),
+      rgba(255, 255, 255, 0.04)
+    ),
+    var(--glass-bg) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  backdrop-filter: blur(12px) saturate(160%);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.app-theme.dark .bg-white.rounded-2xl,
+.app-theme.dark .bg-white.rounded-xl,
+.app-theme.dark .bg-white.rounded-lg {
+  background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.04),
+      rgba(255, 255, 255, 0.02)
+    ),
+    var(--glass-bg) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid var(--glass-border);
+}
+.app-theme .menu-panel {
+  background-color: rgba(255, 255, 255, 0.98);
+  border-color: var(--border);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+.app-theme.dark .menu-panel {
+  background-color: rgba(18, 19, 22, 0.98) !important;
+  border-color: var(--glass-border) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35) !important;
+}
+.app-theme .menu-item {
+  color: var(--text);
+}
+.app-theme.dark .menu-item {
+  color: #e5e7eb;
+}
+.app-theme .menu-item:hover {
+  background-color: rgba(156, 163, 175, 0.18);
+}
+.app-theme.dark .menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Primary glow for elevated CTAs */
+.app-theme.dark .bg-red-600 {
+  background-image: linear-gradient(135deg, var(--primary), #ff8a80 85%);
+  box-shadow: 0 8px 24px rgba(240, 82, 82, 0.32);
+}
+.app-theme.dark .hover\:bg-red-700:hover {
+  background-image: linear-gradient(135deg, var(--primary-700), #ff9a8f 85%);
+  box-shadow: 0 10px 28px rgba(251, 106, 106, 0.38);
+}
+
+/* Link and focus accents */
+.app-theme a {
+  outline: none;
+}
+.app-theme a:focus-visible {
+  box-shadow: 0 0 0 3px rgba(240, 82, 82, 0.3);
+  border-radius: 10px;
+}
+
+/* Optional: subtle scrollbar in dark */
+.app-theme.dark *::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.app-theme.dark *::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    rgba(240, 82, 82, 0.35),
+    rgba(156, 163, 175, 0.35)
+  );
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+.app-theme.dark *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 /* Clases utilitarias personalizadas */
 .line-clamp-2 {
   display: -webkit-box;
@@ -9,10 +202,47 @@
   overflow: hidden;
 }
 
+/* Reusable CTA button with safe hover and tilt */
+.app-theme .btn-cta {
+  /* Use flex to ensure icon + text center as a group */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  background: transparent;
+  border-radius: 0.5rem;
+  transition: background-color 180ms ease, color 180ms ease,
+    box-shadow 200ms ease, transform 160ms ease;
+  will-change: transform;
+  box-shadow: 0 8px 24px rgba(240, 82, 82, 0.18);
+}
+.app-theme .btn-cta:hover {
+  background: var(--primary);
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(240, 82, 82, 0.28);
+}
+.app-theme .btn-cta:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 18px rgba(240, 82, 82, 0.22);
+}
+
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* Language toggle polish */
+.app-theme .border.rounded-lg.p-1 button {
+  transition: transform 120ms ease, box-shadow 160ms ease;
+}
+.app-theme .border.rounded-lg.p-1 button.bg-red-600 {
+  box-shadow: 0 8px 24px rgba(240, 82, 82, 0.25);
+}
+.app-theme .border.rounded-lg.p-1:hover {
+  box-shadow: inset 0 0 0 1px var(--border);
 }

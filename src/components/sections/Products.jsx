@@ -50,7 +50,7 @@ const ProductCard = ({ product }) => {
           <div className="mt-auto">
             <Link
               to={`/productos/${product.id}`}
-              className="block w-full text-center border border-red-600 text-red-600 py-2 px-4 rounded text-sm font-medium hover:bg-red-600 hover:text-white transition-colors duration-300"
+              className="block w-full text-center btn-cta py-2 px-4 text-sm font-medium cursor-pointer"
             >
               Ver Detalles
             </Link>
@@ -209,15 +209,30 @@ const Products = ({ limit }) => {
           ].map(({ icon: Icon, title, description }, i) => (
             <div
               key={i}
-              className="group text-center p-4 rounded-2xl bg-white/70 backdrop-blur-sm border border-gray-100 hover:border-red-200 hover:shadow-md transition-all duration-300"
+              className="group text-center p-4 rounded-2xl border border-gray-200 transition-all duration-300 shadow-md hover:-translate-y-0.5 hover:shadow-lg bg-white dark:bg-transparent"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)), var(--glass-bg)",
+                backdropFilter: "blur(10px) saturate(150%)",
+                WebkitBackdropFilter: "blur(10px) saturate(150%)",
+                borderColor: "var(--glass-border)",
+              }}
             >
-              <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4 ring-1 ring-red-100 group-hover:ring-red-200 group-hover:scale-[1.03] transition">
+              <div
+                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ring-1 group-hover:scale-[1.03] transition"
+                style={{
+                  background:
+                    "radial-gradient(120px 120px at 30% 30%, rgba(240,82,82,0.18), rgba(240,82,82,0.06) 60%), rgba(255,255,255,0.06)",
+                  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.15)",
+                  borderColor: "rgba(255,255,255,0.1)",
+                }}
+              >
                 <Icon className="h-8 w-8 text-red-600" strokeWidth={1.6} />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2 text-sm md:text-[15px] tracking-tight">
+              <h3 className="font-semibold mb-2 text-sm md:text-[15px] tracking-tight text-gray-900">
                 {title}
               </h3>
-              <p className="text-xs md:text-[13px] text-gray-600 leading-snug max-w-[22ch] mx-auto">
+              <p className="text-xs md:text-[13px] leading-snug max-w-[22ch] mx-auto text-gray-600">
                 {description}
               </p>
             </div>

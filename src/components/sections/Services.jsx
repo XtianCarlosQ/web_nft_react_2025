@@ -19,10 +19,27 @@ const ServiceCard = ({ service }) => {
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
   };
   return (
-    <div className="bg-white rounded-2xl shadow hover:shadow-xl transition-all duration-500 group">
-      <div className="flex flex-col h-[430px] p-8 rounded-2xl shadow-2xl">
+    <div
+      className="rounded-2xl transition-all duration-500 group border border-gray-200 shadow-md hover:shadow-lg bg-white dark:bg-transparent"
+      style={{
+        background:
+          "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)), var(--glass-bg)",
+        backdropFilter: "blur(10px) saturate(150%)",
+        WebkitBackdropFilter: "blur(10px) saturate(150%)",
+        borderColor: "var(--glass-border)",
+      }}
+    >
+      <div className="flex flex-col h-[430px] p-8 rounded-2xl">
         {/* Icono */}
-        <div className="h-20 bg-red-50 rounded-2xl flex items-center justify-center mb-4">
+        <div
+          className="h-20 rounded-2xl flex items-center justify-center mb-4"
+          style={{
+            background:
+              "radial-gradient(120px 120px at 30% 30%, rgba(240,82,82,0.18), rgba(240,82,82,0.06) 60%), rgba(255,255,255,0.06)",
+            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.15)",
+            border: "1px solid rgba(255,255,255,0.08)",
+          }}
+        >
           <div className="text-red-600 transition-transform duration-700 ease-out group-hover:scale-110">
             <div className="w-16 h-16 flex items-center justify-center">
               <service.icon className="w-10 h-10" />
@@ -51,10 +68,10 @@ const ServiceCard = ({ service }) => {
           </div>
           <button
             onClick={handleWhatsAppClick}
-            className="mt-3 w-full bg-white border border-red-600 text-red-600 py-2 px-4 rounded text-xs md:text-sm font-medium hover:bg-red-600 hover:text-white transition-colors duration-300 flex items-center justify-center gap-2"
+            className="mt-3 w-full btn-cta py-2 px-4 text-xs md:text-sm font-medium gap-2 cursor-pointer"
           >
             <svg
-              className="w-4 h-4 md:w-5 md:h-5"
+              className="w-4 h-4 md:w-5 md:h-5 "
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 448 512"
               fill="currentColor"

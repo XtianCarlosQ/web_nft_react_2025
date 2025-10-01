@@ -571,8 +571,19 @@ const ProductMediaCarousel = ({ product }) => {
 
   return (
     <div className="relative h-full flex flex-col">
-      {/* Main Media Display */}
-      <div className="flex-grow flex items-center justify-center mb-4 min-h-80">
+      {/* Main Media Display with spotlight background */}
+      <div
+        className="flex-grow flex items-center justify-center mb-4 min-h-80 rounded-2xl overflow-hidden"
+        style={{
+          background:
+            "radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,0.12), rgba(255,255,255,0.04) 45%, rgba(0,0,0,0.02) 80%), linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
+          boxShadow:
+            "inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -20px 60px rgba(0,0,0,0.25)",
+          border: "1px solid var(--glass-border)",
+          WebkitBackdropFilter: "blur(8px) saturate(140%)",
+          backdropFilter: "blur(8px) saturate(140%)",
+        }}
+      >
         {currentItem.type === "video" ? (
           <div className="w-full h-full max-h-80 rounded-xl overflow-hidden">
             <iframe
