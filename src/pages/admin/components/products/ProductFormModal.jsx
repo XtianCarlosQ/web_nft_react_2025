@@ -240,8 +240,10 @@ export default function ProductFormModal({
         const first = priority.find((k) =>
           k === "description"
             ? !(
-                (local.descriptionDetail?.[tab] || local.description?.[tab] || "").trim()
-              )
+                local.descriptionDetail?.[tab] ||
+                local.description?.[tab] ||
+                ""
+              ).trim()
             : k === "name" || k === "tagline"
             ? !(local?.[k]?.[tab] || "").trim()
             : k === "category"
@@ -400,7 +402,9 @@ export default function ProductFormModal({
                 ? {
                     name: !local?.name?.es?.trim(),
                     tagline: !local?.tagline?.es?.trim(),
-                    description: !local?.descriptionDetail?.es?.trim() && !local?.description?.es?.trim(),
+                    description:
+                      !local?.descriptionDetail?.es?.trim() &&
+                      !local?.description?.es?.trim(),
                     category: !local?.category?.trim(),
                   }
                 : {
@@ -412,11 +416,11 @@ export default function ProductFormModal({
             }
             showHints={showHint}
           />
-            {showHint && (
-              <div className="mt-2 text-sm text-red-600 animate-pulse">
-                Algunos campos son obligatorios. Completa los resaltados.
-              </div>
-            )}
+          {showHint && (
+            <div className="mt-2 text-sm text-red-600 animate-pulse">
+              Algunos campos son obligatorios. Completa los resaltados.
+            </div>
+          )}
         </div>
         {isEdit && local.archived && (
           <div className="px-6 pb-4 text-yellow-700">

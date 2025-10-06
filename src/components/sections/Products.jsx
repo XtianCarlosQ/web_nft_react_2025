@@ -67,7 +67,10 @@ export const ProductCard = ({
           {/* Features List - Fixed height */}
           <div className="h-36">
             <ul className="space-y-1">
-              {(editable ? product.features : cardT.features || product.features).map((feature, index) => (
+              {(editable
+                ? product.features
+                : cardT.features || product.features
+              ).map((feature, index) => (
                 <li
                   key={index}
                   className="flex items-start text-sm text-gray-600"

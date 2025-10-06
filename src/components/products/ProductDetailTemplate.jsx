@@ -256,7 +256,8 @@ const MediaCard = ({
                   className="relative border rounded overflow-hidden group"
                   draggable={editable}
                   onDragStart={(e) =>
-                    editable && e.dataTransfer.setData("text/plain", String(idx))
+                    editable &&
+                    e.dataTransfer.setData("text/plain", String(idx))
                   }
                   onDragOver={(e) => editable && e.preventDefault()}
                   onDrop={(e) => {
@@ -403,14 +404,14 @@ export default function ProductDetailTemplate({
               {editable ? (
                 <div className="relative">
                   <input
-                  className={`text-3xl lg:text-4xl font-bold text-gray-900 bg-transparent border rounded px-2 py-1 ${
-                    invalid?.name ? "border-red-500 ring-1 ring-red-300" : ""
-                  }`}
-                  value={product.name || ""}
-                  onChange={(e) => handleEdit(["name"], e.target.value)}
-                  placeholder="Nombre del producto"
-                  data-field="name"
-                />
+                    className={`text-3xl lg:text-4xl font-bold text-gray-900 bg-transparent border rounded px-2 py-1 ${
+                      invalid?.name ? "border-red-500 ring-1 ring-red-300" : ""
+                    }`}
+                    value={product.name || ""}
+                    onChange={(e) => handleEdit(["name"], e.target.value)}
+                    placeholder="Nombre del producto"
+                    data-field="name"
+                  />
                   {showHints && invalid?.name && (
                     <div className="absolute -top-6 left-0 bg-red-600 text-white text-xs rounded px-2 py-0.5 shadow">
                       Campo obligatorio
@@ -425,14 +426,16 @@ export default function ProductDetailTemplate({
               {editable ? (
                 <div className="relative">
                   <input
-                  className={`bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full border ${
-                    invalid?.category ? "border-red-500 ring-1 ring-red-300" : ""
-                  }`}
-                  value={product.category || ""}
-                  onChange={(e) => handleEdit(["category"], e.target.value)}
-                  placeholder="Categoría"
-                  data-field="category"
-                />
+                    className={`bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full border ${
+                      invalid?.category
+                        ? "border-red-500 ring-1 ring-red-300"
+                        : ""
+                    }`}
+                    value={product.category || ""}
+                    onChange={(e) => handleEdit(["category"], e.target.value)}
+                    placeholder="Categoría"
+                    data-field="category"
+                  />
                   {showHints && invalid?.category && (
                     <div className="absolute -top-6 left-0 bg-red-600 text-white text-xs rounded px-2 py-0.5 shadow">
                       Campo obligatorio
@@ -448,14 +451,14 @@ export default function ProductDetailTemplate({
             {editable ? (
               <div className="relative">
                 <input
-                className={`text-lg text-red-600 font-medium mb-3 bg-transparent border rounded px-2 py-1 w-full ${
-                  invalid?.tagline ? "border-red-500 ring-1 ring-red-300" : ""
-                }`}
-                value={product.tagline || ""}
-                onChange={(e) => handleEdit(["tagline"], e.target.value)}
-                placeholder="Tagline"
-                data-field="tagline"
-              />
+                  className={`text-lg text-red-600 font-medium mb-3 bg-transparent border rounded px-2 py-1 w-full ${
+                    invalid?.tagline ? "border-red-500 ring-1 ring-red-300" : ""
+                  }`}
+                  value={product.tagline || ""}
+                  onChange={(e) => handleEdit(["tagline"], e.target.value)}
+                  placeholder="Tagline"
+                  data-field="tagline"
+                />
                 {showHints && invalid?.tagline && (
                   <div className="absolute -top-6 left-0 bg-red-600 text-white text-xs rounded px-2 py-0.5 shadow">
                     Campo obligatorio
@@ -470,15 +473,17 @@ export default function ProductDetailTemplate({
             {editable ? (
               <div className="relative">
                 <textarea
-                className={`text-gray-700 leading-relaxed mb-4 w-full bg-transparent border rounded px-2 py-2 ${
-                  invalid?.description ? "border-red-500 ring-1 ring-red-300" : ""
-                }`}
-                rows={4}
-                value={product.description || ""}
-                onChange={(e) => handleEdit(["description"], e.target.value)}
-                placeholder="Descripción detallada"
-                data-field="description"
-              />
+                  className={`text-gray-700 leading-relaxed mb-4 w-full bg-transparent border rounded px-2 py-2 ${
+                    invalid?.description
+                      ? "border-red-500 ring-1 ring-red-300"
+                      : ""
+                  }`}
+                  rows={4}
+                  value={product.description || ""}
+                  onChange={(e) => handleEdit(["description"], e.target.value)}
+                  placeholder="Descripción detallada"
+                  data-field="description"
+                />
                 {showHints && invalid?.description && (
                   <div className="absolute -top-6 left-0 bg-red-600 text-white text-xs rounded px-2 py-0.5 shadow">
                     Campo obligatorio
@@ -565,13 +570,17 @@ export default function ProductDetailTemplate({
                     type="button"
                     onClick={onGenerate}
                     disabled={
-                      generating || !(
-                        product.technicalSheets?.es || product.technicalSheets?.en
+                      generating ||
+                      !(
+                        product.technicalSheets?.es ||
+                        product.technicalSheets?.en
                       )
                     }
                     className={`inline-flex items-center gap-2 font-semibold py-3 px-4 rounded-xl border transition-colors text-white ${
-                      generating || !(
-                        product.technicalSheets?.es || product.technicalSheets?.en
+                      generating ||
+                      !(
+                        product.technicalSheets?.es ||
+                        product.technicalSheets?.en
                       )
                         ? "bg-red-300"
                         : "bg-red-600 hover:bg-red-700"
@@ -667,7 +676,9 @@ export default function ProductDetailTemplate({
                     </button>
                     <button
                       className="text-sm px-3 py-2 border rounded"
-                      onClick={() => handleEdit(["specs", "remove", "last"], "")}
+                      onClick={() =>
+                        handleEdit(["specs", "remove", "last"], "")
+                      }
                     >
                       − Eliminar última
                     </button>
@@ -726,7 +737,9 @@ export default function ProductDetailTemplate({
                 </button>
                 <button
                   className="text-sm px-3 py-2 border rounded"
-                  onClick={() => handleEdit(["capabilities", "remove", "last"], "")}
+                  onClick={() =>
+                    handleEdit(["capabilities", "remove", "last"], "")
+                  }
                 >
                   − Eliminar última
                 </button>
