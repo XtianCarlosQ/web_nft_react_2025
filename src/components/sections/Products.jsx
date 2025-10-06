@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import brochurePdf from "../../assets/images/products/CATALOGO 2025_NFT_1.pdf";
 import { Brain, Clock, Award, Microscope } from "lucide-react";
 import { useLanguage } from "../../context/LanguageContext";
+import { productsData } from "../../data/products-data";
 
-const ProductCard = ({ product }) => {
+export const ProductCard = ({
+  product,
+  disabled = false,
+  editable = false,
+  onEdit,
+}) => {
   const { t } = useLanguage();
-  const raw = t(`products.cards.${product.id}`);
+  // Overlay from i18n kept optional; canonical data provides defaults
+  const raw = editable ? null : t(`products.cards.${product.id}`);
   const cardT = raw && typeof raw === "object" ? raw : {};
   return (
     <div className="bg-white rounded-2xl shadow hover:shadow-xl transition-all duration-500 group">
@@ -16,9 +23,12 @@ const ProductCard = ({ product }) => {
         <div className="h-52 bg-gradient-to-r from-transparent via-white to-transparent rounded-2xl overflow-hidden pb-4 pt-2">
           <div className="w-full h-full flex items-center justify-center transform transition-transform duration-700 ease-out group-hover:scale-120">
             <img
-              src={product.image}
+              src={product.image || "/assets/images/logo/logo_NFT.png"}
               alt={product.name}
               className="h-full w-auto object-contain"
+              onError={(e) => {
+                e.currentTarget.src = "/assets/images/logo/logo_NFT.png";
+              }}
             />
           </div>
         </div>
@@ -27,24 +37,54 @@ const ProductCard = ({ product }) => {
         <div className="flex flex-col flex-grow px-3">
           {/* Header - Fixed height */}
           <div className="h-32">
-            <h3 className="text-lg font-bold text-gray-900 mb-3">
-              {product.name}
-            </h3>
-            <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
-              {cardT.description || product.description}
-            </p>
+            {editable ? (
+              <input
+                className="text-lg font-bold text-gray-900 mb-3 w-full border rounded px-2 py-1"
+                value={product.name || ""}
+                onChange={(e) => onEdit?.(["name"], e.target.value)}
+                placeholder="Nombre del producto"
+              />
+            ) : (
+              <h3 className="text-lg font-bold text-gray-900 mb-3">
+                {product.name}
+              </h3>
+            )}
+            {editable ? (
+              <textarea
+                className="text-sm text-gray-700 leading-relaxed w-full border rounded px-2 py-1"
+                rows={3}
+                value={product.description || ""}
+                onChange={(e) => onEdit?.(["description"], e.target.value)}
+                placeholder="Resumen breve (~30 palabras)"
+              />
+            ) : (
+              <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
+                {cardT.description || product.description}
+              </p>
+            )}
           </div>
 
           {/* Features List - Fixed height */}
           <div className="h-36">
             <ul className="space-y-1">
-              {(cardT.features || product.features).map((feature, index) => (
+              {(editable ? product.features : cardT.features || product.features).map((feature, index) => (
                 <li
                   key={index}
                   className="flex items-start text-sm text-gray-600"
                 >
                   <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 mt-1.5"></span>
-                  <span>{feature}</span>
+                  {editable ? (
+                    <input
+                      className="flex-1 border rounded px-2 py-1 text-sm"
+                      value={feature || ""}
+                      onChange={(e) =>
+                        onEdit?.(["features", index], e.target.value)
+                      }
+                      placeholder="Característica"
+                    />
+                  ) : (
+                    <span>{feature}</span>
+                  )}
                 </li>
               ))}
             </ul>
@@ -52,12 +92,18 @@ const ProductCard = ({ product }) => {
 
           {/* Button Section - Fixed position at bottom */}
           <div className="mt-auto">
-            <Link
-              to={`/productos/${product.id}`}
-              className="block w-full text-center btn-cta py-2 px-4 text-sm font-medium cursor-pointer"
-            >
-              {t("products.viewDetails")}
-            </Link>
+            {disabled ? (
+              <div className="block w-full text-center btn-cta py-2 px-4 text-sm font-medium opacity-60 cursor-default select-none">
+                {t("products.viewDetails")}
+              </div>
+            ) : (
+              <Link
+                to={`/productos/${product.id}`}
+                className="block w-full text-center btn-cta py-2 px-4 text-sm font-medium cursor-pointer"
+              >
+                {t("products.viewDetails")}
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -67,137 +113,73 @@ const ProductCard = ({ product }) => {
 
 // limit: cantidad máxima de productos a mostrar (undefined para todos)
 const Products = ({ limit }) => {
-  const { t } = useLanguage();
-  const products = [
-    {
-      id: "fiber-med-2",
-      name: "FIBER MED",
-      image: "/assets/images/products/FIBER MED V1.0.png",
-      description:
-        t("products.cards.fiber-med-2.description") ||
-        "Medulador inteligente de fibras con IA para análisis automático de medulación en fibras de origen animal.",
-      features: [
-        ...(t("products.cards.fiber-med-2.features") || [
-          "Análisis con IA integrada",
-          "8 kg, portátil",
-          "Fibras blancas y claras",
-          "Reportes automáticos",
-        ]),
-      ],
-    },
-    {
-      id: "fiber-med",
-      name: "FIBER MED V2.0",
-      image: "/assets/images/products/FIBER MED V2.0.jpg",
-      description:
-        t("products.cards.fiber-med.description") ||
-        "Versión mejorada que analiza fibras de diferentes colores en 40 segundos caracterizando más de 3000 fibras por muestra.",
-      features: [
-        ...(t("products.cards.fiber-med.features") || [
-          "Múltiples colores de fibra",
-          "40 segundos/muestra",
-          "3000+ fibras analizadas",
-          "Cámara infrarroja",
-        ]),
-      ],
-    },
-    {
-      id: "fiber-ec",
-      name: "FIBER EC",
-      image: "/assets/images/products/FIBER EC.png",
-      description:
-        t("products.cards.fiber-ec.description") ||
-        "Caracterizador electrónico que evalúa calidad de fibras mediante interpretación de imágenes digitales.",
-      features: [
-        ...(t("products.cards.fiber-ec.features") || [
-          "MDF, CVMDF, DEMDF",
-          "Factor de Picazón/Confort",
-          "Multi-especie",
-          "Carcasa fibra de carbono",
-        ]),
-      ],
-    },
-    {
-      id: "s-fiber-ec",
-      name: "S-FIBER EC",
-      image: "/assets/images/products/S-FIBER EC.png",
-      description:
-        t("products.cards.s-fiber-ec.description") ||
-        "Versión portátil del FIBER EC, diseñada para uso en campo. Perfecta para evaluaciones in-situ con la misma precisión.",
-      features: [
-        ...(t("products.cards.s-fiber-ec.features") || [
-          "Solo 3.8 kg",
-          "Hasta 5,300 m.s.n.m.",
-          "-7°C a 45°C",
-          "Mochila incluida",
-        ]),
-      ],
-    },
-    {
-      id: "fiber-den",
-      name: "FIBER DEN",
-      image: "/assets/images/products/Fiber-Den-3.png",
-      description:
-        t("products.cards.fiber-den.description") ||
-        "Densímetro portátil con mini microscopio para análisis de densidad de fibras y conductos pilosos.",
-      features: [
-        ...(t("products.cards.fiber-den.features") || [
-          "Solo 200g de peso",
-          "Sensor 2MP",
-          "Área 0.25-9.0 mm²",
-          "Software incluido",
-        ]),
-      ],
-    },
-    {
-      id: "fiber-tst",
-      name: "FIBER TST",
-      image: "/assets/images/products/FIBER TST.png",
-      description:
-        t("products.cards.fiber-tst.description") ||
-        "Medidor de esfuerzo a la tracción con tecnología de muestreo en tiempo real y graficado automático.",
-      features: [
-        ...(t("products.cards.fiber-tst.features") || [
-          "Velocidad 6-64 mm/s",
-          "Gráficos en tiempo real",
-          "Máximo 30 kg",
-          "Sistema neumático",
-        ]),
-      ],
-    },
-    {
-      id: "mosiville",
-      name: "MOSIVILLE",
-      image: "/assets/images/products/Mosiville.png",
-      description:
-        t("products.cards.mosiville.description") ||
-        "Sistema para monitoreo inalámbrico y en tiempo real de signos vitales en diversos animales.",
-      features: [
-        ...(t("products.cards.mosiville.features") || [
-          "Solo 80g de peso",
-          "Monitoreo inalámbrico",
-          "Múltiples especies",
-          "Detección de arritmias",
-        ]),
-      ],
-    },
-    {
-      id: "medulometro",
-      name: "MEDULÓMETRO",
-      image: "/assets/images/products/medulometro.png",
-      description:
-        t("products.cards.medulometro.description") ||
-        "Versión básica del FIBER MED. Microscopio de proyección computarizado para análisis de medulación.",
-      features: [
-        ...(t("products.cards.medulometro.features") || [
-          "Microscopio digital",
-          "Semi-automatizado",
-          "10 kg de peso",
-          "Multi-especie",
-        ]),
-      ],
-    },
-  ];
+  const { t, language } = useLanguage();
+  const [jsonProducts, setJsonProducts] = useState(null);
+  const [loadedFromJson, setLoadedFromJson] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      try {
+        const res = await fetch("/content/products.json", {
+          cache: "no-store",
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (!cancelled) {
+          setJsonProducts(Array.isArray(data) ? data : null);
+          setLoadedFromJson(true);
+        }
+      } catch {
+        if (!cancelled) {
+          setJsonProducts(null);
+          setLoadedFromJson(false);
+        }
+      }
+    };
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Build product cards using JSON when available; fallback to code catalog
+  const products = useMemo(() => {
+    if (Array.isArray(jsonProducts) && jsonProducts.length) {
+      return jsonProducts
+        .filter((p) => !p.archived)
+        .sort((a, b) => (a.order || 999) - (b.order || 999))
+        .map((p) => {
+          const overlay = t(`products.cards.${p.id}`);
+          const o = overlay && typeof overlay === "object" ? overlay : {};
+          const name = (p.name && p.name[language]) || p.name || "";
+          const description =
+            o.description || (p.description && p.description[language]) || "";
+          const features =
+            o.features || (p.features && p.features[language]) || [];
+          return {
+            id: p.id,
+            name,
+            image: p.image,
+            description,
+            features,
+          };
+        });
+    }
+    // fallback to code catalog
+    const list = Object.values(productsData || {});
+    return list.map((p) => {
+      const overlay = t(`products.cards.${p.id}`);
+      const o = overlay && typeof overlay === "object" ? overlay : {};
+      return {
+        id: p.id,
+        name: p.name,
+        image: p.image,
+        description: o.description || p.description_card || p.description || "",
+        features: o.features || p.features_card || p.features || [],
+      };
+    });
+  }, [jsonProducts, language, t]);
 
   return (
     <section id="productos" className="py-8 bg-gray-0 rounded-3xl shadow-lg">
@@ -224,7 +206,7 @@ const Products = ({ limit }) => {
           ].map(({ icon: Icon, title, description }, i) => (
             <div
               key={i}
-              className="group text-center p-4 rounded-2xl border border-gray-200 transition-all duration-300 shadow-md hover:-translate-y-0.5 hover:shadow-lg bg-white dark:bg-transparent"
+              className="group text-center p-4 rounded-2xl border border-gray-200 transition-all duration-300 shadow-md hover:-translate-y-0.5 hover:shadow-lg bg-white/90 dark:bg-transparent"
               style={{
                 background:
                   "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)), var(--glass-bg)",

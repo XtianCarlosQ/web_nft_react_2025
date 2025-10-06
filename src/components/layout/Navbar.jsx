@@ -30,7 +30,7 @@ const Navbar = () => {
   const { pathname } = location;
   const isActive = (matcher) => matcher(pathname);
   const navClass = (active) =>
-    `px-3 py-1 rounded-lg font-semibold text-lg transition-colors ${
+    `px-3 py-1 rounded-lg font-medium text-md transition-colors ${
       active
         ? "text-gray-900 bg-gray-200"
         : "text-gray-700 hover:text-gray-900 hover:bg-gray-200"
@@ -54,13 +54,13 @@ const Navbar = () => {
               <img
                 src="/assets/images/logo/logo_NFT.png"
                 alt="Fiberstech Logo"
-                className="h-16"
+                className="h-14 rounded-xl p-2"
               />
             </Link>
           </div>
 
           {/* Navigation Links - Desktop (lg+) */}
-          <div className="hidden lg:flex space-x-2 ml-auto">
+          <div className="hidden lg:flex space-x-2 ml-auto ">
             <Link to="/" className={navClass(activeInicio)}>
               {t("nav.home")}
             </Link>
@@ -86,7 +86,12 @@ const Navbar = () => {
                   />
                 </svg>
               </Link>
-              <div className="menu-panel invisible opacity-0 translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-150 absolute left-0 top-full w-72 rounded-xl border border-gray-200 bg-white shadow-xl z-[70] p-2">
+              <div
+                className="menu-panel invisible opacity-0 translate-y-2 group-hover:visible group-hover:opacity-95 group-hover:translate-y-0 transition-all duration-150 absolute left-0 top-full w-72 rounded-xl border border-gray-200/80 dark:border-white/10
+                           bg-white/90 dark:bg-neutral-900/80
+                           backdrop-blur-md supports-[backdrop-filter]:backdrop-saturate-150
+                           shadow-xl z-[70] p-2"
+              >
                 <div className="grid grid-cols-1 gap-1 py-1">
                   {productItems.map((p) => {
                     const isItemActive = pathname === `/productos/${p.id}`;
@@ -94,9 +99,14 @@ const Navbar = () => {
                       <Link
                         key={p.id}
                         to={`/productos/${p.id}`}
-                        className={`menu-item px-3 py-2 rounded-lg text-sm hover:bg-gray-100 ${
-                          isItemActive ? "bg-gray-200/60 dark:bg-white/5" : ""
-                        }`}
+                        className={`menu-item px-3 py-2 rounded-lg text-xs font-medium
+                                text-gray-700 dark:text-gray-200 
+                                hover:bg-gray-100 dark:hover:bg-gray-700 
+                                ${
+                                  isItemActive
+                                    ? "bg-gray-200/60 dark:bg-gray-700"
+                                    : ""
+                                }`}
                       >
                         {p.name}
                       </Link>
@@ -272,7 +282,7 @@ const Navbar = () => {
                       key={p.id}
                       to={`/productos/${p.id}`}
                       onClick={() => setMobileOpen(false)}
-                      className={`block px-3 py-2 rounded-md text-sm hover:bg-gray-100 ${
+                      className={`block px-3 py-2 rounded-md text-xs font-medium hover:bg-gray-100 ${
                         isItemActive
                           ? "bg-gray-200/60 dark:bg-white/5 text-gray-900"
                           : "text-gray-700"

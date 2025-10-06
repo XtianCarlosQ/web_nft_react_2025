@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useLanguage } from "../../context/LanguageContext";
 import {
   Brain,
@@ -8,10 +8,13 @@ import {
   BarChart3,
   Lightbulb,
 } from "lucide-react";
+// Fallback renderer to support admin preview where icon can be a string (local lucide name or iconify prefix:name)
+import { RenderIcon as AdminRenderIcon } from "../../pages/admin/components/common/IconUtils";
+import { servicesFallback } from "../../data/services-fallback";
 
 // ================= ServiceCard =================
 // Tarjeta individual de servicio (altura fija para alineación de grid)
-const ServiceCard = ({ service }) => {
+export const ServiceCard = ({ service }) => {
   const { t } = useLanguage();
   const handleWhatsAppClick = () => {
     const message = encodeURIComponent(
@@ -44,7 +47,14 @@ const ServiceCard = ({ service }) => {
         >
           <div className="text-red-600 transition-transform duration-700 ease-out group-hover:scale-110">
             <div className="w-16 h-16 flex items-center justify-center">
-              <service.icon className="w-10 h-10" />
+              {typeof service.icon === "function" ? (
+                <service.icon className="w-10 h-10" />
+              ) : (
+                <AdminRenderIcon
+                  iconName={service.icon}
+                  className="w-10 h-10"
+                />
+              )}
             </div>
           </div>
         </div>
@@ -90,80 +100,81 @@ const ServiceCard = ({ service }) => {
 
 // ================= Services (lista) =================
 const Services = ({ limit }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const serviceIcons = [Brain, Settings, BookOpen, Users, BarChart3, Lightbulb];
-  // Fallback list in case i18n is missing or wrong type
-  const fallbackServices = [
-    {
-      title: "Consultoría Técnica",
-      description:
-        "Acompañamiento experto para optimizar procesos, interpretar resultados y elevar la calidad de tus análisis.",
-      features: [
-        "Optimización de procesos",
-        "Interpretación de resultados",
-        "Buenas prácticas y normativas",
-        "Diagnóstico y roadmap",
-      ],
-    },
-    {
-      title: "Implementación y Soporte",
-      description:
-        "Instalación, puesta en marcha y mantenimiento de equipos con soporte técnico dedicado.",
-      features: [
-        "Instalación y calibración",
-        "Mantenimiento preventivo",
-        "Soporte remoto y onsite",
-        "Actualizaciones de software",
-      ],
-    },
-    {
-      title: "Capacitación y Entrenamiento",
-      description:
-        "Programas de formación para el uso de equipos, protocolos y análisis de resultados.",
-      features: [
-        "Cursos presenciales y online",
-        "Material didáctico",
-        "Certificación",
-        "Workshops prácticos",
-      ],
-    },
-    {
-      title: "Proyectos a Medida",
-      description:
-        "Desarrollo de soluciones tecnológicas personalizadas según tus necesidades.",
-      features: [
-        "Integración de sistemas",
-        "Automatización",
-        "Paneles e informes a medida",
-        "Escalabilidad",
-      ],
-    },
-    {
-      title: "Análisis de Laboratorio",
-      description:
-        "Servicios especializados de caracterización de fibras con precisión científica.",
-      features: [
-        "MDF, CVMDF, DEMDF",
-        "Factores de confort",
-        "Protocolos validados",
-        "Reportes técnicos",
-      ],
-    },
-    {
-      title: "I+D Colaborativo",
-      description:
-        "Investigación aplicada junto a universidades e instituciones para crear nuevas soluciones.",
-      features: [
-        "Publicaciones y patentes",
-        "Desarrollo conjunto",
-        "Transferencia tecnológica",
-        "Prototipado",
-      ],
-    },
-  ];
+
+  // Map icon string name to lucide icon component
+  const iconMap = useMemo(
+    () => ({
+      Brain,
+      Settings,
+      BookOpen,
+      Users,
+      BarChart3,
+      Lightbulb,
+    }),
+    []
+  );
+
+  // Load dynamic services from JSON managed via Admin (/adminx)
+  const [remoteServices, setRemoteServices] = useState(null);
+  const [remoteError, setRemoteError] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      try {
+        const res = await fetch("/content/services.json", {
+          cache: "no-store",
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (cancelled) return;
+        // Normalize and sort by optional "order"
+        const normalized = (Array.isArray(data) ? data : [])
+          .map((s) => ({
+            id:
+              s.id ||
+              crypto.randomUUID?.() ||
+              Math.random().toString(36).slice(2),
+            icon: iconMap[s.icon] || Brain,
+            title:
+              (s.title && (s.title[language] || s.title.es || s.title.en)) ||
+              "",
+            description:
+              (s.description &&
+                (s.description[language] ||
+                  s.description.es ||
+                  s.description.en)) ||
+              "",
+            features:
+              (s.features &&
+                (s.features[language] || s.features.es || s.features.en)) ||
+              [],
+            order: typeof s.order === "number" ? s.order : 9999,
+            whatsapp: s.whatsapp || "51988496839",
+            archived: !!s.archived,
+          }))
+          .sort((a, b) => a.order - b.order);
+        setRemoteServices(normalized);
+      } catch (e) {
+        if (!cancelled) setRemoteError(String(e?.message || e));
+      }
+    };
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [language, iconMap]);
+  // Fallback list centralized
+  const fallbackServices = servicesFallback;
+  // Local i18n-based fallback cards
   const rawCards = t("services.cards");
   const list = Array.isArray(rawCards) ? rawCards : fallbackServices;
-  const services = list.map((c, i) => ({ ...c, icon: serviceIcons[i] || Brain }));
+  const fallback = list.map((c, i) => ({
+    ...c,
+    icon: serviceIcons[i] || Brain,
+  }));
 
   const benefits = [
     "Más de 15 años de experiencia en el sector",
@@ -174,7 +185,10 @@ const Services = ({ limit }) => {
     "Alcance internacional en más de 15 países",
   ];
 
-  const displayed = limit ? services.slice(0, limit) : services;
+  // Prefer remote services (admin-managed). If load fails, use fallback.
+  const sourceRaw = remoteServices && !remoteError ? remoteServices : fallback;
+  const source = sourceRaw.filter((s) => !s.archived);
+  const displayed = limit ? source.slice(0, limit) : source;
 
   return (
     <section id="servicios" className="py-8 bg-gray-50 rounded-3xl shadow-lg">

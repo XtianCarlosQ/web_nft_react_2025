@@ -15,16 +15,19 @@ import ProductDetail from "./pages/products/ProductDetail";
 import InvestigacionLanding from "./pages/investigacion/InvestigacionLanding";
 import InvestigacionDetail from "./pages/investigacion/InvestigacionDetail";
 import Footer from "./components/layout/Footer";
+import AdminApp from "./pages/admin/AdminApp";
 import WhatsAppButton from "./components/common/WhatsAppButton";
 import GridOverlay from "./components/GridOverlay";
 import ScrollToTop from "./components/ScrollToTop";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 const App = () => {
   return (
-    <LanguageProvider>
-      <ThemeProvider>
-        <GridProvider>
-          <div className="min-h-screen bg-white transition-colors duration-300">
+    <ErrorBoundary>
+      <LanguageProvider>
+        <ThemeProvider>
+          <GridProvider>
+            <div className="min-h-screen bg-white transition-colors duration-300">
             <Navbar />
             <ScrollToTop />
             <GridOverlay />
@@ -130,11 +133,33 @@ const App = () => {
                   </>
                 }
               />
+              <Route
+                path="/adminx"
+                element={
+                  <>
+                    <main className="pt-16">
+                      <AdminApp />
+                    </main>
+                  </>
+                }
+              />
+              {/* Allow section-prefixed admin path, e.g., /contacto/adminx */}
+              <Route
+                path="/:prefix/adminx"
+                element={
+                  <>
+                    <main className="pt-16">
+                      <AdminApp />
+                    </main>
+                  </>
+                }
+              />
             </Routes>
           </div>
         </GridProvider>
       </ThemeProvider>
     </LanguageProvider>
+  </ErrorBoundary>
   );
 };
 

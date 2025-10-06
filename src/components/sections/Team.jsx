@@ -1,21 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useLanguage } from "../../context/LanguageContext";
+import {
+  normalizeTeamMember,
+  normalizeTeamOrder,
+  compareByOrder,
+} from "../../models/team";
+import { teamFallback } from "../../data/team-fallback";
 
-const TeamMemberCard = ({ member }) => {
+export const TeamMemberCard = ({ member, forceOverlay = false }) => {
+  const image =
+    member.image || member.photo || "/assets/images/team/placeholder.jpg";
+  const name =
+    typeof member.name === "object"
+      ? member.name.es || member.name.en || ""
+      : member.name;
+  const positionRaw = member.position || member.role || "";
+  const position =
+    typeof positionRaw === "object"
+      ? positionRaw.es || positionRaw.en || ""
+      : positionRaw;
+  const skills = Array.isArray(member.skills) ? member.skills : [];
   return (
     <div className="relative group overflow-hidden rounded-2xl shadow-lg transition-transform duration-900 hover:shadow-xl w-full max-w-[300px] sm:max-w-[360px] mx-auto">
       {/* Imagen del miembro */}
       <div className="aspect-[3/4] relative overflow-hidden rounded-2xl">
         <img
-          src={member.image || "/assets/images/team/placeholder.jpg"}
+          src={image}
           alt={member.name}
           className="w-full h-full object-cover object-center"
         />
         {/* Overlay con skills */}
-        <div className="absolute inset-0 bg-gradient-to-t from-red-400/70 via-red-900/50 to-red-900/30 translate-y-full transition-transform duration-800 ease-out group-hover:translate-y-0 flex flex-col justify-center px-6 text-white/95 backdrop-blur-[2px] rounded-2xl ring-1 ring-white/10">
+        <div
+          className={`absolute inset-0 bg-gradient-to-t from-red-400/70 via-red-900/50 to-red-900/30 ${
+            forceOverlay
+              ? "translate-y-0"
+              : "translate-y-full group-hover:translate-y-0"
+          } transition-transform duration-800 ease-out flex flex-col justify-center px-6 text-white/95 backdrop-blur-[2px] rounded-2xl ring-1 ring-white/10`}
+        >
           <h4 className="text-lg font-semibold mb-2">Especialidades:</h4>
           <ul className="space-y-2">
-            {member.skills.map((skill, index) => (
+            {skills.map((skill, index) => (
               <li key={index} className="flex items-center text-sm">
                 <svg
                   className="w-4 h-4 mr-2 flex-shrink-0"
@@ -39,10 +63,10 @@ const TeamMemberCard = ({ member }) => {
       {/* Información del miembro: Nombre-Title */}
       <div className="absolute bottom-0 left-0 right-0 p-4 bg-white/40 backdrop-blur-sm rounded-b-2xl">
         <h3 className="text-xs md:text-lg lg:text-xl font-bold text-gray-900">
-          {member.name}
+          {name}
         </h3>
         <p className="text-xs md:text-lg lg:text-xl text-red-600 font-medium">
-          {member.position}
+          {position}
         </p>
       </div>
     </div>
@@ -52,83 +76,46 @@ const TeamMemberCard = ({ member }) => {
 const Team = () => {
   const { t } = useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [teamMembers, setTeamMembers] = useState([]);
 
-  // Reduciendo la cantidad de miembros mostrados en la landing
-  const teamMembers = [
-    {
-      name: "Edgar Quispe Peña",
-      position: "CEO",
-      image: "/assets/images/team/edgar-quispe-2.jpg",
-      skills: [
-        "PhD, Ingeniero Zootecnista",
-        "Inventor e investigador RENACYT (Categoría Carlos Monge - Nivel II)",
-        "Experto en mejoramiento genético",
-        "Consultor y docente internacional",
-      ],
-    },
-    {
-      name: "Max Quispe Bonilla",
-      position: "CTO",
-      image: "/assets/images/team/max-quispe.jpg",
-      skills: [
-        "PhD (c), Ing. Electrónico",
-        "Inventor",
-        "Experto en instrumentación electrónica",
-        "Especialista en automatización",
-      ],
-    },
-    {
-      name: "Christian Quispe Bonilla",
-      position: "AI Specialist",
-      image: "/assets/images/team/carlos-quispe3.png",
-      skills: [
-        "Ingeniero Físico",
-        "Especialista en IA",
-        "Arquitecto y desarrollador de software",
-        "Automatización de procesos",
-      ],
-    },
-    {
-      name: "Henry Chico",
-      position: "CRO",
-      image: "/assets/images/team/henry-chico.jpg",
-      skills: [
-        "Magister en Agronegocios",
-        "Experto en desarrollo de negocios",
-        "Gestión de operaciones",
-        "Desarrollo comercial",
-      ],
-    },
-    {
-      name: "Adolfo Poma",
-      position: "Technical Specialist",
-      image: "/assets/images/team/adolfo-poma.jpg",
-      skills: [
-        "Ingeniero Zootecnista",
-        "Investigador RENACYT",
-        "Análisis de fibras",
-        "Consultor técnico",
-      ],
-    },
-    {
-      name: "Tania Rodriguez",
-      position: "Secretaria",
-      image: "/assets/images/team/tania-rodriguez.jpg",
-      skills: [
-        "Secretaria administrativa",
-        "Bilingüe Español-Inglés",
-        "Licitaciones y contratos",
-        "Atención al cliente",
-      ],
-    },
-  ];
+  // Fallback estático si no existe team.json
+  const fallback = useMemo(() => {
+    const norm = normalizeTeamOrder(teamFallback.map(normalizeTeamMember));
+    return norm
+      .filter((x) => !x.archived)
+      .sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+  }, []);
+
+  // Cargar equipo desde /content/team.json
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/content/team.json", { cache: "no-store" });
+        if (!res.ok) throw new Error("no_team_json");
+        const data = await res.json();
+        const norm = Array.isArray(data)
+          ? normalizeTeamOrder(data.map(normalizeTeamMember))
+          : [];
+        if (!cancelled)
+          setTeamMembers(norm.filter((x) => !x.archived).sort(compareByOrder));
+      } catch {
+        if (!cancelled) setTeamMembers(fallback);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const pageSize = 3;
-  const pages = Array.from(
-    { length: Math.ceil(teamMembers.length / pageSize) },
-    (_, i) => teamMembers.slice(i * pageSize, i * pageSize + pageSize)
-  );
-  const totalSlides = pages.length;
+  const pages = useMemo(() => {
+    const list = Array.isArray(teamMembers) ? teamMembers : [];
+    return Array.from({ length: Math.ceil(list.length / pageSize) }, (_, i) =>
+      list.slice(i * pageSize, i * pageSize + pageSize)
+    );
+  }, [teamMembers]);
+  const totalSlides = pages.length || 1;
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % totalSlides);

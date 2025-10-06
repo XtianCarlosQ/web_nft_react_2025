@@ -515,8 +515,7 @@ export const messages = {
           },
           {
             title: "Área Variable",
-            description:
-              "Captura imágenes en áreas desde 0.25 hasta 9.0 mm²",
+            description: "Captura imágenes en áreas desde 0.25 hasta 9.0 mm²",
           },
         ],
         capabilities: [
@@ -1236,8 +1235,7 @@ export const messages = {
           },
           {
             title: "Advanced AI",
-            description:
-              "Modern AI technology for automatic interpretation",
+            description: "Modern AI technology for automatic interpretation",
           },
         ],
         capabilities: [
@@ -1289,13 +1287,11 @@ export const messages = {
         features: [
           {
             title: "Ultra Portable",
-            description:
-              "Only 3.8 kg with backpack for field work",
+            description: "Only 3.8 kg with backpack for field work",
           },
           {
             title: "Extreme Conditions",
-            description:
-              "Operates up to 5,300 m a.s.l. and -7°C to 45°C",
+            description: "Operates up to 5,300 m a.s.l. and -7°C to 45°C",
           },
           {
             title: "Basic Parameters",
@@ -1304,8 +1300,7 @@ export const messages = {
           },
           {
             title: "Digital Technology",
-            description:
-              "Digital image interpretation with data storage",
+            description: "Digital image interpretation with data storage",
           },
         ],
         capabilities: [
@@ -1328,8 +1323,7 @@ export const messages = {
           },
           {
             title: "Ultra Portable",
-            description:
-              "Only 200g weight with compact 11x5x5 cm dimensions",
+            description: "Only 200g weight with compact 11x5x5 cm dimensions",
           },
           {
             title: "Comprehensive Analysis",
@@ -1338,8 +1332,7 @@ export const messages = {
           },
           {
             title: "Variable Area",
-            description:
-              "Captures images in areas from 0.25 to 9.0 mm²",
+            description: "Captures images in areas from 0.25 to 9.0 mm²",
           },
         ],
         capabilities: [
@@ -1357,8 +1350,7 @@ export const messages = {
         features: [
           {
             title: "Real Time",
-            description:
-              "Real-time data sampling and plotting during tests",
+            description: "Real-time data sampling and plotting during tests",
           },
           {
             title: "Comprehensive Analysis",
@@ -1391,13 +1383,11 @@ export const messages = {
         features: [
           {
             title: "Remote Monitoring",
-            description:
-              "Real-time visualization via smartphone, tablet or PC",
+            description: "Real-time visualization via smartphone, tablet or PC",
           },
           {
             title: "Vital Signs",
-            description:
-              "Heart rate and rhythm, respiratory rate, temperature",
+            description: "Heart rate and rhythm, respiratory rate, temperature",
           },
           {
             title: "Advanced Detection",
@@ -1424,8 +1414,7 @@ export const messages = {
         features: [
           {
             title: "Digital Microscope",
-            description:
-              "Computerized projection microscope, semi-automated",
+            description: "Computerized projection microscope, semi-automated",
           },
           {
             title: "Type-based Analysis",
@@ -1439,8 +1428,7 @@ export const messages = {
           },
           {
             title: "Digital Storage",
-            description:
-              "Database and chart storage and transmission",
+            description: "Database and chart storage and transmission",
           },
         ],
         capabilities: [
