@@ -43,6 +43,16 @@ export default defineConfig(({ mode }) => {
     return Buffer.concat(chunks).toString("utf8");
   }
 
+  // Read request body as a raw Buffer (no encoding), needed for multipart/form-data
+  async function readBodyBuffer(req) {
+    const chunks = [];
+    for await (const c of req) {
+      if (typeof c === "string") chunks.push(Buffer.from(c));
+      else chunks.push(c);
+    }
+    return Buffer.concat(chunks);
+  }
+
   function mockApiMiddleware() {
     return async (req, res, next) => {
       try {
@@ -114,6 +124,7 @@ export default defineConfig(({ mode }) => {
           url.pathname.startsWith("/api/services/") ||
           url.pathname.startsWith("/api/team/") ||
           url.pathname.startsWith("/api/products/") ||
+          url.pathname === "/api/upload" ||
           url.pathname.startsWith("/api/upload/")
         ) {
           if (!authed) return send(401, { ok: false, error: "unauthorized" });
@@ -193,12 +204,229 @@ export default defineConfig(({ mode }) => {
           const data = Array.isArray(body.data) ? body.data : [];
           const p = process.env.PRODUCTS_PATH || "public/content/products.json";
           const abs = path.resolve(process.cwd(), p);
+          // Safety guard: prevent accidental wipe unless explicitly allowed
+          const allowEmpty = url.searchParams.get("allowEmpty") === "true";
+          if (data.length === 0 && !allowEmpty) {
+            return send(400, {
+              ok: false,
+              error: "empty_not_allowed",
+              hint: "Pass ?allowEmpty=true if you intend to clear all products",
+            });
+          }
           fs.mkdirSync(path.dirname(abs), { recursive: true });
+          // Backup current file if exists and non-empty
+          try {
+            if (fs.existsSync(abs)) {
+              const prev = fs.readFileSync(abs, "utf8");
+              if (
+                prev &&
+                prev.trim() &&
+                prev.trim() !== JSON.stringify(data, null, 2).trim()
+              ) {
+                const stamp = new Date()
+                  .toISOString()
+                  .replace(/[:.]/g, "-")
+                  .replace("T", "_")
+                  .replace("Z", "");
+                const bdir = path.resolve(
+                  process.cwd(),
+                  "public/content/_backups"
+                );
+                fs.mkdirSync(bdir, { recursive: true });
+                const base = path.basename(abs, ".json");
+                const bfile = path.join(bdir, `${base}-${stamp}.json`);
+                fs.writeFileSync(bfile, prev, "utf8");
+              }
+            }
+          } catch {}
           fs.writeFileSync(abs, JSON.stringify(data, null, 2), "utf8");
           return send(200, { ok: true });
         }
 
-        // Upload endpoint (dev only): saves base64 images under public/uploads/team
+        // List product backups
+        if (url.pathname === "/api/products/backups" && req.method === "GET") {
+          const p = process.env.PRODUCTS_PATH || "public/content/products.json";
+          const abs = path.resolve(process.cwd(), p);
+          const bdir = path.resolve(process.cwd(), "public/content/_backups");
+          try {
+            const base = path.basename(abs, ".json");
+            const files = fs
+              .readdirSync(bdir)
+              .filter((f) => f.startsWith(base + "-") && f.endsWith(".json"))
+              .sort()
+              .reverse();
+            return send(200, { ok: true, files });
+          } catch {
+            return send(200, { ok: true, files: [] });
+          }
+        }
+        // Restore product content from a backup file name
+        if (url.pathname === "/api/products/restore" && req.method === "POST") {
+          const file = url.searchParams.get("file") || "";
+          if (!file) return send(400, { ok: false, error: "missing_file" });
+          const bdir = path.resolve(process.cwd(), "public/content/_backups");
+          const babs = path.resolve(bdir, file);
+          if (!babs.startsWith(bdir))
+            return send(400, { ok: false, error: "invalid_file" });
+          try {
+            const content = fs.readFileSync(babs, "utf8");
+            const data = JSON.parse(content);
+            const p =
+              process.env.PRODUCTS_PATH || "public/content/products.json";
+            const abs = path.resolve(process.cwd(), p);
+            fs.mkdirSync(path.dirname(abs), { recursive: true });
+            fs.writeFileSync(abs, JSON.stringify(data, null, 2), "utf8");
+            return send(200, { ok: true, restored: file });
+          } catch {
+            return send(400, { ok: false, error: "restore_failed" });
+          }
+        }
+
+        // Upload endpoint (dev only): generic handler similar to serverless api/upload.js
+        if (url.pathname === "/api/upload" && req.method === "POST") {
+          try {
+            const ct = (req.headers["content-type"] || "").toLowerCase();
+            // Defaults
+            let targetPath = "public/uploads/";
+            let filename = `file-${Date.now()}`;
+            let fileBuffer = null;
+
+            // JSON branch: { name?, data(base64)?, url?, path? }
+            if (ct.startsWith("application/json")) {
+              const raw = await readBody(req);
+              let body = {};
+              try {
+                body = raw ? JSON.parse(raw) : {};
+              } catch {}
+              const name = (body?.name || filename).toString();
+              let p = (body?.path || targetPath).toString();
+              const base64 = (body?.data || "").toString();
+              const remoteUrl = (body?.url || "").toString();
+              p = p.trim().replace(/^\/+/, "");
+              if (!p.startsWith("public/")) p = "public/" + p;
+              targetPath = p;
+              if (base64) {
+                filename = name.replace(/[^a-zA-Z0-9._-]/g, "-");
+                try {
+                  fileBuffer = Buffer.from(base64, "base64");
+                } catch {
+                  return send(400, { ok: false, error: "invalid_base64" });
+                }
+              } else if (remoteUrl) {
+                try {
+                  const r = await fetch(remoteUrl);
+                  if (!r.ok) {
+                    return send(400, {
+                      ok: false,
+                      error: "fetch_failed",
+                      status: r.status,
+                    });
+                  }
+                  const buf = Buffer.from(await r.arrayBuffer());
+                  fileBuffer = buf;
+                  if (body?.name) {
+                    filename = name.replace(/[^a-zA-Z0-9._-]/g, "-");
+                  } else {
+                    try {
+                      const u = new URL(remoteUrl);
+                      const base =
+                        u.pathname.split("/").filter(Boolean).pop() || filename;
+                      filename = base.replace(/[^a-zA-Z0-9._-]/g, "-");
+                    } catch {
+                      filename = name.replace(/[^a-zA-Z0-9._-]/g, "-");
+                    }
+                  }
+                } catch {
+                  return send(400, { ok: false, error: "fetch_error" });
+                }
+              } else {
+                return send(400, { ok: false, error: "no_file" });
+              }
+            }
+
+            // Multipart branch: path + file
+            else if (ct.startsWith("multipart/form-data")) {
+              // Robust multipart parsing using raw bytes and boundary scanning
+              const m = ct.match(/boundary="?([^";]+)"?/);
+              if (!m) return send(400, { ok: false, error: "no_boundary" });
+              const boundary = "--" + m[1];
+              const bodyBuf = await readBodyBuffer(req);
+              const bodyStr = bodyBuf.toString("latin1"); // 1 byte per char mapping
+
+              let pos = 0;
+              while (true) {
+                let partStart = bodyStr.indexOf(boundary, pos);
+                if (partStart === -1) break;
+                partStart += boundary.length;
+                // Check for final boundary end marker
+                if (bodyStr.substr(partStart, 2) === "--") break;
+                // Skip CRLF after boundary
+                if (bodyStr.substr(partStart, 2) === "\r\n") partStart += 2;
+
+                const headerEnd = bodyStr.indexOf("\r\n\r\n", partStart);
+                if (headerEnd === -1) break;
+                const headersStr = bodyStr.substring(partStart, headerEnd);
+                const contentStart = headerEnd + 4; // after CRLFCRLF
+                const nextBoundaryIdx = bodyStr.indexOf(
+                  "\r\n" + boundary,
+                  contentStart
+                );
+                const contentEnd =
+                  nextBoundaryIdx === -1 ? bodyStr.length : nextBoundaryIdx;
+
+                // Map to byte offsets (latin1 => 1 char = 1 byte)
+                const contentBuf = bodyBuf.slice(contentStart, contentEnd);
+
+                // Parse headers
+                const disp =
+                  headersStr
+                    .split("\r\n")
+                    .find((h) => /^content-disposition/i.test(h)) || "";
+                const nameMatch = disp.match(/name="([^"]+)"/i);
+                const fileMatch = disp.match(/filename="([^"]*)"/i);
+                const fieldName = nameMatch ? nameMatch[1] : "";
+
+                if (fieldName === "path") {
+                  const val = contentBuf.toString("utf8").trim();
+                  if (val) {
+                    let p = val.replace(/^\/+/, "");
+                    if (!p.startsWith("public/")) p = "public/" + p;
+                    targetPath = p;
+                  }
+                } else if (fieldName === "file") {
+                  if (fileMatch && fileMatch[1]) {
+                    filename = fileMatch[1];
+                  }
+                  // sanitize filename
+                  filename = filename.replace(/[^a-zA-Z0-9._-]/g, "-");
+                  fileBuffer = contentBuf; // exact bytes
+                }
+
+                // Move position for next search
+                pos = contentEnd + 2; // skip CRLF preceding boundary
+              }
+
+              if (!fileBuffer)
+                return send(400, { ok: false, error: "no_file" });
+            } else {
+              return send(400, { ok: false, error: "invalid_content_type" });
+            }
+
+            // Write file under public/
+            const fullPath = `${targetPath}${
+              targetPath.endsWith("/") ? "" : "/"
+            }${filename}`.replace(/^\/+/, "");
+            const absDir = path.resolve(process.cwd(), path.dirname(fullPath));
+            fs.mkdirSync(absDir, { recursive: true });
+            fs.writeFileSync(path.join(process.cwd(), fullPath), fileBuffer);
+            const urlPath = `/${fullPath.replace(/^public\//, "")}`;
+            return send(200, { ok: true, path: fullPath, url: urlPath });
+          } catch (e) {
+            return send(500, { ok: false, error: "upload_failed" });
+          }
+        }
+
+        // Upload endpoint (legacy dev helper): saves base64 images under public/uploads/team
         if (url.pathname === "/api/upload/team" && req.method === "POST") {
           try {
             const raw = await readBody(req);

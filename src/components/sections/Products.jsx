@@ -1,15 +1,18 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+// Brochure: por defecto usaremos una ruta pública si está definida
 import brochurePdf from "../../assets/images/products/CATALOGO 2025_NFT_1.pdf";
 import { Brain, Clock, Award, Microscope } from "lucide-react";
 import { useLanguage } from "../../context/LanguageContext";
-import { productsData } from "../../data/products-data";
+// Eliminado: catálogo fallback en src/data. Usamos exclusivamente /content/products.json
 
 export const ProductCard = ({
   product,
   disabled = false,
   editable = false,
   onEdit,
+  invalid,
+  showHints,
 }) => {
   const { t } = useLanguage();
   // Overlay from i18n kept optional; canonical data provides defaults
@@ -38,25 +41,47 @@ export const ProductCard = ({
           {/* Header - Fixed height */}
           <div className="h-32">
             {editable ? (
-              <input
-                className="text-lg font-bold text-gray-900 mb-3 w-full border rounded px-2 py-1"
-                value={product.name || ""}
-                onChange={(e) => onEdit?.(["name"], e.target.value)}
-                placeholder="Nombre del producto"
-              />
+              <div className="relative">
+                <input
+                  className={`text-lg font-bold text-gray-900 mb-3 w-full border rounded px-2 py-1 ${
+                    invalid?.name ? "border-red-500 ring-1 ring-red-300" : ""
+                  }`}
+                  value={product.name || ""}
+                  onChange={(e) => onEdit?.(["name"], e.target.value)}
+                  placeholder="Nombre del producto"
+                  data-field="name"
+                />
+                {showHints && invalid?.name && (
+                  <div className="absolute -top-5 left-0 bg-red-600 text-white text-[11px] rounded px-2 py-0.5 shadow">
+                    Campo obligatorio
+                  </div>
+                )}
+              </div>
             ) : (
               <h3 className="text-lg font-bold text-gray-900 mb-3">
                 {product.name}
               </h3>
             )}
             {editable ? (
-              <textarea
-                className="text-sm text-gray-700 leading-relaxed w-full border rounded px-2 py-1"
-                rows={3}
-                value={product.description || ""}
-                onChange={(e) => onEdit?.(["description"], e.target.value)}
-                placeholder="Resumen breve (~30 palabras)"
-              />
+              <div className="relative">
+                <textarea
+                  className={`text-sm text-gray-700 leading-relaxed w-full border rounded px-2 py-1 ${
+                    invalid?.description
+                      ? "border-red-500 ring-1 ring-red-300"
+                      : ""
+                  }`}
+                  rows={3}
+                  value={product.description || ""}
+                  onChange={(e) => onEdit?.(["description"], e.target.value)}
+                  placeholder="Resumen breve (~30 palabras)"
+                  data-field="description"
+                />
+                {showHints && invalid?.description && (
+                  <div className="absolute -top-5 left-0 bg-red-600 text-white text-[11px] rounded px-2 py-0.5 shadow">
+                    Campo obligatorio
+                  </div>
+                )}
+              </div>
             ) : (
               <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
                 {cardT.description || product.description}
@@ -78,12 +103,17 @@ export const ProductCard = ({
                   <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 mt-1.5"></span>
                   {editable ? (
                     <input
-                      className="flex-1 border rounded px-2 py-1 text-sm"
+                      className={`flex-1 border rounded px-2 py-1 text-sm ${
+                        showHints && invalid?.features && !feature?.trim()
+                          ? "border-red-500 ring-1 ring-red-300"
+                          : ""
+                      }`}
                       value={feature || ""}
                       onChange={(e) =>
                         onEdit?.(["features", index], e.target.value)
                       }
                       placeholder="Característica"
+                      data-field={index === 0 ? "features" : undefined}
                     />
                   ) : (
                     <span>{feature}</span>
@@ -146,42 +176,28 @@ const Products = ({ limit }) => {
     };
   }, []);
 
-  // Build product cards using JSON when available; fallback to code catalog
+  // Construir tarjetas sólo desde JSON gestionado por Admin
   const products = useMemo(() => {
-    if (Array.isArray(jsonProducts) && jsonProducts.length) {
-      return jsonProducts
-        .filter((p) => !p.archived)
-        .sort((a, b) => (a.order || 999) - (b.order || 999))
-        .map((p) => {
-          const overlay = t(`products.cards.${p.id}`);
-          const o = overlay && typeof overlay === "object" ? overlay : {};
-          const name = (p.name && p.name[language]) || p.name || "";
-          const description =
-            o.description || (p.description && p.description[language]) || "";
-          const features =
-            o.features || (p.features && p.features[language]) || [];
-          return {
-            id: p.id,
-            name,
-            image: p.image,
-            description,
-            features,
-          };
-        });
-    }
-    // fallback to code catalog
-    const list = Object.values(productsData || {});
-    return list.map((p) => {
-      const overlay = t(`products.cards.${p.id}`);
-      const o = overlay && typeof overlay === "object" ? overlay : {};
-      return {
-        id: p.id,
-        name: p.name,
-        image: p.image,
-        description: o.description || p.description_card || p.description || "",
-        features: o.features || p.features_card || p.features || [],
-      };
-    });
+    const data = Array.isArray(jsonProducts) ? jsonProducts : [];
+    return data
+      .filter((p) => !p.archived)
+      .sort((a, b) => (a.order || 999) - (b.order || 999))
+      .map((p) => {
+        const overlay = t(`products.cards.${p.id}`);
+        const o = overlay && typeof overlay === "object" ? overlay : {};
+        const name = (p.name && p.name[language]) || p.name || "";
+        const description =
+          o.description || (p.description && p.description[language]) || "";
+        const features =
+          o.features || (p.features && p.features[language]) || [];
+        return {
+          id: p.id,
+          name,
+          image: p.image,
+          description,
+          features,
+        };
+      });
   }, [jsonProducts, language, t]);
 
   return (
@@ -262,7 +278,11 @@ const Products = ({ limit }) => {
               </Link>
             )}
             <a
-              href={brochurePdf}
+              href={
+                import.meta.env.VITE_BROCHURE_PATH ||
+                "/brochures/CATALOGO_2025_NFT_1.pdf" ||
+                brochurePdf
+              }
               target="_blank"
               rel="noreferrer"
               className="bg-red-600 hover:bg-red-700 text-white 

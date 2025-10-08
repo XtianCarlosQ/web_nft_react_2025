@@ -112,33 +112,6 @@
     "whatsapp": "51988496839"
   },
   {
-    "id": "service-x7sbgx",
-    "icon": "mingcute:heart-line",
-    "title": {
-      "es": "Prueba 1",
-      "en": "Prueba 1"
-    },
-    "description": {
-      "es": "fasdfas",
-      "en": "fasdfas"
-    },
-    "features": {
-      "es": [
-        "1",
-        "2",
-        "3"
-      ],
-      "en": [
-        "1",
-        "2",
-        "3"
-      ]
-    },
-    "order": 6,
-    "whatsapp": "51988496839",
-    "archived": true
-  },
-  {
     "id": "analisis-laboratorio",
     "icon": "BarChart3",
     "title": {
@@ -222,5 +195,32 @@
     "order": 7,
     "whatsapp": "51988496839",
     "archived": true
+  },
+  {
+    "id": "service-x7sbgx",
+    "icon": "mingcute:heart-line",
+    "title": {
+      "es": "Prueba 1",
+      "en": "Prueba 1"
+    },
+    "description": {
+      "es": "fasdfas",
+      "en": "fasdfas"
+    },
+    "features": {
+      "es": [
+        "1",
+        "2",
+        "3"
+      ],
+      "en": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    "order": 7,
+    "whatsapp": "51988496839",
+    "archived": false
   }
 ]

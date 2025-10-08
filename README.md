@@ -65,6 +65,32 @@ npm run build
 npm run preview
 ```
 
+### Admin (/adminx) en local sin errores 401/500
+
+Tienes dos formas de hacerlo funcionar en desarrollo:
+
+1. Modo mock (recomendado):
+
+- Copia `.env.local.example` a `.env.local`.
+- Asegúrate de que `MOCK_API=true` y `COOKIE_SECURE=false` en `.env.local`.
+- Reinicia el servidor de Vite: `npm run dev`.
+- Abre `http://localhost:5173/adminx` y entra con `ADMIN_USERNAME`/`ADMIN_PASSWORD` definidos.
+
+En este modo, las rutas `/api/*` se manejan en el mismo Vite y guardan JSON en `public/content/*.json`.
+
+2. Modo proxy a funciones (vercel dev):
+
+- Lanza `vercel dev` (puerto 3000) en otra terminal.
+- Deja `MOCK_API=false` u omite esa variable.
+- Define en `.env` (o variables de Vercel) los secretos: `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `JWT_SECRET`, `GITHUB_REPO`, `GITHUB_TOKEN`, `SERVICES_PATH`, `PRODUCTS_PATH`, `TEAM_PATH`.
+- Inicia `npm run dev` para que Vite proxyee `/api` a `http://localhost:3000`.
+
+Si ves 404/401/500:
+
+- Verifica que hayas iniciado sesión en `/api/auth/login` desde `/adminx`.
+- En modo mock: confirma `MOCK_API=true` y reinicia `npm run dev`.
+- En modo vercel: confirma que `vercel dev` está corriendo y que las variables de entorno están bien definidas.
+
 ## Notas destacadas
 
 - Slider del Hero mantiene proporción 16:9, sin solaparse con el navbar fijo.

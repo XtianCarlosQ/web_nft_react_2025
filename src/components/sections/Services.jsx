@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 // Fallback renderer to support admin preview where icon can be a string (local lucide name or iconify prefix:name)
 import { RenderIcon as AdminRenderIcon } from "../../pages/admin/components/common/IconUtils";
-import { servicesFallback } from "../../data/services-fallback";
+// Eliminado: fallbacks en src/data. La fuente de verdad es public/content/services.json
 
 // ================= ServiceCard =================
 // Tarjeta individual de servicio (altura fija para alineación de grid)
@@ -166,15 +166,7 @@ const Services = ({ limit }) => {
       cancelled = true;
     };
   }, [language, iconMap]);
-  // Fallback list centralized
-  const fallbackServices = servicesFallback;
-  // Local i18n-based fallback cards
-  const rawCards = t("services.cards");
-  const list = Array.isArray(rawCards) ? rawCards : fallbackServices;
-  const fallback = list.map((c, i) => ({
-    ...c,
-    icon: serviceIcons[i] || Brain,
-  }));
+  // Sin fallbacks: sólo mostramos lo cargado desde JSON
 
   const benefits = [
     "Más de 15 años de experiencia en el sector",
@@ -185,8 +177,8 @@ const Services = ({ limit }) => {
     "Alcance internacional en más de 15 países",
   ];
 
-  // Prefer remote services (admin-managed). If load fails, use fallback.
-  const sourceRaw = remoteServices && !remoteError ? remoteServices : fallback;
+  // Preferimos lo remoto; si hay error o vacío, mostramos lista vacía con estado amable.
+  const sourceRaw = remoteServices && !remoteError ? remoteServices : [];
   const source = sourceRaw.filter((s) => !s.archived);
   const displayed = limit ? source.slice(0, limit) : source;
 

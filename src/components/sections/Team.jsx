@@ -5,7 +5,7 @@ import {
   normalizeTeamOrder,
   compareByOrder,
 } from "../../models/team";
-import { teamFallback } from "../../data/team-fallback";
+// Eliminado: fallback de equipo en src/data. Fuente única: public/content/team.json
 
 export const TeamMemberCard = ({ member, forceOverlay = false }) => {
   const image =
@@ -78,13 +78,7 @@ const Team = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [teamMembers, setTeamMembers] = useState([]);
 
-  // Fallback estático si no existe team.json
-  const fallback = useMemo(() => {
-    const norm = normalizeTeamOrder(teamFallback.map(normalizeTeamMember));
-    return norm
-      .filter((x) => !x.archived)
-      .sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
-  }, []);
+  // Sin fallback: mostrar vacío si no hay JSON
 
   // Cargar equipo desde /content/team.json
   useEffect(() => {
@@ -100,7 +94,7 @@ const Team = () => {
         if (!cancelled)
           setTeamMembers(norm.filter((x) => !x.archived).sort(compareByOrder));
       } catch {
-        if (!cancelled) setTeamMembers(fallback);
+        if (!cancelled) setTeamMembers([]);
       }
     })();
     return () => {

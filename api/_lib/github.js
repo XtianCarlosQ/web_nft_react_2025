@@ -2,13 +2,19 @@ const fetch = require("node-fetch");
 
 const GITHUB_API = "https://api.github.com";
 
+function encodePathSegments(p) {
+  return String(p)
+    .split("/")
+    .map((seg) => encodeURIComponent(seg))
+    .join("/");
+}
+
 async function getContentShaAndText(path) {
   const repo = process.env.GITHUB_REPO;
   const branch = process.env.GITHUB_BRANCH || "main";
   const token = process.env.GITHUB_TOKEN;
-  const url = `${GITHUB_API}/repos/${repo}/contents/${encodeURIComponent(
-    path
-  )}?ref=${branch}`;
+  const encPath = encodePathSegments(path);
+  const url = `${GITHUB_API}/repos/${repo}/contents/${encPath}?ref=${branch}`;
   const res = await fetch(url, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -30,9 +36,8 @@ async function putContent(path, message, text, sha) {
   const repo = process.env.GITHUB_REPO;
   const branch = process.env.GITHUB_BRANCH || "main";
   const token = process.env.GITHUB_TOKEN;
-  const url = `${GITHUB_API}/repos/${repo}/contents/${encodeURIComponent(
-    path
-  )}`;
+  const encPath = encodePathSegments(path);
+  const url = `${GITHUB_API}/repos/${repo}/contents/${encPath}`;
   const body = {
     message,
     content: Buffer.from(text, "utf8").toString("base64"),
@@ -60,9 +65,8 @@ async function putBinaryContent(path, message, buffer, sha) {
   const repo = process.env.GITHUB_REPO;
   const branch = process.env.GITHUB_BRANCH || "main";
   const token = process.env.GITHUB_TOKEN;
-  const url = `${GITHUB_API}/repos/${repo}/contents/${encodeURIComponent(
-    path
-  )}`;
+  const encPath = encodePathSegments(path);
+  const url = `${GITHUB_API}/repos/${repo}/contents/${encPath}`;
   const body = {
     message,
     content: Buffer.isBuffer(buffer)

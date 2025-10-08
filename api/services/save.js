@@ -1,11 +1,29 @@
 const { requireAuth } = require("../_lib/auth");
 const { getContentShaAndText, putContent } = require("../_lib/github");
 
-async function readBody(req) {
-  if (typeof req.body === "string") return req.body;
-  const chunks = [];
-  for await (const chunk of req) chunks.push(chunk);
-  return Buffer.concat(chunks).toString("utf8");
+async function readParsedBody(req) {
+  try {
+    if (req.body != null) {
+      if (typeof req.body === "string") {
+        try {
+          return JSON.parse(req.body);
+        } catch {
+          return {};
+        }
+      }
+      if (typeof req.body === "object") return req.body;
+    }
+    const chunks = [];
+    for await (const chunk of req) chunks.push(chunk);
+    const raw = Buffer.concat(chunks).toString("utf8");
+    try {
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  } catch {
+    return {};
+  }
 }
 
 module.exports = async (req, res) => {
@@ -16,13 +34,7 @@ module.exports = async (req, res) => {
     return res.end(JSON.stringify({ ok: false, error: "method_not_allowed" }));
   }
   try {
-    const raw = await readBody(req);
-    let parsed = {};
-    try {
-      parsed = raw ? JSON.parse(raw) : {};
-    } catch {
-      parsed = {};
-    }
+    const parsed = await readParsedBody(req);
     const { data, message } = parsed;
     const path = process.env.SERVICES_PATH || "public/content/services.json";
     if (!Array.isArray(data)) {

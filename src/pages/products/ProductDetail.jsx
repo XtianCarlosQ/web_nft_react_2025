@@ -17,7 +17,7 @@ import {
   ChevronRight,
   SquarePlay,
 } from "lucide-react";
-import { productsData } from "../../data/products-data";
+// Eliminado: catálogo en src/data. Usamos exclusivamente /content/products.json
 import ProductDetailTemplate from "../../components/products/ProductDetailTemplate";
 
 // Feature card component supports icon as lucide component or icon name string
@@ -254,35 +254,8 @@ const ProductDetail = () => {
   const jsonItem = Array.isArray(jsonProducts)
     ? jsonProducts.find((p) => p.id === productId)
     : null;
-  const codeItem = productsData[productId];
-  // Merge: prefer JSON for public-facing fields; keep detailed fields from codeItem
-  const product = codeItem
+  const product = jsonItem
     ? {
-        ...codeItem,
-        id: productId,
-        name:
-          (jsonItem?.name && jsonItem.name[language]) ||
-          codeItem.name ||
-          productId,
-        tagline:
-          (jsonItem?.tagline && jsonItem.tagline[language]) ||
-          codeItem.tagline ||
-          "",
-        image: jsonItem?.image || codeItem.image,
-        category: jsonItem?.category || codeItem.category,
-        youtubeVideo: jsonItem?.youtubeVideo || codeItem.youtubeVideo || "",
-        additionalImages:
-          jsonItem?.additionalImages || codeItem.additionalImages || [],
-        technicalSheets:
-          jsonItem?.technicalSheets || codeItem.technicalSheets || {},
-        // Allow JSON short description as fallback when no detail description overlay
-        description:
-          (jsonItem?.description && jsonItem.description[language]) ||
-          codeItem.description,
-      }
-    : jsonItem
-    ? {
-        // If no code item, build minimal product from JSON to render basic page
         id: productId,
         name: (jsonItem.name && jsonItem.name[language]) || productId,
         tagline: (jsonItem.tagline && jsonItem.tagline[language]) || "",
@@ -293,13 +266,32 @@ const ProductDetail = () => {
         youtubeVideo: jsonItem.youtubeVideo || "",
         additionalImages: jsonItem.additionalImages || [],
         technicalSheets: jsonItem.technicalSheets || {},
-        features_detail: (jsonItem.features &&
-        Array.isArray(jsonItem.features[language])
-          ? jsonItem.features[language]
-          : []
-        ).map((f) => ({ icon: BarChart3, title: f, description: f })),
-        specifications: {},
-        capabilities: [],
+        // Preferir featuresDetail si existe; si no, mapear features simples
+        features_detail: Array.isArray(jsonItem.featuresDetail)
+          ? jsonItem.featuresDetail.map((fd) => ({
+              icon: fd.icon || "BarChart3",
+              title:
+                (fd.title &&
+                  (fd.title[language] || fd.title.es || fd.title.en)) ||
+                "",
+              description:
+                (fd.description &&
+                  (fd.description[language] ||
+                    fd.description.es ||
+                    fd.description.en)) ||
+                "",
+            }))
+          : Array.isArray(jsonItem.features) && jsonItem.features[language]
+          ? jsonItem.features[language].map((f) => ({
+              icon: "BarChart3",
+              title: f,
+              description: f,
+            }))
+          : [],
+        specifications: jsonItem.specifications || {},
+        capabilities: Array.isArray(jsonItem.capabilities)
+          ? jsonItem.capabilities
+          : [],
       }
     : null;
 
@@ -322,18 +314,14 @@ const ProductDetail = () => {
         ...product,
         category: overlayText("category") || product.category,
         tagline: overlayText("tagline") || product.tagline,
-        description:
-          overlayText("description") ||
-          product.description_detail ||
-          product.description,
-        features: overlayArray("features")
-          ? overlayArray("features").map((f, i) => ({
-              icon: product.features_detail?.[i]?.icon || BarChart3,
-              title: f.title || product.features_detail?.[i]?.title,
-              description:
-                f.description || product.features_detail?.[i]?.description,
-            }))
-          : product.features_detail || product.features,
+        description: overlayText("description") || product.description,
+        features:
+          overlayArray("features")?.map((f, i) => ({
+            icon: product.features_detail?.[i]?.icon || BarChart3,
+            title: f.title || product.features_detail?.[i]?.title,
+            description:
+              f.description || product.features_detail?.[i]?.description,
+          })) || product.features_detail,
       }
     : null;
 

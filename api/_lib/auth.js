@@ -35,9 +35,8 @@ function setAuthCookie(res, token, maxAgeSeconds = 60 * 60 * 2) {
     `SameSite=Lax`,
     `Max-Age=${maxAgeSeconds}`,
   ];
-  // Allow disabling Secure for local HTTP dev via env
-  const secureFlag = process.env.COOKIE_SECURE;
-  if (secureFlag !== "false") parts.push("Secure");
+  const secure = String(process.env.COOKIE_SECURE ?? "true") !== "false";
+  if (secure) parts.push(`Secure`);
   res.setHeader("Set-Cookie", parts.join("; "));
 }
 
@@ -49,8 +48,8 @@ function clearAuthCookie(res) {
     `SameSite=Lax`,
     `Max-Age=0`,
   ];
-  const secureFlag = process.env.COOKIE_SECURE;
-  if (secureFlag !== "false") parts.push("Secure");
+  const secure = String(process.env.COOKIE_SECURE ?? "true") !== "false";
+  if (secure) parts.push(`Secure`);
   res.setHeader("Set-Cookie", parts.join("; "));
 }
 

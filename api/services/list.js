@@ -11,6 +11,9 @@ module.exports = async (req, res) => {
       JSON.stringify({ ok: true, sha, data: JSON.parse(content || "[]") })
     );
   } catch (e) {
+    try {
+      console.error("[api/services/list]", e?.message || e);
+    } catch {}
     res.statusCode = 500;
     res.end(JSON.stringify({ ok: false, error: "read_failed" }));
   }

@@ -151,7 +151,18 @@ export default function ProductsTable({ products, onView, onEdit, onArchiveToggl
               </td>
               <td className="td cell-sep" style={{ width: widths.order }}>{p.archived ? "-" : p.order ?? "-"}</td>
               <td className="td cell-sep" style={{ width: widths.image }}>
-                <img src={p.image} alt={p.name?.es || p.name} className="w-16 h-12 object-cover rounded-md border" />
+                <img
+                  src={
+                    !p.image || String(p.image).startsWith("blob:")
+                      ? "/assets/images/logo/logo_NFT.png"
+                      : p.image
+                  }
+                  alt={p.name?.es || p.name}
+                  className="w-16 h-12 object-cover rounded-md border"
+                  onError={(e) => {
+                    e.currentTarget.src = "/assets/images/logo/logo_NFT.png";
+                  }}
+                />
               </td>
               <td className="td cell-sep whitespace-nowrap truncate" style={{ width: widths.name }} title={p.name?.es || p.name}>
                 {p.name?.es || p.name}

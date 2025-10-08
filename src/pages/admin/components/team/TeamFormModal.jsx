@@ -81,24 +81,41 @@ export default function TeamFormModal({
   }
 
   async function uploadImage(file) {
-    const base64 = await new Promise((resolve, reject) => {
-      const fr = new FileReader();
-      fr.onload = () => {
-        const res = String(fr.result || "");
-        const idx = res.indexOf(",");
-        resolve(idx >= 0 ? res.slice(idx + 1) : res);
-      };
-      fr.onerror = reject;
-      fr.readAsDataURL(file);
-    });
-    const resp = await fetch("/api/upload/team", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: file.name, data: base64 }),
-    });
-    const out = await resp.json().catch(() => ({}));
-    if (!resp.ok || !out?.url) throw new Error("upload_failed");
-    return out.url;
+    // Prefer serverless multipart endpoint (/api/upload). Fallback to dev-mock JSON (/api/upload/team)
+    // 1) Try multipart form to /api/upload (works on Vercel and local vercel dev)
+    try {
+      const form = new FormData();
+      form.append("path", "public/uploads/team");
+      form.append("file", file, file.name || `team-${Date.now()}.png`);
+      const res = await fetch("/api/upload", { method: "POST", body: form });
+      const out = await res.json().catch(() => ({}));
+      if (res.ok && out?.url) return out.url;
+      // If not ok, fall through to JSON mock
+    } catch {}
+
+    // 2) Dev-only fallback: JSON base64 to /api/upload/team (handled by Vite mock middleware)
+    try {
+      const base64 = await new Promise((resolve, reject) => {
+        const fr = new FileReader();
+        fr.onload = () => {
+          const res = String(fr.result || "");
+          const idx = res.indexOf(",");
+          resolve(idx >= 0 ? res.slice(idx + 1) : res);
+        };
+        fr.onerror = reject;
+        fr.readAsDataURL(file);
+      });
+      const resp = await fetch("/api/upload/team", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: file.name, data: base64 }),
+      });
+      const out = await resp.json().catch(() => ({}));
+      if (!resp.ok || !out?.url) throw new Error("upload_failed");
+      return out.url;
+    } catch (e) {
+      throw e;
+    }
   }
 
   async function handleFile(file) {

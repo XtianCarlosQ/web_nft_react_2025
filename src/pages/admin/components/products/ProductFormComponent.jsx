@@ -6,6 +6,7 @@ import IconPicker from "../common/IconPicker";
 export default function ProductFormComponent({
   mode = "card", // 'card' | 'detail'
   tab = "es",
+  setTab,
   local,
   setLocal,
   hasES,
@@ -18,6 +19,7 @@ export default function ProductFormComponent({
   onGenerate,
   invalid,
   showHints,
+  uploading,
 }) {
   const change = (field, value) =>
     setLocal((prev) => ({ ...prev, [field]: value }));
@@ -91,67 +93,165 @@ export default function ProductFormComponent({
       features: Array.isArray(local.features?.[tab]) ? local.features[tab] : [],
     };
     return (
-      <div className="w-full max-w-sm">
-        {!readOnly && (
-          <div
-            className="mb-3 rounded-xl overflow-hidden border border-dashed border-gray-300 p-2 flex items-center justify-center text-xs text-gray-500"
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={(e) => onDrop?.("image", e)}
-            onClick={() => onPick?.("image")}
-            title="Clic o arrastra para cambiar imagen"
-          >
-            Clic o arrastra para cambiar imagen de la Card
+      <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        {/* Left: Original editable template (big card with inline inputs) */}
+        <div className="w-full">
+          {/* Language tabs centered to template width */}
+          {typeof setTab === "function" && (
+            <div className="max-w-sm mx-auto mb-3 flex flex-wrap items-center gap-2 justify-start">
+              {[
+                { key: "es", label: "Español (ES)" },
+                { key: "en", label: "Inglés (EN)" },
+              ].map(({ key, label }) => (
+                <button
+                  type="button"
+                  key={key}
+                  className={`px-3 py-1 rounded-lg border ${
+                    tab === key
+                      ? "bg-red-600 text-white border-red-600"
+                      : "bg-white"
+                  }`}
+                  onClick={() => setTab(key)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* ID & Orden centered to template width */}
+          <div className="max-w-sm mx-auto mb-3 flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-2">
+              <label className="text-sm text-gray-600">ID</label>
+              <input
+                disabled={readOnly || local?.mode === "edit"}
+                value={local.id}
+                onChange={(e) =>
+                  setLocal((p) => ({ ...p, id: e.target.value.trim() }))
+                }
+                className={`w-48 border rounded px-3 py-1.5 ${
+                  invalid?.id ? "border-red-400" : ""
+                }`}
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <label className="text-sm text-gray-600">Orden</label>
+              <input
+                type="number"
+                disabled={readOnly || local.archived}
+                value={local.order ?? 1}
+                onChange={(e) =>
+                  setLocal((p) => ({ ...p, order: Number(e.target.value) }))
+                }
+                className="w-20 border rounded px-3 py-1.5"
+                min={1}
+              />
+            </div>
+            {uploading && (
+              <span className="text-xs text-gray-500">Subiendo...</span>
+            )}
           </div>
-        )}
-        <ProductCard
-          product={cardProduct}
-          disabled
-          editable={!readOnly}
-          onEdit={(path, value) => {
-            const [head, idx] = path;
-            if (head === "name") return changeLang("name", value);
-            if (head === "description") return changeLang("description", value);
-            if (head === "features") {
-              const i = idx;
-              const arr = Array.isArray(local.features?.[tab])
-                ? [...local.features[tab]]
-                : [];
-              arr[i] = value;
-              return setLocal((prev) => ({
-                ...prev,
-                features: { ...(prev.features || {}), [tab]: arr },
-              }));
-            }
-          }}
-        />
-        {!readOnly && (
-          <div className="mt-3">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-medium">Características</span>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  className="text-xs px-2 py-1 border rounded"
-                  onClick={addFeature}
-                >
-                  + Agregar
-                </button>
-                <button
-                  type="button"
-                  className="text-xs px-2 py-1 border rounded"
-                  onClick={() => {
-                    const arr = Array.isArray(local.features?.[tab])
-                      ? [...local.features[tab]]
-                      : [];
-                    if (arr.length > 0) removeFeature(arr.length - 1);
-                  }}
-                >
-                  − Quitar Última
-                </button>
+          {!readOnly && (
+            <div
+              className="mb-3 max-w-sm mx-auto rounded-xl overflow-hidden border border-dashed border-gray-300 p-2 flex items-center justify-center text-xs text-gray-500 cursor-pointer"
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e) => onDrop?.("image", e)}
+              onClick={() => onPick?.("image")}
+              title="Click o arrastra aquí para cambiar la imagen"
+            >
+              Click o arrastra aquí para cambiar la imagen de la Card
+            </div>
+          )}
+
+          {/* Image URL (only if present) */}
+
+          <div className="max-w-sm mx-auto text-[12px] text-gray-700 mb-2 flex items-center gap-2 border-1 py-1 px-2 rounded-xl">
+            <span className="text-gray-600">URL:</span>
+            {local.image ? (
+              <a
+                href={local.image}
+                target="_blank"
+                rel="noreferrer"
+                className="truncate hover:underline text-gray-500 flex-1"
+                title={local.image}
+              >
+                {local.image}
+              </a>
+            ) : null}
+          </div>
+
+          {/* Editable big card */}
+          <div className="w-full max-w-sm mx-auto">
+            <ProductCard
+              product={cardProduct}
+              disabled
+              editable={!readOnly}
+              onEdit={(path, value) => {
+                const [head, idx] = path;
+                if (head === "name") return changeLang("name", value);
+                if (head === "description")
+                  return changeLang("description", value);
+                if (head === "features") {
+                  const i = idx;
+                  const arr = Array.isArray(local.features?.[tab])
+                    ? [...local.features[tab]]
+                    : [];
+                  arr[i] = value;
+                  return setLocal((prev) => ({
+                    ...prev,
+                    features: { ...(prev.features || {}), [tab]: arr },
+                  }));
+                }
+              }}
+              invalid={invalid}
+              showHints={showHints}
+            />
+          </div>
+
+          {/* Features add/remove controls below */}
+          {!readOnly && (
+            <div className="mt-4">
+              <div className="flex items-center justify-center gap-6 mb-2">
+                <span className="text-xs font-medium">Características</span>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    className="text-xs px-2 py-1 border rounded"
+                    onClick={addFeature}
+                  >
+                    + Agregar
+                  </button>
+                  <button
+                    type="button"
+                    className="text-xs px-2 py-1 border rounded"
+                    onClick={() => {
+                      const arr = Array.isArray(local.features?.[tab])
+                        ? [...local.features[tab]]
+                        : [];
+                      if (arr.length > 0) removeFeature(arr.length - 1);
+                    }}
+                  >
+                    − Quitar Última
+                  </button>
+                </div>
               </div>
             </div>
+          )}
+        </div>
+
+        {/* Right: Non-editable live preview with small heading */}
+        <div className="w-full">
+          <div className="w-full flex justify-center mb-36">
+            <div
+              className={`px-3 py-1 rounded-lg border text-md bg-red-600 text-white border-red-600`}
+            >
+              Vista Previa
+            </div>
           </div>
-        )}
+          <div className="w-full max-w-sm mx-auto">
+            <ProductCard product={cardProduct} disabled editable={false} />
+          </div>
+        </div>
       </div>
     );
   }

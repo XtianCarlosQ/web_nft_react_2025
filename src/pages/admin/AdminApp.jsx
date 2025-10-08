@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, Eye, EyeOff } from "lucide-react";
 import ServicesTable from "./components/services/ServicesTable";
 import ProductsTable from "./components/products/ProductsTable";
 import TeamTable from "./components/team/TeamTable";
@@ -10,9 +10,7 @@ import ProductArchiveConfirmModal from "./components/products/ProductArchiveConf
 import TeamFormModal from "./components/team/TeamFormModal";
 import TeamArchiveConfirmModal from "./components/team/TeamArchiveConfirmModal";
 import { notifyDevOnComplete } from "../../config/devNotify";
-import { teamFallback } from "../../data/team-fallback";
 import { normalizeTeamMember, normalizeTeamOrder } from "../../models/team";
-import { productsData as productsFallback } from "../../data/products-data";
 
 async function fetchJson(url, options = {}) {
   const opts = {
@@ -55,6 +53,7 @@ export default function AdminApp() {
   const [section, setSection] = useState("services"); // services | products | team | research
   const [subView, setSubView] = useState("list"); // list | edit
   const [form, setForm] = useState({ username: "", password: "" });
+  const [showPass, setShowPass] = useState(false);
   const [rows, setRows] = useState([]);
   const [productRows, setProductRows] = useState([]);
   const [teamRows, setTeamRows] = useState([]);
@@ -142,9 +141,13 @@ export default function AdminApp() {
   async function login(e) {
     e.preventDefault();
     try {
+      const payload = {
+        username: (form.username || "").trim(),
+        password: (form.password || "").trim(),
+      };
       const d = await fetchJson("/api/auth/login", {
         method: "POST",
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
       if (d?.ok) {
         window.location.reload();
@@ -168,6 +171,26 @@ export default function AdminApp() {
   }
 
   function loadServices() {
+    const tryPublicFallback = async () => {
+      try {
+        const r = await fetch("/content/services.json");
+        if (!r.ok) return;
+        const raw = await r.json();
+        const data = Array.isArray(raw)
+          ? raw
+          : Array.isArray(raw?.data)
+          ? raw.data
+          : [];
+        if (data?.length) {
+          const normalized = normalizeOrder(data);
+          setRows(normalized);
+          // if API is available later, persist so both admin/public stay in sync
+          try {
+            await persistRows(normalized, "seed services from public content");
+          } catch {}
+        }
+      } catch {}
+    };
     fetchJson("/api/services/list")
       .then((d) => {
         if (d.ok) {
@@ -176,33 +199,48 @@ export default function AdminApp() {
         }
       })
       .catch(() => {
-        /* ignore for now */
+        // API down? Try public JSON
+        tryPublicFallback();
       });
   }
 
   function loadTeam() {
+    const tryPublicFallback = async () => {
+      try {
+        const r = await fetch("/content/team.json");
+        if (!r.ok) return;
+        const raw = await r.json();
+        const data = Array.isArray(raw)
+          ? raw
+          : Array.isArray(raw?.data)
+          ? raw.data
+          : [];
+        if (data?.length) {
+          const normalized = normalizeTeamOrder(
+            data.map((m) => normalizeTeamMember(m))
+          );
+          setTeamRows(normalized);
+          try {
+            await persistTeamRows(normalized, "seed team from public content");
+          } catch {}
+          return true;
+        }
+      } catch {}
+      return false;
+    };
     fetchJson("/api/team/list")
-      .then((d) => {
+      .then(async (d) => {
         if (d.ok) {
           let data = Array.isArray(d.data) ? d.data : [];
-          if (!data.length) {
-            // Seed from fallback on first run
-            const seeded = normalizeTeamOrder(
-              teamFallback.map((m, idx) => ({
-                ...normalizeTeamMember(m),
-                order: idx + 1,
-                archived: false,
-              }))
-            );
-            setTeamRows(seeded);
-            // Persist immediately so public site and next loads see it
-            persistTeamRows(seeded, "seed team from fallback");
-          } else {
-            setTeamRows(normalizeTeamOrder(data.map(normalizeTeamMember)));
-          }
+          setTeamRows(normalizeTeamOrder(data.map(normalizeTeamMember)));
         }
       })
-      .catch(() => {});
+      .catch(async () => {
+        // API down? Try public JSON first; si no, queda vacío
+        const fromPublic = await tryPublicFallback();
+        if (fromPublic) return;
+        setTeamRows([]);
+      });
   }
 
   function loadProducts() {
@@ -210,70 +248,11 @@ export default function AdminApp() {
       .then((d) => {
         if (d.ok) {
           let data = Array.isArray(d.data) ? d.data : [];
-          if (!data.length) {
-            // Seed from products-data.js on first run
-            const list = Object.values(productsFallback || {});
-            const seeded = normalizeOrder(
-              list.map((p, idx) => ({
-                id: p.id || "prod-" + (idx + 1),
-                name: { es: p.name || "", en: p.name || "" },
-                tagline: { es: p.tagline || "", en: p.tagline || "" },
-                description: {
-                  es: p.description_card || "",
-                  en: p.description_card || "",
-                },
-                descriptionDetail: {
-                  es: p.description_detail || "",
-                  en: p.description_detail || "",
-                },
-                image: p.image || "",
-                category: p.category || "",
-                features: {
-                  es: (p.features_card || []).map((f) => f),
-                  en: (p.features_card || []).map((f) => f),
-                },
-                // New extended fields for detail editing
-                featuresDetail: Array.isArray(p.features_detail)
-                  ? p.features_detail.map((fd) => ({
-                      icon: fd.icon || "BarChart3",
-                      title: { es: fd.title || "", en: fd.title || "" },
-                      description: {
-                        es: fd.description || "",
-                        en: fd.description || "",
-                      },
-                    }))
-                  : [],
-                specifications: p.specifications || {},
-                capabilities: Array.isArray(p.capabilities)
-                  ? p.capabilities
-                  : [],
-                youtubeVideo: p.youtubeVideo || "",
-                additionalImages: Array.isArray(p.additionalImages)
-                  ? p.additionalImages
-                  : [],
-                order: idx + 1,
-                archived: false,
-              }))
-            );
-            setProductRows(seeded);
-            persistProductRows(seeded, "seed products from fallback");
-          } else {
-            setProductRows(normalizeOrder(data));
-          }
+          setProductRows(normalizeOrder(data));
         }
       })
       .catch(() => {
-        // Try local cache first
-        try {
-          const cached = JSON.parse(
-            localStorage.getItem("admin_products") || "[]"
-          );
-          if (Array.isArray(cached) && cached.length) {
-            setProductRows(normalizeOrder(cached));
-            return;
-          }
-        } catch {}
-        // Try public content JSON
+        // Try public content JSON as best effort
         fetchJson("/content/products.json")
           .then((d) => {
             const data = Array.isArray(d)
@@ -281,88 +260,9 @@ export default function AdminApp() {
               : Array.isArray(d?.data)
               ? d.data
               : [];
-            if (data.length) {
-              setProductRows(normalizeOrder(data));
-              try {
-                localStorage.setItem(
-                  "admin_products",
-                  JSON.stringify(normalizeOrder(data))
-                );
-              } catch {}
-              return;
-            }
-            // fallthrough to centralized
-            const list = Object.values(productsFallback || {});
-            const seeded = normalizeOrder(
-              list.map((p, idx) => ({
-                id: p.id || "prod-" + (idx + 1),
-                name: { es: p.name || "", en: p.name || "" },
-                tagline: { es: p.tagline || "", en: p.tagline || "" },
-                description: {
-                  es: p.description_card || "",
-                  en: p.description_card || "",
-                },
-                descriptionDetail: {
-                  es: p.description_detail || "",
-                  en: p.description_detail || "",
-                },
-                image: p.image || "",
-                category: p.category || "",
-                features: {
-                  es: (p.features_card || []).map((f) => f),
-                  en: (p.features_card || []).map((f) => f),
-                },
-                featuresDetail: Array.isArray(p.features_detail)
-                  ? p.features_detail.map((fd) => ({
-                      icon: fd.icon || "BarChart3",
-                      title: { es: fd.title || "", en: fd.title || "" },
-                      description: {
-                        es: fd.description || "",
-                        en: fd.description || "",
-                      },
-                    }))
-                  : [],
-                specifications: p.specifications || {},
-                capabilities: Array.isArray(p.capabilities)
-                  ? p.capabilities
-                  : [],
-                youtubeVideo: p.youtubeVideo || "",
-                additionalImages: Array.isArray(p.additionalImages)
-                  ? p.additionalImages
-                  : [],
-                order: idx + 1,
-                archived: false,
-              }))
-            );
-            setProductRows(seeded);
+            setProductRows(normalizeOrder(data));
           })
-          .catch(() => {
-            const list = Object.values(productsFallback || {});
-            const seeded = normalizeOrder(
-              list.map((p, idx) => ({
-                id: p.id || "prod-" + (idx + 1),
-                name: { es: p.name || "", en: p.name || "" },
-                tagline: { es: p.tagline || "", en: p.tagline || "" },
-                description: {
-                  es: p.description_card || "",
-                  en: p.description_card || "",
-                },
-                descriptionDetail: {
-                  es: p.description_detail || "",
-                  en: p.description_detail || "",
-                },
-                image: p.image || "",
-                category: p.category || "",
-                features: {
-                  es: (p.features_card || []).map((f) => f),
-                  en: (p.features_card || []).map((f) => f),
-                },
-                order: idx + 1,
-                archived: false,
-              }))
-            );
-            setProductRows(seeded);
-          });
+          .catch(() => setProductRows([]));
       });
   }
 
@@ -442,15 +342,29 @@ export default function AdminApp() {
               setForm((f) => ({ ...f, username: e.target.value }))
             }
           />
-          <input
-            className="w-full border px-3 py-2 rounded"
-            placeholder="Contraseña"
-            type="password"
-            value={form.password}
-            onChange={(e) =>
-              setForm((f) => ({ ...f, password: e.target.value }))
-            }
-          />
+          <div className="relative">
+            <input
+              className="w-full border px-3 py-2 rounded pr-10"
+              placeholder="Contraseña"
+              type={showPass ? "text" : "password"}
+              value={form.password}
+              onChange={(e) =>
+                setForm((f) => ({ ...f, password: e.target.value }))
+              }
+            />
+            <button
+              type="button"
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-800"
+              onClick={() => setShowPass((v) => !v)}
+              aria-label={showPass ? "Ocultar contraseña" : "Ver contraseña"}
+            >
+              {showPass ? (
+                <EyeOff className="w-5 h-5" />
+              ) : (
+                <Eye className="w-5 h-5" />
+              )}
+            </button>
+          </div>
           <button className="btn-cta px-4 py-2" type="submit">
             Entrar
           </button>
@@ -564,6 +478,56 @@ export default function AdminApp() {
                   }}
                 >
                   <Plus className="w-4 h-4" /> Nuevo
+                </button>
+              ) : null}
+              {section === "products" ? (
+                <button
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border bg-white"
+                  title="Restaurar productos desde respaldo"
+                  onClick={async () => {
+                    try {
+                      // 1) Try backup files
+                      const b = await fetchJson("/api/products/backups");
+                      const files = Array.isArray(b?.files) ? b.files : [];
+                      if (files.length) {
+                        const latest = files[0];
+                        const r = await fetchJson(
+                          `/api/products/restore?file=${encodeURIComponent(
+                            latest
+                          )}`,
+                          { method: "POST" }
+                        );
+                        if (r?.ok) {
+                          await loadProducts();
+                          alert(
+                            "Productos restaurados desde respaldo: " + latest
+                          );
+                          return;
+                        }
+                      }
+                      // 2) Try localStorage cache
+                      try {
+                        const cached = localStorage.getItem("admin_products");
+                        if (cached) {
+                          const data = JSON.parse(cached);
+                          if (Array.isArray(data) && data.length) {
+                            setProductRows(data);
+                            await fetchJson("/api/products/save", {
+                              method: "POST",
+                              body: JSON.stringify({ data }),
+                            });
+                            alert("Productos restaurados desde caché local");
+                            return;
+                          }
+                        }
+                      } catch {}
+                      alert("No se encontraron respaldos disponibles");
+                    } catch (e) {
+                      alert("Error restaurando: " + (e?.message || e));
+                    }
+                  }}
+                >
+                  Restaurar
                 </button>
               ) : section === "team" ? (
                 <button
