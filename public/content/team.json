@@ -1,142 +1,142 @@
 [
-  {
-    "id": "team-usk7r1",
-    "name": "Xtian",
-    "role": "Data",
-    "bio": "",
-    "photo": "/uploads/team/Imagen-de-WhatsApp-2024-08-15-a-las-16.1-1759509772739.jpg",
-    "skills": [
-      "Ahora sí"
-    ],
-    "order": 2,
-    "archived": true
-  },
-  {
-    "id": "team-1d054f",
-    "name": "Fiber Med",
-    "role": "Medulador",
-    "bio": "[object Object]",
-    "photo": "/uploads/team/Screenshot-2025-10-01-033511-1759510284614.png",
-    "skills": [
-      "Análisis con IA",
-      "Reportes automáticoas"
-    ],
-    "order": 3,
-    "archived": true
-  },
-  {
-    "id": "team-z57q5i",
-    "name": "Edgar Quispe Peña",
-    "role": "CEO",
-    "bio": "",
-    "photo": "/assets/images/team/edgar-quispe-2.jpg",
-    "skills": [
-      "PhD",
-      "Ingeniero Zootecnista",
-      "Inventor e investigador RENACYT (Categoría Carlos Monge - Nivel II)",
-      "Experto en mejoramiento genético",
-      "Consultor y docente internacional"
-    ],
-    "order": 2,
-    "archived": false
-  },
-  {
-    "id": "team-jundmc",
-    "name": "Max Quispe Bonilla",
-    "role": "CTO",
-    "bio": "",
-    "photo": "/assets/images/team/max-quispe.jpg",
-    "skills": [
-      "PhD (c)",
-      "Ing. Electrónico",
-      "Inventor",
-      "Experto en instrumentación electrónica",
-      "Especialista en automatización"
-    ],
-    "order": 3,
-    "archived": false
-  },
-  {
-    "id": "team-47ti0o",
-    "name": "Adolfo Poma",
-    "role": "Technical Specialist",
-    "bio": "",
-    "photo": "/assets/images/team/adolfo-poma.jpg",
-    "skills": [
-      "Ingeniero Zootecnista",
-      "Investigador RENACYT",
-      "Análisis de fibras",
-      "Consultor técnico"
-    ],
-    "order": 5,
-    "archived": false
-  },
-  {
-    "id": "team-n7myad",
-    "name": "Henry Chico",
-    "role": "CRO",
-    "bio": "",
-    "photo": "/assets/images/team/henry-chico.jpg",
-    "skills": [
-      "Magister en Agronegocios",
-      "Experto en desarrollo de negocios",
-      "Gestión de operaciones",
-      "Desarrollo comercial"
-    ],
-    "order": 4,
-    "archived": false
-  },
-  {
-    "id": "team-cqr3bh",
-    "name": "Pepito",
-    "role": "Músico",
-    "bio": "",
-    "photo": "/uploads/team/acerca_de1-1759521875238.png",
-    "skills": [
-      "Guitarra",
-      "Tacos",
-      "Video"
-    ],
-    "order": 6,
-    "archived": true
-  },
-  {
-    "id": "team-7zc8ve",
-    "name": "Christian Quispe Bonilla",
-    "role": "Data Scientist",
-    "bio": "[object Object]",
-    "photo": "/assets/images/team/carlos-quispe3.png",
-    "skills": [
-      "Ingeniero Físico",
-      "Especialista en IA",
-      "Arquitecto y desarrollador de software",
-      "Automatización de procesos"
-    ],
-    "order": 1,
-    "archived": false
-  },
-  {
-    "id": "team-ezk493",
-    "name": {
-      "es": "Sherysh Cunyas",
-      "en": "Sherysh Cunyas"
-    },
-    "role": {
-      "es": "Secretaria",
-      "en": "Secretaria"
-    },
-    "bio": {
-      "es": "",
-      "en": ""
-    },
-    "photo": "/uploads/team/sherysh_cunyas-1759904789453.png",
-    "skills": [
-      "Secretaria administrativa",
-      "Bilingüe Español-Inglés",
-      "Licitaciones y contratos",
-      "Atención al cliente"
-    ],
-    "order": 6,
-    "archived": false
-  }
+	{
+		"id": "team-usk7r1",
+		"name": "Xtian",
+		"role": "Data",
+		"bio": "",
+		"photo": "/uploads/team/Imagen-de-WhatsApp-2024-08-15-a-las-16.1-1759509772739.jpg",
+		"skills": [
+			"Ahora sí"
+		],
+		"order": 2,
+		"archived": true
+	},
+	{
+		"id": "team-1d054f",
+		"name": "Fiber Med",
+		"role": "Medulador",
+		"bio": "[object Object]",
+		"photo": "/uploads/team/Screenshot-2025-10-01-033511-1759510284614.png",
+		"skills": [
+			"Análisis con IA",
+			"Reportes automáticoas"
+		],
+		"order": 3,
+		"archived": true
+	},
+	{
+		"id": "team-z57q5i",
+		"name": "Edgar Quispe Peña",
+		"role": "CEO",
+		"bio": "",
+		"photo": "/assets/images/team/edgar-quispe-2.jpg",
+		"skills": [
+			"PhD",
+			"Ingeniero Zootecnista",
+			"Inventor e investigador RENACYT (Categoría Carlos Monge - Nivel II)",
+			"Experto en mejoramiento genético",
+			"Consultor y docente internacional"
+		],
+		"order": 2,
+		"archived": false
+	},
+	{
+		"id": "team-jundmc",
+		"name": "Max Quispe Bonilla",
+		"role": "CTO",
+		"bio": "",
+		"photo": "/assets/images/team/max-quispe.jpg",
+		"skills": [
+			"PhD (c)",
+			"Ing. Electrónico",
+			"Inventor",
+			"Experto en instrumentación electrónica",
+			"Especialista en automatización"
+		],
+		"order": 3,
+		"archived": false
+	},
+	{
+		"id": "team-47ti0o",
+		"name": "Adolfo Poma",
+		"role": "Technical Specialist",
+		"bio": "",
+		"photo": "/assets/images/team/adolfo-poma.jpg",
+		"skills": [
+			"Ingeniero Zootecnista",
+			"Investigador RENACYT",
+			"Análisis de fibras",
+			"Consultor técnico"
+		],
+		"order": 5,
+		"archived": false
+	},
+	{
+		"id": "team-n7myad",
+		"name": "Henry Chico",
+		"role": "CRO",
+		"bio": "",
+		"photo": "/assets/images/team/henry-chico.jpg",
+		"skills": [
+			"Magister en Agronegocios",
+			"Experto en desarrollo de negocios",
+			"Gestión de operaciones",
+			"Desarrollo comercial"
+		],
+		"order": 4,
+		"archived": false
+	},
+	{
+		"id": "team-cqr3bh",
+		"name": "Pepito",
+		"role": "Músico",
+		"bio": "",
+		"photo": "/uploads/team/acerca_de1-1759521875238.png",
+		"skills": [
+			"Guitarra",
+			"Tacos",
+			"Video"
+		],
+		"order": 6,
+		"archived": true
+	},
+	{
+		"id": "team-7zc8ve",
+		"name": "Christian Quispe Bonilla",
+		"role": "Data Scientist",
+		"bio": "[object Object]",
+		"photo": "/assets/images/team/carlos-quispe3.png",
+		"skills": [
+			"Ingeniero Físico",
+			"Especialista en IA",
+			"Arquitecto y desarrollador de software",
+			"Automatización de procesos"
+		],
+		"order": 1,
+		"archived": false
+	},
+	{
+		"id": "team-ezk493",
+		"name": {
+			"es": "Sherysh Cunyas",
+			"en": "Sherysh Cunyas"
+		},
+		"role": {
+			"es": "Secretaria",
+			"en": "Secretaria"
+		},
+		"bio": {
+			"es": "",
+			"en": ""
+		},
+		"photo": "/uploads/team/sherysh_cunyas-1759904789453.png",
+		"skills": [
+			"Secretaria administrativa",
+			"Bilingüe Español-Inglés",
+			"Licitaciones y contratos",
+			"Atención al cliente"
+		],
+		"order": 6,
+		"archived": false
+	}
 ]

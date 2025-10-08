@@ -33,7 +33,8 @@ export default defineConfig(({ mode }) => {
       `SameSite=Lax`,
     ];
     if (opts.maxAge) parts.push(`Max-Age=${opts.maxAge}`);
-    if (String(process.env.COOKIE_SECURE) !== "false") parts.push("Secure");
+    // Only set Secure when explicitly enabled; default off for local http
+    if (String(process.env.COOKIE_SECURE) === "true") parts.push("Secure");
     res.setHeader("Set-Cookie", parts.join("; "));
   }
 
@@ -154,7 +155,41 @@ export default defineConfig(({ mode }) => {
           const data = Array.isArray(body.data) ? body.data : [];
           const p = process.env.SERVICES_PATH || "public/content/services.json";
           const abs = path.resolve(process.cwd(), p);
+          // Safety guard: prevent accidental wipe unless explicitly allowed
+          const allowEmpty = url.searchParams.get("allowEmpty") === "true";
+          if (data.length === 0 && !allowEmpty) {
+            return send(400, {
+              ok: false,
+              error: "empty_not_allowed",
+              hint: "Pass ?allowEmpty=true if you intend to clear all services",
+            });
+          }
           fs.mkdirSync(path.dirname(abs), { recursive: true });
+          // Backup current file if exists and content differs
+          try {
+            if (fs.existsSync(abs)) {
+              const prev = fs.readFileSync(abs, "utf8");
+              if (
+                prev &&
+                prev.trim() &&
+                prev.trim() !== JSON.stringify(data, null, 2).trim()
+              ) {
+                const stamp = new Date()
+                  .toISOString()
+                  .replace(/[:.]/g, "-")
+                  .replace("T", "_")
+                  .replace("Z", "");
+                const bdir = path.resolve(
+                  process.cwd(),
+                  "public/content/_backups"
+                );
+                fs.mkdirSync(bdir, { recursive: true });
+                const base = path.basename(abs, ".json");
+                const bfile = path.join(bdir, `${base}-${stamp}.json`);
+                fs.writeFileSync(bfile, prev, "utf8");
+              }
+            }
+          } catch {}
           fs.writeFileSync(abs, JSON.stringify(data, null, 2), "utf8");
           return send(200, { ok: true });
         }
@@ -179,7 +214,41 @@ export default defineConfig(({ mode }) => {
           const data = Array.isArray(body.data) ? body.data : [];
           const p = process.env.TEAM_PATH || "public/content/team.json";
           const abs = path.resolve(process.cwd(), p);
+          // Safety guard: prevent accidental wipe unless explicitly allowed
+          const allowEmpty = url.searchParams.get("allowEmpty") === "true";
+          if (data.length === 0 && !allowEmpty) {
+            return send(400, {
+              ok: false,
+              error: "empty_not_allowed",
+              hint: "Pass ?allowEmpty=true if you intend to clear all team entries",
+            });
+          }
           fs.mkdirSync(path.dirname(abs), { recursive: true });
+          // Backup current file if exists and content differs
+          try {
+            if (fs.existsSync(abs)) {
+              const prev = fs.readFileSync(abs, "utf8");
+              if (
+                prev &&
+                prev.trim() &&
+                prev.trim() !== JSON.stringify(data, null, 2).trim()
+              ) {
+                const stamp = new Date()
+                  .toISOString()
+                  .replace(/[:.]/g, "-")
+                  .replace("T", "_")
+                  .replace("Z", "");
+                const bdir = path.resolve(
+                  process.cwd(),
+                  "public/content/_backups"
+                );
+                fs.mkdirSync(bdir, { recursive: true });
+                const base = path.basename(abs, ".json");
+                const bfile = path.join(bdir, `${base}-${stamp}.json`);
+                fs.writeFileSync(bfile, prev, "utf8");
+              }
+            }
+          } catch {}
           fs.writeFileSync(abs, JSON.stringify(data, null, 2), "utf8");
           return send(200, { ok: true });
         }
