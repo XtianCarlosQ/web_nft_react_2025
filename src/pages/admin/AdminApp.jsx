@@ -104,6 +104,7 @@ export default function AdminApp() {
     }
   }
   async function persistProductRows(nextRows, reason = "auto-save") {
+    // Returns true if saved to API, false otherwise.
     try {
       // Always keep a local fallback cache
       try {
@@ -119,8 +120,10 @@ export default function AdminApp() {
           message: reason,
         }),
       });
+      return true;
     } catch (e) {
       console.warn("Auto-persist products failed:", e?.message || e);
+      return false;
     }
   }
 
@@ -705,7 +708,7 @@ export default function AdminApp() {
         mode={productModalMode}
         product={productEditing}
         onClose={() => setProductShowForm(false)}
-        onSave={(payload) => {
+        onSave={async (payload) => {
           let nextComputed = [];
           setProductRows((prev) => {
             const others = prev.filter((r) => r.id !== payload.id);
@@ -731,10 +734,20 @@ export default function AdminApp() {
             nextComputed = normalizeOrder(next);
             return nextComputed;
           });
-          persistProductRows(nextComputed, "auto-save: onSave product");
+          const ok = await persistProductRows(
+            nextComputed,
+            "auto-save: onSave product"
+          );
+          if (!ok) {
+            alert(
+              "No se pudo guardar el producto. Revisa la conexión del API de desarrollo. Tus cambios locales se conservaron temporalmente."
+            );
+          }
+          // Keep admin list in sync with source of truth
+          loadProducts();
           setProductShowForm(false);
         }}
-        onRestore={(toRestore) => {
+        onRestore={async (toRestore) => {
           if (!toRestore) return;
           let nextComputed = [];
           setProductRows((prev) => {
@@ -757,7 +770,16 @@ export default function AdminApp() {
             nextComputed = normalizeOrder(next);
             return nextComputed;
           });
-          persistProductRows(nextComputed, "auto-save: restore product");
+          const ok = await persistProductRows(
+            nextComputed,
+            "auto-save: restore product"
+          );
+          if (!ok) {
+            alert(
+              "No se pudo restaurar el producto. Revisa la conexión del API de desarrollo."
+            );
+          }
+          loadProducts();
           setProductShowForm(false);
         }}
       />
@@ -935,7 +957,7 @@ export default function AdminApp() {
         product={productConfirmRow}
         activeCount={(productRows || []).filter((x) => !x.archived).length}
         onClose={() => setProductShowConfirm(false)}
-        onConfirm={(restoreAt) => {
+        onConfirm={async (restoreAt) => {
           if (!productConfirmRow) return;
           const willArchive = !productConfirmRow.archived;
           if (willArchive) {
@@ -950,7 +972,16 @@ export default function AdminApp() {
               );
               return nextComputed;
             });
-            persistProductRows(nextComputed, "auto-save: archive product");
+            const ok = await persistProductRows(
+              nextComputed,
+              "auto-save: archive product"
+            );
+            if (!ok) {
+              alert(
+                "No se pudo archivar. Verifica que el servidor de desarrollo esté activo (npm run dev) y que el endpoint /api esté disponible."
+              );
+            }
+            loadProducts();
             setProductShowConfirm(false);
           } else {
             let nextComputed = [];
@@ -978,10 +1009,16 @@ export default function AdminApp() {
               nextComputed = normalizeOrder(next);
               return nextComputed;
             });
-            persistProductRows(
+            const ok = await persistProductRows(
               nextComputed,
               "auto-save: restore product from modal"
             );
+            if (!ok) {
+              alert(
+                "No se pudo restaurar el producto. Verifica la conexión del API de desarrollo."
+              );
+            }
+            loadProducts();
             setProductShowConfirm(false);
           }
         }}
