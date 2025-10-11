@@ -15,6 +15,9 @@ import { normalizeTeamMember, normalizeTeamOrder } from "../../models/team";
 async function fetchJson(url, options = {}) {
   const opts = {
     headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+    // Always send cookies for auth-protected dev API and avoid stale caches
+    credentials: "include",
+    cache: "no-store",
     ...options,
   };
   const res = await fetch(url, opts);
@@ -27,7 +30,11 @@ async function fetchJson(url, options = {}) {
   }
   if (!res.ok) {
     const msg = data?.error || `${res.status} ${res.statusText}`;
-    throw new Error(msg || "request_failed");
+    console.warn("fetchJson error", { url, status: res.status, body: text });
+    const err = new Error(msg || "request_failed");
+    err.__raw = text;
+    err.__status = res.status;
+    throw err;
   }
   return data;
 }
@@ -77,46 +84,85 @@ export default function AdminApp() {
 
   // Auto-persist helpers
   async function persistRows(nextRows, reason = "auto-save") {
+    // IMPORTANT: nextRows should ALREADY be normalized before calling this function
     try {
+      console.log("🟢 [persistRows] Called with length:", nextRows.length);
+      console.log("🟢 [persistRows] First item:", nextRows[0]?.id);
+      console.log("🟢 [persistRows] Sending to API, length:", nextRows.length);
+
       await fetchJson("/api/services/save", {
         method: "POST",
         body: JSON.stringify({
-          data: normalizeOrder(nextRows),
+          data: nextRows, // ← REMOVED normalizeOrder call
           message: reason,
         }),
       });
+      return true;
     } catch (e) {
       console.warn("Auto-persist failed:", e?.message || e);
-      // Opcional: mostrar aviso no intrusivo
+      return false;
     }
   }
   async function persistTeamRows(nextRows, reason = "auto-save") {
+    // Returns true on success, false on failure
+    // IMPORTANT: nextRows should ALREADY be normalized before calling this function
     try {
+      console.log("🟢 [persistTeamRows] Called with length:", nextRows.length);
+      console.log("🟢 [persistTeamRows] First item:", nextRows[0]?.id);
+
+      // Keep a small local cache like products, for resilience when API is down
+      try {
+        localStorage.setItem(
+          "admin_team",
+          JSON.stringify(nextRows) // ← REMOVED normalizeTeamOrder call
+        );
+      } catch {}
+
+      console.log(
+        "🟢 [persistTeamRows] Sending to API, length:",
+        nextRows.length
+      );
+
       await fetchJson("/api/team/save", {
         method: "POST",
         body: JSON.stringify({
-          data: normalizeTeamOrder(nextRows),
+          data: nextRows, // ← REMOVED normalizeTeamOrder call
           message: reason,
         }),
       });
+      return true;
     } catch (e) {
       console.warn("Auto-persist team failed:", e?.message || e);
+      return false;
     }
   }
   async function persistProductRows(nextRows, reason = "auto-save") {
     // Returns true if saved to API, false otherwise.
+    // IMPORTANT: nextRows should ALREADY be normalized before calling this function
     try {
+      console.log(
+        "🟢 [persistProductRows] Called with length:",
+        nextRows.length
+      );
+      console.log("🟢 [persistProductRows] First item:", nextRows[0]?.id);
+
       // Always keep a local fallback cache
       try {
         localStorage.setItem(
           "admin_products",
-          JSON.stringify(normalizeOrder(nextRows))
+          JSON.stringify(nextRows) // ← REMOVED normalizeOrder call
         );
       } catch {}
+
+      console.log(
+        "🟢 [persistProductRows] Sending to API, length:",
+        nextRows.length
+      );
+
       await fetchJson("/api/products/save", {
         method: "POST",
         body: JSON.stringify({
-          data: normalizeOrder(nextRows),
+          data: nextRows, // ← REMOVED normalizeOrder call
           message: reason,
         }),
       });
@@ -642,7 +688,7 @@ export default function AdminApp() {
         mode={modalMode}
         service={editing}
         onClose={() => setShowForm(false)}
-        onSave={(payload) => {
+        onSave={async (payload) => {
           // Upsert respetando el orden elegido: insertar en 'order' y desplazar el resto
           let nextComputed = [];
           setRows((prev) => {
@@ -671,10 +717,20 @@ export default function AdminApp() {
             return nextComputed;
           });
           // Auto-persistir inmediatamente
-          persistRows(nextComputed, "auto-save: onSave service");
+          const ok = await persistRows(
+            nextComputed,
+            "auto-save: onSave service"
+          );
+          if (!ok) {
+            alert(
+              "No se pudo guardar el servicio. Revisa la conexión del API de desarrollo. Tus cambios locales se conservaron temporalmente."
+            );
+          } else {
+            loadServices();
+          }
           setShowForm(false);
         }}
-        onRestore={(toRestore) => {
+        onRestore={async (toRestore) => {
           if (!toRestore) return;
           let nextComputed = [];
           setRows((prev) => {
@@ -699,7 +755,17 @@ export default function AdminApp() {
             return nextComputed;
           });
           // Auto-persistir inmediatamente
-          persistRows(nextComputed, "auto-save: restore service");
+          const ok = await persistRows(
+            nextComputed,
+            "auto-save: restore service"
+          );
+          if (!ok) {
+            alert(
+              "No se pudo restaurar el servicio. Verifica la conexión del API de desarrollo."
+            );
+          } else {
+            loadServices();
+          }
           setShowForm(false);
         }}
       />
@@ -742,9 +808,10 @@ export default function AdminApp() {
             alert(
               "No se pudo guardar el producto. Revisa la conexión del API de desarrollo. Tus cambios locales se conservaron temporalmente."
             );
+          } else {
+            // Keep admin list in sync with source of truth
+            loadProducts();
           }
-          // Keep admin list in sync with source of truth
-          loadProducts();
           setProductShowForm(false);
         }}
         onRestore={async (toRestore) => {
@@ -778,8 +845,9 @@ export default function AdminApp() {
             alert(
               "No se pudo restaurar el producto. Revisa la conexión del API de desarrollo."
             );
+          } else {
+            loadProducts();
           }
-          loadProducts();
           setProductShowForm(false);
         }}
       />
@@ -788,7 +856,7 @@ export default function AdminApp() {
         mode={teamModalMode}
         member={teamEditing}
         onClose={() => setTeamShowForm(false)}
-        onSave={(payload) => {
+        onSave={async (payload) => {
           let nextComputed = [];
           setTeamRows((prev) => {
             const others = prev.filter((r) => r.id !== payload.id);
@@ -813,10 +881,20 @@ export default function AdminApp() {
             nextComputed = normalizeTeamOrder(next);
             return nextComputed;
           });
-          persistTeamRows(nextComputed, "auto-save: onSave team");
+          const ok = await persistTeamRows(
+            nextComputed,
+            "auto-save: onSave team"
+          );
+          if (!ok) {
+            alert(
+              "No se pudo guardar el miembro del equipo. Revisa la conexión del API de desarrollo."
+            );
+          } else {
+            loadTeam();
+          }
           setTeamShowForm(false);
         }}
-        onRestore={(toRestore) => {
+        onRestore={async (toRestore) => {
           if (!toRestore) return;
           let nextComputed = [];
           setTeamRows((prev) => {
@@ -838,7 +916,17 @@ export default function AdminApp() {
             nextComputed = normalizeTeamOrder(next);
             return nextComputed;
           });
-          persistTeamRows(nextComputed, "auto-save: restore team");
+          const ok = await persistTeamRows(
+            nextComputed,
+            "auto-save: restore team"
+          );
+          if (!ok) {
+            alert(
+              "No se pudo restaurar el miembro del equipo. Revisa la conexión del API de desarrollo."
+            );
+          } else {
+            loadTeam();
+          }
           setTeamShowForm(false);
         }}
       />
@@ -847,50 +935,68 @@ export default function AdminApp() {
         member={teamConfirmRow}
         activeCount={(teamRows || []).filter((x) => !x.archived).length}
         onClose={() => setTeamShowConfirm(false)}
-        onConfirm={(restoreAt) => {
+        onConfirm={async (restoreAt) => {
           if (!teamConfirmRow) return;
           const willArchive = !teamConfirmRow.archived;
           if (willArchive) {
-            let nextComputed = [];
-            setTeamRows((prev) => {
-              nextComputed = normalizeTeamOrder(
-                prev.map((r) =>
-                  r.id === teamConfirmRow.id
-                    ? { ...r, archived: true, order: r.order }
-                    : r
-                )
+            // Calculate BEFORE setTeamRows
+            const mapped = teamRows.map((r) =>
+              r.id === teamConfirmRow.id
+                ? { ...r, archived: true, order: r.order }
+                : r
+            );
+            const nextComputed = normalizeTeamOrder(mapped);
+
+            // Update state
+            setTeamRows(nextComputed);
+
+            const ok = await persistTeamRows(
+              nextComputed,
+              "auto-save: archive team"
+            );
+            if (!ok) {
+              alert(
+                "No se pudo archivar el miembro. Verifica que el servidor de desarrollo esté activo y el endpoint /api disponible."
               );
-              return nextComputed;
-            });
-            persistTeamRows(nextComputed, "auto-save: archive team");
+            } else {
+              loadTeam();
+            }
             setTeamShowConfirm(false);
           } else {
-            let nextComputed = [];
-            setTeamRows((prev) => {
-              const compact = normalizeTeamOrder(prev);
-              const active = compact.filter((x) => !x.archived);
-              const max = Math.max(
-                0,
-                ...active.map((x) => Number(x.order) || 0)
-              );
-              const target =
-                typeof restoreAt === "number"
-                  ? Math.max(1, Math.min(restoreAt, max + 1))
-                  : max + 1;
-              const shifted = compact.map((r) => {
-                if (!r.archived && Number(r.order) >= target)
-                  return { ...r, order: Number(r.order) + 1 };
-                return r;
-              });
-              const next = shifted.map((r) =>
-                r.id === teamConfirmRow.id
-                  ? { ...r, archived: false, order: target }
-                  : r
-              );
-              nextComputed = normalizeTeamOrder(next);
-              return nextComputed;
+            // Restore: calculate BEFORE setTeamRows
+            const compact = normalizeTeamOrder(teamRows);
+            const active = compact.filter((x) => !x.archived);
+            const max = Math.max(0, ...active.map((x) => Number(x.order) || 0));
+            const target =
+              typeof restoreAt === "number"
+                ? Math.max(1, Math.min(restoreAt, max + 1))
+                : max + 1;
+            const shifted = compact.map((r) => {
+              if (!r.archived && Number(r.order) >= target)
+                return { ...r, order: Number(r.order) + 1 };
+              return r;
             });
-            persistTeamRows(nextComputed, "auto-save: restore team from modal");
+            const next = shifted.map((r) =>
+              r.id === teamConfirmRow.id
+                ? { ...r, archived: false, order: target }
+                : r
+            );
+            const nextComputed = normalizeTeamOrder(next);
+
+            // Update state
+            setTeamRows(nextComputed);
+
+            const ok = await persistTeamRows(
+              nextComputed,
+              "auto-save: restore team from modal"
+            );
+            if (!ok) {
+              alert(
+                "No se pudo restaurar el miembro del equipo. Verifica la conexión del API de desarrollo."
+              );
+            } else {
+              loadTeam();
+            }
             setTeamShowConfirm(false);
           }
         }}
@@ -900,7 +1006,7 @@ export default function AdminApp() {
         service={confirmRow}
         activeCount={(rows || []).filter((x) => !x.archived).length}
         onClose={() => setShowConfirm(false)}
-        onConfirm={(restoreAt) => {
+        onConfirm={async (restoreAt) => {
           if (!confirmRow) return;
           const willArchive = !confirmRow.archived;
           if (willArchive) {
@@ -916,7 +1022,17 @@ export default function AdminApp() {
               );
               return nextComputed;
             });
-            persistRows(nextComputed, "auto-save: archive service");
+            const ok = await persistRows(
+              nextComputed,
+              "auto-save: archive service"
+            );
+            if (!ok) {
+              alert(
+                "No se pudo archivar. Verifica que el servidor de desarrollo esté activo (npm run dev) y que el endpoint /api esté disponible."
+              );
+            } else {
+              loadServices();
+            }
             setShowConfirm(false);
           } else {
             // Restaurar: colocar en el orden elegido o al final
@@ -947,7 +1063,17 @@ export default function AdminApp() {
               nextComputed = normalizeOrder(next);
               return nextComputed;
             });
-            persistRows(nextComputed, "auto-save: restore from modal");
+            const ok = await persistRows(
+              nextComputed,
+              "auto-save: restore from modal"
+            );
+            if (!ok) {
+              alert(
+                "No se pudo restaurar el servicio. Verifica la conexión del API de desarrollo."
+              );
+            } else {
+              loadServices();
+            }
             setShowConfirm(false);
           }
         }}
@@ -961,17 +1087,44 @@ export default function AdminApp() {
           if (!productConfirmRow) return;
           const willArchive = !productConfirmRow.archived;
           if (willArchive) {
-            let nextComputed = [];
-            setProductRows((prev) => {
-              nextComputed = normalizeOrder(
-                prev.map((r) =>
-                  r.id === productConfirmRow.id
-                    ? { ...r, archived: true, order: r.order }
-                    : r
-                )
-              );
-              return nextComputed;
-            });
+            console.log(
+              "🔵 [ARCHIVE PRODUCT] Starting archive for:",
+              productConfirmRow.id
+            );
+            console.log(
+              "🔵 [ARCHIVE PRODUCT] Current productRows length:",
+              productRows.length
+            );
+
+            // Calculate nextComputed BEFORE setProductRows
+            const mapped = productRows.map((r) =>
+              r.id === productConfirmRow.id
+                ? { ...r, archived: true, order: r.order }
+                : r
+            );
+            console.log(
+              "🔵 [ARCHIVE PRODUCT] After map, length:",
+              mapped.length
+            );
+
+            const nextComputed = normalizeOrder(mapped);
+            console.log(
+              "🔵 [ARCHIVE PRODUCT] After normalizeOrder, length:",
+              nextComputed.length
+            );
+            console.log(
+              "🔵 [ARCHIVE PRODUCT] nextComputed sample:",
+              nextComputed[0]
+            );
+
+            // Update state with the calculated value
+            setProductRows(nextComputed);
+
+            console.log(
+              "🔵 [ARCHIVE PRODUCT] Before persistProductRows, length:",
+              nextComputed.length
+            );
+
             const ok = await persistProductRows(
               nextComputed,
               "auto-save: archive product"
@@ -980,35 +1133,34 @@ export default function AdminApp() {
               alert(
                 "No se pudo archivar. Verifica que el servidor de desarrollo esté activo (npm run dev) y que el endpoint /api esté disponible."
               );
+            } else {
+              loadProducts();
             }
-            loadProducts();
             setProductShowConfirm(false);
           } else {
-            let nextComputed = [];
-            setProductRows((prev) => {
-              const compact = normalizeOrder(prev);
-              const active = compact.filter((x) => !x.archived);
-              const max = Math.max(
-                0,
-                ...active.map((x) => Number(x.order) || 0)
-              );
-              const target =
-                typeof restoreAt === "number"
-                  ? Math.max(1, Math.min(restoreAt, max + 1))
-                  : max + 1;
-              const shifted = compact.map((r) => {
-                if (!r.archived && Number(r.order) >= target)
-                  return { ...r, order: Number(r.order) + 1 };
-                return r;
-              });
-              const next = shifted.map((r) =>
-                r.id === productConfirmRow.id
-                  ? { ...r, archived: false, order: target }
-                  : r
-              );
-              nextComputed = normalizeOrder(next);
-              return nextComputed;
+            // Restore: calculate BEFORE setProductRows
+            const compact = normalizeOrder(productRows);
+            const active = compact.filter((x) => !x.archived);
+            const max = Math.max(0, ...active.map((x) => Number(x.order) || 0));
+            const target =
+              typeof restoreAt === "number"
+                ? Math.max(1, Math.min(restoreAt, max + 1))
+                : max + 1;
+            const shifted = compact.map((r) => {
+              if (!r.archived && Number(r.order) >= target)
+                return { ...r, order: Number(r.order) + 1 };
+              return r;
             });
+            const next = shifted.map((r) =>
+              r.id === productConfirmRow.id
+                ? { ...r, archived: false, order: target }
+                : r
+            );
+            const nextComputed = normalizeOrder(next);
+
+            // Update state
+            setProductRows(nextComputed);
+
             const ok = await persistProductRows(
               nextComputed,
               "auto-save: restore product from modal"
@@ -1017,8 +1169,9 @@ export default function AdminApp() {
               alert(
                 "No se pudo restaurar el producto. Verifica la conexión del API de desarrollo."
               );
+            } else {
+              loadProducts();
             }
-            loadProducts();
             setProductShowConfirm(false);
           }
         }}
@@ -1030,14 +1183,32 @@ export default function AdminApp() {
 // Ensure active (non-archived) items have consecutive order values 1..N without gaps.
 // Archived items keep their existing order value but are ignored in the renumbering.
 function normalizeOrder(list) {
+  console.log("🟡 [normalizeOrder] Input length:", list?.length);
+
   const arr = Array.isArray(list) ? [...list] : [];
+  console.log("🟡 [normalizeOrder] Array copy length:", arr.length);
+
   const active = arr
     .filter((r) => !r.archived)
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-  active.forEach((item, idx) => {
-    item.order = idx + 1;
-  });
+
+  console.log("🟡 [normalizeOrder] Active items:", active.length);
+  console.log(
+    "🟡 [normalizeOrder] Archived items:",
+    arr.filter((r) => r.archived).length
+  );
+
+  // Create a map of updated active items (WITHOUT MUTATION)
+  const updatedActive = active.map((item, idx) => ({
+    ...item,
+    order: idx + 1,
+  }));
+
   // Merge back with archived untouched
-  const byId = new Map(active.map((x) => [x.id, x]));
-  return arr.map((r) => (r.archived ? r : byId.get(r.id) || r));
+  const byId = new Map(updatedActive.map((x) => [x.id, x]));
+  const result = arr.map((r) => (r.archived ? r : byId.get(r.id) || r));
+
+  console.log("🟡 [normalizeOrder] Result length:", result.length);
+
+  return result;
 }

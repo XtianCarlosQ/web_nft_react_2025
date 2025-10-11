@@ -11,6 +11,11 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   // Merge into process.env so our middleware can read them
   process.env = { ...process.env, ...env };
+  // Sensible dev defaults so the local mock API works out of the box
+  if (typeof process.env.MOCK_API === "undefined")
+    process.env.MOCK_API = "true";
+  if (!process.env.JWT_SECRET) process.env.JWT_SECRET = "devsecret";
+  // ADMIN creds are optional in dev; if not set, we'll auto-authenticate
 
   const COOKIE_NAME = "admin_token";
 
@@ -71,6 +76,20 @@ export default defineConfig(({ mode }) => {
         if (url.pathname === "/api/auth/me" && req.method === "GET") {
           const cookies = parseCookies(req);
           const token = cookies[COOKIE_NAME];
+          // Dev convenience: if admin creds are not configured, auto-authenticate
+          const devNoCreds =
+            !process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD;
+          if (devNoCreds && !token) {
+            try {
+              const t = jwt.sign({ u: "dev" }, process.env.JWT_SECRET, {
+                expiresIn: 60 * 60 * 12,
+              });
+              setCookie(res, COOKIE_NAME, t, { maxAge: 60 * 60 * 12 });
+              return send(200, { authenticated: true, user: { name: "dev" } });
+            } catch {
+              // fall-through
+            }
+          }
           if (!token || !process.env.JWT_SECRET)
             return send(200, { authenticated: false });
           try {
@@ -121,6 +140,18 @@ export default defineConfig(({ mode }) => {
             authed = true;
           } catch {}
         }
+        // In pure-dev mode without explicit ADMIN creds, soft-auto-auth to avoid 401s
+        const devNoCreds =
+          !process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD;
+        if (!authed && devNoCreds) {
+          try {
+            const t = jwt.sign({ u: "dev" }, process.env.JWT_SECRET, {
+              expiresIn: 60 * 60 * 12,
+            });
+            setCookie(res, COOKIE_NAME, t, { maxAge: 60 * 60 * 12 });
+            authed = true;
+          } catch {}
+        }
         if (
           url.pathname.startsWith("/api/services/") ||
           url.pathname.startsWith("/api/team/") ||
@@ -153,12 +184,13 @@ export default defineConfig(({ mode }) => {
             body = raw ? JSON.parse(raw) : {};
           } catch {}
           const data = Array.isArray(body.data) ? body.data : [];
+          console.log("[DEV-API] services/save len=", data.length);
           const p = process.env.SERVICES_PATH || "public/content/services.json";
           const abs = path.resolve(process.cwd(), p);
           // Safety guard: prevent accidental wipe unless explicitly allowed
           const allowEmpty = url.searchParams.get("allowEmpty") === "true";
           if (data.length === 0 && !allowEmpty) {
-            return send(400, {
+            return send(422, {
               ok: false,
               error: "empty_not_allowed",
               hint: "Pass ?allowEmpty=true if you intend to clear all services",
@@ -207,17 +239,37 @@ export default defineConfig(({ mode }) => {
         }
         if (url.pathname === "/api/team/save" && req.method === "POST") {
           const raw = await readBody(req);
+          console.log("[DEV-API] team/save RAW body length:", raw?.length || 0);
+
           let body = {};
           try {
             body = raw ? JSON.parse(raw) : {};
-          } catch {}
+            console.log(
+              "[DEV-API] team/save PARSED body keys:",
+              Object.keys(body)
+            );
+          } catch (e) {
+            console.log("[DEV-API] team/save JSON PARSE ERROR:", e.message);
+          }
+
           const data = Array.isArray(body.data) ? body.data : [];
+          console.log("[DEV-API] team/save data.length=", data.length);
+          console.log("[DEV-API] team/save body.data type:", typeof body.data);
+          console.log(
+            "[DEV-API] team/save body.data isArray:",
+            Array.isArray(body.data)
+          );
+          if (data.length > 0) {
+            console.log("[DEV-API] team/save first item:", data[0]?.id);
+          }
+
           const p = process.env.TEAM_PATH || "public/content/team.json";
           const abs = path.resolve(process.cwd(), p);
           // Safety guard: prevent accidental wipe unless explicitly allowed
           const allowEmpty = url.searchParams.get("allowEmpty") === "true";
           if (data.length === 0 && !allowEmpty) {
-            return send(400, {
+            console.log("[DEV-API] team/save REJECTING empty array");
+            return send(422, {
               ok: false,
               error: "empty_not_allowed",
               hint: "Pass ?allowEmpty=true if you intend to clear all team entries",
@@ -266,17 +318,43 @@ export default defineConfig(({ mode }) => {
         }
         if (url.pathname === "/api/products/save" && req.method === "POST") {
           const raw = await readBody(req);
+          console.log(
+            "[DEV-API] products/save RAW body length:",
+            raw?.length || 0
+          );
+
           let body = {};
           try {
             body = raw ? JSON.parse(raw) : {};
-          } catch {}
+            console.log(
+              "[DEV-API] products/save PARSED body keys:",
+              Object.keys(body)
+            );
+          } catch (e) {
+            console.log("[DEV-API] products/save JSON PARSE ERROR:", e.message);
+          }
+
           const data = Array.isArray(body.data) ? body.data : [];
+          console.log("[DEV-API] products/save data.length=", data.length);
+          console.log(
+            "[DEV-API] products/save body.data type:",
+            typeof body.data
+          );
+          console.log(
+            "[DEV-API] products/save body.data isArray:",
+            Array.isArray(body.data)
+          );
+          if (data.length > 0) {
+            console.log("[DEV-API] products/save first item:", data[0]?.id);
+          }
+
           const p = process.env.PRODUCTS_PATH || "public/content/products.json";
           const abs = path.resolve(process.cwd(), p);
           // Safety guard: prevent accidental wipe unless explicitly allowed
           const allowEmpty = url.searchParams.get("allowEmpty") === "true";
           if (data.length === 0 && !allowEmpty) {
-            return send(400, {
+            console.log("[DEV-API] products/save REJECTING empty array");
+            return send(422, {
               ok: false,
               error: "empty_not_allowed",
               hint: "Pass ?allowEmpty=true if you intend to clear all products",
@@ -547,14 +625,9 @@ export default defineConfig(({ mode }) => {
       },
     ],
     server: {
-      proxy: {
-        // Proxy API routes to a local serverless dev server (e.g., `vercel dev` on 3000)
-        "/api": {
-          target: "http://localhost:3000",
-          changeOrigin: true,
-          secure: false,
-        },
-      },
+      // With the mock API enabled by default, no proxy is required for local dev
+      // If you later run an external API, you can re-enable this proxy.
+      proxy: {},
     },
   };
 });

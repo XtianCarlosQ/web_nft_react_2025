@@ -24,8 +24,9 @@
         "Diagnosis and roadmap"
       ]
     },
-    "order": 2,
-    "whatsapp": "51988496839"
+    "order": 6,
+    "whatsapp": "51988496839",
+    "archived": false
   },
   {
     "id": "implementacion-soporte",
@@ -108,8 +109,9 @@
         "Scalability"
       ]
     },
-    "order": 6,
-    "whatsapp": "51988496839"
+    "order": 1,
+    "whatsapp": "51988496839",
+    "archived": false
   },
   {
     "id": "analisis-laboratorio",
@@ -136,7 +138,7 @@
         "Technical reports"
       ]
     },
-    "order": 1,
+    "order": 2,
     "whatsapp": "51988496839",
     "archived": false
   },
@@ -192,7 +194,7 @@
         "Reilona"
       ]
     },
-    "order": 7,
+    "order": 6,
     "whatsapp": "51988496839",
     "archived": true
   },

@@ -39,7 +39,13 @@ export function normalizeTeamOrder(list) {
   const actives = arr
     .filter((x) => !x.archived)
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-  actives.forEach((it, i) => (it.order = i + 1));
-  const map = new Map(actives.map((x) => [x.id, x]));
+
+  // Create updated active items WITHOUT MUTATION
+  const updatedActives = actives.map((it, i) => ({
+    ...it,
+    order: i + 1,
+  }));
+
+  const map = new Map(updatedActives.map((x) => [x.id, x]));
   return arr.map((x) => (x.archived ? x : map.get(x.id) || x));
 }

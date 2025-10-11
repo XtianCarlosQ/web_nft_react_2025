@@ -1,0 +1,844 @@
+[
+  {
+    "id": "fiber-med-2",
+    "name": {
+      "es": "FIBER MED",
+      "en": "FIBER MED"
+    },
+    "tagline": {
+      "es": "Medulador Inteligente de Fibras",
+      "en": "Medulador Inteligente de Fibras"
+    },
+    "description": {
+      "es": "Medulador inteligente de fibras con IA para análisis automático de medulación en fibras de origen animal.",
+      "en": "Medulador inteligente de fibras con IA para análisis automático de medulación en fibras de origen animal."
+    },
+    "descriptionDetail": {
+      "es": "Equipo portátil que determina la incidencia de medulación en fibras de origen animal usando inteligencia artificial para interpretar imágenes digitales.",
+      "en": "Equipo portátil que determina la incidencia de medulación en fibras de origen animal usando inteligencia artificial para interpretar imágenes digitales."
+    },
+    "image": "/assets/images/products/FIBER MED V1.0.png",
+    "category": "Análisis de Medulación",
+    "features": {
+      "es": [
+        "Análisis con IA integrada",
+        "8 kg, portátil",
+        "Fibras blancas y claras",
+        "Reportes automáticos"
+      ],
+      "en": [
+        "Análisis con IA integrada",
+        "8 kg, portátil",
+        "Fibras blancas y claras",
+        "Reportes automáticos"
+      ]
+    },
+    "featuresDetail": [
+      {
+        "icon": "BarChart3",
+        "title": {
+          "es": "Evaluación de Medulación",
+          "en": "Evaluación de Medulación"
+        },
+        "description": {
+          "es": "Evalúa el porcentaje total y por tipo de fibras según su medulación (alpaca, llama, oveja, mohair)",
+          "en": "Evalúa el porcentaje total y por tipo de fibras según su medulación (alpaca, llama, oveja, mohair)"
+        }
+      },
+      {
+        "icon": "Ruler",
+        "title": {
+          "es": "Medición de Diámetro",
+          "en": "Medición de Diámetro"
+        },
+        "description": {
+          "es": "Mide el diámetro de fibra total y por tipo de medulación con alta precisión",
+          "en": "Mide el diámetro de fibra total y por tipo de medulación con alta precisión"
+        }
+      },
+      {
+        "icon": "Activity",
+        "title": {
+          "es": "Análisis Estadístico",
+          "en": "Análisis Estadístico"
+        },
+        "description": {
+          "es": "Calcula desviación estándar y visualiza distribución de diámetros",
+          "en": "Calcula desviación estándar y visualiza distribución de diámetros"
+        }
+      },
+      {
+        "icon": "Monitor",
+        "title": {
+          "es": "IA Integrada",
+          "en": "IA Integrada"
+        },
+        "description": {
+          "es": "Tecnología de inteligencia artificial para interpretación automática de imágenes",
+          "en": "Tecnología de inteligencia artificial para interpretación automática de imágenes"
+        }
+      }
+    ],
+    "specifications": {
+      "Tipo": "Equipo automático de sobremesa/portátil",
+      "Peso": "8 kg",
+      "Alimentación": "220-240 VAC, 50-60 Hz",
+      "Componentes": "4 sistemas: Electrónico, Mecánico, Óptico, Software",
+      "Cámara": "Cámara óptica integrada",
+      "Software": "Software propietario FIBER MED"
+    },
+    "capabilities": [
+      "Determinar cantidad de fibras por tipo de medulación y sin médula",
+      "Evaluación en fibras blancas y color claro",
+      "Clasificación automática por tipo de animal",
+      "Reportes detallados con gráficos estadísticos"
+    ],
+    "youtubeVideo": "https://www.youtube.com/watch?v=35Yf4dK-hyI&t=1s",
+    "additionalImages": [
+      "/assets/images/products/FIBER MED V1.0.png"
+    ],
+    "order": 1,
+    "archived": false
+  },
+  {
+    "id": "s-fiber-ec",
+    "name": {
+      "es": "S-FIBER EC",
+      "en": "S-FIBER EC"
+    },
+    "tagline": {
+      "es": "Caracterizador Portátil de Campo",
+      "en": "Caracterizador Portátil de Campo"
+    },
+    "description": {
+      "es": "Versión portátil del FIBER EC, diseñada para uso en campo. Perfecta para evaluaciones in-situ con la misma precisión.",
+      "en": "Versión portátil del FIBER EC, diseñada para uso en campo. Perfecta para evaluaciones in-situ con la misma precisión."
+    },
+    "descriptionDetail": {
+      "es": "Versión básica y portátil del FIBER EC, diseñada para evaluaciones en campo con mochila de transporte incluida. Trabaja en altitudes hasta 5,300 m.s.n.m.",
+      "en": "Versión básica y portátil del FIBER EC, diseñada para evaluaciones en campo con mochila de transporte incluida. Trabaja en altitudes hasta 5,300 m.s.n.m."
+    },
+    "image": "/assets/images/products/S-FIBER EC.png",
+    "category": "Caracterización Portátil",
+    "features": {
+      "es": [
+        "Solo 3.8 kg",
+        "Hasta 5,300 m.s.n.m.",
+        "-7°C a 45°C",
+        "Mochila incluida"
+      ],
+      "en": [
+        "Solo 3.8 kg",
+        "Hasta 5,300 m.s.n.m.",
+        "-7°C a 45°C",
+        "Mochila incluida"
+      ]
+    },
+    "featuresDetail": [
+      {
+        "icon": "Weight",
+        "title": {
+          "es": "Ultra Portátil",
+          "en": "Ultra Portátil"
+        },
+        "description": {
+          "es": "Solo 3.8 kg con mochila de transporte incluida para trabajo en campo",
+          "en": "Solo 3.8 kg con mochila de transporte incluida para trabajo en campo"
+        }
+      },
+      {
+        "icon": "Settings",
+        "title": {
+          "es": "Condiciones Extremas",
+          "en": "Condiciones Extremas"
+        },
+        "description": {
+          "es": "Funciona hasta 5,300 m.s.n.m. y temperaturas de -7°C a 45°C",
+          "en": "Funciona hasta 5,300 m.s.n.m. y temperaturas de -7°C a 45°C"
+        }
+      },
+      {
+        "icon": "BarChart3",
+        "title": {
+          "es": "Parámetros Básicos",
+          "en": "Parámetros Básicos"
+        },
+        "description": {
+          "es": "Determina Media de diámetro de fibra (MDF) y Desviación Estándar (DEMDF)",
+          "en": "Determina Media de diámetro de fibra (MDF) y Desviación Estándar (DEMDF)"
+        }
+      },
+      {
+        "icon": "Monitor",
+        "title": {
+          "es": "Tecnología Digital",
+          "en": "Tecnología Digital"
+        },
+        "description": {
+          "es": "Interpretación de imágenes digitales con almacenamiento de datos",
+          "en": "Interpretación de imágenes digitales con almacenamiento de datos"
+        }
+      }
+    ],
+    "specifications": {
+      "Peso": "3.8 kg",
+      "Carcasa": "Acrílico",
+      "Dimensiones": "22.5 cm x 22.4 cm x 28.5 cm",
+      "Alimentación": "220-240 VAC, 50-60 Hz",
+      "Componentes": "4 sistemas: Electrónico, Mecánico, Óptico, Software",
+      "Accesorios": "Mochila de transporte incluida"
+    },
+    "capabilities": [
+      "Media de diámetro de fibra (MDF)",
+      "Desviación Estándar de la MDF (DEMDF)",
+      "Trabajo en condiciones de altitud extrema",
+      "Transmisión y almacenamiento de datos"
+    ],
+    "youtubeVideo": "https://www.youtube.com/watch?v=HW_8GKVgmdw",
+    "additionalImages": [
+      "/assets/images/products/S-FIBER EC.png"
+    ],
+    "order": 4,
+    "archived": false
+  },
+  {
+    "id": "fiber-den",
+    "name": {
+      "es": "FIBER DEN",
+      "en": "FIBER DEN"
+    },
+    "tagline": {
+      "es": "Densímetro de Fibras Portátil",
+      "en": "Densímetro de Fibras Portátil"
+    },
+    "description": {
+      "es": "Densímetro portátil con mini microscopio para análisis de densidad de fibras y conductos pilosos.",
+      "en": "Densímetro portátil con mini microscopio para análisis de densidad de fibras y conductos pilosos."
+    },
+    "descriptionDetail": {
+      "es": "Mini microscopio digital portátil que captura imágenes de fibras en piel rasurada para determinar densidad de fibras y conductos pilosos.",
+      "en": "Mini microscopio digital portátil que captura imágenes de fibras en piel rasurada para determinar densidad de fibras y conductos pilosos."
+    },
+    "image": "/assets/images/products/Fiber-Den-3.png",
+    "category": "Análisis de Densidad",
+    "features": {
+      "es": [
+        "Solo 200g de peso",
+        "Sensor 2MP",
+        "Área 0.25-9.0 mm²",
+        "Software incluido"
+      ],
+      "en": [
+        "Solo 200g de peso",
+        "Sensor 2MP",
+        "Área 0.25-9.0 mm²",
+        "Software incluido"
+      ]
+    },
+    "featuresDetail": [
+      {
+        "icon": "Camera",
+        "title": {
+          "es": "Captura Digital",
+          "en": "Captura Digital"
+        },
+        "description": {
+          "es": "Mini microscopio con sensor de 2MP para imágenes de alta calidad",
+          "en": "Mini microscopio con sensor de 2MP para imágenes de alta calidad"
+        }
+      },
+      {
+        "icon": "Weight",
+        "title": {
+          "es": "Ultra Portátil",
+          "en": "Ultra Portátil"
+        },
+        "description": {
+          "es": "Solo 200g de peso en dimensiones compactas de 11x5x5 cm",
+          "en": "Solo 200g de peso en dimensiones compactas de 11x5x5 cm"
+        }
+      },
+      {
+        "icon": "BarChart3",
+        "title": {
+          "es": "Análisis Completo",
+          "en": "Análisis Completo"
+        },
+        "description": {
+          "es": "Densidad de fibras, conductos pilosos y relaciones estadísticas",
+          "en": "Densidad de fibras, conductos pilosos y relaciones estadísticas"
+        }
+      },
+      {
+        "icon": "Settings",
+        "title": {
+          "es": "Área Variable",
+          "en": "Área Variable"
+        },
+        "description": {
+          "es": "Captura imágenes en áreas desde 0.25 hasta 9.0 mm²",
+          "en": "Captura imágenes en áreas desde 0.25 hasta 9.0 mm²"
+        }
+      }
+    ],
+    "specifications": {
+      "Peso": "200 g",
+      "Dimensiones": "11 cm x 5 cm x 5 cm",
+      "Alimentación": "3.5VDC",
+      "Sensor": "LENS & CMO 2 MP",
+      "Resolución": "1600 x 1200 píxeles, BMP/JPEG",
+      "Iluminación": "4 focos de luz blanca"
+    },
+    "capabilities": [
+      "Densidad de conductos pilosos (Nº/mm²)",
+      "Densidad de fibras (Nº/mm²)",
+      "Relación fibras/conductos pilosos",
+      "Análisis estadístico con desviación estándar y coeficiente de variación"
+    ],
+    "youtubeVideo": "https://www.youtube.com/watch?v=2lgmUXohYIE",
+    "additionalImages": [
+      "/assets/images/products/Fiber-Den-1.png"
+    ],
+    "order": 5,
+    "archived": false
+  },
+  {
+    "id": "fiber-tst",
+    "name": {
+      "es": "FIBER TST",
+      "en": "FIBER TST"
+    },
+    "tagline": {
+      "es": "Medidor de Esfuerzo a la Tracción",
+      "en": "Medidor de Esfuerzo a la Tracción"
+    },
+    "description": {
+      "es": "Medidor de esfuerzo a la tracción con tecnología de muestreo en tiempo real y graficado automático.",
+      "en": "Medidor de esfuerzo a la tracción con tecnología de muestreo en tiempo real y graficado automático."
+    },
+    "descriptionDetail": {
+      "es": "Medidor de esfuerzo a la tracción de fibras (Tensile Strength Tester) que utiliza tecnología de muestreo de datos en tiempo real con almacenamiento y graficado automático.",
+      "en": "Medidor de esfuerzo a la tracción de fibras (Tensile Strength Tester) que utiliza tecnología de muestreo de datos en tiempo real con almacenamiento y graficado automático."
+    },
+    "image": "/assets/images/products/FIBER TST.png",
+    "category": "Análisis de Resistencia",
+    "features": {
+      "es": [
+        "Velocidad 6-64 mm/s",
+        "Gráficos en tiempo real",
+        "Máximo 30 kg",
+        "Sistema neumático"
+      ],
+      "en": [
+        "Velocidad 6-64 mm/s",
+        "Gráficos en tiempo real",
+        "Máximo 30 kg",
+        "Sistema neumático"
+      ]
+    },
+    "featuresDetail": [
+      {
+        "icon": "Activity",
+        "title": {
+          "es": "Tiempo Real",
+          "en": "Tiempo Real"
+        },
+        "description": {
+          "es": "Muestreo de datos y graficado en tiempo real durante las pruebas",
+          "en": "Muestreo de datos y graficado en tiempo real durante las pruebas"
+        }
+      },
+      {
+        "icon": "BarChart3",
+        "title": {
+          "es": "Análisis Completo",
+          "en": "Análisis Completo"
+        },
+        "description": {
+          "es": "Esfuerzo máximo, media, coeficiente de variación y punto de ruptura",
+          "en": "Esfuerzo máximo, media, coeficiente de variación y punto de ruptura"
+        }
+      },
+      {
+        "icon": "Settings",
+        "title": {
+          "es": "Velocidad Variable",
+          "en": "Velocidad Variable"
+        },
+        "description": {
+          "es": "Opciones de velocidad desde 6 hasta 64 mm/s para diferentes tipos de fibra",
+          "en": "Opciones de velocidad desde 6 hasta 64 mm/s para diferentes tipos de fibra"
+        }
+      },
+      {
+        "icon": "Shield",
+        "title": {
+          "es": "Seguridad",
+          "en": "Seguridad"
+        },
+        "description": {
+          "es": "Mecanismo de seguridad integrado con accesorios especializados",
+          "en": "Mecanismo de seguridad integrado con accesorios especializados"
+        }
+      }
+    ],
+    "specifications": {
+      "Tipo": "Equipo de sobremesa",
+      "Peso": "Máximo 30 kg",
+      "Dimensiones": "80 cm x 40 cm x 36 cm",
+      "Consumo": "150 W",
+      "Alimentación": "220-240 VAC, 50-60 Hz",
+      "Velocidad": "6 a 64 mm/s"
+    },
+    "capabilities": [
+      "Esfuerzo a la tracción máxima (N/Ktex)",
+      "Media del esfuerzo a la tracción máxima (MET)",
+      "Fuerza máxima a la rotura (N)",
+      "Coeficiente de Variación y Desviación Estándar"
+    ],
+    "youtubeVideo": "https://www.youtube.com/watch?v=-b4Ztxmlbjw",
+    "additionalImages": [
+      "/assets/images/products/FIBER TST.png"
+    ],
+    "order": 6,
+    "archived": false
+  },
+  {
+    "id": "mosiville",
+    "name": {
+      "es": "MOSIVILLE",
+      "en": "MOSIVILLE"
+    },
+    "tagline": {
+      "es": "Monitor de Signos Vitales Animal",
+      "en": "Monitor de Signos Vitales Animal"
+    },
+    "description": {
+      "es": "Sistema para monitoreo inalámbrico y en tiempo real de signos vitales en diversos animales.",
+      "en": "Sistema para monitoreo inalámbrico y en tiempo real de signos vitales en diversos animales."
+    },
+    "descriptionDetail": {
+      "es": "Sistema de monitoreo inalámbrico en tiempo real de signos vitales de diversos animales mediante smartphone, tablet o PC, utilizando algoritmos avanzados de procesamiento digital.",
+      "en": "Sistema de monitoreo inalámbrico en tiempo real de signos vitales de diversos animales mediante smartphone, tablet o PC, utilizando algoritmos avanzados de procesamiento digital."
+    },
+    "image": "/assets/images/products/Mosiville.png",
+    "category": "Monitoreo Veterinario",
+    "features": {
+      "es": [
+        "Solo 80g de peso",
+        "Monitoreo inalámbrico",
+        "Múltiples especies",
+        "Detección de arritmias"
+      ],
+      "en": [
+        "Solo 80g de peso",
+        "Monitoreo inalámbrico",
+        "Múltiples especies",
+        "Detección de arritmias"
+      ]
+    },
+    "featuresDetail": [
+      {
+        "icon": "Monitor",
+        "title": {
+          "es": "Monitoreo Remoto",
+          "en": "Monitoreo Remoto"
+        },
+        "description": {
+          "es": "Visualización en tiempo real mediante smartphone, tablet o PC",
+          "en": "Visualización en tiempo real mediante smartphone, tablet o PC"
+        }
+      },
+      {
+        "icon": "Activity",
+        "title": {
+          "es": "Signos Vitales",
+          "en": "Signos Vitales"
+        },
+        "description": {
+          "es": "Ritmo y frecuencia cardíaca, frecuencia respiratoria, temperatura",
+          "en": "Ritmo y frecuencia cardíaca, frecuencia respiratoria, temperatura"
+        }
+      },
+      {
+        "icon": "Shield",
+        "title": {
+          "es": "Detección Avanzada",
+          "en": "Detección Avanzada"
+        },
+        "description": {
+          "es": "Detecta arritmias, apneas, fiebre y variabilidad cardíaca",
+          "en": "Detecta arritmias, apneas, fiebre y variabilidad cardíaca"
+        }
+      },
+      {
+        "icon": "Weight",
+        "title": {
+          "es": "Ultra Liviano",
+          "en": "Ultra Liviano"
+        },
+        "description": {
+          "es": "Solo 80g de peso en dimensiones ultracompactas",
+          "en": "Solo 80g de peso en dimensiones ultracompactas"
+        }
+      }
+    ],
+    "specifications": {
+      "Peso": "80 g",
+      "Dimensiones": "7.8 cm x 1.98 cm x 4.1 cm",
+      "Alimentación": "3.7 VDC",
+      "Conectividad": "Inalámbrica",
+      "Compatibilidad": "Smartphone, Tablet, PC",
+      "Componentes": "3 sistemas: Electrónico, Mecánico, Software"
+    },
+    "capabilities": [
+      "Ritmo cardíaco en tiempo real",
+      "Frecuencia cardíaca (HR) y variabilidad (HRV)",
+      "Frecuencia respiratoria (FR)",
+      "Temperatura superficial y movimiento"
+    ],
+    "youtubeVideo": "https://www.youtube.com/watch?v=-b4Ztxmlbjw",
+    "additionalImages": [
+      "/assets/images/products/Mosiville.png"
+    ],
+    "order": 7,
+    "archived": false
+  },
+  {
+    "id": "medulometro",
+    "name": {
+      "es": "MEDULÓMETRO",
+      "en": "MEDULÓMETRO"
+    },
+    "tagline": {
+      "es": "Microscopio de Proyección Computarizado",
+      "en": "Microscopio de Proyección Computarizado"
+    },
+    "description": {
+      "es": "Versión básica del FIBER MED. Microscopio de proyección computarizado para análisis de medulación.",
+      "en": "Versión básica del FIBER MED. Microscopio de proyección computarizado para análisis de medulación."
+    },
+    "descriptionDetail": {
+      "es": "Versión básica del FIBER MED. Microscopio de proyección computarizado y semi-automatizado para evaluar la calidad de fibras mediante interpretación de imágenes digitales.",
+      "en": "Versión básica del FIBER MED. Microscopio de proyección computarizado y semi-automatizado para evaluar la calidad de fibras mediante interpretación de imágenes digitales."
+    },
+    "image": "/assets/images/products/medulometro.png",
+    "category": "Análisis Básico de Medulación",
+    "features": {
+      "es": [
+        "Microscopio digital",
+        "Semi-automatizado",
+        "10 kg de peso",
+        "Multi-especie"
+      ],
+      "en": [
+        "Microscopio digital",
+        "Semi-automatizado",
+        "10 kg de peso",
+        "Multi-especie"
+      ]
+    },
+    "featuresDetail": [
+      {
+        "icon": "Microscope",
+        "title": {
+          "es": "Microscopio Digital",
+          "en": "Microscopio Digital"
+        },
+        "description": {
+          "es": "Microscopio de proyección computarizado y semi-automatizado",
+          "en": "Microscopio de proyección computarizado y semi-automatizado"
+        }
+      },
+      {
+        "icon": "BarChart3",
+        "title": {
+          "es": "Análisis por Tipo",
+          "en": "Análisis por Tipo"
+        },
+        "description": {
+          "es": "Media del diámetro por tipo de medulación y desviación estándar",
+          "en": "Media del diámetro por tipo de medulación y desviación estándar"
+        }
+      },
+      {
+        "icon": "Shield",
+        "title": {
+          "es": "Multi-especie",
+          "en": "Multi-especie"
+        },
+        "description": {
+          "es": "Camélidos, ovinos, cabras, conejos, camellos, vacunos y más",
+          "en": "Camélidos, ovinos, cabras, conejos, camellos, vacunos y más"
+        }
+      },
+      {
+        "icon": "Monitor",
+        "title": {
+          "es": "Almacenamiento Digital",
+          "en": "Almacenamiento Digital"
+        },
+        "description": {
+          "es": "Transmisión y almacenamiento de base de datos y gráficos",
+          "en": "Transmisión y almacenamiento de base de datos y gráficos"
+        }
+      }
+    ],
+    "specifications": {
+      "Peso": "10 kg",
+      "Dimensiones": "25.3 cm x 18.8 cm x 38.5 cm",
+      "Alimentación": "220-240 VAC, 50-60 Hz",
+      "Componentes": "4 sistemas: Electrónico, Mecánico, Óptico, Software"
+    },
+    "capabilities": [
+      "Media del diámetro de fibra (MDF) por tipo de medulación",
+      "Desviación estándar por tipo de medulación",
+      "Clasificación: no medulada, fragmentada, discontinua, continua",
+      "Transmisión y almacenamiento de datos"
+    ],
+    "youtubeVideo": "https://www.youtube.com/watch?v=-b4Ztxmlbjw",
+    "additionalImages": [
+      "/assets/images/products/medulometro.png"
+    ],
+    "order": 8,
+    "archived": false
+  },
+  {
+    "id": "fiber-med",
+    "name": {
+      "es": "FIBER MED V2.0",
+      "en": "FIBER MED V2.0"
+    },
+    "tagline": {
+      "es": "Medulador Inteligente Avanzado",
+      "en": "Medulador Inteligente Avanzado"
+    },
+    "description": {
+      "es": "Versión mejorada que analiza fibras de diferentes colores en 40 segundos caracterizando más de 3000 fibras por muestra.",
+      "en": "Versión mejorada que analiza fibras de diferentes colores en 40 segundos caracterizando más de 3000 fibras por muestra."
+    },
+    "descriptionDetail": {
+      "es": "Versión mejorada del FIBER MED que determina medulación en fibras de diferentes colores, incluyendo fibras oscuras con decoloración. Evalúa cada muestra en 40 segundos caracterizando más de 3000 fibras.",
+      "en": "Versión mejorada del FIBER MED que determina medulación en fibras de diferentes colores, incluyendo fibras oscuras con decoloración. Evalúa cada muestra en 40 segundos caracterizando más de 3000 fibras."
+    },
+    "image": "/assets/images/products/FIBER MED V2.0.jpg",
+    "category": "Análisis de Medulación Avanzado",
+    "features": {
+      "es": [
+        "Múltiples colores de fibra",
+        "40 segundos/muestra",
+        "3000+ fibras analizadas",
+        "Cámara infrarroja"
+      ],
+      "en": [
+        "Múltiples colores de fibra",
+        "40 segundos/muestra",
+        "3000+ fibras analizadas",
+        "Cámara infrarroja"
+      ]
+    },
+    "featuresDetail": [
+      {
+        "icon": "BarChart3",
+        "title": {
+          "es": "Múltiples Colores",
+          "en": "Múltiples Colores"
+        },
+        "description": {
+          "es": "Analiza fibras desde blanco hasta café claro sin decoloración, y fibras oscuras con decoloración",
+          "en": "Analiza fibras desde blanco hasta café claro sin decoloración, y fibras oscuras con decoloración"
+        }
+      },
+      {
+        "icon": "Activity",
+        "title": {
+          "es": "Procesamiento Rápido",
+          "en": "Procesamiento Rápido"
+        },
+        "description": {
+          "es": "Evalúa cada muestra en 40 segundos caracterizando más de 3000 fibras por muestra",
+          "en": "Evalúa cada muestra en 40 segundos caracterizando más de 3000 fibras por muestra"
+        }
+      },
+      {
+        "icon": "Settings",
+        "title": {
+          "es": "Análisis Detallado",
+          "en": "Análisis Detallado"
+        },
+        "description": {
+          "es": "Clasifica fibras por tipo de medulación: no medulada, fragmentada, discontinua, continua",
+          "en": "Clasifica fibras por tipo de medulación: no medulada, fragmentada, discontinua, continua"
+        }
+      },
+      {
+        "icon": "Monitor",
+        "title": {
+          "es": "IA Avanzada",
+          "en": "IA Avanzada"
+        },
+        "description": {
+          "es": "Moderna tecnología de inteligencia artificial para interpretación automática",
+          "en": "Moderna tecnología de inteligencia artificial para interpretación automática"
+        }
+      }
+    ],
+    "specifications": {
+      "Tipo": "Equipo automático de sobremesa/portátil",
+      "Peso": "8 kg",
+      "Alimentación": "220-240 VAC, 50-60 Hz",
+      "Cámara": "Óptica e infrarroja para distintos colores",
+      "Software": "Software propietario FIBER MED con IA"
+    },
+    "capabilities": [
+      "Análisis en 40 segundos por muestra",
+      "Caracterización de >3000 fibras por muestra",
+      "Clasificación por tipo de medulación (no medulada, fragmentada, discontinua, continua)",
+      "Evaluación de fibras claras y oscuras (con decoloración)"
+    ],
+    "youtubeVideo": "https://www.youtube.com/watch?v=-RJHbgvkm5M&t=1s",
+    "additionalImages": [
+      "/assets/images/products/FIBER MED V2.0.jpg"
+    ],
+    "order": 2,
+    "archived": false
+  },
+  {
+    "id": "fiber-ec",
+    "name": {
+      "es": "FIBER EC",
+      "en": "FIBER EC"
+    },
+    "tagline": {
+      "es": "Caracterizador Electrónico de Fibras",
+      "en": "Caracterizador Electrónico de Fibras"
+    },
+    "description": {
+      "es": "Caracterizador electrónico que evalúa calidad de fibras mediante interpretación de imágenes digitales.",
+      "en": "Caracterizador electrónico que evalúa calidad de fibras mediante interpretación de imágenes digitales."
+    },
+    "descriptionDetail": {
+      "es": "Caracterizador electrónico que evalúa la calidad de fibras de origen animal mediante tecnología de interpretación de imágenes digitales.",
+      "en": "Caracterizador electrónico que evalúa la calidad de fibras de origen animal mediante tecnología de interpretación de imágenes digitales."
+    },
+    "image": "/assets/images/products/FIBER EC.png",
+    "category": "Caracterización de Fibras",
+    "features": {
+      "es": [
+        "MDF, CVMDF, DEMDF",
+        "Factor de Picazón/Confort",
+        "Multi-especie",
+        "Carcasa fibra de carbono"
+      ],
+      "en": [
+        "MDF, CVMDF, DEMDF",
+        "Factor de Picazón/Confort",
+        "Multi-especie",
+        "Carcasa fibra de carbono"
+      ]
+    },
+    "featuresDetail": [
+      {
+        "icon": "BarChart3",
+        "title": {
+          "es": "Análisis Completo",
+          "en": "Análisis Completo"
+        },
+        "description": {
+          "es": "Evalúa mechas completas obteniendo perfil de fibras y miles de datos por muestra",
+          "en": "Evalúa mechas completas obteniendo perfil de fibras y miles de datos por muestra"
+        }
+      },
+      {
+        "icon": "Ruler",
+        "title": {
+          "es": "Múltiples Parámetros",
+          "en": "Múltiples Parámetros"
+        },
+        "description": {
+          "es": "Mide MDF, CVMDF, DEMDF, Factor de Picazón, Factor de Confort y Finura al hilado",
+          "en": "Mide MDF, CVMDF, DEMDF, Factor de Picazón, Factor de Confort y Finura al hilado"
+        }
+      },
+      {
+        "icon": "Shield",
+        "title": {
+          "es": "Multi-especie",
+          "en": "Multi-especie"
+        },
+        "description": {
+          "es": "Funciona con camélidos, ovinos, cabras, conejos, camellos y más especies",
+          "en": "Funciona con camélidos, ovinos, cabras, conejos, camellos y más especies"
+        }
+      },
+      {
+        "icon": "Activity",
+        "title": {
+          "es": "Monitoreo Ambiental",
+          "en": "Monitoreo Ambiental"
+        },
+        "description": {
+          "es": "Controla temperatura y humedad ambiental durante las mediciones",
+          "en": "Controla temperatura y humedad ambiental durante las mediciones"
+        }
+      }
+    ],
+    "specifications": {
+      "Tipo": "Caracterizador electrónico de fibras",
+      "Peso": "—",
+      "Alimentación": "220-240 VAC, 50-60 Hz",
+      "Parámetros": "MDF, CVMDF, DEMDF, Factor de Picazón, Factor de Confort, Finura al hilado",
+      "Componentes": "Sistemas electrónico, mecánico, óptico y software"
+    },
+    "capabilities": [
+      "Evaluación de mechas completas con perfil de fibras",
+      "Miles de mediciones por muestra",
+      "Monitoreo de temperatura y humedad durante la medición",
+      "Soporte multi-especie (camélidos, ovinos, cabras, conejos, camellos)"
+    ],
+    "youtubeVideo": "https://www.youtube.com/watch?v=VzxlbyXc_0Y",
+    "additionalImages": [
+      "/assets/images/products/FIBER EC.png"
+    ],
+    "order": 3,
+    "archived": false
+  },
+  {
+    "id": "product-ytqox7",
+    "name": {
+      "es": "FIBER MULT",
+      "en": "FIBER MULT"
+    },
+    "tagline": {
+      "es": "",
+      "en": ""
+    },
+    "description": {
+      "es": "Analiza secciones transversables de Fibra",
+      "en": "Analiza secciones transversables de Fibra"
+    },
+    "descriptionDetail": {
+      "es": "",
+      "en": ""
+    },
+    "image": "/content/products/product-ytqox7/FiberMult.png",
+    "category": "",
+    "technicalSheets": {
+      "es": "",
+      "en": ""
+    },
+    "features": {
+      "es": [
+        "Elepticidad"
+      ],
+      "en": []
+    },
+    "featuresDetail": [],
+    "specifications": {},
+    "capabilities": [],
+    "youtubeVideo": "",
+    "additionalImages": [],
+    "order": 9,
+    "archived": false
+  }
+]

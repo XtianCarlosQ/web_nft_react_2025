@@ -41,6 +41,11 @@ module.exports = async (req, res) => {
       res.statusCode = 400;
       return res.end(JSON.stringify({ ok: false, error: "invalid_payload" }));
     }
+    if (data.length === 0) {
+      console.warn("[products/save] Warning: Attempting to save empty array");
+      res.statusCode = 400;
+      return res.end(JSON.stringify({ ok: false, error: "empty_data" }));
+    }
     const { sha } = await getContentShaAndText(path);
     await putContent(
       path,
@@ -50,6 +55,7 @@ module.exports = async (req, res) => {
     );
     res.end(JSON.stringify({ ok: true }));
   } catch (e) {
+    console.error("[products/save] Error:", e);
     res.statusCode = 500;
     res.end(JSON.stringify({ ok: false, error: "write_failed" }));
   }

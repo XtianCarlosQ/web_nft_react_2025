@@ -601,7 +601,7 @@
       "/assets/images/products/medulometro.png"
     ],
     "order": 8,
-    "archived": false
+    "archived": true
   },
   {
     "id": "fiber-med",
@@ -838,7 +838,88 @@
     "capabilities": [],
     "youtubeVideo": "",
     "additionalImages": [],
+    "order": 8,
+    "archived": true
+  },
+  {
+    "id": "product-urjq4c",
+    "name": {
+      "es": "Product Xy",
+      "en": "Product X"
+    },
+    "tagline": {
+      "es": "",
+      "en": ""
+    },
+    "description": {
+      "es": "Pantallazo",
+      "en": "Pantallazo"
+    },
+    "descriptionDetail": {
+      "es": "",
+      "en": ""
+    },
+    "image": "/content/products/product-urjq4c/Screenshot-2025-10-08-022144.png",
+    "category": "",
+    "technicalSheets": {
+      "es": "",
+      "en": ""
+    },
+    "features": {
+      "es": [
+        "Pantgalla",
+        "fdsfads"
+      ],
+      "en": []
+    },
+    "featuresDetail": [
+      {
+        "icon": "BarChart3"
+      }
+    ],
+    "specifications": {},
+    "capabilities": [],
+    "youtubeVideo": "",
+    "additionalImages": [],
     "order": 9,
+    "archived": true
+  },
+  {
+    "id": "product-61mbvh",
+    "name": {
+      "es": "Prueba final",
+      "en": "Prueba final"
+    },
+    "tagline": {
+      "es": "",
+      "en": ""
+    },
+    "description": {
+      "es": "fasldfjaklsd",
+      "en": "fasldfjaklsd"
+    },
+    "descriptionDetail": {
+      "es": "",
+      "en": ""
+    },
+    "image": "/content/products/product-61mbvh/Fiber-Den-3.png",
+    "category": "",
+    "technicalSheets": {
+      "es": "",
+      "en": ""
+    },
+    "features": {
+      "es": [
+        "Iuminación"
+      ],
+      "en": []
+    },
+    "featuresDetail": [],
+    "specifications": {},
+    "capabilities": [],
+    "youtubeVideo": "",
+    "additionalImages": [],
+    "order": 8,
     "archived": false
   }
 ]
