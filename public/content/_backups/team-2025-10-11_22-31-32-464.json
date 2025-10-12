@@ -144,9 +144,18 @@
   },
   {
     "id": "team-lihr02",
-    "name": "Fidel Moreno",
-    "role": "Ingeniero Mecatrónico",
-    "bio": "",
+    "name": {
+      "es": "Fidel Moreno",
+      "en": "Fidel Moreno"
+    },
+    "role": {
+      "es": "Ingeniero Mecatrónico",
+      "en": "Ingeniero Mecatrónico"
+    },
+    "bio": {
+      "es": "",
+      "en": ""
+    },
     "photo": "/uploads/team/fidel_moreno-1760187493904.png",
     "skills": [
       "Diseño de piezas: simulación y creación en físico"

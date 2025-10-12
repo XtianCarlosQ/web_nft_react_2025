@@ -195,8 +195,8 @@ export default function TeamFormModal({
 
   if (!open) return null;
   return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-      <div className="bg-white w-full max-w-5xl rounded-2xl shadow-xl overflow-hidden">
+    <div className="fixed inset-0 bg-black/60 z-50 flex items-start justify-center p-4 overflow-y-auto">
+      <div className="bg-white w-full max-w-5xl rounded-2xl shadow-xl overflow-hidden my-8">
         <div className="px-6 py-4 border-b flex items-center justify-between">
           <h3 className="text-lg font-semibold">{title}</h3>
           <button className="px-3 py-1 border rounded" onClick={onClose}>

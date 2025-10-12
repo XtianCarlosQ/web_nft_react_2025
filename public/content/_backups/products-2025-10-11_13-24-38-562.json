@@ -97,7 +97,7 @@
     "additionalImages": [
       "/assets/images/products/S-FIBER EC.png"
     ],
-    "order": 5,
+    "order": 3,
     "archived": false
   },
   {
@@ -198,7 +198,7 @@
     "additionalImages": [
       "/assets/images/products/Fiber-Den-1.png"
     ],
-    "order": 6,
+    "order": 4,
     "archived": false
   },
   {
@@ -299,7 +299,7 @@
     "additionalImages": [
       "/assets/images/products/FIBER TST.png"
     ],
-    "order": 7,
+    "order": 5,
     "archived": false
   },
   {
@@ -400,7 +400,7 @@
     "additionalImages": [
       "/assets/images/products/Mosiville.png"
     ],
-    "order": 8,
+    "order": 6,
     "archived": false
   },
   {
@@ -498,6 +498,106 @@
     "youtubeVideo": "https://www.youtube.com/watch?v=-b4Ztxmlbjw",
     "additionalImages": [
       "/assets/images/products/medulometro.png"
+    ],
+    "order": 8,
+    "archived": true
+  },
+  {
+    "id": "fiber-med",
+    "name": {
+      "es": "FIBER MED V2.0",
+      "en": "FIBER MED V2.0"
+    },
+    "tagline": {
+      "es": "Medulador Inteligente Avanzado",
+      "en": "Medulador Inteligente Avanzado"
+    },
+    "description": {
+      "es": "Versión mejorada que analiza fibras de diferentes colores en 40 segundos caracterizando más de 3000 fibras por muestra.",
+      "en": "Versión mejorada que analiza fibras de diferentes colores en 40 segundos caracterizando más de 3000 fibras por muestra."
+    },
+    "descriptionDetail": {
+      "es": "Versión mejorada del FIBER MED que determina medulación en fibras de diferentes colores, incluyendo fibras oscuras con decoloración. Evalúa cada muestra en 40 segundos caracterizando más de 3000 fibras.",
+      "en": "Versión mejorada del FIBER MED que determina medulación en fibras de diferentes colores, incluyendo fibras oscuras con decoloración. Evalúa cada muestra en 40 segundos caracterizando más de 3000 fibras."
+    },
+    "image": "/assets/images/products/FIBER MED V2.0.jpg",
+    "category": "Análisis de Medulación Avanzado",
+    "features": {
+      "es": [
+        "Múltiples colores de fibra",
+        "40 segundos/muestra",
+        "3000+ fibras analizadas",
+        "Cámara infrarroja"
+      ],
+      "en": [
+        "Múltiples colores de fibra",
+        "40 segundos/muestra",
+        "3000+ fibras analizadas",
+        "Cámara infrarroja"
+      ]
+    },
+    "featuresDetail": [
+      {
+        "icon": "BarChart3",
+        "title": {
+          "es": "Múltiples Colores",
+          "en": "Múltiples Colores"
+        },
+        "description": {
+          "es": "Analiza fibras desde blanco hasta café claro sin decoloración, y fibras oscuras con decoloración",
+          "en": "Analiza fibras desde blanco hasta café claro sin decoloración, y fibras oscuras con decoloración"
+        }
+      },
+      {
+        "icon": "Activity",
+        "title": {
+          "es": "Procesamiento Rápido",
+          "en": "Procesamiento Rápido"
+        },
+        "description": {
+          "es": "Evalúa cada muestra en 40 segundos caracterizando más de 3000 fibras por muestra",
+          "en": "Evalúa cada muestra en 40 segundos caracterizando más de 3000 fibras por muestra"
+        }
+      },
+      {
+        "icon": "Settings",
+        "title": {
+          "es": "Análisis Detallado",
+          "en": "Análisis Detallado"
+        },
+        "description": {
+          "es": "Clasifica fibras por tipo de medulación: no medulada, fragmentada, discontinua, continua",
+          "en": "Clasifica fibras por tipo de medulación: no medulada, fragmentada, discontinua, continua"
+        }
+      },
+      {
+        "icon": "Monitor",
+        "title": {
+          "es": "IA Avanzada",
+          "en": "IA Avanzada"
+        },
+        "description": {
+          "es": "Moderna tecnología de inteligencia artificial para interpretación automática",
+          "en": "Moderna tecnología de inteligencia artificial para interpretación automática"
+        }
+      }
+    ],
+    "specifications": {
+      "Tipo": "Equipo automático de sobremesa/portátil",
+      "Peso": "8 kg",
+      "Alimentación": "220-240 VAC, 50-60 Hz",
+      "Cámara": "Óptica e infrarroja para distintos colores",
+      "Software": "Software propietario FIBER MED con IA"
+    },
+    "capabilities": [
+      "Análisis en 40 segundos por muestra",
+      "Caracterización de >3000 fibras por muestra",
+      "Clasificación por tipo de medulación (no medulada, fragmentada, discontinua, continua)",
+      "Evaluación de fibras claras y oscuras (con decoloración)"
+    ],
+    "youtubeVideo": "https://www.youtube.com/watch?v=-RJHbgvkm5M&t=1s",
+    "additionalImages": [
+      "/assets/images/products/FIBER MED V2.0.jpg"
     ],
     "order": 1,
     "archived": false
@@ -599,8 +699,46 @@
     "additionalImages": [
       "/assets/images/products/FIBER EC.png"
     ],
-    "order": 3,
+    "order": 2,
     "archived": false
+  },
+  {
+    "id": "product-ytqox7",
+    "name": {
+      "es": "FIBER MULT",
+      "en": "FIBER MULT"
+    },
+    "tagline": {
+      "es": "",
+      "en": ""
+    },
+    "description": {
+      "es": "Analiza secciones transversables de Fibra",
+      "en": "Analiza secciones transversables de Fibra"
+    },
+    "descriptionDetail": {
+      "es": "",
+      "en": ""
+    },
+    "image": "/content/products/product-ytqox7/FiberMult.png",
+    "category": "",
+    "technicalSheets": {
+      "es": "",
+      "en": ""
+    },
+    "features": {
+      "es": [
+        "Elepticidad"
+      ],
+      "en": []
+    },
+    "featuresDetail": [],
+    "specifications": {},
+    "capabilities": [],
+    "youtubeVideo": "",
+    "additionalImages": [],
+    "order": 8,
+    "archived": true
   },
   {
     "id": "product-urjq4c",
@@ -781,145 +919,7 @@
     "additionalImages": [
       "/assets/images/products/FIBER MED V1.0.png"
     ],
-    "order": 9,
-    "archived": false
-  },
-  {
-    "id": "fiber-med",
-    "name": {
-      "es": "FIBER MED V2.0",
-      "en": "FIBER MED V2.0"
-    },
-    "tagline": {
-      "es": "Medulador Inteligente Avanzado",
-      "en": "Medulador Inteligente Avanzado"
-    },
-    "description": {
-      "es": "Versión mejorada que analiza fibras de diferentes colores en 40 segundos caracterizando más de 3000 fibras por muestra.",
-      "en": "Versión mejorada que analiza fibras de diferentes colores en 40 segundos caracterizando más de 3000 fibras por muestra."
-    },
-    "descriptionDetail": {
-      "es": "Versión mejorada del FIBER MED que determina medulación en fibras de diferentes colores, incluyendo fibras oscuras con decoloración. Evalúa cada muestra en 40 segundos caracterizando más de 3000 fibras.",
-      "en": "Versión mejorada del FIBER MED que determina medulación en fibras de diferentes colores, incluyendo fibras oscuras con decoloración. Evalúa cada muestra en 40 segundos caracterizando más de 3000 fibras."
-    },
-    "image": "/assets/images/products/FIBER MED V2.0.jpg",
-    "category": "Análisis de Medulación Avanzado",
-    "features": {
-      "es": [
-        "Múltiples colores de fibra",
-        "40 segundos/muestra",
-        "3000+ fibras analizadas",
-        "Cámara infrarroja"
-      ],
-      "en": [
-        "Múltiples colores de fibra",
-        "40 segundos/muestra",
-        "3000+ fibras analizadas",
-        "Cámara infrarroja"
-      ]
-    },
-    "featuresDetail": [
-      {
-        "icon": "BarChart3",
-        "title": {
-          "es": "Múltiples Colores",
-          "en": "Múltiples Colores"
-        },
-        "description": {
-          "es": "Analiza fibras desde blanco hasta café claro sin decoloración, y fibras oscuras con decoloración",
-          "en": "Analiza fibras desde blanco hasta café claro sin decoloración, y fibras oscuras con decoloración"
-        }
-      },
-      {
-        "icon": "Activity",
-        "title": {
-          "es": "Procesamiento Rápido",
-          "en": "Procesamiento Rápido"
-        },
-        "description": {
-          "es": "Evalúa cada muestra en 40 segundos caracterizando más de 3000 fibras por muestra",
-          "en": "Evalúa cada muestra en 40 segundos caracterizando más de 3000 fibras por muestra"
-        }
-      },
-      {
-        "icon": "Settings",
-        "title": {
-          "es": "Análisis Detallado",
-          "en": "Análisis Detallado"
-        },
-        "description": {
-          "es": "Clasifica fibras por tipo de medulación: no medulada, fragmentada, discontinua, continua",
-          "en": "Clasifica fibras por tipo de medulación: no medulada, fragmentada, discontinua, continua"
-        }
-      },
-      {
-        "icon": "Monitor",
-        "title": {
-          "es": "IA Avanzada",
-          "en": "IA Avanzada"
-        },
-        "description": {
-          "es": "Moderna tecnología de inteligencia artificial para interpretación automática",
-          "en": "Moderna tecnología de inteligencia artificial para interpretación automática"
-        }
-      }
-    ],
-    "specifications": {
-      "Tipo": "Equipo automático de sobremesa/portátil",
-      "Peso": "8 kg",
-      "Alimentación": "220-240 VAC, 50-60 Hz",
-      "Cámara": "Óptica e infrarroja para distintos colores",
-      "Software": "Software propietario FIBER MED con IA"
-    },
-    "capabilities": [
-      "Análisis en 40 segundos por muestra",
-      "Caracterización de >3000 fibras por muestra",
-      "Clasificación por tipo de medulación (no medulada, fragmentada, discontinua, continua)",
-      "Evaluación de fibras claras y oscuras (con decoloración)"
-    ],
-    "youtubeVideo": "https://www.youtube.com/watch?v=-RJHbgvkm5M&t=1s",
-    "additionalImages": [
-      "/assets/images/products/FIBER MED V2.0.jpg"
-    ],
-    "order": 4,
-    "archived": false
-  },
-  {
-    "id": "product-ytqox7",
-    "name": {
-      "es": "FIBER MULT",
-      "en": "FIBER MULT"
-    },
-    "tagline": {
-      "es": "",
-      "en": ""
-    },
-    "description": {
-      "es": "Analiza secciones transversables de Fibraf",
-      "en": "Analiza secciones transversables de Fibra"
-    },
-    "descriptionDetail": {
-      "es": "",
-      "en": ""
-    },
-    "image": "/content/products/product-ytqox7/FiberMult.png",
-    "category": "",
-    "technicalSheets": {
-      "es": "",
-      "en": ""
-    },
-    "features": {
-      "es": [
-        "Elepticidad"
-      ],
-      "en": []
-    },
-    "featuresDetail": [],
-    "specifications": {},
-    "capabilities": [],
-    "youtubeVideo": "",
-    "additionalImages": [],
-    "order": 2,
+    "order": 7,
     "archived": false
   }
 ]

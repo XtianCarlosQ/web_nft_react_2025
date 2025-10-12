@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Eye, Pencil, Archive, RotateCcw } from "lucide-react";
-import "./common/admin-table.css";
+import "../common/admin-table.css";
 
 export default function TeamTable({ team, onView, onEdit, onArchiveToggle }) {
   const WIDTHS_KEY = "admin_team_col_widths_v1";
@@ -178,7 +178,7 @@ export default function TeamTable({ team, onView, onEdit, onArchiveToggle }) {
                   {m.photo || m.image ? (
                     <img
                       src={m.photo || m.image}
-                      alt={m.name}
+                      alt={typeof m.name === "object" ? m.name.es || m.name.en || "" : m.name}
                       className="w-10 h-10 object-cover"
                     />
                   ) : (

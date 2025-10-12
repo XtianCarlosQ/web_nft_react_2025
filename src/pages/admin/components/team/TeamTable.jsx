@@ -1,266 +1,226 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Eye, Pencil, Archive, RotateCcw } from "lucide-react";
+import React, { useMemo } from "react";
+import { Eye, Pencil, Archive, RotateCcw, Columns } from "lucide-react";
+import { useResponsiveColumns } from "../common/useResponsiveColumns";
 import "../common/admin-table.css";
 
 export default function TeamTable({ team, onView, onEdit, onArchiveToggle }) {
-  const WIDTHS_KEY = "admin_team_col_widths_v1";
+  // Definición de columnas con prioridades
   const columns = useMemo(
     () => [
-      { key: "id", label: "ID", min: 60 },
-      { key: "order", label: "Orden", min: 80 },
-      { key: "photo", label: "Foto", min: 96 },
-      { key: "name", label: "Nombre", min: 180, flexWeight: 0.45 },
-      { key: "role", label: "Cargo", min: 160, flexWeight: 0.4 },
-      { key: "status", label: "Estado", min: 110 },
-      { key: "actions", label: "Acciones", min: 126 },
+      { key: "id", label: "ID", priority: "always" },
+      { key: "order", label: "Orden", priority: "always" },
+      { key: "photo", label: "Foto", priority: "always" },
+      { key: "name", label: "Nombre", priority: "always" },
+      { key: "role", label: "Cargo", priority: "optional", optionalOrder: 1 },
+      { key: "status", label: "Estado", priority: "always" },
+      { key: "actions", label: "Acciones", priority: "always" },
     ],
     []
   );
 
-  const headerRefs = useRef({});
-  const containerRef = useRef(null);
-  const tableRef = useRef(null);
-  const [widths, setWidths] = useState({});
-  const [measured, setMeasured] = useState(false);
-  const [totalWidth, setTotalWidth] = useState(0);
-  const [needScroll, setNeedScroll] = useState(false);
+  const {
+    visibleColumns,
+    hiddenColumns,
+    showAllColumns,
+    toggleShowAll,
+    containerRef,
+    tableRef,
+    getHeaderRef,
+    isMobile,
+    columnWidths,
+    startResize,
+    autoFitColumn,
+  } = useResponsiveColumns(columns, 480);
 
-  useEffect(() => {
-    try {
-      const raw = sessionStorage.getItem(WIDTHS_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (parsed && typeof parsed === "object") {
-          setWidths(parsed);
-          setMeasured(true);
-        }
-      }
-    } catch {}
-  }, []);
+  const isColumnVisible = (key) => {
+    // Columnas sticky siempre visibles
+    if (key === "status" || key === "actions") return true;
+    return visibleColumns.some((col) => col.key === key);
+  };
 
-  useEffect(() => {
-    if (measured) return;
-    const next = {};
-    columns.forEach((c) => {
-      const el = headerRefs.current[c.key];
-      if (!el) return;
-      const pad = 24;
-      const base = Math.ceil(el.scrollWidth) + pad;
-      next[c.key] = Math.max(c.min || 80, base);
-    });
-    if (Object.keys(next).length) {
-      setWidths((prev) => ({ ...prev, ...next }));
-      setMeasured(true);
-    }
-  }, [columns, measured]);
+  const isSticky = (key) => key === "status" || key === "actions";
 
-  useEffect(() => {
-    try {
-      sessionStorage.setItem(WIDTHS_KEY, JSON.stringify(widths));
-    } catch {}
-    recomputeOverflow(widths);
-  }, [widths]);
-
-  useEffect(() => {
-    const onResize = () => recomputeOverflow();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  function recomputeOverflow(nextWidths = widths) {
-    const cont = containerRef.current;
-    const tableEl = tableRef.current;
-    if (!cont) return;
-    let total = 0;
-    if (tableEl) total = tableEl.scrollWidth;
-    else {
-      const sep = (columns.length - 1) * 1;
-      total =
-        columns.reduce(
-          (sum, c) => sum + (nextWidths[c.key] || c.min || 80),
-          0
-        ) + sep;
-    }
-    setTotalWidth(total);
-    const cw = cont.clientWidth - 2;
-    setNeedScroll(total > cw + 1);
-  }
-
-  function startResize(key, e) {
-    e.preventDefault();
-    const startX = e.clientX;
-    const startW = widths[key] || 120;
-    const onMove = (ev) => {
-      setWidths((prev) => {
-        const c = columns.find((x) => x.key === key);
-        const dx = ev.clientX - startX;
-        const w = Math.max(c?.min || 80, startW + dx);
-        return { ...prev, [key]: w };
-      });
-      requestAnimationFrame(() => recomputeOverflow());
-    };
-    const onUp = () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseup", onUp);
-      recomputeOverflow();
-    };
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseup", onUp);
-  }
-
-  function autoFit(key) {
-    const el = headerRefs.current[key];
-    const c = columns.find((x) => x.key === key);
-    if (!el || !c) return;
-    const pad = 24;
-    const base = Math.ceil(el.scrollWidth) + pad;
-    const w = Math.max(c.min || 80, base);
-    setWidths((prev) => ({ ...prev, [key]: w }));
-    setTimeout(() => recomputeOverflow(), 0);
-  }
+  const getStickyClass = (key) => {
+    if (!isSticky(key) || isMobile || showAllColumns) return "";
+    if (key === "actions") return "sticky-column sticky-column-actions";
+    if (key === "status") return "sticky-column sticky-column-status";
+    return "";
+  };
 
   return (
-    <div
-      ref={containerRef}
-      className={`admin-table rounded-xl ${
-        needScroll ? "overflow-x-auto" : "overflow-x-hidden"
-      }`}
-    >
-      <table
-        ref={tableRef}
-        className="text-sm"
-        style={{ width: needScroll ? totalWidth : "100%" }}
+    <>
+      <div
+        ref={containerRef}
+        className={`admin-table rounded-xl ${
+          isMobile || showAllColumns ? "overflow-x-auto" : "overflow-x-hidden"
+        }`}
       >
-        <thead>
-          <tr className="text-left">
-            {columns.map((c) => (
-              <th
-                key={c.key}
-                ref={(el) => (headerRefs.current[c.key] = el)}
-                className={"th cell-sep"}
-                style={{ width: widths[c.key] || c.min, zIndex: 4 }}
-              >
-                <div className="relative pr-2 select-none">
-                  {c.label}
-                  {c.key !== "actions" && (
-                    <div
-                      className="col-resizer"
-                      onMouseDown={(e) => startResize(c.key, e)}
-                      onDoubleClick={() => autoFit(c.key)}
-                      aria-hidden
-                    />
-                  )}
-                </div>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {team.map((m) => (
-            <tr key={m.id} className="row hoverable">
-              <td
-                className="td cell-sep whitespace-nowrap truncate"
-                style={{ width: widths.id }}
-                title={m.id}
-              >
-                <span
-                  className="truncate inline-block max-w-full tt"
-                  data-tip={m.id}
+        <table ref={tableRef} className="text-sm">
+          <thead>
+            <tr className="text-left">
+              {columns.map((col) => (
+                <th
+                  key={col.key}
+                  ref={getHeaderRef(col.key)}
+                  className={`th cell-sep ${getStickyClass(col.key)} ${
+                    !isColumnVisible(col.key) ? "column-hidden" : ""
+                  }`}
+                  style={{
+                    zIndex: isSticky(col.key) ? 4 : 1,
+                    width: columnWidths[col.key] || "auto",
+                  }}
+                >
+                  <div className="relative pr-2 select-none whitespace-nowrap">
+                    {col.label}
+                    {col.key !== "actions" && (
+                      <div
+                        className="col-resizer"
+                        onMouseDown={(e) => startResize(col.key, e)}
+                        onDoubleClick={() => autoFitColumn(col.key)}
+                        aria-hidden="true"
+                      />
+                    )}
+                  </div>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {team.map((m) => (
+              <tr key={m.id} className="row hoverable">
+                <td
+                  className={`td cell-sep whitespace-nowrap truncate ${
+                    !isColumnVisible("id") ? "column-hidden" : ""
+                  }`}
+                  title={m.id}
+                  style={{ width: columnWidths.id || "auto" }}
                 >
                   {m.id}
-                </span>
-              </td>
-              <td className="td cell-sep" style={{ width: widths.order }}>
-                {m.archived ? "-" : m.order ?? "-"}
-              </td>
-              <td className="td cell-sep" style={{ width: widths.photo }}>
-                <div className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-red-500/10 overflow-hidden">
-                  {m.photo || m.image ? (
-                    <img
-                      src={m.photo || m.image}
-                      alt={typeof m.name === "object" ? m.name.es || m.name.en || "" : m.name}
-                      className="w-10 h-10 object-cover"
-                    />
-                  ) : (
-                    <div className="w-10 h-10 bg-gray-200 rounded" />
-                  )}
-                </div>
-              </td>
-              <td
-                className="td cell-sep whitespace-nowrap truncate"
-                style={{ width: widths.name }}
-                title={
-                  typeof m.name === "object"
-                    ? m.name.es || m.name.en || ""
-                    : m.name
-                }
-              >
-                {typeof m.name === "object"
-                  ? m.name.es || m.name.en || ""
-                  : m.name}
-              </td>
-              <td
-                className="td cell-sep whitespace-nowrap truncate"
-                style={{ width: widths.role }}
-                title={
-                  typeof m.role === "object"
-                    ? m.role.es || m.role.en || ""
-                    : m.role || m.position
-                }
-              >
-                {typeof m.role === "object"
-                  ? m.role.es || m.role.en || ""
-                  : m.role || m.position}
-              </td>
-              <td className="td cell-sep" style={{ width: widths.status }}>
-                <span
-                  className={`px-2.5 py-1 text-xs font-semibold rounded-full inline-block ${
-                    m.archived
-                      ? "bg-yellow-500/15 text-yellow-300"
-                      : "bg-green-500/15 text-green-300"
+                </td>
+
+                <td
+                  className={`td cell-sep text-center ${
+                    !isColumnVisible("order") ? "column-hidden" : ""
                   }`}
+                  style={{ width: columnWidths.order || "auto" }}
                 >
-                  {m.archived ? "Archivado" : "Activo"}
-                </span>
-              </td>
-              <td className="td cell-sep" style={{ width: widths.actions }}>
-                <div className="flex items-center gap-2 justify-start pl-1 min-w-[126px]">
-                  <button
-                    className="icon-btn tt icon-view"
-                    data-tip="Ver"
-                    onClick={() => onView?.(m)}
-                    aria-label="Ver"
-                  >
-                    <Eye className="w-5 h-5" />
-                  </button>
-                  <button
-                    className="icon-btn tt icon-edit"
-                    data-tip="Editar"
-                    onClick={() => onEdit?.(m)}
-                    aria-label="Editar"
-                  >
-                    <Pencil className="w-5 h-5" />
-                  </button>
-                  <button
-                    className={`icon-btn tt ${
-                      m.archived ? "icon-restore" : "icon-archive"
-                    }`}
-                    data-tip={m.archived ? "Restaurar" : "Archivar"}
-                    onClick={() => onArchiveToggle?.(m)}
-                    aria-label={m.archived ? "Restaurar" : "Archivar"}
-                  >
-                    {m.archived ? (
-                      <RotateCcw className="w-5 h-5" />
+                  {m.archived ? "-" : m.order ?? "-"}
+                </td>
+
+                <td
+                  className={`td cell-sep text-center ${
+                    !isColumnVisible("photo") ? "column-hidden" : ""
+                  }`}
+                  style={{ width: columnWidths.photo || "auto" }}
+                >
+                  <div className="flex items-center justify-center">
+                    {m.photo || m.image ? (
+                      <img
+                        src={m.photo || m.image}
+                        alt={m.name?.es || m.name || "Miembro"}
+                        className="w-12 h-12 object-cover rounded-full border-2 border-gray-700"
+                      />
                     ) : (
-                      <Archive className="w-5 h-5" />
+                      <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-gray-500 text-xs">
+                        ?
+                      </div>
                     )}
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+                  </div>
+                </td>
+
+                <td
+                  className={`td cell-sep whitespace-nowrap truncate ${
+                    !isColumnVisible("name") ? "column-hidden" : ""
+                  }`}
+                  title={m.name?.es || m.name}
+                  style={{ width: columnWidths.name || "auto" }}
+                >
+                  {m.name?.es || m.name}
+                </td>
+
+                <td
+                  className={`td cell-sep whitespace-nowrap truncate ${
+                    !isColumnVisible("role") ? "column-hidden" : ""
+                  }`}
+                  title={m.role?.es || m.role}
+                  style={{ width: columnWidths.role || "auto" }}
+                >
+                  {m.role?.es || m.role || "-"}
+                </td>
+
+                <td
+                  className={`td cell-sep text-center ${getStickyClass("status")} ${
+                    !isColumnVisible("status") ? "column-hidden" : ""
+                  }`}
+                  style={{
+                    width: columnWidths.status || "auto",
+                  }}
+                >
+                  <span
+                    className={`px-2.5 py-1 text-xs font-semibold rounded-full inline-block whitespace-nowrap ${
+                      m.archived
+                        ? "bg-yellow-500/15 text-yellow-300"
+                        : "bg-green-500/15 text-green-300"
+                    }`}
+                  >
+                    {m.archived ? "Archivado" : "Activo"}
+                  </span>
+                </td>
+
+                <td
+                  className={`td cell-sep text-center ${getStickyClass("actions")} ${
+                    !isColumnVisible("actions") ? "column-hidden" : ""
+                  }`}
+                  style={{ width: columnWidths.actions || "auto" }}
+                >
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      className="icon-btn icon-view"
+                      onClick={() => onView(m)}
+                      title="Ver detalles"
+                    >
+                      <Eye className="w-4 h-4" />
+                    </button>
+                    <button
+                      className="icon-btn icon-edit"
+                      onClick={() => onEdit(m)}
+                      title="Editar"
+                    >
+                      <Pencil className="w-4 h-4" />
+                    </button>
+                    <button
+                      className={`icon-btn ${
+                        m.archived ? "icon-restore" : "icon-archive"
+                      }`}
+                      onClick={() => onArchiveToggle(m)}
+                      title={m.archived ? "Restaurar" : "Archivar"}
+                    >
+                      {m.archived ? (
+                        <RotateCcw className="w-4 h-4" />
+                      ) : (
+                        <Archive className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Botón flotante para mostrar columnas ocultas */}
+      {!isMobile && hiddenColumns.length > 0 && (
+        <button className="show-columns-btn" onClick={toggleShowAll}>
+          <Columns className="w-5 h-5" />
+          <span>
+            {showAllColumns ? "Ocultar Columnas" : "Mostrar Columnas Ocultas"}
+          </span>
+          {!showAllColumns && (
+            <span className="hidden-columns-badge">{hiddenColumns.length}</span>
+          )}
+        </button>
+      )}
+    </>
   );
 }

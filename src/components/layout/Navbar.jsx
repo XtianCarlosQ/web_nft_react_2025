@@ -2,30 +2,36 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import { useLanguage } from "../../context/LanguageContext";
+import { useProducts } from "../../context/ProductsContext";
 import { GridToggleButton } from "../GridOverlay";
 
 const Navbar = () => {
   const { darkMode, toggleDarkMode } = useTheme();
   const { language, toggleLanguage, t } = useLanguage();
+  const { products } = useProducts();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [productItems, setProductItems] = useState([]);
   const location = useLocation();
+
+  // Update product items when products or language changes
+  useEffect(() => {
+    if (Array.isArray(products)) {
+      const activeProducts = products
+        .filter((p) => !p.archived)
+        .sort((a, b) => (a.order || 0) - (b.order || 0))
+        .map((p) => ({
+          id: p.id,
+          name: p.name?.[language] || p.name?.es || p.name?.en || p.id,
+        }));
+      setProductItems(activeProducts);
+    }
+  }, [products, language]);
 
   // Close mobile panel when route changes
   useEffect(() => {
     if (mobileOpen) setMobileOpen(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
-
-  const productItems = [
-    { id: "fiber-med-2", name: "FIBER MED" },
-    { id: "fiber-med", name: "FIBER MED V2.0" },
-    { id: "fiber-ec", name: "FIBER EC" },
-    { id: "s-fiber-ec", name: "S-FIBER EC" },
-    { id: "fiber-den", name: "FIBER DEN" },
-    { id: "fiber-tst", name: "FIBER TST" },
-    { id: "mosiville", name: "MOSIVILLE" },
-    { id: "medulometro", name: "MEDULÓMETRO" },
-  ];
 
   const { pathname } = location;
   const isActive = (matcher) => matcher(pathname);

@@ -17,8 +17,8 @@
 .admin-table table {
   color: #e5e7eb;
   table-layout: fixed;
-  width: auto; /* permite exceder el contenedor si las columnas lo requieren */
-  min-width: 100%; /* al menos ocupar el contenedor */
+  width: 100%;
+  transition: all 0.3s ease;
 }
 .admin-table thead th {
   position: relative;
@@ -26,6 +26,7 @@
   backdrop-filter: blur(6px);
   font-weight: 600;
   color: #cbd5e1;
+  text-align: center; /* Centrar todos los headers */
 }
 
 /* Asegurar que tooltips del tbody se muestren sobre el header */
@@ -43,6 +44,11 @@
   padding: 10px 12px;
   border-bottom: 1px solid var(--admin-border);
   background-clip: padding-box;
+}
+
+/* Columnas que deben estar centradas en el contenido (tbody) */
+.td.text-center {
+  text-align: center;
 }
 
 /* Vertical separators */
@@ -151,4 +157,101 @@
 .truncate {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-table td.truncate,
+.admin-table th.truncate {
+  max-width: 0; /* Fuerza el truncate cuando se combina con table-layout: fixed */
+}
+
+/* Sticky columns (Estado y Acciones) */
+.sticky-column {
+  position: sticky;
+  right: 0;
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(8px);
+  z-index: 3;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+}
+
+.sticky-column-actions {
+  right: 0;
+  z-index: 4;
+}
+
+/* Nota: .sticky-column-status ya no se usa, el right se calcula dinámicamente en JS */
+
+/* Animación suave para mostrar/ocultar columnas */
+.admin-table th,
+.admin-table td {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.admin-table th.column-hidden,
+.admin-table td.column-hidden {
+  opacity: 0;
+  transform: scale(0.95);
+  max-width: 0;
+  padding: 0;
+  overflow: hidden;
+  border: none;
+}
+
+/* Botón flotante para mostrar columnas ocultas */
+.show-columns-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.4s ease;
+}
+
+.show-columns-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.show-columns-btn:active {
+  transform: translateY(0);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Badge de contador de columnas ocultas */
+.hidden-columns-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
 }

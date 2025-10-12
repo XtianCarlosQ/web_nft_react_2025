@@ -1,34 +1,17 @@
 import React, { useMemo } from "react";
-import { RenderIcon } from "../common/IconUtils";
 import { Eye, Pencil, Archive, RotateCcw, Columns } from "lucide-react";
 import { useResponsiveColumns } from "../common/useResponsiveColumns";
 import "../common/admin-table.css";
 
-export default function ServicesTable({
-  services,
-  onView,
-  onEdit,
-  onArchiveToggle,
-}) {
+export default function TeamTable({ team, onView, onEdit, onArchiveToggle }) {
   // Definición de columnas con prioridades
   const columns = useMemo(
     () => [
       { key: "id", label: "ID", priority: "always" },
       { key: "order", label: "Orden", priority: "always" },
-      { key: "icon", label: "Icono", priority: "always" },
-      { key: "title", label: "Título", priority: "always" },
-      {
-        key: "features",
-        label: "Características",
-        priority: "optional",
-        optionalOrder: 1,
-      },
-      {
-        key: "description",
-        label: "Descripción",
-        priority: "optional",
-        optionalOrder: 2,
-      },
+      { key: "photo", label: "Foto", priority: "always" },
+      { key: "name", label: "Nombre", priority: "always" },
+      { key: "role", label: "Cargo", priority: "optional", optionalOrder: 1 },
       { key: "status", label: "Estado", priority: "always" },
       { key: "actions", label: "Acciones", priority: "always" },
     ],
@@ -41,17 +24,11 @@ export default function ServicesTable({
     showAllColumns,
     toggleShowAll,
     containerRef,
-    tableRef,
     getHeaderRef,
     isMobile,
-    columnWidths,
-    startResize,
-    autoFitColumn,
   } = useResponsiveColumns(columns, 480);
 
   const isColumnVisible = (key) => {
-    // Columnas sticky siempre visibles
-    if (key === "status" || key === "actions") return true;
     return visibleColumns.some((col) => col.key === key);
   };
 
@@ -72,7 +49,7 @@ export default function ServicesTable({
           isMobile || showAllColumns ? "overflow-x-auto" : "overflow-x-hidden"
         }`}
       >
-        <table ref={tableRef} className="text-sm">
+        <table className="text-sm">
           <thead>
             <tr className="text-left">
               {columns.map((col) => (
@@ -82,147 +59,124 @@ export default function ServicesTable({
                   className={`th cell-sep ${getStickyClass(col.key)} ${
                     !isColumnVisible(col.key) ? "column-hidden" : ""
                   }`}
-                  style={{
-                    zIndex: isSticky(col.key) ? 4 : 1,
-                    width: columnWidths[col.key] || "auto",
-                  }}
+                  style={{ zIndex: isSticky(col.key) ? 4 : 1 }}
                 >
                   <div className="relative pr-2 select-none whitespace-nowrap">
                     {col.label}
-                    {/* Resize handle - solo para columnas no-sticky */}
-                    {col.key !== "actions" && (
-                      <div
-                        className="col-resizer"
-                        onMouseDown={(e) => startResize(col.key, e)}
-                        onDoubleClick={() => autoFitColumn(col.key)}
-                        aria-hidden="true"
-                      />
-                    )}
                   </div>
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {services.map((s) => (
-              <tr key={s.id} className="row hoverable">
+            {team.map((m) => (
+              <tr key={m.id} className="row hoverable">
                 {/* ID */}
                 <td
                   className={`td cell-sep whitespace-nowrap truncate ${
                     !isColumnVisible("id") ? "column-hidden" : ""
                   }`}
-                  title={s.id}
-                  style={{ width: columnWidths.id || "auto" }}
+                  title={m.id}
                 >
-                  {s.id}
+                  {m.id}
                 </td>
 
                 {/* Orden */}
                 <td
-                  className={`td cell-sep text-center ${
+                  className={`td cell-sep ${
                     !isColumnVisible("order") ? "column-hidden" : ""
                   }`}
-                  style={{ width: columnWidths.order || "auto" }}
                 >
-                  {s.archived ? "-" : s.order ?? "-"}
+                  {m.archived ? "-" : m.order ?? "-"}
                 </td>
 
-                {/* Icono */}
+                {/* Foto */}
                 <td
-                  className={`td cell-sep text-center ${
-                    !isColumnVisible("icon") ? "column-hidden" : ""
+                  className={`td cell-sep ${
+                    !isColumnVisible("photo") ? "column-hidden" : ""
                   }`}
-                  style={{ width: columnWidths.icon || "auto" }}
                 >
-                  <div className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-red-500/10">
-                    <RenderIcon
-                      iconName={s.icon}
-                      className="w-6 h-6 text-red-400"
+                  {m.photo || m.image ? (
+                    <img
+                      src={m.photo || m.image}
+                      alt={m.name?.es || m.name || "Miembro"}
+                      className="w-12 h-12 object-cover rounded-full border-2 border-gray-700"
                     />
-                  </div>
+                  ) : (
+                    <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-gray-500 text-xs">
+                      ?
+                    </div>
+                  )}
                 </td>
 
-                {/* Título */}
+                {/* Nombre */}
                 <td
                   className={`td cell-sep whitespace-nowrap truncate ${
-                    !isColumnVisible("title") ? "column-hidden" : ""
+                    !isColumnVisible("name") ? "column-hidden" : ""
                   }`}
-                  title={s.title?.es}
-                  style={{ width: columnWidths.title || "auto" }}
+                  title={m.name?.es || m.name}
+                  style={{ maxWidth: "250px" }}
                 >
-                  {s.title?.es}
+                  {m.name?.es || m.name}
                 </td>
 
-                {/* Características (opcional) */}
+                {/* Cargo (opcional) */}
                 <td
                   className={`td cell-sep whitespace-nowrap truncate ${
-                    !isColumnVisible("features") ? "column-hidden" : ""
+                    !isColumnVisible("role") ? "column-hidden" : ""
                   }`}
-                  title={s.features?.es}
-                  style={{ width: columnWidths.features || "auto" }}
+                  title={m.role?.es || m.role}
+                  style={{ maxWidth: "200px" }}
                 >
-                  {s.features?.es || "-"}
-                </td>
-
-                {/* Descripción (opcional) */}
-                <td
-                  className={`td cell-sep whitespace-nowrap truncate ${
-                    !isColumnVisible("description") ? "column-hidden" : ""
-                  }`}
-                  title={s.description?.es}
-                  style={{ width: columnWidths.description || "auto" }}
-                >
-                  {s.description?.es}
+                  {m.role?.es || m.role || "-"}
                 </td>
 
                 {/* Estado */}
                 <td
-                  className={`td cell-sep text-center ${getStickyClass("status")} ${
+                  className={`td cell-sep ${getStickyClass("status")} ${
                     !isColumnVisible("status") ? "column-hidden" : ""
                   }`}
-                  style={{ width: columnWidths.status || "auto" }}
                 >
                   <span
                     className={`px-2.5 py-1 text-xs font-semibold rounded-full inline-block whitespace-nowrap ${
-                      s.archived
+                      m.archived
                         ? "bg-yellow-500/15 text-yellow-300"
                         : "bg-green-500/15 text-green-300"
                     }`}
                   >
-                    {s.archived ? "Archivado" : "Activo"}
+                    {m.archived ? "Archivado" : "Activo"}
                   </span>
                 </td>
 
                 {/* Acciones */}
                 <td
-                  className={`td cell-sep text-center ${getStickyClass("actions")} ${
+                  className={`td cell-sep ${getStickyClass("actions")} ${
                     !isColumnVisible("actions") ? "column-hidden" : ""
                   }`}
-                  style={{ width: columnWidths.actions || "auto" }}
                 >
                   <div className="flex items-center gap-1.5">
                     <button
                       className="icon-btn icon-view"
-                      onClick={() => onView(s)}
+                      onClick={() => onView(m)}
                       title="Ver detalles"
                     >
                       <Eye className="w-4 h-4" />
                     </button>
                     <button
                       className="icon-btn icon-edit"
-                      onClick={() => onEdit(s)}
+                      onClick={() => onEdit(m)}
                       title="Editar"
                     >
                       <Pencil className="w-4 h-4" />
                     </button>
                     <button
                       className={`icon-btn ${
-                        s.archived ? "icon-restore" : "icon-archive"
+                        m.archived ? "icon-restore" : "icon-archive"
                       }`}
-                      onClick={() => onArchiveToggle(s)}
-                      title={s.archived ? "Restaurar" : "Archivar"}
+                      onClick={() => onArchiveToggle(m)}
+                      title={m.archived ? "Restaurar" : "Archivar"}
                     >
-                      {s.archived ? (
+                      {m.archived ? (
                         <RotateCcw className="w-4 h-4" />
                       ) : (
                         <Archive className="w-4 h-4" />

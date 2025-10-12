@@ -2,6 +2,7 @@ import React from "react";
 import { ThemeProvider } from "./context/ThemeContext";
 import { LanguageProvider } from "./context/LanguageContext";
 import { GridProvider } from "./context/GridContext";
+import { ProductsProvider } from "./context/ProductsContext";
 import Navbar from "./components/layout/Navbar";
 import { Routes, Route, Link } from "react-router-dom";
 import Hero from "./components/sections/Hero";
@@ -27,139 +28,141 @@ const App = () => {
       <LanguageProvider>
         <ThemeProvider>
           <GridProvider>
-            <div className="min-h-screen bg-white transition-colors duration-300">
-            <Navbar />
-            <ScrollToTop />
-            <GridOverlay />
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <>
-                    <main className="container-app pt-20">
-                      <Hero />
-                      <About resume />
-                      <Products limit={3} />
-                      <Services limit={3} />
-                      <Team />
-                      <Partners />
-                    </main>
-                    <Footer />
-                    <WhatsAppButton />
-                  </>
-                }
-              />
-              <Route
-                path="/productos"
-                element={
-                  <>
-                    <main className="container-app pt-20">
-                      <Products />
-                    </main>
-                    <Footer />
-                    <WhatsAppButton />
-                  </>
-                }
-              />
-              <Route
-                path="/servicios"
-                element={
-                  <>
-                    <main className="container-app pt-20">
-                      <Services />
-                    </main>
-                    <Footer />
-                    <WhatsAppButton />
-                  </>
-                }
-              />
-              <Route
-                path="/nosotros"
-                element={
-                  <>
-                    <main className="container-app pt-20">
-                      <About />
-                    </main>
-                    <Footer />
-                    <WhatsAppButton />
-                  </>
-                }
-              />
-              <Route
-                path="/contacto"
-                element={
-                  <>
-                    <main className="container-app pt-20">
-                      <Contact />
-                    </main>
-                    <Footer />
-                    <WhatsAppButton />
-                  </>
-                }
-              />
-              <Route
-                path="/productos/:productId"
-                element={
-                  <>
-                    <main className="pt-16">
-                      <ProductDetail />
-                    </main>
-                    <Footer />
-                    <WhatsAppButton />
-                  </>
-                }
-              />
-              <Route
-                path="/investigacion"
-                element={
-                  <>
-                    <main className="pt-16">
-                      <InvestigacionLanding />
-                    </main>
-                    <Footer />
-                    <WhatsAppButton />
-                  </>
-                }
-              />
-              <Route
-                path="/investigacion/:slug"
-                element={
-                  <>
-                    <main className="pt-16">
-                      <InvestigacionDetail />
-                    </main>
-                    <Footer />
-                    <WhatsAppButton />
-                  </>
-                }
-              />
-              <Route
-                path="/adminx"
-                element={
-                  <>
-                    <main className="pt-16">
-                      <AdminApp />
-                    </main>
-                  </>
-                }
-              />
-              {/* Allow section-prefixed admin path, e.g., /contacto/adminx */}
-              <Route
-                path="/:prefix/adminx"
-                element={
-                  <>
-                    <main className="pt-16">
-                      <AdminApp />
-                    </main>
-                  </>
-                }
-              />
-            </Routes>
-          </div>
-        </GridProvider>
-      </ThemeProvider>
-    </LanguageProvider>
-  </ErrorBoundary>
+            <ProductsProvider>
+              <div className="min-h-screen bg-white transition-colors duration-300">
+                <Navbar />
+                <ScrollToTop />
+                <GridOverlay />
+                <Routes>
+                  <Route
+                    path="/"
+                    element={
+                      <>
+                        <main className="container-app pt-20">
+                          <Hero />
+                          <About resume />
+                          <Products limit={3} />
+                          <Services limit={3} />
+                          <Team />
+                          <Partners />
+                        </main>
+                        <Footer />
+                        <WhatsAppButton />
+                      </>
+                    }
+                  />
+                  <Route
+                    path="/productos"
+                    element={
+                      <>
+                        <main className="container-app pt-20">
+                          <Products />
+                        </main>
+                        <Footer />
+                        <WhatsAppButton />
+                      </>
+                    }
+                  />
+                  <Route
+                    path="/servicios"
+                    element={
+                      <>
+                        <main className="container-app pt-20">
+                          <Services />
+                        </main>
+                        <Footer />
+                        <WhatsAppButton />
+                      </>
+                    }
+                  />
+                  <Route
+                    path="/nosotros"
+                    element={
+                      <>
+                        <main className="container-app pt-20">
+                          <About />
+                        </main>
+                        <Footer />
+                        <WhatsAppButton />
+                      </>
+                    }
+                  />
+                  <Route
+                    path="/contacto"
+                    element={
+                      <>
+                        <main className="container-app pt-20">
+                          <Contact />
+                        </main>
+                        <Footer />
+                        <WhatsAppButton />
+                      </>
+                    }
+                  />
+                  <Route
+                    path="/productos/:productId"
+                    element={
+                      <>
+                        <main className="pt-16">
+                          <ProductDetail />
+                        </main>
+                        <Footer />
+                        <WhatsAppButton />
+                      </>
+                    }
+                  />
+                  <Route
+                    path="/investigacion"
+                    element={
+                      <>
+                        <main className="pt-16">
+                          <InvestigacionLanding />
+                        </main>
+                        <Footer />
+                        <WhatsAppButton />
+                      </>
+                    }
+                  />
+                  <Route
+                    path="/investigacion/:slug"
+                    element={
+                      <>
+                        <main className="pt-16">
+                          <InvestigacionDetail />
+                        </main>
+                        <Footer />
+                        <WhatsAppButton />
+                      </>
+                    }
+                  />
+                  <Route
+                    path="/adminx"
+                    element={
+                      <>
+                        <main className="pt-16">
+                          <AdminApp />
+                        </main>
+                      </>
+                    }
+                  />
+                  {/* Allow section-prefixed admin path, e.g., /contacto/adminx */}
+                  <Route
+                    path="/:prefix/adminx"
+                    element={
+                      <>
+                        <main className="pt-16">
+                          <AdminApp />
+                        </main>
+                      </>
+                    }
+                  />
+                </Routes>
+              </div>
+            </ProductsProvider>
+          </GridProvider>
+        </ThemeProvider>
+      </LanguageProvider>
+    </ErrorBoundary>
   );
 };
 

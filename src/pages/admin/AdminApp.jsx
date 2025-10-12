@@ -11,6 +11,7 @@ import TeamFormModal from "./components/team/TeamFormModal";
 import TeamArchiveConfirmModal from "./components/team/TeamArchiveConfirmModal";
 import { notifyDevOnComplete } from "../../config/devNotify";
 import { normalizeTeamMember, normalizeTeamOrder } from "../../models/team";
+import { useProducts } from "../../context/ProductsContext";
 
 async function fetchJson(url, options = {}) {
   const opts = {
@@ -81,6 +82,7 @@ export default function AdminApp() {
   const [teamConfirmRow, setTeamConfirmRow] = useState(null);
   const [teamShowConfirm, setTeamShowConfirm] = useState(false);
   const auth = useAuth();
+  const { refreshProducts } = useProducts();
 
   // Auto-persist helpers
   async function persistRows(nextRows, reason = "auto-save") {
@@ -811,6 +813,8 @@ export default function AdminApp() {
           } else {
             // Keep admin list in sync with source of truth
             loadProducts();
+            // Refresh navbar products
+            refreshProducts();
           }
           setProductShowForm(false);
         }}
@@ -847,6 +851,7 @@ export default function AdminApp() {
             );
           } else {
             loadProducts();
+            refreshProducts();
           }
           setProductShowForm(false);
         }}
@@ -1135,6 +1140,7 @@ export default function AdminApp() {
               );
             } else {
               loadProducts();
+              refreshProducts();
             }
             setProductShowConfirm(false);
           } else {
@@ -1171,6 +1177,7 @@ export default function AdminApp() {
               );
             } else {
               loadProducts();
+              refreshProducts();
             }
             setProductShowConfirm(false);
           }

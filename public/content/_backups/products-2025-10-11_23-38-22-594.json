@@ -603,6 +603,44 @@
     "archived": false
   },
   {
+    "id": "product-ytqox7",
+    "name": {
+      "es": "FIBER MULT",
+      "en": "FIBER MULT"
+    },
+    "tagline": {
+      "es": "",
+      "en": ""
+    },
+    "description": {
+      "es": "Analiza secciones transversables de Fibra",
+      "en": "Analiza secciones transversables de Fibra"
+    },
+    "descriptionDetail": {
+      "es": "",
+      "en": ""
+    },
+    "image": "/content/products/product-ytqox7/FiberMult.png",
+    "category": "",
+    "technicalSheets": {
+      "es": "",
+      "en": ""
+    },
+    "features": {
+      "es": [
+        "Elepticidad"
+      ],
+      "en": []
+    },
+    "featuresDetail": [],
+    "specifications": {},
+    "capabilities": [],
+    "youtubeVideo": "",
+    "additionalImages": [],
+    "order": 2,
+    "archived": false
+  },
+  {
     "id": "product-urjq4c",
     "name": {
       "es": "Product Xy",
@@ -882,44 +920,6 @@
       "/assets/images/products/FIBER MED V2.0.jpg"
     ],
     "order": 4,
-    "archived": false
-  },
-  {
-    "id": "product-ytqox7",
-    "name": {
-      "es": "FIBER MULT",
-      "en": "FIBER MULT"
-    },
-    "tagline": {
-      "es": "",
-      "en": ""
-    },
-    "description": {
-      "es": "Analiza secciones transversables de Fibraf",
-      "en": "Analiza secciones transversables de Fibra"
-    },
-    "descriptionDetail": {
-      "es": "",
-      "en": ""
-    },
-    "image": "/content/products/product-ytqox7/FiberMult.png",
-    "category": "",
-    "technicalSheets": {
-      "es": "",
-      "en": ""
-    },
-    "features": {
-      "es": [
-        "Elepticidad"
-      ],
-      "en": []
-    },
-    "featuresDetail": [],
-    "specifications": {},
-    "capabilities": [],
-    "youtubeVideo": "",
-    "additionalImages": [],
-    "order": 2,
     "archived": false
   }
 ]
