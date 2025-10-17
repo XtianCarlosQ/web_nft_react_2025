@@ -229,11 +229,7 @@
       "/assets/images/products/medulometro.png"
     ],
     "order": 2,
-    "archived": false,
-    "technicalSheets": {
-      "es": "/assets/images/products/pdf/Medulometro_es.pdf",
-      "en": "/assets/images/products/pdf/Medulometro_es.pdf"
-    }
+    "archived": false
   },
   {
     "id": "fiber-ec",
@@ -353,11 +349,7 @@
       "/assets/images/products/FIBER EC.png"
     ],
     "order": 3,
-    "archived": false,
-    "technicalSheets": {
-      "es": "/assets/images/products/pdf/FIBER_EC_es.pdf",
-      "en": "/assets/images/products/pdf/FIBER_EC_es.pdf"
-    }
+    "archived": false
   },
   {
     "id": "fiber-med",
@@ -477,11 +469,7 @@
       "/assets/images/products/FIBER MED V2.0.jpg"
     ],
     "order": 4,
-    "archived": false,
-    "technicalSheets": {
-      "es": "/assets/images/products/pdf/FIBER-MED-V2.0_es.pdf",
-      "en": "/assets/images/products/pdf/FIBER-MED-V2.0_es.pdf"
-    }
+    "archived": false
   },
   {
     "id": "s-fiber-ec",
@@ -603,11 +591,7 @@
       "/assets/images/products/S-FIBER EC.png"
     ],
     "order": 5,
-    "archived": false,
-    "technicalSheets": {
-      "es": "/assets/images/products/pdf/S-FIBER_EC_es.pdf",
-      "en": "/assets/images/products/pdf/S-FIBER_EC_es.pdf"
-    }
+    "archived": false
   },
   {
     "id": "fiber-den",
@@ -729,11 +713,7 @@
       "/assets/images/products/Fiber-Den-1.png"
     ],
     "order": 6,
-    "archived": false,
-    "technicalSheets": {
-      "es": "/assets/images/products/pdf/FIBER_DEN_es.pdf",
-      "en": "/assets/images/products/pdf/FIBER_DEN_es.pdf"
-    }
+    "archived": false
   },
   {
     "id": "fiber-tst",
@@ -855,11 +835,7 @@
       "/assets/images/products/FIBER TST.png"
     ],
     "order": 7,
-    "archived": false,
-    "technicalSheets": {
-      "es": "/assets/images/products/pdf/FIBER_TST_V2.0.pdf",
-      "en": "/assets/images/products/pdf/FIBER_TST_V2.0.pdf"
-    }
+    "archived": false
   },
   {
     "id": "mosiville",
@@ -981,11 +957,7 @@
       "/assets/images/products/Mosiville.png"
     ],
     "order": 8,
-    "archived": false,
-    "technicalSheets": {
-      "es": "/assets/images/products/pdf/mosiville_es.pdf",
-      "en": "/assets/images/products/pdf/mosiville_es.pdf"
-    }
+    "archived": false
   },
   {
     "id": "fiber-med-2",

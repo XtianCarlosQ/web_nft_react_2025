@@ -981,11 +981,7 @@
       "/assets/images/products/Mosiville.png"
     ],
     "order": 8,
-    "archived": false,
-    "technicalSheets": {
-      "es": "/assets/images/products/pdf/mosiville_es.pdf",
-      "en": "/assets/images/products/pdf/mosiville_es.pdf"
-    }
+    "archived": false
   },
   {
     "id": "fiber-med-2",

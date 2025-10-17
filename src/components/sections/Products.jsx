@@ -1,7 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-// Brochure: por defecto usaremos una ruta pública si está definida
-import brochurePdf from "../../assets/images/products/CATALOGO 2025_NFT_1.pdf";
 import { Brain, Clock, Award, Microscope } from "lucide-react";
 import { useLanguage } from "../../context/LanguageContext";
 import { messages } from "../../config/i18n";
@@ -307,11 +305,7 @@ const Products = ({ limit }) => {
               </Link>
             )}
             <a
-              href={
-                import.meta.env.VITE_BROCHURE_PATH ||
-                "/brochures/CATALOGO_2025_NFT_1.pdf" ||
-                brochurePdf
-              }
+              href="/assets/images/products/CATALOGO 2025_NFT_1.pdf"
               target="_blank"
               rel="noreferrer"
               className="bg-red-600 hover:bg-red-700 text-white 

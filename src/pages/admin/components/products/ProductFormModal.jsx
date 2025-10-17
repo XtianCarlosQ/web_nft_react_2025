@@ -280,15 +280,13 @@ export default function ProductFormModal({
       // Extraer solo los títulos de featuresDetail para mantener compatibilidad
       const updatedFeatures = { ...prev.features };
       ["es", "en"].forEach((lang) => {
-        updatedFeatures[lang] = fd.map((item) => 
-          item.title?.[lang] || ""
-        );
+        updatedFeatures[lang] = fd.map((item) => item.title?.[lang] || "");
       });
 
-      return { 
-        ...prev, 
+      return {
+        ...prev,
         featuresDetail: fd,
-        features: updatedFeatures
+        features: updatedFeatures,
       };
     });
   }
@@ -308,15 +306,13 @@ export default function ProductFormModal({
       // 🔧 SINCRONIZAR features[idioma] para Vista Card
       const updatedFeatures = { ...prev.features };
       ["es", "en"].forEach((lang) => {
-        updatedFeatures[lang] = fd.map((item) => 
-          item.title?.[lang] || ""
-        );
+        updatedFeatures[lang] = fd.map((item) => item.title?.[lang] || "");
       });
 
       return {
         ...prev,
         featuresDetail: fd,
-        features: updatedFeatures
+        features: updatedFeatures,
       };
     });
   }
@@ -331,15 +327,13 @@ export default function ProductFormModal({
       // 🔧 SINCRONIZAR features[idioma] para Vista Card
       const updatedFeatures = { ...prev.features };
       ["es", "en"].forEach((lang) => {
-        updatedFeatures[lang] = fd.map((item) => 
-          item.title?.[lang] || ""
-        );
+        updatedFeatures[lang] = fd.map((item) => item.title?.[lang] || "");
       });
 
       return {
         ...prev,
         featuresDetail: fd,
-        features: updatedFeatures
+        features: updatedFeatures,
       };
     });
   }

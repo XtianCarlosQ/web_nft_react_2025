@@ -729,11 +729,7 @@
       "/assets/images/products/Fiber-Den-1.png"
     ],
     "order": 6,
-    "archived": false,
-    "technicalSheets": {
-      "es": "/assets/images/products/pdf/FIBER_DEN_es.pdf",
-      "en": "/assets/images/products/pdf/FIBER_DEN_es.pdf"
-    }
+    "archived": false
   },
   {
     "id": "fiber-tst",
@@ -855,11 +851,7 @@
       "/assets/images/products/FIBER TST.png"
     ],
     "order": 7,
-    "archived": false,
-    "technicalSheets": {
-      "es": "/assets/images/products/pdf/FIBER_TST_V2.0.pdf",
-      "en": "/assets/images/products/pdf/FIBER_TST_V2.0.pdf"
-    }
+    "archived": false
   },
   {
     "id": "mosiville",
@@ -981,11 +973,7 @@
       "/assets/images/products/Mosiville.png"
     ],
     "order": 8,
-    "archived": false,
-    "technicalSheets": {
-      "es": "/assets/images/products/pdf/mosiville_es.pdf",
-      "en": "/assets/images/products/pdf/mosiville_es.pdf"
-    }
+    "archived": false
   },
   {
     "id": "fiber-med-2",
