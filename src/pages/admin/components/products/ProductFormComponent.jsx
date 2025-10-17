@@ -51,17 +51,9 @@ export default function ProductFormComponent({
 
   // Card mode: reuse public ProductCard at realistic size
   if (mode === "card") {
-    // Extraer features de featuresDetail (nuevo formato) o features[tab] (legacy)
-    const cardFeatures = Array.isArray(local.featuresDetail)
-      ? local.featuresDetail.map((detail, i) => {
-          if (detail.title && typeof detail.title === "object") {
-            return detail.title[tab] || "";
-          }
-          // Legacy fallback
-          const legacyFeatures = local.features?.[tab] || [];
-          return legacyFeatures[i] || "";
-        })
-      : Array.isArray(local.features?.[tab])
+    // ✅ CORRECCIÓN: Vista Card debe usar directamente features[idioma]
+    // No usar featuresDetail que es para Vista Detalle
+    const cardFeatures = Array.isArray(local.features?.[tab])
       ? local.features[tab]
       : [];
 
