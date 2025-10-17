@@ -1,30 +1,59 @@
 [
   {
-    "id": "consultoria-tecnica",
-    "icon": "Brain",
+    "id": "proyectos-medida",
+    "icon": "Users",
     "title": {
-      "es": "Consultoría Técnica",
-      "en": "Technical Consulting"
+      "es": "Proyectos a Medida",
+      "en": "Custom Projects"
     },
     "description": {
-      "es": "Acompañamiento experto para optimizar procesos, interpretar resultados y elevar la calidad de tus análisis.",
-      "en": "Expert guidance to optimize processes, interpret results, and raise the quality of your analyses."
+      "es": "Desarrollo de soluciones tecnológicas personalizadas según tus necesidades.",
+      "en": "Development of tailor-made technological solutions according to your needs."
     },
     "features": {
       "es": [
-        "Optimización de procesos",
-        "Interpretación de resultados",
-        "Buenas prácticas y normativas",
-        "Diagnóstico y roadmap"
+        "Integración de sistemas",
+        "Automatización",
+        "Paneles e informes a medida",
+        "Escalabilidad"
       ],
       "en": [
-        "Process optimization",
-        "Results interpretation",
-        "Best practices and standards",
-        "Diagnosis and roadmap"
+        "Systems integration",
+        "Automation",
+        "Custom dashboards and reports",
+        "Scalability"
       ]
     },
-    "order": 6,
+    "order": 1,
+    "whatsapp": "51988496839",
+    "archived": false
+  },
+  {
+    "id": "analisis-laboratorio",
+    "icon": "BarChart3",
+    "title": {
+      "es": "Análisis de Laboratorio",
+      "en": "Laboratory Analysis"
+    },
+    "description": {
+      "es": "Servicios especializados de caracterización de fibras con precisión científica.",
+      "en": "Specialized fiber characterization services with scientific precision."
+    },
+    "features": {
+      "es": [
+        "MDF, CVMDF, DEMDF",
+        "Factores de confort",
+        "Protocolos validados",
+        "Reportes técnicos"
+      ],
+      "en": [
+        "MDF, CVMDF, DEMDF",
+        "Comfort factors",
+        "Validated protocols",
+        "Technical reports"
+      ]
+    },
+    "order": 2,
     "whatsapp": "51988496839",
     "archived": false
   },
@@ -85,64 +114,6 @@
     "whatsapp": "51988496839"
   },
   {
-    "id": "proyectos-medida",
-    "icon": "Users",
-    "title": {
-      "es": "Proyectos a Medida",
-      "en": "Custom Projects"
-    },
-    "description": {
-      "es": "Desarrollo de soluciones tecnológicas personalizadas según tus necesidades.",
-      "en": "Development of tailor-made technological solutions according to your needs."
-    },
-    "features": {
-      "es": [
-        "Integración de sistemas",
-        "Automatización",
-        "Paneles e informes a medida",
-        "Escalabilidad"
-      ],
-      "en": [
-        "Systems integration",
-        "Automation",
-        "Custom dashboards and reports",
-        "Scalability"
-      ]
-    },
-    "order": 1,
-    "whatsapp": "51988496839",
-    "archived": false
-  },
-  {
-    "id": "analisis-laboratorio",
-    "icon": "BarChart3",
-    "title": {
-      "es": "Análisis de Laboratorio",
-      "en": "Laboratory Analysis"
-    },
-    "description": {
-      "es": "Servicios especializados de caracterización de fibras con precisión científica.",
-      "en": "Specialized fiber characterization services with scientific precision."
-    },
-    "features": {
-      "es": [
-        "MDF, CVMDF, DEMDF",
-        "Factores de confort",
-        "Protocolos validados",
-        "Reportes técnicos"
-      ],
-      "en": [
-        "MDF, CVMDF, DEMDF",
-        "Comfort factors",
-        "Validated protocols",
-        "Technical reports"
-      ]
-    },
-    "order": 2,
-    "whatsapp": "51988496839",
-    "archived": false
-  },
-  {
     "id": "id-colaborativo",
     "icon": "Lightbulb",
     "title": {
@@ -172,53 +143,55 @@
     "archived": false
   },
   {
-    "id": "service-x68j32",
+    "id": "consultoria-tecnica",
     "icon": "Brain",
     "title": {
-      "es": "Título cosita",
-      "en": "Título Emy"
+      "es": "Consultoría Técnica",
+      "en": "Technical Consulting"
     },
     "description": {
-      "es": "fasdfasdfasd",
-      "en": "fasdfasdfasd"
+      "es": "Acompañamiento experto para optimizar procesos, interpretar resultados y elevar la calidad de tus análisis.",
+      "en": "Expert guidance to optimize processes, interpret results, and raise the quality of your analyses."
     },
     "features": {
       "es": [
-        "Tiene lentes",
-        "Cuycita bonita",
-        "Reilona"
+        "Optimización de procesos",
+        "Interpretación de resultados",
+        "Buenas prácticas y normativas",
+        "Diagnóstico y roadmap"
       ],
       "en": [
-        "Tiene lentes",
-        "Cuycita bonita",
-        "Reilona"
+        "Process optimization",
+        "Results interpretation",
+        "Best practices and standards",
+        "Diagnosis and roadmap"
       ]
     },
     "order": 6,
     "whatsapp": "51988496839",
-    "archived": true
+    "archived": false
   },
   {
-    "id": "service-x7sbgx",
-    "icon": "mingcute:heart-line",
+    "id": "service-r1uxhr",
+    "icon": "Lightbulb",
     "title": {
-      "es": "Prueba 1",
-      "en": "Prueba 1"
+      "es": "Servicio de Estadística II",
+      "en": "Statistics Service II"
     },
     "description": {
-      "es": "fasdfas",
-      "en": "fasdfas"
+      "es": "Servicios de estadística para tesis y redacción. temas de búsqueda.",
+      "en": "Statistics services for thesis and writing. search topics."
     },
     "features": {
       "es": [
-        "1",
-        "2",
-        "3"
+        "Estadística",
+        "teoría de campo",
+        "teoría de la relatividad"
       ],
       "en": [
-        "1",
-        "2",
-        "3"
+        "Statistics",
+        "field theory",
+        "theory of relativity"
       ]
     },
     "order": 7,

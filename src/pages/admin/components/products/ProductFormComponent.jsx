@@ -6,11 +6,14 @@ import IconPicker from "../common/IconPicker";
 export default function ProductFormComponent({
   mode = "card", // 'card' | 'detail'
   tab = "es",
-  setTab,
   local,
   setLocal,
   hasES,
   hasEN,
+  updateLangField, // ✅ Recibe las funciones del padre
+  setFeaturesAt,
+  addFeature,
+  removeFeature,
   onPick,
   onDrop,
   generating,
@@ -21,6 +24,14 @@ export default function ProductFormComponent({
   showHints,
   uploading,
 }) {
+  // 🔍 DEBUG: Log cuando cambian props
+  console.log("🟡 ProductFormComponent render:", {
+    mode,
+    tab,
+    localName: local?.name,
+    localDescription: local?.description,
+    localFeatures: local?.features,
+  });
   const change = (field, value) =>
     setLocal((prev) => ({ ...prev, [field]: value }));
   const changeLang = (field, value) =>
@@ -28,6 +39,7 @@ export default function ProductFormComponent({
       ...prev,
       [field]: { ...(prev[field] || {}), [tab]: value },
     }));
+
   const ensureFeaturesDetail = (arrLen) =>
     setLocal((prev) => {
       const fd = Array.isArray(prev.featuresDetail)
@@ -36,120 +48,88 @@ export default function ProductFormComponent({
       while (fd.length < arrLen) fd.push({ icon: "BarChart3" });
       return { ...prev, featuresDetail: fd };
     });
-  const setFeatureAt = (idx, value) =>
-    setLocal((prev) => {
-      const arr = Array.isArray(prev.features?.[tab])
-        ? [...prev.features[tab]]
-        : [];
-      arr[idx] = value;
-      const next = {
-        ...prev,
-        features: { ...(prev.features || {}), [tab]: arr },
-      };
-      return next;
-    });
-  const addFeature = () =>
-    setLocal((prev) => {
-      const arr = Array.isArray(prev.features?.[tab])
-        ? [...prev.features[tab]]
-        : [];
-      arr.push("");
-      const next = {
-        ...prev,
-        features: { ...(prev.features || {}), [tab]: arr },
-      };
-      const fd = Array.isArray(prev.featuresDetail)
-        ? [...prev.featuresDetail]
-        : [];
-      fd.push({ icon: "BarChart3" });
-      next.featuresDetail = fd;
-      return next;
-    });
-  const removeFeature = (idx) =>
-    setLocal((prev) => {
-      const arr = Array.isArray(prev.features?.[tab])
-        ? [...prev.features[tab]]
-        : [];
-      arr.splice(idx, 1);
-      const next = {
-        ...prev,
-        features: { ...(prev.features || {}), [tab]: arr },
-      };
-      if (Array.isArray(prev.featuresDetail)) {
-        const fd = [...prev.featuresDetail];
-        fd.splice(idx, 1);
-        next.featuresDetail = fd;
-      }
-      return next;
-    });
 
   // Card mode: reuse public ProductCard at realistic size
   if (mode === "card") {
+    // Extraer features de featuresDetail (nuevo formato) o features[tab] (legacy)
+    const cardFeatures = Array.isArray(local.featuresDetail)
+      ? local.featuresDetail.map((detail, i) => {
+          if (detail.title && typeof detail.title === "object") {
+            return detail.title[tab] || "";
+          }
+          // Legacy fallback
+          const legacyFeatures = local.features?.[tab] || [];
+          return legacyFeatures[i] || "";
+        })
+      : Array.isArray(local.features?.[tab])
+      ? local.features[tab]
+      : [];
+
     const cardProduct = {
       id: local.id,
       name: local.name?.[tab] || "",
       image: local.image || "",
       description: local.description?.[tab] || "",
-      features: Array.isArray(local.features?.[tab]) ? local.features[tab] : [],
+      features: cardFeatures,
     };
+
+    console.log("🔴 Card mode - cardProduct:", cardProduct);
+    console.log("🔴 Card mode - tab:", tab, "name:", local.name?.[tab]);
     return (
       <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         {/* Left: Original editable template (big card with inline inputs) */}
         <div className="w-full">
-          {/* Language tabs centered to template width */}
-          {typeof setTab === "function" && (
-            <div className="max-w-sm mx-auto mb-3 flex flex-wrap items-center gap-2 justify-start">
-              {[
-                { key: "es", label: "Español (ES)" },
-                { key: "en", label: "Inglés (EN)" },
-              ].map(({ key, label }) => (
-                <button
-                  type="button"
-                  key={key}
-                  className={`px-3 py-1 rounded-lg border ${
-                    tab === key
-                      ? "bg-red-600 text-white border-red-600"
-                      : "bg-white"
-                  }`}
-                  onClick={() => setTab(key)}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          )}
+          {/* ✅ Contenedor compacto de ID y Orden - Layout inline */}
+          <div className="mb-3 max-w-sm mx-auto">
+            <div className="bg-transparent rounded-lg px-0 py-2.5  border-gray-200 ">
+              <div className="flex items-center gap-6">
+                {/* ID - flex-1 con label inline */}
+                <div className="flex-1 min-w-0 flex items-center gap-3">
+                  <label className="text-sm font-medium text-gray-700 whitespace-nowrap">
+                    ID
+                  </label>
+                  <input
+                    disabled={readOnly || local?.mode === "edit"}
+                    value={local.id}
+                    onChange={(e) =>
+                      setLocal((p) => ({ ...p, id: e.target.value.trim() }))
+                    }
+                    className={`flex-1 px-3 py-1.5 border rounded text-sm font-mono truncate ${
+                      invalid?.id
+                        ? "border-red-400 bg-white"
+                        : "border-gray-300 bg-white"
+                    }`}
+                    title={local.id}
+                  />
+                </div>
 
-          {/* ID & Orden centered to template width */}
-          <div className="max-w-sm mx-auto mb-3 flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-2">
-              <label className="text-sm text-gray-600">ID</label>
-              <input
-                disabled={readOnly || local?.mode === "edit"}
-                value={local.id}
-                onChange={(e) =>
-                  setLocal((p) => ({ ...p, id: e.target.value.trim() }))
-                }
-                className={`w-48 border rounded px-3 py-1.5 ${
-                  invalid?.id ? "border-red-400" : ""
-                }`}
-              />
+                {/* Orden - Ancho fijo con label inline */}
+                <div className="flex items-center gap-3">
+                  <label className="text-sm font-medium text-gray-700 whitespace-nowrap">
+                    Orden *
+                  </label>
+                  <input
+                    type="number"
+                    disabled={readOnly || local.archived}
+                    value={local.order ?? 1}
+                    onChange={(e) =>
+                      setLocal((p) => ({ ...p, order: Number(e.target.value) }))
+                    }
+                    className="w-20 px-3 py-1.5 border border-gray-300 rounded text-sm bg-white text-center"
+                    min={1}
+                  />
+                </div>
+
+                {/* Indicador de carga */}
+                {uploading && (
+                  <div className="flex-shrink-0">
+                    <span className="text-xs text-gray-500 whitespace-nowrap">
+                      Subiendo...
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <label className="text-sm text-gray-600">Orden</label>
-              <input
-                type="number"
-                disabled={readOnly || local.archived}
-                value={local.order ?? 1}
-                onChange={(e) =>
-                  setLocal((p) => ({ ...p, order: Number(e.target.value) }))
-                }
-                className="w-20 border rounded px-3 py-1.5"
-                min={1}
-              />
-            </div>
-            {uploading && (
-              <span className="text-xs text-gray-500">Subiendo...</span>
-            )}
           </div>
           {!readOnly && (
             <div
@@ -184,23 +164,17 @@ export default function ProductFormComponent({
           <div className="w-full max-w-sm mx-auto">
             <ProductCard
               product={cardProduct}
+              lang={tab}
               disabled
               editable={!readOnly}
+              previewMode={true}
               onEdit={(path, value) => {
                 const [head, idx] = path;
-                if (head === "name") return changeLang("name", value);
+                if (head === "name") return updateLangField("name", value);
                 if (head === "description")
-                  return changeLang("description", value);
+                  return updateLangField("description", value);
                 if (head === "features") {
-                  const i = idx;
-                  const arr = Array.isArray(local.features?.[tab])
-                    ? [...local.features[tab]]
-                    : [];
-                  arr[i] = value;
-                  return setLocal((prev) => ({
-                    ...prev,
-                    features: { ...(prev.features || {}), [tab]: arr },
-                  }));
+                  return setFeaturesAt(idx, value);
                 }
               }}
               invalid={invalid}
@@ -241,7 +215,7 @@ export default function ProductFormComponent({
 
         {/* Right: Non-editable live preview with small heading */}
         <div className="w-full">
-          <div className="w-full flex justify-center mb-36">
+          <div className="w-full flex justify-center mb-16">
             <div
               className={`px-3 py-1 rounded-lg border text-md bg-red-600 text-white border-red-600`}
             >
@@ -249,7 +223,13 @@ export default function ProductFormComponent({
             </div>
           </div>
           <div className="w-full max-w-sm mx-auto">
-            <ProductCard product={cardProduct} disabled editable={false} />
+            <ProductCard
+              product={cardProduct}
+              lang={tab}
+              disabled
+              editable={false}
+              previewMode={true}
+            />
           </div>
         </div>
       </div>
@@ -259,71 +239,137 @@ export default function ProductFormComponent({
   // Detail mode: reuse public ProductDetail layout as a template
   const productForTemplate = {
     id: local.id,
-    name: local.name?.[tab] || "",
-    category: local.category || "",
-    tagline: local.tagline?.[tab] || "",
+    name:
+      typeof local.name === "object"
+        ? local.name?.[tab] || local.name?.es || local.name?.en || ""
+        : String(local.name || ""),
+    category:
+      typeof local.category === "object"
+        ? local.category?.[tab] ||
+          local.category?.es ||
+          local.category?.en ||
+          ""
+        : String(local.category || ""),
+    tagline:
+      typeof local.tagline === "object"
+        ? local.tagline?.[tab] || local.tagline?.es || local.tagline?.en || ""
+        : String(local.tagline || ""),
     description:
-      (local.descriptionDetail && local.descriptionDetail[tab]) ||
-      (local.description && local.description[tab]) ||
-      "",
+      typeof local.descriptionDetail === "object"
+        ? local.descriptionDetail[tab] ||
+          local.descriptionDetail?.es ||
+          local.descriptionDetail?.en ||
+          ""
+        : typeof local.description === "object"
+        ? local.description[tab] ||
+          local.description?.es ||
+          local.description?.en ||
+          ""
+        : String(local.description || ""),
     image: local.image || "",
     technicalSheets: local.technicalSheets || {},
-    features: (local.features?.[tab] || []).map((f, i) => ({
-      title: f,
-      description: f,
-      icon: local.featuresDetail?.[i]?.icon || "BarChart3",
-    })),
-    specifications: local.specifications || {},
-    capabilities: local.capabilities || [],
+    features: (Array.isArray(local.featuresDetail)
+      ? local.featuresDetail
+      : []
+    ).map((detail, i) => {
+      // Nuevo formato: featuresDetail tiene title/description bilingües
+      if (detail.title && typeof detail.title === "object") {
+        return {
+          title: detail.title[tab] || "",
+          description: detail.description?.[tab] || "",
+          icon: detail.icon || "BarChart3",
+        };
+      }
+      // Legacy: features[tab] es array de strings (solo títulos)
+      const legacyFeatures = local.features?.[tab] || [];
+      return {
+        title: legacyFeatures[i] || "",
+        description: "",
+        icon: detail.icon || "BarChart3",
+      };
+    }),
+    specifications:
+      typeof local.specifications === "object" &&
+      typeof local.specifications?.[tab] === "object" &&
+      !Array.isArray(local.specifications?.[tab])
+        ? local.specifications[tab]
+        : typeof local.specifications === "object" &&
+          !local.specifications?.es &&
+          !local.specifications?.en
+        ? local.specifications // Legacy: objeto plano sin es/en
+        : {},
+    capabilities: Array.isArray(local.capabilities?.[tab])
+      ? local.capabilities[tab]
+      : Array.isArray(local.capabilities)
+      ? local.capabilities
+      : [],
     youtubeVideo: local.youtubeVideo || "",
     additionalImages: local.additionalImages || [],
   };
 
+  // 🔍 DEBUG: Verificar productForTemplate en modo detail
+  console.log("🟣 Detail mode - tab:", tab);
+  console.log("🟣 Detail mode - local.name:", local.name);
+  console.log(
+    "🟣 Detail mode - productForTemplate.name:",
+    productForTemplate.name
+  );
+  console.log("🟣 Detail mode - local.specifications:", local.specifications);
+  console.log(
+    "🟣 Detail mode - local.specifications[tab]:",
+    local.specifications?.[tab]
+  );
+  console.log(
+    "🟣 Detail mode - productForTemplate.specifications:",
+    productForTemplate.specifications
+  );
+  console.log("🟣 Detail mode - productForTemplate:", productForTemplate);
+
   const handleEdit = (path, value) => {
     if (!Array.isArray(path) || !path.length) return;
     const [head, ...rest] = path;
-    if (head === "name") return changeLang("name", value);
-    if (head === "category") return change("category", value);
-    if (head === "tagline") return changeLang("tagline", value);
+    if (head === "name") return updateLangField("name", value);
+    if (head === "category") return changeLang("category", value);
+    if (head === "tagline") return updateLangField("tagline", value);
     if (head === "description")
-      return setLocal((p) => ({
-        ...p,
-        descriptionDetail: { ...(p.descriptionDetail || {}), [tab]: value },
-      }));
+      return updateLangField("descriptionDetail", value);
     if (head === "features") {
       if (rest[0] === "add") return addFeature();
       if (rest[0] === "remove" && rest[1] === "last") {
-        const arr = Array.isArray(local.features?.[tab])
-          ? [...local.features[tab]]
+        const fd = Array.isArray(local.featuresDetail)
+          ? local.featuresDetail
           : [];
-        if (arr.length > 0) return removeFeature(arr.length - 1);
+        if (fd.length > 0) return removeFeature(fd.length - 1);
         return;
       }
       if (rest[0] === "reorder") {
         const { from, to } = value || {};
         setLocal((prev) => {
-          const arr = Array.isArray(prev.features?.[tab])
-            ? [...prev.features[tab]]
-            : [];
-          if (from == null || to == null || from === to) return prev;
-          const [moved] = arr.splice(from, 1);
-          arr.splice(to, 0, moved);
           const fd = Array.isArray(prev.featuresDetail)
             ? [...prev.featuresDetail]
             : [];
+          if (from == null || to == null || from === to) return prev;
           const [movedFd] = fd.splice(from, 1);
-          fd.splice(to, 0, movedFd || { icon: "BarChart3" });
+          fd.splice(
+            to,
+            0,
+            movedFd || {
+              icon: "BarChart3",
+              title: { es: "", en: "" },
+              description: { es: "", en: "" },
+            }
+          );
           return {
             ...prev,
-            features: { ...(prev.features || {}), [tab]: arr },
             featuresDetail: fd,
           };
         });
         return;
       }
       const [idx, field] = rest;
-      if (field === "title" || field === "description")
-        return setFeatureAt(idx, value);
+      if (field === "title") return setFeaturesAt(idx, value, "title");
+      if (field === "description")
+        return setFeaturesAt(idx, value, "description");
     }
     if (head === "additionalImages") {
       if (rest[0] === "remove") {
@@ -350,61 +396,188 @@ export default function ProductFormComponent({
       }
     }
     if (head === "youtubeVideo") return change("youtubeVideo", value);
+    if (head === "category") return changeLang("category", value);
     if (head === "specsLabel") {
       const [key] = rest;
       return setLocal((prev) => {
-        const specs = { ...(prev.specifications || {}) };
-        const val = specs[key];
-        delete specs[key];
-        specs[value] = val;
-        return { ...prev, specifications: specs };
+        // Handle i18n structure: specifications.es, specifications.en
+        const isI18n =
+          typeof prev.specifications?.es === "object" ||
+          typeof prev.specifications?.en === "object";
+        if (isI18n) {
+          // 🔥 FIX: Solo renombrar en el idioma activo [tab], no en ambos
+          const currentSpecs = { ...(prev.specifications?.[tab] || {}) };
+          const currentValue = currentSpecs[key];
+          delete currentSpecs[key];
+          currentSpecs[value] = currentValue;
+
+          return {
+            ...prev,
+            specifications: {
+              ...prev.specifications,
+              [tab]: currentSpecs,
+            },
+          };
+        } else {
+          // Legacy fallback
+          const specs = { ...(prev.specifications || {}) };
+          const val = specs[key];
+          delete specs[key];
+          specs[value] = val;
+          return { ...prev, specifications: specs };
+        }
       });
     }
     if (head === "specsValue") {
       const [key] = rest;
-      return setLocal((prev) => ({
-        ...prev,
-        specifications: { ...(prev.specifications || {}), [key]: value },
-      }));
+      return setLocal((prev) => {
+        const isI18n =
+          typeof prev.specifications?.es === "object" ||
+          typeof prev.specifications?.en === "object";
+        if (isI18n) {
+          return {
+            ...prev,
+            specifications: {
+              ...(prev.specifications || {}),
+              [tab]: { ...(prev.specifications?.[tab] || {}), [key]: value },
+            },
+          };
+        } else {
+          // Legacy fallback
+          return {
+            ...prev,
+            specifications: { ...(prev.specifications || {}), [key]: value },
+          };
+        }
+      });
     }
     if (head === "specs") {
       if (rest[0] === "add") {
-        return setLocal((prev) => ({
-          ...prev,
-          specifications: { ...(prev.specifications || {}), ["Nuevo"]: "" },
-        }));
+        return setLocal((prev) => {
+          const isI18n =
+            typeof prev.specifications?.es === "object" ||
+            typeof prev.specifications?.en === "object";
+          if (isI18n) {
+            // Generar una key temporal única para evitar colisiones
+            const tempKey = `__temp_${Date.now()}`;
+            // Solo agregar en el idioma activo (tab), no en ambos
+            return {
+              ...prev,
+              specifications: {
+                ...prev.specifications,
+                [tab]: {
+                  ...(prev.specifications?.[tab] || {}),
+                  [tempKey]: "",
+                },
+              },
+            };
+          } else {
+            // Legacy
+            const tempKey = `__temp_${Date.now()}`;
+            return {
+              ...prev,
+              specifications: { ...(prev.specifications || {}), [tempKey]: "" },
+            };
+          }
+        });
       }
       if (rest[0] === "remove" && rest[1] === "last") {
         return setLocal((prev) => {
-          const entries = Object.entries(prev.specifications || {});
-          if (!entries.length) return prev;
-          entries.pop();
-          return { ...prev, specifications: Object.fromEntries(entries) };
+          const isI18n =
+            typeof prev.specifications?.es === "object" ||
+            typeof prev.specifications?.en === "object";
+          if (isI18n) {
+            // 🔥 FIX: Solo eliminar del idioma activo [tab], no de ambos
+            const entries = Object.entries(prev.specifications?.[tab] || {});
+            if (!entries.length) return prev;
+            entries.pop();
+            return {
+              ...prev,
+              specifications: {
+                ...prev.specifications,
+                [tab]: Object.fromEntries(entries),
+              },
+            };
+          } else {
+            // Legacy
+            const entries = Object.entries(prev.specifications || {});
+            if (!entries.length) return prev;
+            entries.pop();
+            return { ...prev, specifications: Object.fromEntries(entries) };
+          }
         });
       }
     }
     if (head === "capabilities") {
-      if (rest[0] === "add")
-        return setLocal((prev) => ({
-          ...prev,
-          capabilities: [...(prev.capabilities || []), ""],
-        }));
+      if (rest[0] === "add") {
+        return setLocal((prev) => {
+          const isI18n =
+            Array.isArray(prev.capabilities?.es) ||
+            Array.isArray(prev.capabilities?.en);
+          if (isI18n) {
+            return {
+              ...prev,
+              capabilities: {
+                es: [...(prev.capabilities?.es || []), ""],
+                en: [...(prev.capabilities?.en || []), ""],
+              },
+            };
+          } else {
+            // Legacy
+            return {
+              ...prev,
+              capabilities: [...(prev.capabilities || []), ""],
+            };
+          }
+        });
+      }
       if (rest[0] === "remove" && rest[1] === "last") {
         return setLocal((prev) => {
-          const arr = Array.isArray(prev.capabilities)
-            ? [...prev.capabilities]
-            : [];
-          if (arr.length) arr.pop();
-          return { ...prev, capabilities: arr };
+          const isI18n =
+            Array.isArray(prev.capabilities?.es) ||
+            Array.isArray(prev.capabilities?.en);
+          if (isI18n) {
+            const arrES = Array.isArray(prev.capabilities?.es)
+              ? [...prev.capabilities.es]
+              : [];
+            const arrEN = Array.isArray(prev.capabilities?.en)
+              ? [...prev.capabilities.en]
+              : [];
+            if (arrES.length) arrES.pop();
+            if (arrEN.length) arrEN.pop();
+            return { ...prev, capabilities: { es: arrES, en: arrEN } };
+          } else {
+            // Legacy
+            const arr = Array.isArray(prev.capabilities)
+              ? [...prev.capabilities]
+              : [];
+            if (arr.length) arr.pop();
+            return { ...prev, capabilities: arr };
+          }
         });
       }
       const [idx] = rest;
       return setLocal((prev) => {
-        const arr = Array.isArray(prev.capabilities)
-          ? [...prev.capabilities]
-          : [];
-        arr[idx] = value;
-        return { ...prev, capabilities: arr };
+        const isI18n =
+          Array.isArray(prev.capabilities?.es) ||
+          Array.isArray(prev.capabilities?.en);
+        if (isI18n) {
+          const arr = Array.isArray(prev.capabilities?.[tab])
+            ? [...prev.capabilities[tab]]
+            : [];
+          arr[idx] = value;
+          return {
+            ...prev,
+            capabilities: { ...(prev.capabilities || {}), [tab]: arr },
+          };
+        } else {
+          // Legacy
+          const arr = Array.isArray(prev.capabilities)
+            ? [...prev.capabilities]
+            : [];
+          arr[idx] = value;
+          return { ...prev, capabilities: arr };
+        }
       });
     }
   };
@@ -412,12 +585,17 @@ export default function ProductFormComponent({
   return (
     <ProductDetailTemplate
       product={productForTemplate}
+      adminLang={tab}
       labels={{
-        datasheetES: "Ficha ES",
-        datasheetEN: "Ficha EN",
-        mainFeatures: "Características Principales",
-        technicalSpecs: "Especificaciones Técnicas",
-        capabilities: "Capacidades",
+        datasheetES: tab === "es" ? "Ficha ES" : "Datasheet ES",
+        datasheetEN: tab === "es" ? "Ficha EN" : "Datasheet EN",
+        mainFeatures:
+          tab === "es" ? "Características Principales" : "Main Features",
+        technicalSpecs:
+          tab === "es"
+            ? "Especificaciones Técnicas"
+            : "Technical Specifications",
+        capabilities: tab === "es" ? "Capacidades" : "Capabilities",
       }}
       editable={!readOnly}
       onEdit={handleEdit}

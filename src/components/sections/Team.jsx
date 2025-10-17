@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useLanguage } from "../../context/LanguageContext";
+import { messages } from "../../config/i18n"; // ✅ Importar messages para admin preview
 import {
   normalizeTeamMember,
   normalizeTeamOrder,
@@ -7,26 +8,90 @@ import {
 } from "../../models/team";
 // Eliminado: fallback de equipo en src/data. Fuente única: public/content/team.json
 
-export const TeamMemberCard = ({ member, forceOverlay = false }) => {
+export const TeamMemberCard = ({ member, forceOverlay = false, lang }) => {
+  const { t } = useLanguage();
+
   const image =
     member.image || member.photo || "/assets/images/team/placeholder.jpg";
-  const name =
-    typeof member.name === "object"
-      ? member.name.es || member.name.en || ""
-      : member.name;
-  const positionRaw = member.position || member.role || "";
-  const position =
-    typeof positionRaw === "object"
-      ? positionRaw.es || positionRaw.en || ""
-      : positionRaw;
-  const skills = Array.isArray(member.skills) ? member.skills : [];
+
+  // En la web pública, member ya viene normalizado (strings planos)
+  // En admin, member tiene estructura {es, en} y lang indica qué idioma mostrar
+  let name, position, skills;
+
+  if (lang) {
+    // Modo admin: extraer según idioma
+    console.log("🔍 Team DEBUG (Admin):", {
+      lang,
+      member_name: member.name,
+      member_role: member.role,
+      member_skills: member.skills,
+    });
+
+    name =
+      typeof member.name === "object"
+        ? member.name[lang] || member.name.es || member.name.en || ""
+        : member.name || "";
+
+    position =
+      typeof member.role === "object"
+        ? member.role[lang] || member.role.es || member.role.en || ""
+        : member.role || member.position || "";
+
+    // ✅ SEGURIDAD: Garantizar que siempre sean strings
+    name = String(name || "");
+    position = String(position || "");
+
+    if (
+      typeof member.skills === "object" &&
+      member.skills !== null &&
+      !Array.isArray(member.skills)
+    ) {
+      skills =
+        member.skills[lang] || member.skills.es || member.skills.en || [];
+    } else if (Array.isArray(member.skills)) {
+      skills = member.skills;
+    } else {
+      skills = [];
+    }
+
+    console.log("🔍 Team DEBUG (Admin extracted):", {
+      name,
+      position,
+      skills,
+    });
+  } else {
+    // Modo web pública: datos ya normalizados como strings
+    name = member.name || "";
+    position = member.role || member.position || "";
+    skills = Array.isArray(member.skills) ? member.skills : [];
+
+    // ✅ SEGURIDAD: Garantizar que siempre sean strings (también en modo público)
+    name = String(name || "");
+    position = String(position || "");
+
+    // DEBUG: Verificar que los datos vienen normalizados
+    console.log("🔍 Team DEBUG (Web):", {
+      name,
+      position,
+      skills,
+      raw_member: member,
+    });
+  }
+
+  // ✅ Si lang está provisto (admin preview), usar messages directamente
+  // De lo contrario, usar t() del contexto (web pública)
+  const specialtiesText = lang
+    ? messages[lang]?.team?.specialties ||
+      (lang === "es" ? "Especialidades:" : "Specialties:")
+    : t("team.specialties");
+
   return (
     <div className="relative group overflow-hidden rounded-2xl shadow-lg transition-transform duration-900 hover:shadow-xl w-full max-w-[300px] sm:max-w-[360px] mx-auto">
       {/* Imagen del miembro */}
       <div className="aspect-[3/4] relative overflow-hidden rounded-2xl">
         <img
           src={image}
-          alt={member.name}
+          alt={name}
           className="w-full h-full object-cover object-center"
         />
         {/* Overlay con skills */}
@@ -37,7 +102,7 @@ export const TeamMemberCard = ({ member, forceOverlay = false }) => {
               : "translate-y-full group-hover:translate-y-0"
           } transition-transform duration-800 ease-out flex flex-col justify-center px-6 text-white/95 backdrop-blur-[2px] rounded-2xl ring-1 ring-white/10`}
         >
-          <h4 className="text-lg font-semibold mb-2">Especialidades:</h4>
+          <h4 className="text-lg font-semibold mb-2">{specialtiesText}</h4>
           <ul className="space-y-2">
             {skills.map((skill, index) => (
               <li key={index} className="flex items-center text-sm">
@@ -74,11 +139,12 @@ export const TeamMemberCard = ({ member, forceOverlay = false }) => {
 };
 
 const Team = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage(); // ✅ Usar 'language' del contexto
   const [currentSlide, setCurrentSlide] = useState(0);
   const [teamMembers, setTeamMembers] = useState([]);
 
-  // Sin fallback: mostrar vacío si no hay JSON
+  // DEBUG: Verificar que language cambia
+  console.log("🔍 Team - language del contexto:", language);
 
   // Cargar equipo desde /content/team.json
   useEffect(() => {
@@ -88,11 +154,52 @@ const Team = () => {
         const res = await fetch("/content/team.json", { cache: "no-store" });
         if (!res.ok) throw new Error("no_team_json");
         const data = await res.json();
-        const norm = Array.isArray(data)
-          ? normalizeTeamOrder(data.map(normalizeTeamMember))
-          : [];
-        if (!cancelled)
-          setTeamMembers(norm.filter((x) => !x.archived).sort(compareByOrder));
+
+        if (cancelled) return;
+
+        // Normalizar según idioma actual (como Services)
+        const normalized = (Array.isArray(data) ? data : [])
+          .map((m) => {
+            // Helper para extraer valores bilingües
+            const getI18nValue = (field) => {
+              if (!field) return "";
+              if (typeof field === "string") return field;
+              if (typeof field === "object" && !Array.isArray(field)) {
+                return field[language] || field.es || field.en || "";
+              }
+              return "";
+            };
+
+            // Helper para extraer arrays bilingües
+            const getI18nArray = (field) => {
+              if (!field) return [];
+              if (Array.isArray(field)) return field; // Legacy: array simple
+              if (typeof field === "object") {
+                return field[language] || field.es || field.en || [];
+              }
+              return [];
+            };
+
+            return {
+              id: m.id || `team-${Math.random().toString(36).slice(2, 8)}`,
+              name: getI18nValue(m.name),
+              role: getI18nValue(m.role),
+              bio: getI18nValue(m.bio),
+              photo: m.photo || m.image || "",
+              image: m.photo || m.image || "",
+              skills: getI18nArray(m.skills),
+              order: typeof m.order === "number" ? m.order : 9999,
+              archived: !!m.archived,
+            };
+          })
+          .filter((x) => !x.archived)
+          .sort(compareByOrder);
+
+        // DEBUG: Ver datos normalizados
+        console.log("🔍 Team useEffect - language:", language);
+        console.log("🔍 Team normalized (first item):", normalized[0]);
+
+        if (!cancelled) setTeamMembers(normalized);
       } catch {
         if (!cancelled) setTeamMembers([]);
       }
@@ -100,7 +207,7 @@ const Team = () => {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [language]); // ✅ Recargar cuando cambia el idioma
 
   const pageSize = 3;
   const pages = useMemo(() => {

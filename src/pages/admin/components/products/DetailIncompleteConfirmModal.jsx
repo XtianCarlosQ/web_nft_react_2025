@@ -21,7 +21,7 @@ export default function DetailIncompleteConfirmModal({
             Campos pendientes en Vista Detalle
           </h3>
         </div>
-        <div className="p-6 space-y-3 text-sm text-gray-700">
+        <div className="p-6 space-y-3 text-sm dark:text-gray-50">
           <p>
             {message ||
               "La Vista Detalle tiene campos pendientes. ¿Deseas guardar solo la Vista Card por ahora?"}

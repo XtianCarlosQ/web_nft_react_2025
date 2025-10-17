@@ -73,13 +73,24 @@ export default function ArchiveConfirmModal({
                 min={1}
                 max={Math.max(1, Number(activeCount) + 1)}
                 value={restoreAt}
-                onChange={(e) =>
-                  setRestoreAt(Math.max(1, Number(e.target.value) || 1))
-                }
-                className="w-28 border rounded px-3 py-2"
+                onChange={(e) => setRestoreAt(e.target.value)}
+                className={`w-28 border rounded px-3 py-2 ${
+                  restoreAt === "" ||
+                  Number(restoreAt) < 1 ||
+                  Number(restoreAt) > Number(activeCount) + 1
+                    ? "border-red-500 bg-red-50"
+                    : "border-gray-300"
+                }`}
               />
               <p className="text-xs text-gray-500">
                 Se insertará desplazando hacia abajo a los existentes.
+                {(restoreAt === "" ||
+                  Number(restoreAt) < 1 ||
+                  Number(restoreAt) > Number(activeCount) + 1) && (
+                  <span className="text-red-600 block mt-1">
+                    Ingresa un número entre 1 y {Number(activeCount) + 1}
+                  </span>
+                )}
               </p>
             </div>
           )}
@@ -94,8 +105,16 @@ export default function ArchiveConfirmModal({
               isArchiving
                 ? "bg-yellow-600 hover:bg-yellow-700"
                 : "bg-green-600 hover:bg-green-700"
-            }`}
-            onClick={() => onConfirm(isArchiving ? undefined : restoreAt)}
+            } disabled:opacity-50 disabled:cursor-not-allowed`}
+            disabled={
+              !isArchiving &&
+              (restoreAt === "" ||
+                Number(restoreAt) < 1 ||
+                Number(restoreAt) > Number(activeCount) + 1)
+            }
+            onClick={() =>
+              onConfirm(isArchiving ? undefined : Number(restoreAt))
+            }
           >
             {isArchiving ? "Archivar" : "Restaurar"}
           </button>

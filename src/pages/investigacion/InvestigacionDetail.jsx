@@ -11,7 +11,10 @@ import {
 
 const PHONE_NUMBER = "51988496839"; // usado en otras partes del sitio
 
-const InvestigacionDetail = () => {
+const InvestigacionDetail = ({
+  article: articleProp = null,
+  isPreview = false,
+}) => {
   const { slug } = useParams();
   const { t, language } = useLanguage();
   const [articles, setArticles] = useState([]);
@@ -21,25 +24,56 @@ const InvestigacionDetail = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    // Si es preview, no cargar JSON (ya tenemos articleProp)
+    if (isPreview) {
+      setLoading(false);
+      return;
+    }
+
     const load = async () => {
       try {
-        const res = await fetch("/assets/images/investigacion/posts.json");
+        // Cambiado de /assets/images/investigacion/posts.json a /content/research.json
+        // para usar la misma fuente que el CMS y la landing
+        const res = await fetch("/content/research.json");
         const data = await res.json();
-        setArticles(data);
+
+        // Filtrar solo artículos activos (no archivados)
+        const activeArticles = data.filter((article) => !article.archived);
+
+        setArticles(activeArticles);
+
+        console.log("📄 [InvestigacionDetail] Loaded articles:", {
+          total: data.length,
+          active: activeArticles.length,
+          archived: data.length - activeArticles.length,
+        });
       } catch (e) {
-        console.error("Error cargando posts.json", e);
+        console.error("Error cargando research.json", e);
         setError("No se pudo cargar la base de publicaciones.");
       } finally {
         setLoading(false);
       }
     };
     load();
-  }, []);
+  }, [isPreview]);
 
-  const article = useMemo(
-    () => articles.find((a) => a.slug === slug),
-    [articles, slug]
-  );
+  const article = useMemo(() => {
+    // Si es preview, usar la prop directamente
+    if (isPreview && articleProp) return articleProp;
+    // Si no, buscar en articles
+    return articles.find((a) => a.slug === slug);
+  }, [articles, slug, isPreview, articleProp]);
+
+  // Detectar el idioma efectivo del artículo
+  const effectiveLanguage = useMemo(() => {
+    if (!article) return language;
+    // Si el artículo tiene un campo lang, usarlo como fallback si no hay traducción
+    if (article.lang) return article.lang;
+    // Si el título es objeto bilingüe, usar el idioma actual
+    if (typeof article.title === "object") return language;
+    // Por defecto, asumir que es inglés si es string
+    return "en";
+  }, [article, language]);
 
   // Intentar resolver DOI/PDF: 1) JSON; 2) scrape básico del HTML de href buscando doi.org; 3) fallback a WhatsApp
   useEffect(() => {
@@ -128,8 +162,12 @@ const InvestigacionDetail = () => {
     );
   }
 
+  // Wrapper condicional: sin padding si es preview
+  const Wrapper = isPreview ? "div" : "div";
+  const wrapperClass = isPreview ? "" : "container-app py-6";
+
   return (
-    <div className="container-app py-6">
+    <div className={wrapperClass}>
       {/* Card principal */}
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
         {/* Imagen */}
@@ -137,7 +175,14 @@ const InvestigacionDetail = () => {
           {article.localImage ? (
             <img
               src={article.localImage}
-              alt={article.title}
+              alt={
+                typeof article.title === "string"
+                  ? article.title
+                  : article.title?.[language] ||
+                    article.title?.es ||
+                    article.title?.en ||
+                    "Artículo"
+              }
               className="w-full h-full object-contain"
             />
           ) : (
@@ -147,6 +192,17 @@ const InvestigacionDetail = () => {
 
         {/* Contenido */}
         <div className="p-6 md:p-8">
+          {/* Título del artículo */}
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+            {typeof article.title === "string"
+              ? article.title
+              : article.title?.[language] ||
+                article.title?.[effectiveLanguage] ||
+                article.title?.es ||
+                article.title?.en ||
+                "Sin título"}
+          </h1>
+
           {/* Meta */}
           <div className="flex items-center justify-between text-sm text-gray-500 mb-3">
             <span className="inline-flex items-center gap-2">
@@ -182,28 +238,52 @@ const InvestigacionDetail = () => {
               {t("researchDetail.abstract")}
             </h2>
             <p className="text-gray-700 text-sm text-justify leading-relaxed">
-              {article.abstract}
+              {typeof article.abstract === "string"
+                ? article.abstract
+                : article.abstract?.[language] ||
+                  article.abstract?.[effectiveLanguage] ||
+                  article.abstract?.es ||
+                  article.abstract?.en ||
+                  ""}
             </p>
           </div>
 
           {/* Acciones */}
           <div className="mt-6 flex flex-wrap gap-3">
-            <button
-              onClick={openPublication}
-              className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
-            >
-              <ExternalLink className="h-4 w-4" />{" "}
-              {t("researchDetail.openPublication")}
-            </button>
-            {pdfUrl && (
-              <a
-                href={pdfUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg"
-              >
-                <FileText className="h-4 w-4" /> {t("researchDetail.pdf")}
-              </a>
+            {isPreview ? (
+              // En preview: botones visualmente iguales pero sin funcionalidad
+              <>
+                <div className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg">
+                  <ExternalLink className="h-4 w-4" />
+                  {t("researchDetail.openPublication")}
+                </div>
+                {(article.download_link_pdf || pdfUrl) && (
+                  <div className="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg">
+                    <FileText className="h-4 w-4" /> {t("researchDetail.pdf")}
+                  </div>
+                )}
+              </>
+            ) : (
+              // En web pública: botones funcionales
+              <>
+                <button
+                  onClick={openPublication}
+                  className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
+                >
+                  <ExternalLink className="h-4 w-4" />{" "}
+                  {t("researchDetail.openPublication")}
+                </button>
+                {pdfUrl && (
+                  <a
+                    href={pdfUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg"
+                  >
+                    <FileText className="h-4 w-4" /> {t("researchDetail.pdf")}
+                  </a>
+                )}
+              </>
             )}
           </div>
 
@@ -217,7 +297,7 @@ const InvestigacionDetail = () => {
 
 // Bloque de cita con botón copiar
 const CitationBlock = ({ article, doiUrl }) => {
-  const { t } = useLanguage();
+  const { t, currentLang } = useLanguage();
   const [style, setStyle] = useState("APA");
   const authorsRaw = article.author || article.autor || article.authors; // soporta futuras claves
 
@@ -230,6 +310,21 @@ const CitationBlock = ({ article, doiUrl }) => {
       .map((s) => s.trim())
       .filter(Boolean);
   }, [authorsRaw]);
+
+  // ✅ Extraer título según idioma (soporta string o objeto bilingüe)
+  const articleTitle = useMemo(() => {
+    if (!article.title) return "Sin título";
+    if (typeof article.title === "string") return article.title;
+    if (typeof article.title === "object") {
+      return (
+        article.title[currentLang] ||
+        article.title.es ||
+        article.title.en ||
+        "Sin título"
+      );
+    }
+    return String(article.title);
+  }, [article.title, currentLang]);
 
   const parts = useMemo(() => {
     const d = new Date(article.date);
@@ -255,7 +350,19 @@ const CitationBlock = ({ article, doiUrl }) => {
   }, [article.date]);
 
   const formatAuthorAPA = (name) => {
-    // "Nombre Apellido" -> "Apellido, N."
+    // Si ya está en formato "Apellido, Nombre(s)" -> "Apellido, N."
+    if (name.includes(",")) {
+      const [surname, names] = name.split(",", 2);
+      if (!names || !names.trim()) return surname.trim();
+
+      const namesParts = names.trim().split(/\s+/);
+      const initials = namesParts
+        .map((p) => (p ? p[0].toUpperCase() + "." : ""))
+        .join(" ");
+      return `${surname.trim()}, ${initials}`.trim();
+    }
+
+    // Si está en formato "Nombre Apellido" -> "Apellido, N."
     const parts = name.split(/\s+/);
     if (parts.length === 1) return name;
     const last = parts.pop();
@@ -265,18 +372,19 @@ const CitationBlock = ({ article, doiUrl }) => {
     return `${last}, ${initials}`.trim();
   };
 
+  // ✅ Unir autores con "; " (con espacio después del punto y coma)
   const authorsAPA = authorsList.length
-    ? authorsList.map(formatAuthorAPA).join(", ")
+    ? authorsList.map(formatAuthorAPA).join("; ")
     : "Autores no disponibles";
 
   const authorsMLA = authorsList.length
-    ? authorsList.join(", ")
+    ? authorsList.join("; ")
     : "Autores no disponibles";
 
-  const apa = `${authorsAPA} (${parts.year}). ${article.title}. ${
+  const apa = `${authorsAPA} (${parts.year}). ${articleTitle}. ${
     article.journal
   }. ${doiUrl || article.href || ""}`.trim();
-  const mla = `${authorsMLA}. "${article.title}." ${article.journal}, ${
+  const mla = `${authorsMLA}. "${articleTitle}." ${article.journal}, ${
     parts.day
   } ${parts.monthName} ${parts.year}. ${doiUrl || article.href || ""}`.trim();
 
@@ -301,20 +409,20 @@ const CitationBlock = ({ article, doiUrl }) => {
             {t("researchDetail.format")}{" "}
           </h2>
           <button
-            className={`px-3 py-1 rounded border ${
+            className={`px-3 py-1 rounded border font-semibold transition-colors ${
               style === "APA"
-                ? "bg-gray-900 text-white border-gray-900"
-                : "bg-white text-gray-700 border-gray-300"
+                ? "bg-red-600 text-white  hover:bg-red-700"
+                : "bg-gray-100 text-gray-600  hover:bg-gray-200"
             }`}
             onClick={() => setStyle("APA")}
           >
             APA
           </button>
           <button
-            className={`px-3 py-1 rounded border ${
+            className={`px-3 py-1 rounded border font-semibold transition-colors ${
               style === "MLA"
-                ? "bg-gray-900 text-white border-gray-900"
-                : "bg-white text-gray-700 border-gray-300"
+                ? "bg-red-600 text-white  hover:bg-red-700"
+                : "bg-gray-100 text-gray-600  hover:bg-gray-200"
             }`}
             onClick={() => setStyle("MLA")}
           >

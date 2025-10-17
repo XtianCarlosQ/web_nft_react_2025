@@ -13,11 +13,12 @@ export default function TeamArchiveConfirmModal({
     if (!member) return null;
     const m = {
       name: member.name,
-      position: member.role || member.position,
+      role: member.role || member.position, // ✅ Cambiar 'position' por 'role' para consistencia
       image: member.photo || member.image,
       skills: Array.isArray(member.skills) ? member.skills : [],
     };
-    return <TeamMemberCard member={m} />;
+    // ✅ Pasar lang="es" para que TeamMemberCard extraiga correctamente los strings de los objetos bilingües
+    return <TeamMemberCard member={m} lang="es" />;
   }, [member]);
 
   if (!open || !member) return null;
@@ -45,24 +46,48 @@ export default function TeamArchiveConfirmModal({
           ) : (
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                Elige el orden donde se restaurará. Máximo sugerido: {activeCount + 1}.
+                Elige el orden donde se restaurará. Máximo sugerido:{" "}
+                {activeCount + 1}.
               </p>
               <input
                 type="number"
-                className="w-full border rounded px-3 py-2"
+                className={`w-full border rounded px-3 py-2 ${
+                  order === "" ||
+                  Number(order) < 1 ||
+                  Number(order) > activeCount + 1
+                    ? "border-red-500 bg-red-50"
+                    : "border-gray-300"
+                }`}
                 value={order}
                 min={1}
                 max={Math.max(1, activeCount + 1)}
-                onChange={(e) => setOrder(Number(e.target.value) || 1)}
+                onChange={(e) => setOrder(e.target.value)}
               />
+              {(order === "" ||
+                Number(order) < 1 ||
+                Number(order) > activeCount + 1) && (
+                <p className="text-xs text-red-600">
+                  Ingresa un número entre 1 y {activeCount + 1}
+                </p>
+              )}
             </div>
           )}
           <div className="pt-2 flex gap-2">
             <button
               className={`${
-                willArchive ? "bg-yellow-600 hover:bg-yellow-700" : "bg-green-600 hover:bg-green-700"
-              } text-white px-4 py-2 rounded`}
-              onClick={() => onConfirm?.(willArchive ? undefined : order)}
+                willArchive
+                  ? "bg-yellow-600 hover:bg-yellow-700"
+                  : "bg-green-600 hover:bg-green-700"
+              } text-white px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed`}
+              disabled={
+                !willArchive &&
+                (order === "" ||
+                  Number(order) < 1 ||
+                  Number(order) > activeCount + 1)
+              }
+              onClick={() =>
+                onConfirm?.(willArchive ? undefined : Number(order))
+              }
             >
               {willArchive ? "Archivar" : "Restaurar"}
             </button>

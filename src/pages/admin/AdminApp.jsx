@@ -3,15 +3,25 @@ import { Plus, Eye, EyeOff } from "lucide-react";
 import ServicesTable from "./components/services/ServicesTable";
 import ProductsTable from "./components/products/ProductsTable";
 import TeamTable from "./components/team/TeamTable";
+import ResearchTable from "./components/research/ResearchTable";
 import ServiceFormModal from "./components/services/ServiceFormModal";
 import ProductFormModal from "./components/products/ProductFormModal";
 import ArchiveConfirmModal from "./components/services/ArchiveConfirmModal";
 import ProductArchiveConfirmModal from "./components/products/ProductArchiveConfirmModal";
 import TeamFormModal from "./components/team/TeamFormModal";
 import TeamArchiveConfirmModal from "./components/team/TeamArchiveConfirmModal";
+import ResearchFormModal from "./components/research/ResearchFormModal";
+import ResearchArchiveConfirmModal from "./components/research/ResearchArchiveConfirmModal";
 import { notifyDevOnComplete } from "../../config/devNotify";
 import { normalizeTeamMember, normalizeTeamOrder } from "../../models/team";
 import { useProducts } from "../../context/ProductsContext";
+// ✅ Importar utilidades comunes para CRUD escalable
+import {
+  normalizeOrder as normalizeOrderCommon,
+  upsertWithReorder,
+  restoreItem,
+  archiveItem,
+} from "../../utils/crudHelpers";
 
 async function fetchJson(url, options = {}) {
   const opts = {
@@ -65,6 +75,7 @@ export default function AdminApp() {
   const [rows, setRows] = useState([]);
   const [productRows, setProductRows] = useState([]);
   const [teamRows, setTeamRows] = useState([]);
+  const [researchRows, setResearchRows] = useState([]);
   const [saving, setSaving] = useState(false);
   const [editing, setEditing] = useState(null);
   const [productEditing, setProductEditing] = useState(null);
@@ -81,6 +92,11 @@ export default function AdminApp() {
   const [teamModalMode, setTeamModalMode] = useState("view");
   const [teamConfirmRow, setTeamConfirmRow] = useState(null);
   const [teamShowConfirm, setTeamShowConfirm] = useState(false);
+  const [researchEditing, setResearchEditing] = useState(null);
+  const [researchShowForm, setResearchShowForm] = useState(false);
+  const [researchModalMode, setResearchModalMode] = useState("view");
+  const [researchConfirmRow, setResearchConfirmRow] = useState(null);
+  const [researchShowConfirm, setResearchShowConfirm] = useState(false);
   const auth = useAuth();
   const { refreshProducts } = useProducts();
 
@@ -175,6 +191,26 @@ export default function AdminApp() {
     }
   }
 
+  async function persistResearchRows(nextRows, reason = "auto-save") {
+    try {
+      console.log(
+        "🟢 [persistResearchRows] Called with length:",
+        nextRows.length
+      );
+      await fetchJson("/api/research/save", {
+        method: "POST",
+        body: JSON.stringify({
+          data: nextRows,
+          message: reason,
+        }),
+      });
+      return true;
+    } catch (e) {
+      console.warn("Auto-persist research failed:", e?.message || e);
+      return false;
+    }
+  }
+
   useEffect(() => {
     if (auth.loading) return;
     if (auth.ok) {
@@ -184,6 +220,7 @@ export default function AdminApp() {
       loadServices();
       loadTeam();
       loadProducts();
+      loadResearch();
     } else {
       setView("login");
     }
@@ -294,11 +331,57 @@ export default function AdminApp() {
       });
   }
 
+  // 🔧 Función para migrar productos con estructura legacy a bilingüe
+  function migrateProduct(product) {
+    const migrated = { ...product };
+
+    // Migrar category si viene como string
+    if (typeof migrated.category === "string") {
+      migrated.category = {
+        es: migrated.category,
+        en: "",
+      };
+    }
+
+    // Migrar features si vienen como array simple
+    if (Array.isArray(migrated.features)) {
+      migrated.features = {
+        es: migrated.features,
+        en: [],
+      };
+    }
+
+    // Migrar specifications si viene como objeto plano (sin es/en)
+    if (
+      migrated.specifications &&
+      typeof migrated.specifications === "object" &&
+      !migrated.specifications.es &&
+      !migrated.specifications.en
+    ) {
+      migrated.specifications = {
+        es: migrated.specifications,
+        en: {},
+      };
+    }
+
+    // Migrar capabilities si viene como array simple
+    if (Array.isArray(migrated.capabilities)) {
+      migrated.capabilities = {
+        es: migrated.capabilities,
+        en: [],
+      };
+    }
+
+    return migrated;
+  }
+
   function loadProducts() {
     fetchJson("/api/products/list")
       .then((d) => {
         if (d.ok) {
           let data = Array.isArray(d.data) ? d.data : [];
+          // 🔧 Migrar cada producto antes de guardar
+          data = data.map(migrateProduct);
           setProductRows(normalizeOrder(data));
         }
       })
@@ -311,9 +394,53 @@ export default function AdminApp() {
               : Array.isArray(d?.data)
               ? d.data
               : [];
-            setProductRows(normalizeOrder(data));
+            // 🔧 Migrar cada producto antes de guardar
+            const migrated = data.map(migrateProduct);
+            setProductRows(normalizeOrder(migrated));
           })
           .catch(() => setProductRows([]));
+      });
+  }
+
+  function loadResearch() {
+    fetchJson("/api/research/list")
+      .then((d) => {
+        if (d.ok) {
+          let data = Array.isArray(d.data) ? d.data : [];
+          // Filtrar duplicados por slug (quedarnos con el primero)
+          const uniqueData = data.reduce((acc, item) => {
+            if (!acc.some((existing) => existing.slug === item.slug)) {
+              acc.push(item);
+            }
+            return acc;
+          }, []);
+          const normalized = normalizeOrder(uniqueData);
+          setResearchRows(normalized);
+        }
+      })
+      .catch((err) => {
+        // Try public content JSON as best effort
+        fetchJson("/content/research.json")
+          .then((d) => {
+            const data = Array.isArray(d)
+              ? d
+              : Array.isArray(d?.data)
+              ? d.data
+              : [];
+            // Filtrar duplicados por slug (quedarnos con el primero)
+            const uniqueData = data.reduce((acc, item) => {
+              if (!acc.some((existing) => existing.slug === item.slug)) {
+                acc.push(item);
+              }
+              return acc;
+            }, []);
+            const normalized = normalizeOrder(uniqueData);
+            setResearchRows(normalized);
+          })
+          .catch((err2) => {
+            console.error("Failed to load research:", err2);
+            setResearchRows([]);
+          });
       });
   }
 
@@ -481,10 +608,12 @@ export default function AdminApp() {
             className={`px-4 py-2 rounded-lg border ${
               section === "research"
                 ? "bg-red-600 text-white border-red-600"
-                : "bg-white opacity-60 cursor-not-allowed"
+                : "bg-white"
             }`}
-            title="Próximamente"
-            disabled
+            onClick={() => {
+              setSection("research");
+              setSubView("list");
+            }}
           >
             Investigación
           </button>
@@ -601,6 +730,39 @@ export default function AdminApp() {
                 >
                   <Plus className="w-4 h-4" /> Nuevo
                 </button>
+              ) : section === "research" ? (
+                <button
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border bg-white"
+                  onClick={() => {
+                    const blank = {
+                      id: "research-" + Math.random().toString(36).slice(2, 8),
+                      slug: "",
+                      order:
+                        (researchRows?.filter((x) => !x.archived).length || 0) +
+                        1,
+                      localImage: "",
+                      journal: "",
+                      date: new Date().toISOString().split("T")[0],
+                      title: { es: "", en: "" },
+                      summary_30w: { es: "", en: "" },
+                      keywords: [],
+                      products: [],
+                      fullSummary: { es: "", en: "" },
+                      methodology: { es: "", en: "" },
+                      results: { es: "", en: "" },
+                      conclusions: { es: "", en: "" },
+                      download_link_DOI: "",
+                      download_link_pdf: "",
+                      href: "",
+                      archived: false,
+                    };
+                    setResearchEditing(blank);
+                    setResearchModalMode("create");
+                    setResearchShowForm(true);
+                  }}
+                >
+                  <Plus className="w-4 h-4" /> Nuevo
+                </button>
               ) : null}
               <button
                 className="btn-cta px-4 py-2"
@@ -683,6 +845,39 @@ export default function AdminApp() {
           }}
         />
       )}
+      {section === "research" && subView === "list" && (
+        <ResearchTable
+          research={[...(researchRows || [])].sort((a, b) => {
+            if (!!a.archived && !b.archived) return 1;
+            if (!a.archived && !!b.archived) return -1;
+            const ao = typeof a.order === "number" ? a.order : 999;
+            const bo = typeof b.order === "number" ? b.order : 999;
+            return ao - bo;
+          })}
+          onView={(row) => {
+            setResearchEditing(row);
+            setResearchModalMode("view");
+            setResearchShowForm(true);
+          }}
+          onEdit={(row) => {
+            setResearchEditing(JSON.parse(JSON.stringify(row)));
+            setResearchModalMode("edit");
+            setResearchShowForm(true);
+          }}
+          onArchiveToggle={(row) => {
+            // ✅ Si está archivado, abrir modal en modo "restore"
+            // ✅ Si está activo, mostrar confirmación de archivado
+            if (row.archived) {
+              setResearchEditing(JSON.parse(JSON.stringify(row)));
+              setResearchModalMode("restore");
+              setResearchShowForm(true);
+            } else {
+              setResearchConfirmRow(row);
+              setResearchShowConfirm(true);
+            }
+          }}
+        />
+      )}
 
       {/* Modals */}
       <ServiceFormModal
@@ -691,34 +886,50 @@ export default function AdminApp() {
         service={editing}
         onClose={() => setShowForm(false)}
         onSave={async (payload) => {
-          // Upsert respetando el orden elegido: insertar en 'order' y desplazar el resto
-          let nextComputed = [];
-          setRows((prev) => {
-            // 1) Remove current row and compact active orders to contiguous 1..N
-            const others = prev.filter((r) => r.id !== payload.id);
-            const compact = normalizeOrder(others);
-            if (payload.archived) {
-              nextComputed = normalizeOrder([...compact, payload]);
-              return nextComputed;
-            }
+          // Upsert: Calculate OUTSIDE setRows (like Products)
+          console.log("🔵 [SERVICE onSave] Payload:", {
+            id: payload.id,
+            order: payload.order,
+            archived: payload.archived,
+          });
+          console.log("🔵 [SERVICE onSave] Current rows length:", rows.length);
+
+          // 1) Remove current row and compact active orders to contiguous 1..N
+          const others = rows.filter((r) => r.id !== payload.id);
+          const compact = normalizeOrder(others);
+
+          let nextComputed;
+          if (payload.archived) {
+            nextComputed = normalizeOrder([...compact, payload]);
+          } else {
             const active = compact.filter((x) => !x.archived);
             const activeCount = active.length;
             const req = Number(payload.order) || activeCount + 1;
             const target = Math.max(1, Math.min(req, activeCount + 1));
+
             const shifted = compact.map((r) => {
               if (!r.archived && Number(r.order) >= target) {
                 return { ...r, order: Number(r.order) + 1 };
               }
               return r;
             });
+
             const next = [
               ...shifted,
               { ...payload, archived: false, order: target },
             ];
             nextComputed = normalizeOrder(next);
-            return nextComputed;
-          });
-          // Auto-persistir inmediatamente
+          }
+
+          console.log(
+            "🔵 [SERVICE onSave] After normalizeOrder, length:",
+            nextComputed.length
+          );
+
+          // Update state
+          setRows(nextComputed);
+
+          // Auto-persist immediately
           const ok = await persistRows(
             nextComputed,
             "auto-save: onSave service"
@@ -734,29 +945,45 @@ export default function AdminApp() {
         }}
         onRestore={async (toRestore) => {
           if (!toRestore) return;
-          let nextComputed = [];
-          setRows((prev) => {
-            const compact = normalizeOrder(prev);
-            const active = compact.filter((x) => !x.archived);
-            const max = Math.max(0, ...active.map((x) => Number(x.order) || 0));
-            const req = Math.max(
-              1,
-              Math.min(Number(toRestore.order) || max + 1, max + 1)
-            );
-            // shift down any active with order >= req
-            const shifted = compact.map((r) => {
-              if (!r.archived && Number(r.order) >= req) {
-                return { ...r, order: Number(r.order) + 1 };
-              }
-              return r;
-            });
-            const next = shifted.map((r) =>
-              r.id === toRestore.id ? { ...r, archived: false, order: req } : r
-            );
-            nextComputed = normalizeOrder(next);
-            return nextComputed;
+
+          // Restore: Calculate OUTSIDE setRows (like Products)
+          console.log("🟢 [SERVICE onRestore] toRestore:", {
+            id: toRestore.id,
+            order: toRestore.order,
           });
-          // Auto-persistir inmediatamente
+
+          const compact = normalizeOrder(rows);
+          const active = compact.filter((x) => !x.archived);
+          const max = Math.max(0, ...active.map((x) => Number(x.order) || 0));
+          const req = Math.max(
+            1,
+            Math.min(Number(toRestore.order) || max + 1, max + 1)
+          );
+
+          console.log("🟢 [SERVICE onRestore] Calculated req:", req);
+
+          // Shift down any active with order >= req
+          const shifted = compact.map((r) => {
+            if (!r.archived && Number(r.order) >= req) {
+              return { ...r, order: Number(r.order) + 1 };
+            }
+            return r;
+          });
+
+          const next = shifted.map((r) =>
+            r.id === toRestore.id ? { ...r, archived: false, order: req } : r
+          );
+
+          const nextComputed = normalizeOrder(next);
+          console.log(
+            "🟢 [SERVICE onRestore] After normalizeOrder, length:",
+            nextComputed.length
+          );
+
+          // Update state
+          setRows(nextComputed);
+
+          // Auto-persist immediately
           const ok = await persistRows(
             nextComputed,
             "auto-save: restore service"
@@ -1015,18 +1242,44 @@ export default function AdminApp() {
           if (!confirmRow) return;
           const willArchive = !confirmRow.archived;
           if (willArchive) {
-            // Archivar: quitar estado activo y compactar orden
-            let nextComputed = [];
-            setRows((prev) => {
-              nextComputed = normalizeOrder(
-                prev.map((r) =>
-                  r.id === confirmRow.id
-                    ? { ...r, archived: true, order: r.order }
-                    : r
-                )
-              );
-              return nextComputed;
-            });
+            // Archivar: Calculate nextComputed OUTSIDE setRows (like Products)
+            console.log(
+              "🔵 [ARCHIVE SERVICE] Starting archive for:",
+              confirmRow.id
+            );
+            console.log(
+              "🔵 [ARCHIVE SERVICE] Current rows length:",
+              rows.length
+            );
+
+            const mapped = rows.map((r) =>
+              r.id === confirmRow.id
+                ? { ...r, archived: true, order: r.order }
+                : r
+            );
+            console.log(
+              "🔵 [ARCHIVE SERVICE] After map, length:",
+              mapped.length
+            );
+
+            const nextComputed = normalizeOrder(mapped);
+            console.log(
+              "🔵 [ARCHIVE SERVICE] After normalizeOrder, length:",
+              nextComputed.length
+            );
+            console.log(
+              "🔵 [ARCHIVE SERVICE] nextComputed sample:",
+              nextComputed[0]
+            );
+
+            // Update state with calculated value
+            setRows(nextComputed);
+
+            console.log(
+              "🔵 [ARCHIVE SERVICE] Before persistRows, length:",
+              nextComputed.length
+            );
+
             const ok = await persistRows(
               nextComputed,
               "auto-save: archive service"
@@ -1040,34 +1293,46 @@ export default function AdminApp() {
             }
             setShowConfirm(false);
           } else {
-            // Restaurar: colocar en el orden elegido o al final
-            let nextComputed = [];
-            setRows((prev) => {
-              const compact = normalizeOrder(prev);
-              const active = compact.filter((x) => !x.archived);
-              const max = Math.max(
-                0,
-                ...active.map((x) => Number(x.order) || 0)
-              );
-              const target =
-                typeof restoreAt === "number"
-                  ? Math.max(1, Math.min(restoreAt, max + 1))
-                  : max + 1;
-              // shift down any active with order >= target
-              const shifted = compact.map((r) => {
-                if (!r.archived && Number(r.order) >= target) {
-                  return { ...r, order: Number(r.order) + 1 };
-                }
-                return r;
-              });
-              const next = shifted.map((r) =>
-                r.id === confirmRow.id
-                  ? { ...r, archived: false, order: target }
-                  : r
-              );
-              nextComputed = normalizeOrder(next);
-              return nextComputed;
+            // Restaurar: Calculate OUTSIDE setRows (like Products)
+            console.log(
+              "🟢 [RESTORE SERVICE] Starting restore for:",
+              confirmRow.id
+            );
+            console.log("🟢 [RESTORE SERVICE] Target position:", restoreAt);
+
+            const compact = normalizeOrder(rows);
+            const active = compact.filter((x) => !x.archived);
+            const max = Math.max(0, ...active.map((x) => Number(x.order) || 0));
+            const target =
+              typeof restoreAt === "number"
+                ? Math.max(1, Math.min(restoreAt, max + 1))
+                : max + 1;
+
+            console.log("🟢 [RESTORE SERVICE] Calculated target:", target);
+
+            // Shift down any active with order >= target
+            const shifted = compact.map((r) => {
+              if (!r.archived && Number(r.order) >= target) {
+                return { ...r, order: Number(r.order) + 1 };
+              }
+              return r;
             });
+
+            const next = shifted.map((r) =>
+              r.id === confirmRow.id
+                ? { ...r, archived: false, order: target }
+                : r
+            );
+
+            const nextComputed = normalizeOrder(next);
+            console.log(
+              "🟢 [RESTORE SERVICE] After normalizeOrder, length:",
+              nextComputed.length
+            );
+
+            // Update state
+            setRows(nextComputed);
+
             const ok = await persistRows(
               nextComputed,
               "auto-save: restore from modal"
@@ -1183,10 +1448,164 @@ export default function AdminApp() {
           }
         }}
       />
+      <ResearchFormModal
+        open={researchShowForm}
+        article={researchEditing}
+        onClose={() => setResearchShowForm(false)}
+        mode={researchModalMode}
+        allRows={researchRows}
+        onSave={async (payload) => {
+          console.log("🟢 [Research onSave] Payload received:", {
+            id: payload.id,
+            slug: payload.slug,
+            order: payload.order,
+            archived: payload.archived,
+          });
+
+          // ✅ Usar función común escalable para upsert con reordenamiento
+          let nextComputed = [];
+          setResearchRows((prev) => {
+            console.log("🟢 [Research onSave] Current rows:", prev.length);
+            nextComputed = upsertWithReorder(prev, payload);
+            console.log("🟢 [Research onSave] Next rows:", nextComputed.length);
+            return nextComputed;
+          });
+
+          const ok = await persistResearchRows(
+            nextComputed,
+            "auto-save: onSave research"
+          );
+          if (!ok) {
+            alert(
+              "No se pudo guardar el artículo. Revisa la conexión del API."
+            );
+          } else {
+            loadResearch();
+          }
+
+          console.log("✅ Research saved:", payload);
+          setResearchShowForm(false);
+        }}
+        onRestore={async (payload) => {
+          console.log("🟢 [Research onRestore] Payload received:", {
+            id: payload.id,
+            slug: payload.slug,
+            order: payload.order,
+            archived: payload.archived,
+            title: payload.title,
+          });
+
+          // ⚠️ IMPORTANTE: Usar upsertWithReorder para preservar TODAS las modificaciones
+          // restoreItem solo cambia archived/order pero ignora otros campos editados
+          let nextComputed = [];
+          setResearchRows((prev) => {
+            console.log("🟢 [Research onRestore] Current rows:", prev.length);
+
+            // ✅ Asegurar que archived sea false en el payload
+            const payloadWithActiveState = {
+              ...payload,
+              archived: false, // Forzar estado activo
+            };
+
+            // ✅ Usar upsertWithReorder que actualiza TODOS los campos del payload
+            nextComputed = upsertWithReorder(prev, payloadWithActiveState);
+            console.log(
+              "🟢 [Research onRestore] Next rows:",
+              nextComputed.length
+            );
+            return nextComputed;
+          });
+
+          const ok = await persistResearchRows(
+            nextComputed,
+            "auto-save: restore research"
+          );
+          if (!ok) {
+            alert(
+              "No se pudo restaurar el artículo. Revisa la conexión del API."
+            );
+          } else {
+            loadResearch();
+          }
+
+          console.log("✅ Research restored with all modifications:", payload);
+          setResearchShowForm(false);
+        }}
+      />
+      <ResearchArchiveConfirmModal
+        open={researchShowConfirm}
+        article={researchConfirmRow}
+        onCancel={() => {
+          setResearchShowConfirm(false);
+          setResearchConfirmRow(null);
+        }}
+        onConfirm={async () => {
+          if (!researchConfirmRow) return;
+
+          const isArchiving = !researchConfirmRow.archived;
+          let nextComputed = [];
+
+          console.log("🔵 [Archive/Restore] Start - isArchiving:", isArchiving);
+          console.log("🔵 [Archive/Restore] Article:", researchConfirmRow.slug);
+          console.log(
+            "🔵 [Archive/Restore] Current rows:",
+            researchRows.length
+          );
+
+          try {
+            // ✅ Usar funciones comunes escalables
+            if (isArchiving) {
+              nextComputed = archiveItem(researchRows, researchConfirmRow);
+              console.log("🔵 [Archive] Computed rows:", nextComputed.length);
+            } else {
+              nextComputed = restoreItem(researchRows, researchConfirmRow);
+              console.log("🔵 [Restore] Computed rows:", nextComputed.length);
+            }
+
+            console.log(
+              "🔵 [Archive/Restore] Persisting",
+              nextComputed.length,
+              "rows..."
+            );
+
+            const ok = await persistResearchRows(
+              nextComputed,
+              isArchiving ? "archive research" : "restore research"
+            );
+
+            if (!ok) {
+              console.error("❌ [Archive/Restore] Persist failed");
+              alert(
+                `No se pudo ${
+                  isArchiving ? "archivar" : "restaurar"
+                } el artículo. Verifica la conexión del API.`
+              );
+            } else {
+              console.log("✅ [Archive/Restore] Success, updating state...");
+              setResearchRows(nextComputed);
+              loadResearch();
+            }
+          } catch (error) {
+            console.error("❌ [Archive/Restore] Error:", error);
+            alert(
+              `Error al ${
+                isArchiving ? "archivar" : "restaurar"
+              } el artículo: ${error.message}`
+            );
+          }
+
+          setResearchShowConfirm(false);
+          setResearchConfirmRow(null);
+        }}
+      />
     </div>
   );
 }
 
+// ✅ Migrado a src/utils/crudHelpers.js - Usar normalizeOrderCommon
+// Esta función ahora está centralizada para uso escalable en todo el CMS
+// Mantener comentada como referencia durante migración de Products/Services/Team
+/*
 // Ensure active (non-archived) items have consecutive order values 1..N without gaps.
 // Archived items keep their existing order value but are ignored in the renumbering.
 function normalizeOrder(list) {
@@ -1194,6 +1613,17 @@ function normalizeOrder(list) {
 
   const arr = Array.isArray(list) ? [...list] : [];
   console.log("🟡 [normalizeOrder] Array copy length:", arr.length);
+
+  // Log IDs to detect any duplicates or missing
+  const ids = arr.map(r => r.id).filter(Boolean);
+  const uniqueIds = new Set(ids);
+  console.log("🟡 [normalizeOrder] Total IDs:", ids.length, "Unique IDs:", uniqueIds.size);
+  
+  if (ids.length !== uniqueIds.size) {
+    console.warn("⚠️  [normalizeOrder] DUPLICATE IDs DETECTED!");
+    const duplicates = ids.filter((id, i) => ids.indexOf(id) !== i);
+    console.warn("⚠️  Duplicate IDs:", [...new Set(duplicates)]);
+  }
 
   const active = arr
     .filter((r) => !r.archived)
@@ -1213,9 +1643,18 @@ function normalizeOrder(list) {
 
   // Merge back with archived untouched
   const byId = new Map(updatedActive.map((x) => [x.id, x]));
-  const result = arr.map((r) => (r.archived ? r : byId.get(r.id) || r));
+  const archived = arr.filter(r => r.archived);
+  const result = [...updatedActive, ...archived];
 
   console.log("🟡 [normalizeOrder] Result length:", result.length);
+  console.log("🟡 [normalizeOrder] Result breakdown - Active:", updatedActive.length, "Archived:", archived.length);
 
   return result;
+}
+*/
+
+// ⚠️ TEMPORAL: Alias para mantener compatibilidad con Products/Services/Team
+// TODO: Migrar Products/Services/Team para usar las funciones comunes de crudHelpers.js
+function normalizeOrder(list) {
+  return normalizeOrderCommon(list);
 }

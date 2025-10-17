@@ -156,6 +156,7 @@ export default defineConfig(({ mode }) => {
           url.pathname.startsWith("/api/services/") ||
           url.pathname.startsWith("/api/team/") ||
           url.pathname.startsWith("/api/products/") ||
+          url.pathname.startsWith("/api/research/") ||
           url.pathname === "/api/upload" ||
           url.pathname.startsWith("/api/upload/")
         ) {
@@ -427,6 +428,104 @@ export default defineConfig(({ mode }) => {
           } catch {
             return send(400, { ok: false, error: "restore_failed" });
           }
+        }
+
+        // ============================================
+        // RESEARCH ENDPOINTS
+        // ============================================
+        if (url.pathname === "/api/research/list" && req.method === "GET") {
+          const p = process.env.RESEARCH_PATH || "public/content/research.json";
+          const abs = path.resolve(process.cwd(), p);
+          try {
+            const content = fs.readFileSync(abs, "utf8");
+            return send(200, {
+              ok: true,
+              data: JSON.parse(content),
+            });
+          } catch {
+            return send(200, { ok: true, data: [] });
+          }
+        }
+
+        if (url.pathname === "/api/research/save" && req.method === "POST") {
+          const raw = await readBody(req);
+          console.log(
+            "[DEV-API] research/save RAW body length:",
+            raw?.length || 0
+          );
+
+          let body = {};
+          try {
+            body = raw ? JSON.parse(raw) : {};
+            console.log(
+              "[DEV-API] research/save PARSED body keys:",
+              Object.keys(body)
+            );
+            console.log(
+              "[DEV-API] research/save message:",
+              body.message || "(no message)"
+            );
+          } catch (e) {
+            console.log("[DEV-API] research/save JSON PARSE ERROR:", e.message);
+            return send(500, { ok: false, error: "Invalid JSON" });
+          }
+
+          const data = Array.isArray(body.data) ? body.data : [];
+          console.log("[DEV-API] research/save data.length=", data.length);
+
+          if (data.length === 0) {
+            console.warn(
+              "⚠️  [DEV-API] research/save PREVENTED - data.length is 0!"
+            );
+            console.warn(
+              "⚠️  [DEV-API] research/save This would delete all articles. Aborting."
+            );
+            return send(400, {
+              ok: false,
+              error: "Cannot save empty data - would delete all articles",
+            });
+          }
+
+          const p = process.env.RESEARCH_PATH || "public/content/research.json";
+          const abs = path.resolve(process.cwd(), p);
+          fs.mkdirSync(path.dirname(abs), { recursive: true });
+
+          // Backup current file if exists and non-empty
+          try {
+            if (fs.existsSync(abs)) {
+              const prev = fs.readFileSync(abs, "utf8");
+              if (
+                prev &&
+                prev.trim() &&
+                prev.trim() !== JSON.stringify(data, null, 2).trim()
+              ) {
+                const stamp = new Date()
+                  .toISOString()
+                  .replace(/[:.]/g, "-")
+                  .replace("T", "_")
+                  .replace("Z", "");
+                const bdir = path.resolve(
+                  process.cwd(),
+                  "public/content/_backups"
+                );
+                fs.mkdirSync(bdir, { recursive: true });
+                const base = path.basename(abs, ".json");
+                const bfile = path.join(bdir, `${base}-${stamp}.json`);
+                fs.writeFileSync(bfile, prev, "utf8");
+                console.log("[DEV-API] research/save Backup created:", bfile);
+              }
+            }
+          } catch (err) {
+            console.warn("[DEV-API] research/save Backup failed:", err.message);
+          }
+
+          fs.writeFileSync(abs, JSON.stringify(data, null, 2), "utf8");
+          console.log(
+            "✅ [DEV-API] research/save SUCCESS - saved",
+            data.length,
+            "articles"
+          );
+          return send(200, { ok: true });
         }
 
         // Upload endpoint (dev only): generic handler similar to serverless api/upload.js

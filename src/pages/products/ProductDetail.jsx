@@ -288,8 +288,15 @@ const ProductDetail = () => {
               description: f,
             }))
           : [],
-        specifications: jsonItem.specifications || {},
-        capabilities: Array.isArray(jsonItem.capabilities)
+        specifications:
+          jsonItem.specifications &&
+          typeof jsonItem.specifications === "object" &&
+          jsonItem.specifications[language]
+            ? jsonItem.specifications[language]
+            : jsonItem.specifications || {},
+        capabilities: Array.isArray(jsonItem.capabilities?.[language])
+          ? jsonItem.capabilities[language]
+          : Array.isArray(jsonItem.capabilities)
           ? jsonItem.capabilities
           : [],
       }

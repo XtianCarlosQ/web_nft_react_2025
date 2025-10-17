@@ -5,6 +5,8 @@ import {
   suggestedIconNames,
 } from "../common/IconUtils";
 import { ServiceCard } from "../../../../components/sections/Services";
+import { useAutoTranslate } from "../../hooks/useAutoTranslate";
+import ConfirmModal from "../common/ConfirmModal";
 
 export default function ServiceFormModal({
   open,
@@ -59,6 +61,48 @@ export default function ServiceFormModal({
     }
   }, [open, service]);
 
+  // ✅ Use shared translation hook (DRY principle) - Bidireccional
+  // Si estamos en ES, traduce a EN; si estamos en EN, traduce a ES
+  const { translating, autoTranslate } = useAutoTranslate(data, setData, {
+    simpleFields: ["title", "description"],
+    arrayFields: ["features"],
+    sourceLang: activeLang, // ✅ Dinámico según idioma activo
+    targetLang: activeLang === "es" ? "en" : "es", // ✅ Inverso
+  });
+
+  // Estados para modales
+  const [modalState, setModalState] = useState({
+    open: false,
+    type: "info",
+    title: "",
+    message: "",
+    details: null,
+    onConfirm: null,
+    confirmText: "Aceptar",
+    showCancel: false,
+  });
+
+  // ✅ Helper function para convertir data a props de ServiceCard
+  // Debe estar ANTES de useMemo pero puede ser función normal (no hook)
+  const toCardProps = (s, lang) => ({
+    icon: s.icon,
+    title: s.title?.[lang] || "Título del Servicio",
+    description: s.description?.[lang] || "Descripción del servicio",
+    features: (s.features?.[lang] || []).filter(Boolean).length
+      ? s.features?.[lang]
+      : ["Característica de ejemplo"],
+    whatsapp: s.whatsapp || "51988496839",
+    lang: lang, // ✅ Pasar lang para que ServiceCard use messages[lang] directamente
+  });
+
+  // ✅ CRÍTICO: useMemo debe ejecutarse SIEMPRE, antes de cualquier return
+  // Para cumplir con las reglas de hooks de React
+  const previewService = useMemo(
+    () => toCardProps(data, activeLang),
+    [data, activeLang]
+  );
+
+  // ✅ Ahora sí es seguro tener early returns (después de todos los hooks)
   if (!open) return null;
 
   const hasChanges =
@@ -71,12 +115,171 @@ export default function ServiceFormModal({
     }
   }
 
+  // Helper para mostrar modales
+  const showModal = (
+    type,
+    title,
+    message,
+    details = null,
+    onConfirm = null,
+    confirmText = "Aceptar",
+    showCancel = false
+  ) => {
+    setModalState({
+      open: true,
+      type,
+      title,
+      message,
+      details,
+      onConfirm,
+      confirmText,
+      showCancel,
+    });
+  };
+
+  const closeModal = () => {
+    setModalState({ ...modalState, open: false });
+  };
+
+  const handleModalConfirm = () => {
+    if (modalState.onConfirm) {
+      modalState.onConfirm();
+    }
+    closeModal();
+  };
+
   function updateLangField(key, val) {
     setData((s) => ({ ...s, [key]: { ...(s[key] || {}), [activeLang]: val } }));
   }
 
   function updateField(key, val) {
     setData((s) => ({ ...s, [key]: val }));
+  }
+
+  // ✅ Auto-translate usando hook compartido con confirmación
+  async function handleAutoTranslate() {
+    if (isView) return;
+
+    const sourceLang = activeLang;
+    const targetLang = activeLang === "es" ? "en" : "es";
+
+    // Verificar que hay contenido en el idioma fuente
+    const hasSourceContent =
+      (data.title?.[sourceLang] && data.title[sourceLang].trim()) ||
+      (data.description?.[sourceLang] && data.description[sourceLang].trim()) ||
+      (Array.isArray(data.features?.[sourceLang]) &&
+        data.features[sourceLang].some((f) => f && f.trim()));
+
+    if (!hasSourceContent) {
+      showModal(
+        "info",
+        "Campos incompletos",
+        `Primero completa los campos en ${
+          sourceLang === "es" ? "Español" : "Inglés"
+        } antes de traducir.`,
+        null,
+        null,
+        "Entendido",
+        false
+      );
+      return;
+    }
+
+    const result = await autoTranslate();
+
+    if (result.needsConfirmation) {
+      // Mostrar confirmación personalizada con modal
+      showModal(
+        "warning",
+        "Confirmar sobrescritura",
+        result.message,
+        [
+          `Traducción: ${sourceLang.toUpperCase()} → ${targetLang.toUpperCase()}`,
+          "Algunos campos ya tienen traducciones",
+          "Si aceptas, se sobrescribirán con las nuevas traducciones",
+        ],
+        async () => {
+          // Forzar sobrescritura
+          const forceResult = await autoTranslate(true);
+          if (forceResult.success) {
+            showModal(
+              "success",
+              "¡Traducción completada!",
+              forceResult.message,
+              null,
+              null,
+              "Aceptar",
+              false
+            );
+            setActiveLang(targetLang); // Cambiar al idioma destino para revisar
+          } else {
+            showModal(
+              "error",
+              "Error de traducción",
+              forceResult.message,
+              null,
+              null,
+              "Cerrar",
+              false
+            );
+          }
+        },
+        "Sobrescribir",
+        true
+      );
+      return; // Importante: salir después de mostrar el modal de confirmación
+    }
+
+    if (result.success) {
+      showModal(
+        "success",
+        "¡Traducción completada!",
+        result.message,
+        null,
+        null,
+        "Aceptar",
+        false
+      );
+      setActiveLang(targetLang); // Cambiar al idioma destino para revisar
+    } else {
+      showModal(
+        "error",
+        "Error de traducción",
+        result.message,
+        null,
+        null,
+        "Cerrar",
+        false
+      );
+    }
+  }
+
+  // ✅ Show missing translations using shared hook
+  function handleShowMissingFields() {
+    const missing = detectMissing();
+    const targetLang = activeLang === "es" ? "en" : "es";
+
+    if (missing.length === 0) {
+      showModal(
+        "success",
+        "Traducción completa",
+        "Todos los campos están traducidos correctamente.",
+        null,
+        null,
+        "Entendido",
+        false
+      );
+    } else {
+      showModal(
+        "info",
+        "Campos pendientes de traducción",
+        `Los siguientes campos necesitan traducción (${activeLang.toUpperCase()} → ${targetLang.toUpperCase()}):`,
+        missing,
+        () => setActiveLang(targetLang),
+        "Ver traducciones",
+        false
+      );
+    }
   }
 
   function submit(e) {
@@ -133,16 +336,7 @@ export default function ServiceFormModal({
     onClose?.();
   }
 
-  const toCardProps = (s, lang) => ({
-    icon: s.icon,
-    title: s.title?.[lang] || "Título del Servicio",
-    description: s.description?.[lang] || "Descripción del servicio",
-    features: (s.features?.[lang] || []).filter(Boolean).length
-      ? s.features?.[lang]
-      : ["Característica de ejemplo"],
-    whatsapp: s.whatsapp || "51988496839",
-  });
-
+  // ============== MODO VIEW ==============
   if (mode === "view") {
     return (
       <div
@@ -153,11 +347,40 @@ export default function ServiceFormModal({
           className="bg-transparent w-full"
           onClick={(e) => e.stopPropagation()}
         >
+          {/* Botones de idioma para modo VIEW */}
+          <div className="w-full max-w-sm mx-auto mb-4 flex justify-center gap-2">
+            <button
+              type="button"
+              className={`px-3 py-1.5 rounded-lg border text-sm ${
+                activeLang === "es"
+                  ? "bg-red-600 text-white border-red-600"
+                  : "bg-white"
+              }`}
+              onClick={() => setActiveLang("es")}
+            >
+              Español (ES)
+            </button>
+            <button
+              type="button"
+              className={`px-3 py-1.5 rounded-lg border text-sm ${
+                activeLang === "en"
+                  ? "bg-red-600 text-white border-red-600"
+                  : "bg-white"
+              }`}
+              onClick={() => setActiveLang("en")}
+            >
+              Inglés (EN)
+            </button>
+          </div>
+
           <div className="w-full max-w-sm mx-auto">
-            <ServiceCard service={toCardProps(data, activeLang)} />
+            <ServiceCard service={previewService} lang={previewService.lang} />
           </div>
           <div className="text-center mt-4">
-            <button className="px-3 py-2 border rounded" onClick={onClose}>
+            <button
+              className="px-3 py-2 border rounded bg-white"
+              onClick={onClose}
+            >
               Cerrar
             </button>
           </div>
@@ -183,21 +406,13 @@ export default function ServiceFormModal({
               ? "Editar Servicio"
               : "Ver Servicio"}
           </h3>
-          <button
-            className="text-gray-500"
-            onClick={() =>
-              isView || !hasChanges ? onClose() : setConfirmClose(true)
-            }
-          >
-            ×
-          </button>
-        </div>
-        <div className="grid md:grid-cols-2 gap-0">
-          <form onSubmit={submit} className="p-6 space-y-4">
-            <div className="flex gap-2 mb-2">
+
+          {/* Botones de idioma inline con el título */}
+          <div className="flex items-center gap-3">
+            <div className="flex gap-2">
               <button
                 type="button"
-                className={`px-4 py-2 rounded-lg border ${
+                className={`px-3 py-1.5 rounded-lg border text-sm ${
                   activeLang === "es"
                     ? "bg-red-600 text-white border-red-600"
                     : "bg-white"
@@ -208,7 +423,7 @@ export default function ServiceFormModal({
               </button>
               <button
                 type="button"
-                className={`px-4 py-2 rounded-lg border ${
+                className={`px-3 py-1.5 rounded-lg border text-sm ${
                   activeLang === "en"
                     ? "bg-red-600 text-white border-red-600"
                     : "bg-white"
@@ -219,48 +434,106 @@ export default function ServiceFormModal({
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs text-gray-600 mb-1">ID</label>
-                <input
-                  disabled
-                  className="border rounded w-full px-2 py-2 bg-gray-100 text-gray-700"
-                  value={data.id}
-                />
-              </div>
-              <div className="relative">
-                <label className="block text-xs text-gray-600 mb-1">
-                  Orden
-                </label>
-                <input
-                  type="number"
-                  min={1}
-                  disabled={isView}
-                  className={`border rounded w-full px-2 py-2 bg-white ${
-                    submitAttempted &&
-                    (data.order === "" || Number(data.order) < 1)
-                      ? "border-red-500"
-                      : ""
-                  }`}
-                  placeholder="Ingrese el orden"
-                  value={data.order}
-                  onChange={(e) =>
-                    updateField(
-                      "order",
-                      e.target.value === ""
-                        ? ""
-                        : Math.max(1, Number(e.target.value) || 1)
-                    )
-                  }
-                />
-                {visibleTooltips.order && (
-                  <div className="absolute left-0 top-full mt-1 bg-red-600 text-white text-xs px-2 py-1 rounded shadow-lg z-10">
-                    Campo Obligatorio
-                  </div>
-                )}
-              </div>
-            </div>
+            {/* ✅ Botones de traducción - Dinámicos con dirección bidireccional */}
+            {!isView &&
+              (() => {
+                // const missingTranslations = detectMissing();
+                // const hasMissingTranslations = missingTranslations.length > 0;
+                const targetLang = activeLang === "es" ? "EN" : "ES";
 
+                return (
+                  <div className="flex gap-2">
+                    {/* Badge desactivado temporalmente (no funciona al 100%)
+                    {hasMissingTranslations && (
+                      <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded border border-yellow-300 font-medium">
+                        {missingTranslations.length} campo
+                        {missingTranslations.length > 1 ? "s" : ""} →{" "}
+                        {targetLang}
+                      </span>
+                    )}
+                    */}
+
+                    <button
+                      type="button"
+                      className={`px-3 py-1.5 rounded-lg border text-xs font-medium ${
+                        translating
+                          ? "bg-gray-300 text-gray-600 cursor-wait"
+                          : "bg-blue-500 text-white border-blue-500 hover:bg-blue-600"
+                      }`}
+                      onClick={handleAutoTranslate}
+                      disabled={translating}
+                      title={`Traducir automáticamente ${activeLang.toUpperCase()} → ${targetLang}`}
+                    >
+                      {translating ? (
+                        <>
+                          <span className="inline-block animate-spin mr-1">
+                            ⟳
+                          </span>
+                          Traduciendo...
+                        </>
+                      ) : (
+                        `🌐 Traducir a ${targetLang}`
+                      )}
+                    </button>
+                  </div>
+                );
+              })()}
+
+            <button
+              className="text-gray-500 text-2xl"
+              onClick={() =>
+                isView || !hasChanges ? onClose() : setConfirmClose(true)
+              }
+            >
+              ×
+            </button>
+          </div>
+        </div>
+        <div className="grid md:grid-cols-2 gap-0">
+          <form onSubmit={submit} className="p-6 space-y-4">
+            {/* ✅ Contenedor compacto de ID y Orden - Layout inline */}
+            <div className="bg-gray-50 rounded-lg px-4 py-2.5 border border-gray-200">
+              <div className="flex items-center gap-6">
+                {/* ID - flex-1 con label inline */}
+                <div className="flex-1 min-w-0 flex items-center gap-3">
+                  <label className="text-sm font-medium text-gray-700 whitespace-nowrap">
+                    ID
+                  </label>
+                  <div
+                    className="flex-1 px-3 py-1.5 bg-gray-100 border border-gray-300 rounded text-gray-700 font-mono text-sm truncate"
+                    title={data.id}
+                  >
+                    {data.id || "Generando..."}
+                  </div>
+                </div>
+
+                {/* Orden - Ancho fijo con label inline */}
+                <div className="relative flex items-center gap-3">
+                  <label className="text-sm font-medium text-gray-700 whitespace-nowrap">
+                    Orden *
+                  </label>
+                  <input
+                    type="number"
+                    min={1}
+                    disabled={isView}
+                    className={`w-20 px-3 py-1.5 border rounded text-sm ${
+                      submitAttempted &&
+                      (data.order === "" || Number(data.order) < 1)
+                        ? "border-red-500 bg-white"
+                        : "border-gray-300 bg-white"
+                    }`}
+                    placeholder="Orden"
+                    value={data.order}
+                    onChange={(e) => updateField("order", e.target.value)}
+                  />
+                  {visibleTooltips.order && (
+                    <div className="absolute left-0 top-full mt-1 bg-red-600 text-white text-xs px-2 py-1 rounded shadow-lg z-10">
+                      Campo Obligatorio
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>{" "}
             <div>
               <label className="block text-xs text-gray-600 mb-1">Icono</label>
               <div className="flex items-center gap-3">
@@ -284,7 +557,6 @@ export default function ServiceFormModal({
                 )}
               </div>
             </div>
-
             <div className="relative">
               <label className="block text-xs text-gray-600 mb-1">
                 Título ({activeLang.toUpperCase()})
@@ -307,7 +579,6 @@ export default function ServiceFormModal({
                 </div>
               )}
             </div>
-
             <div className="relative">
               <label className="block text-xs text-gray-600 mb-1">
                 Descripción ({activeLang.toUpperCase()})
@@ -330,7 +601,6 @@ export default function ServiceFormModal({
                 </div>
               )}
             </div>
-
             <div className="relative">
               <label className="block text-xs text-gray-600 mb-1">
                 Características ({activeLang.toUpperCase()}) — una por línea
@@ -357,7 +627,6 @@ export default function ServiceFormModal({
                 </div>
               )}
             </div>
-
             <div className="relative">
               <label className="block text-xs text-gray-600 mb-1">
                 WhatsApp
@@ -378,7 +647,6 @@ export default function ServiceFormModal({
                 </div>
               )}
             </div>
-
             <div className="pt-2 flex gap-2">
               {!isView && (
                 <button className="btn-cta px-5 py-2" type="submit">
@@ -421,7 +689,7 @@ export default function ServiceFormModal({
               Vista previa
             </h4>
             <div className="w-full max-w-sm">
-              <ServiceCard service={toCardProps(data, activeLang)} />
+              <ServiceCard service={previewService} lang={previewService.lang} />
             </div>
           </div>
         </div>
@@ -469,6 +737,20 @@ export default function ServiceFormModal({
           </div>
         )}
       </div>
+
+      {/* Modal de confirmación/información estilizado */}
+      <ConfirmModal
+        open={modalState.open}
+        onClose={closeModal}
+        onConfirm={handleModalConfirm}
+        type={modalState.type}
+        title={modalState.title}
+        message={modalState.message}
+        details={modalState.details}
+        confirmText={modalState.confirmText}
+        cancelText="Cancelar"
+        showCancel={modalState.showCancel}
+      />
     </div>
   );
 }

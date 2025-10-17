@@ -105,6 +105,7 @@ export const messages = {
       subtitle: "Conoce a Nuestros Colaboradores",
       description:
         "Un equipo multidisciplinario de expertos en tecnología, investigación y desarrollo",
+      specialties: "Especialidades:",
     },
     services: {
       ctaAll: "Ver Todos los Servicios",
@@ -644,6 +645,7 @@ export const messages = {
         allJournals: "Todas las revistas",
         allYears: "Todos los años",
         sort: {
+          order: "Orden",
           dateDesc: "Más recientes",
           dateAsc: "Más antiguas",
           titleAsc: "A-Z",
@@ -818,6 +820,28 @@ export const messages = {
       locationLine: "Lima, Perú • Atención internacional",
       copyright: "© {year} Fiberstech — Diseñado por Christian QB (XtianDev)",
     },
+    admin: {
+      products: {
+        placeholders: {
+          name: "Nombre del producto",
+          category: "Categoría",
+          tagline: "Tagline",
+          description: "Descripción detallada",
+          featureTitle: "Título",
+          featureDescription: "Descripción opcional",
+          youtubeUrl: "https://www.youtube.com/watch?v=...",
+          characteristic: "Característica",
+        },
+      },
+      team: {
+        placeholders: {
+          name: "Nombre del miembro",
+          role: "Cargo/Posición",
+          bio: "Biografía (opcional)",
+          skills: "Habilidades y especialidades",
+        },
+      },
+    },
   },
   en: {
     hero: {
@@ -923,6 +947,7 @@ export const messages = {
       subtitle: "Meet Our Collaborators",
       description:
         "A multidisciplinary team of experts in technology, research, and development",
+      specialties: "Specialties:",
     },
     services: {
       ctaAll: "See All Services",
@@ -1456,6 +1481,7 @@ export const messages = {
         allJournals: "All journals",
         allYears: "All years",
         sort: {
+          order: "Order",
           dateDesc: "Newest",
           dateAsc: "Oldest",
           titleAsc: "A-Z",
@@ -1629,6 +1655,28 @@ export const messages = {
       contact: "Contact",
       locationLine: "Lima, Peru • International support",
       copyright: "© {year} Fiberstech — Designed by Christian QB (XtianDev)",
+    },
+    admin: {
+      products: {
+        placeholders: {
+          name: "Product name",
+          category: "Category",
+          tagline: "Tagline",
+          description: "Detailed description",
+          featureTitle: "Title",
+          featureDescription: "Optional description",
+          youtubeUrl: "https://www.youtube.com/watch?v=...",
+          characteristic: "Characteristic",
+        },
+      },
+      team: {
+        placeholders: {
+          name: "Member name",
+          role: "Role/Position",
+          bio: "Biography (optional)",
+          skills: "Skills and specialties",
+        },
+      },
     },
   },
 };

@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ProductFormComponentWithPicker as ProductFormComponent } from "./ProductFormComponent";
 import DetailIncompleteConfirmModal from "./DetailIncompleteConfirmModal";
+import { useAutoTranslate } from "../../hooks/useAutoTranslate";
+import { useFileUpload } from "../../hooks/useFileUpload";
 
 export default function ProductFormModal({
   open,
@@ -24,12 +26,12 @@ export default function ProductFormModal({
         description: { es: "", en: "" }, // short card description
         descriptionDetail: { es: "", en: "" },
         image: "",
-        category: "",
+        category: { es: "", en: "" },
         technicalSheets: { es: "", en: "" },
         features: { es: [""], en: [""] }, // short bullet points for card
         featuresDetail: [],
-        specifications: {},
-        capabilities: [],
+        specifications: { es: {}, en: {} },
+        capabilities: { es: [], en: [] },
         youtubeVideo: "",
         additionalImages: [],
         order: 1,
@@ -40,6 +42,16 @@ export default function ProductFormModal({
   const [local, setLocal] = useState(initial);
   const [tab, setTab] = useState("es");
   const [previewTab, setPreviewTab] = useState("card"); // card | detail
+
+  // 🔍 DEBUG: Log cuando cambia tab
+  // DEBUG: Verificar estructura de features
+  useEffect(() => {
+    console.log("🟢 ProductFormModal - tab changed to:", tab);
+    console.log("🟢 Current local.name:", local.name);
+    console.log("🟢 Current local.description:", local.description);
+    console.log("🟣 Current local.features:", local.features);
+    console.log("🟣 local.features[tab]:", local.features?.[tab]);
+  }, [tab, local.name, local.description, local.features, local.id]);
   const [cardErrors, setCardErrors] = useState({});
   const [detailErrors, setDetailErrors] = useState({});
   const [showHint, setShowHint] = useState(false);
@@ -49,9 +61,255 @@ export default function ProductFormModal({
   const [showDetailConfirm, setShowDetailConfirm] = useState(false);
   const [pendingSave, setPendingSave] = useState(null); // holds next payload when awaiting confirm
 
+  // 🔥 Hooks de upload de archivos (DRY pattern)
+  const uploadImage = useFileUpload({
+    accept: "image/*",
+    maxSize: 5 * 1024 * 1024, // 5MB
+    uploadPath: "public/assets/images/products/images/",
+    onSuccess: (fileUrl) => setLocal((p) => ({ ...p, image: fileUrl })),
+  });
+
+  const uploadAdditionalImage = useFileUpload({
+    accept: "image/*",
+    maxSize: 5 * 1024 * 1024, // 5MB
+    uploadPath: "public/assets/images/products/images/",
+    onSuccess: (fileUrl) =>
+      setLocal((p) => ({
+        ...p,
+        additionalImages: [...(p.additionalImages || []), fileUrl],
+      })),
+  });
+
+  const uploadDatasheetES = useFileUpload({
+    accept: ".pdf,application/pdf",
+    maxSize: 10 * 1024 * 1024, // 10MB
+    uploadPath: "public/assets/images/products/pdf/",
+    onSuccess: (fileUrl) =>
+      setLocal((p) => ({
+        ...p,
+        technicalSheets: { ...(p.technicalSheets || {}), es: fileUrl },
+      })),
+  });
+
+  const uploadDatasheetEN = useFileUpload({
+    accept: ".pdf,application/pdf",
+    maxSize: 10 * 1024 * 1024, // 10MB
+    uploadPath: "public/assets/images/products/pdf/",
+    onSuccess: (fileUrl) =>
+      setLocal((p) => ({
+        ...p,
+        technicalSheets: { ...(p.technicalSheets || {}), en: fileUrl },
+      })),
+  });
+
+  // 🌐 Hook de traducción automática
+  const { translating, autoTranslate } = useAutoTranslate(local, setLocal, {
+    simpleFields: [
+      "name",
+      "tagline",
+      "description",
+      "descriptionDetail",
+      "category",
+    ],
+    arrayFields: ["features", "capabilities"],
+    nestedFields: [
+      {
+        field: "featuresDetail",
+        subFields: ["title", "description"],
+      },
+    ],
+    objectFields: ["specifications"],
+    sourceLang: tab,
+    targetLang: tab === "es" ? "en" : "es",
+  });
+
   useEffect(() => {
-    if (product) setLocal(product);
+    if (product) {
+      // 🔧 FIX: Migrar datos legacy a estructura i18n
+      const migrated = { ...product };
+
+      // Migrar features si vienen como array simple
+      if (Array.isArray(migrated.features)) {
+        console.warn(
+          "⚠️ Migrando features de array simple a estructura bilingüe"
+        );
+        migrated.features = {
+          es: migrated.features,
+          en: [],
+        };
+      }
+
+      // Migrar category si viene como string
+      if (typeof migrated.category === "string") {
+        console.warn("⚠️ Migrando category de string a estructura bilingüe");
+        migrated.category = {
+          es: migrated.category,
+          en: "",
+        };
+      }
+
+      // Migrar specifications si viene como objeto plano
+      if (
+        migrated.specifications &&
+        typeof migrated.specifications === "object" &&
+        !migrated.specifications.es &&
+        !migrated.specifications.en
+      ) {
+        console.warn("⚠️ Migrando specifications a estructura bilingüe");
+        migrated.specifications = {
+          es: migrated.specifications,
+          en: {},
+        };
+      }
+
+      // Migrar capabilities si viene como array simple
+      if (Array.isArray(migrated.capabilities)) {
+        console.warn("⚠️ Migrando capabilities de array a estructura bilingüe");
+        migrated.capabilities = {
+          es: migrated.capabilities,
+          en: [],
+        };
+      }
+
+      // 🔥 Migrar featuresDetail a nueva estructura con title/description bilingües
+      if (Array.isArray(migrated.featuresDetail)) {
+        let needsMigration = false;
+
+        // Verificar si algún item NO tiene structure bilingüe
+        migrated.featuresDetail.forEach((item) => {
+          if (
+            !item.title ||
+            typeof item.title !== "object" ||
+            !item.description ||
+            typeof item.description !== "object"
+          ) {
+            needsMigration = true;
+          }
+        });
+
+        if (needsMigration) {
+          console.warn("⚠️ Migrando featuresDetail a estructura bilingüe");
+
+          migrated.featuresDetail = migrated.featuresDetail.map((item, i) => {
+            // Si ya tiene estructura bilingüe, mantener
+            if (item.title && typeof item.title === "object") {
+              return item;
+            }
+
+            // Migrar desde features[lang] legacy
+            const titleES = migrated.features?.es?.[i] || "";
+            const titleEN = migrated.features?.en?.[i] || "";
+
+            return {
+              icon: item.icon || "BarChart3",
+              title: { es: titleES, en: titleEN },
+              description: { es: "", en: "" },
+            };
+          });
+        }
+      }
+
+      setLocal(migrated);
+    }
   }, [product]);
+
+  // Reset tab to Spanish when modal opens
+  useEffect(() => {
+    if (open) {
+      setTab("es");
+      setPreviewTab("card");
+    }
+  }, [open]);
+
+  // ✅ Funciones que usan tab - IGUAL QUE SERVICES (usan closure)
+  function updateLangField(key, val) {
+    console.log("🔵 updateLangField called:", { key, val, currentTab: tab });
+    setLocal((s) => {
+      const updated = { ...s, [key]: { ...(s[key] || {}), [tab]: val } };
+      console.log("🔵 updateLangField updated state:", {
+        key,
+        newValue: updated[key],
+      });
+      return updated;
+    });
+  }
+
+  // 🔥 Nueva función para editar features con title/description separados
+  function setFeaturesAt(idx, value, field = "title") {
+    setLocal((prev) => {
+      const fd = Array.isArray(prev.featuresDetail)
+        ? [...prev.featuresDetail]
+        : [];
+
+      // Asegurar que existe el objeto en la posición idx
+      while (fd.length <= idx) {
+        fd.push({
+          icon: "BarChart3",
+          title: { es: "", en: "" },
+          description: { es: "", en: "" },
+        });
+      }
+
+      // Si el formato es legacy (sin title/description bilingües), migrar PRESERVANDO valores
+      if (!fd[idx].title || typeof fd[idx].title !== "object") {
+        const legacyTitle = prev.features?.[tab]?.[idx] || "";
+        fd[idx] = {
+          icon: fd[idx]?.icon || "BarChart3",
+          title: {
+            es: tab === "es" ? legacyTitle : "",
+            en: tab === "en" ? legacyTitle : "",
+          },
+          description: { es: "", en: "" },
+        };
+      }
+
+      // Actualizar el campo correcto (title o description) en el idioma activo
+      if (field === "title") {
+        fd[idx].title = {
+          ...fd[idx].title, // ✅ Preservar otros idiomas
+          [tab]: value,
+        };
+      } else if (field === "description") {
+        fd[idx].description = {
+          ...fd[idx].description, // ✅ Preservar otros idiomas
+          [tab]: value,
+        };
+      }
+
+      return { ...prev, featuresDetail: fd };
+    });
+  }
+
+  function addFeature() {
+    setLocal((prev) => {
+      const fd = Array.isArray(prev.featuresDetail)
+        ? [...prev.featuresDetail]
+        : [];
+      // 🔥 Crear con estructura bilingüe para title/description
+      fd.push({
+        icon: "BarChart3",
+        title: { es: "", en: "" },
+        description: { es: "", en: "" },
+      });
+      return {
+        ...prev,
+        featuresDetail: fd,
+      };
+    });
+  }
+
+  function removeFeature(idx) {
+    setLocal((prev) => {
+      const fd = Array.isArray(prev.featuresDetail)
+        ? [...prev.featuresDetail]
+        : [];
+      fd.splice(idx, 1);
+      return {
+        ...prev,
+        featuresDetail: fd,
+      };
+    });
+  }
 
   // Validators split by view (card/detail) and language rules
   function validateCard() {
@@ -71,52 +329,15 @@ export default function ProductFormModal({
   }
   function validateDetail() {
     const e = {};
-    if (!local?.category?.trim()) e.category = "Categoría requerida";
+    const categoryValue =
+      typeof local?.category === "object"
+        ? local?.category?.es?.trim()
+        : local?.category?.trim();
+    if (!categoryValue) e.category = "Categoría requerida";
     if (!(local?.descriptionDetail?.es || local?.description?.es || "").trim())
       e.detail_es = "Descripción detallada (ES) requerida";
     setDetailErrors(e);
     return e;
-  }
-
-  function changeLangField(lang, key, value) {
-    setLocal((prev) => ({
-      ...prev,
-      [key]: { ...(prev[key] || {}), [lang]: value },
-    }));
-  }
-
-  function setFeaturesAt(lang, idx, value) {
-    setLocal((prev) => {
-      const arr = Array.isArray(prev.features?.[lang])
-        ? [...prev.features[lang]]
-        : [];
-      arr[idx] = value;
-      return { ...prev, features: { ...(prev.features || {}), [lang]: arr } };
-    });
-  }
-  function addFeature(lang) {
-    setLocal((prev) => {
-      const arr = Array.isArray(prev.features?.[lang])
-        ? [...prev.features[lang]]
-        : [];
-      arr.push("");
-      return { ...prev, features: { ...(prev.features || {}), [lang]: arr } };
-    });
-  }
-  function removeFeature(lang, idx) {
-    setLocal((prev) => {
-      const arr = Array.isArray(prev.features?.[lang])
-        ? [...prev.features[lang]]
-        : [];
-      arr.splice(idx, 1);
-      return { ...prev, features: { ...(prev.features || {}), [lang]: arr } };
-    });
-  }
-  function changeLangDetail(value) {
-    setLocal((prev) => ({
-      ...prev,
-      descriptionDetail: { ...(prev.descriptionDetail || {}), [tab]: value },
-    }));
   }
 
   async function uploadFromUrl(kind, urlStr) {
@@ -179,6 +400,27 @@ export default function ProductFormModal({
           return uploadFromUrl(kind, file);
         }
       }
+
+      // ✅ Para imágenes, usar preview local inmediato (como en Research y Team)
+      if (kind === "image" || kind === "additional") {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const dataUrl = event.target.result;
+          if (kind === "image") {
+            setLocal((p) => ({ ...p, image: dataUrl }));
+          } else if (kind === "additional") {
+            setLocal((p) => ({
+              ...p,
+              additionalImages: [...(p.additionalImages || []), dataUrl],
+            }));
+          }
+        };
+        reader.readAsDataURL(file);
+        setUploading(false);
+        return; // ✅ No intentar upload async, solo preview local
+      }
+
+      // ✅ Para PDFs (datasheets), sí intentar upload async
       // 1) Intento multipart
       let url = "";
       try {
@@ -253,12 +495,7 @@ export default function ProductFormModal({
       }
 
       if (!url) throw new Error("no_url");
-      if (kind === "image") setLocal((p) => ({ ...p, image: url }));
-      if (kind === "additional")
-        setLocal((p) => ({
-          ...p,
-          additionalImages: [...(p.additionalImages || []), url],
-        }));
+      // ✅ Solo asignar URLs para datasheets (PDFs), no para imágenes
       if (kind === "datasheet-es")
         setLocal((p) => ({
           ...p,
@@ -270,11 +507,14 @@ export default function ProductFormModal({
           technicalSheets: { ...(p.technicalSheets || {}), en: url },
         }));
     } catch (e) {
-      alert(
-        `No se pudo subir el archivo (${kind}).\nDetalle: ${
-          e?.message || e
-        }\n\nConsejos:\n- Evita URLs 'blob:' (no se pueden importar).\n- Usa el botón Importar URL con un enlace https público, o descarga el archivo y súbelo.\n- Asegúrate de tener vercel dev corriendo (puerto :3000) y variables GITHUB_* válidas.`
-      );
+      // ✅ Solo mostrar alert si es datasheet, imágenes ya tienen preview
+      if (kind.startsWith("datasheet")) {
+        alert(
+          `No se pudo subir el archivo (${kind}).\nDetalle: ${
+            e?.message || e
+          }\n\nConsejos:\n- Evita URLs 'blob:' (no se pueden importar).\n- Usa el botón Importar URL con un enlace https público, o descarga el archivo y súbelo.\n- Asegúrate de tener vercel dev corriendo (puerto :3000) y variables GITHUB_* válidas.`
+        );
+      }
       console.error("[adminx] uploadFile error", e);
     } finally {
       setUploading(false);
@@ -284,16 +524,22 @@ export default function ProductFormModal({
   function onDrop(kind, e) {
     e.preventDefault();
     if (isView) return;
-    const file = e.dataTransfer?.files?.[0];
-    if (file) {
-      console.log("[adminx] drop file", {
-        kind,
-        name: file?.name,
-        size: file?.size,
-      });
-      return uploadFile(kind, file);
+
+    // 🔥 Usar hooks de upload según el tipo de archivo
+    if (kind === "image") {
+      return uploadImage.dropFile(e);
     }
-    // Intentar URL si no hay archivo
+    if (kind === "additional") {
+      return uploadAdditionalImage.dropFile(e);
+    }
+    if (kind === "datasheet-es") {
+      return uploadDatasheetES.dropFile(e);
+    }
+    if (kind === "datasheet-en") {
+      return uploadDatasheetEN.dropFile(e);
+    }
+
+    // Fallback: Intentar URL si no hay archivo
     try {
       const items = e.dataTransfer?.items;
       if (items && items.length) {
@@ -318,22 +564,33 @@ export default function ProductFormModal({
     if (isView) return;
     const inp = document.createElement("input");
     inp.type = "file";
-    if (kind === "image" || kind === "additional") {
+
+    // 🔥 Configurar según el tipo de archivo
+    if (kind === "image") {
       inp.accept = "image/*";
-      if (kind === "additional") inp.multiple = true;
+      inp.onchange = (ev) => uploadImage.pickFile(ev);
+    } else if (kind === "additional") {
+      inp.accept = "image/*";
+      inp.multiple = true;
+      inp.onchange = (ev) => {
+        // Para múltiples imágenes, procesar una por una
+        const files = Array.from(ev.target.files || []);
+        files.forEach((file) => uploadAdditionalImage.handleFile(file));
+      };
+    } else if (kind === "datasheet-es") {
+      inp.accept = ".pdf,application/pdf";
+      inp.onchange = (ev) => uploadDatasheetES.pickFile(ev);
+    } else if (kind === "datasheet-en") {
+      inp.accept = ".pdf,application/pdf";
+      inp.onchange = (ev) => uploadDatasheetEN.pickFile(ev);
     } else {
       inp.accept = ".pdf,.doc,.docx";
+      inp.onchange = (ev) => {
+        const file = ev.target.files?.[0];
+        if (file) uploadFile(kind, file);
+      };
     }
-    inp.onchange = (ev) => {
-      const files = Array.from(ev.target.files || []);
-      console.log(
-        "[adminx] input change",
-        files.map((f) => ({ name: f?.name, size: f?.size }))
-      );
-      if (!files.length) return;
-      if (kind === "additional") files.forEach((f) => uploadFile(kind, f));
-      else uploadFile(kind, files[0]);
-    };
+
     inp.click();
   }
 
@@ -425,20 +682,83 @@ export default function ProductFormModal({
 
   function prepareNext() {
     const next = { ...local };
+
+    // Normalizar campos de texto bilingües
     ["name", "tagline", "description", "descriptionDetail"].forEach((k) => {
       const obj = next[k] || {};
       if (!obj.en?.trim()) obj.en = obj.es || "";
       next[k] = obj;
     });
-    // Compact features: remove empty
-    next.features = {
-      es: (next.features?.es || [])
-        .map((s) => (s || "").trim())
-        .filter(Boolean),
-      en: (next.features?.en || [])
-        .map((s) => (s || "").trim())
-        .filter(Boolean),
-    };
+
+    // Normalizar category (debe ser objeto {es, en})
+    if (typeof next.category === "string") {
+      next.category = {
+        es: next.category,
+        en: "",
+      };
+    } else if (!next.category || typeof next.category !== "object") {
+      next.category = { es: "", en: "" };
+    }
+
+    // Normalizar technicalSheets (debe ser objeto {es, en})
+    if (typeof next.technicalSheets === "string") {
+      next.technicalSheets = {
+        es: next.technicalSheets,
+        en: "",
+      };
+    } else if (
+      !next.technicalSheets ||
+      typeof next.technicalSheets !== "object"
+    ) {
+      next.technicalSheets = { es: "", en: "" };
+    }
+
+    // Normalizar features (debe ser objeto {es: [], en: []})
+    if (Array.isArray(next.features)) {
+      next.features = {
+        es: next.features.filter(Boolean),
+        en: [],
+      };
+    } else {
+      next.features = {
+        es: (next.features?.es || [])
+          .map((s) => (s || "").trim())
+          .filter(Boolean),
+        en: (next.features?.en || [])
+          .map((s) => (s || "").trim())
+          .filter(Boolean),
+      };
+    }
+
+    // Normalizar specifications (debe ser objeto {es: {}, en: {}})
+    if (
+      next.specifications &&
+      typeof next.specifications === "object" &&
+      !next.specifications.es &&
+      !next.specifications.en
+    ) {
+      // Legacy: objeto plano sin es/en → migrar a bilingüe
+      next.specifications = {
+        es: next.specifications,
+        en: {},
+      };
+    } else if (
+      !next.specifications ||
+      typeof next.specifications !== "object"
+    ) {
+      next.specifications = { es: {}, en: {} };
+    }
+
+    // Normalizar capabilities (debe ser objeto {es: [], en: []})
+    if (Array.isArray(next.capabilities)) {
+      next.capabilities = {
+        es: next.capabilities.filter(Boolean),
+        en: [],
+      };
+    } else if (!next.capabilities || typeof next.capabilities !== "object") {
+      next.capabilities = { es: [], en: [] };
+    }
+
     return next;
   }
 
@@ -458,69 +778,117 @@ export default function ProductFormModal({
       : Object.values(detailErrors)
   ).filter(Boolean);
 
+  // Handler para traducción con confirmación
+  const handleAutoTranslate = async () => {
+    const result = await autoTranslate();
+
+    if (result.needsConfirmation) {
+      const confirmed = window.confirm(result.message);
+      if (confirmed) {
+        await autoTranslate(true); // Force overwrite
+      }
+    } else if (result.message) {
+      alert(result.message);
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/40 p-4 overflow-y-auto">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-6xl">
-        <div className="px-6 py-4 border-b flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <div className="px-6 py-4 border-b">
+          {/* Título arriba */}
+          <div className="flex items-center justify-between mb-3">
             <h3 className="text-lg font-semibold">{Title}</h3>
-            {/* TabMenu: Vista Card | Vista Detalle (also visible in view mode) */}
-            {
-              <div className="flex items-center gap-1 ml-2">
-                <button
-                  type="button"
-                  className={`px-3 py-1 rounded-lg border text-sm ${
-                    previewTab === "card"
-                      ? "bg-red-600 text-white border-red-600"
-                      : "bg-white"
-                  }`}
-                  onClick={() => setPreviewTab("card")}
-                >
-                  Vista Card
-                </button>
-                <button
-                  type="button"
-                  className={`px-3 py-1 rounded-lg border text-sm ${
-                    previewTab === "detail"
-                      ? "bg-red-600 text-white border-red-600"
-                      : "bg-white"
-                  }`}
-                  onClick={() => setPreviewTab("detail")}
-                >
-                  Vista Detalle
-                </button>
-              </div>
-            }
+            <button
+              onClick={onClose}
+              className="text-gray-500 hover:text-gray-700 text-2xl"
+            >
+              ✕
+            </button>
           </div>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            ✕
-          </button>
+
+          {/* Fila de controles: Vista tabs (izquierda) y botones de idioma (derecha) */}
+          <div className="flex items-center justify-between">
+            {/* TabMenu: Vista Card | Vista Detalle (izquierda) */}
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                className={`px-3 py-1 rounded-lg border text-sm ${
+                  previewTab === "card"
+                    ? "bg-red-600 text-white border-red-600"
+                    : "bg-white"
+                }`}
+                onClick={() => setPreviewTab("card")}
+              >
+                Vista Card
+              </button>
+              <button
+                type="button"
+                className={`px-3 py-1 rounded-lg border text-sm ${
+                  previewTab === "detail"
+                    ? "bg-red-600 text-white border-red-600"
+                    : "bg-white"
+                }`}
+                onClick={() => setPreviewTab("detail")}
+              >
+                Vista Detalle
+              </button>
+            </div>
+
+            {/* Botones de idioma (derecha) */}
+            <div className="flex items-center gap-2">
+              <div className="flex gap-2">
+                {["es", "en"].map((l) => (
+                  <button
+                    type="button"
+                    key={l}
+                    className={`px-3 py-1.5 rounded-lg border text-sm ${
+                      tab === l
+                        ? "bg-red-600 text-white border-red-600"
+                        : "bg-white"
+                    }`}
+                    onClick={() => setTab(l)}
+                  >
+                    {l === "es" ? "Español (ES)" : "Inglés (EN)"}
+                  </button>
+                ))}
+              </div>
+
+              {/* Botón Auto-traducir - Con dirección */}
+              {!isView &&
+                (() => {
+                  const targetLang = tab === "es" ? "EN" : "ES";
+
+                  return (
+                    <button
+                      type="button"
+                      className={`px-3 py-1.5 rounded-lg border text-xs font-medium ${
+                        translating
+                          ? "bg-gray-300 text-gray-600 cursor-wait"
+                          : "bg-blue-500 text-white border-blue-500 hover:bg-blue-600"
+                      }`}
+                      onClick={handleAutoTranslate}
+                      disabled={translating}
+                      title={`Traducir automáticamente ${tab.toUpperCase()} → ${targetLang}`}
+                    >
+                      {translating ? (
+                        <>
+                          <span className="inline-block animate-spin mr-1">
+                            ⟳
+                          </span>
+                          Traduciendo...
+                        </>
+                      ) : (
+                        `🌐 Traducir a ${targetLang}`
+                      )}
+                    </button>
+                  );
+                })()}
+            </div>
+          </div>
         </div>
 
         <div className="p-6 space-y-4">
-          {/* Language tabs (only show here in Vista Detalle; in Vista Card se muestran centrados en la plantilla) */}
-          {previewTab === "detail" && (
-            <div className="flex flex-wrap items-center gap-2">
-              {["es", "en"].map((l) => (
-                <button
-                  type="button"
-                  key={l}
-                  className={`px-3 py-1 rounded-lg border ${
-                    tab === l
-                      ? "bg-red-600 text-white border-red-600"
-                      : "bg-white"
-                  }`}
-                  onClick={() => setTab(l)}
-                >
-                  {l === "es" ? "Español (ES)" : "Inglés (EN)"}
-                </button>
-              ))}
-            </div>
-          )}
-
           {/* Toolbar ID/Orden: solo en Vista Detalle; en Vista Card se muestran centrados en la plantilla */}
           {previewTab === "detail" && (
             <div className="flex flex-wrap items-center gap-3">
@@ -561,11 +929,14 @@ export default function ProductFormModal({
           <ProductFormComponent
             mode={previewTab}
             tab={tab}
-            setTab={setTab}
             local={local}
             setLocal={setLocal}
             hasES={hasES}
             hasEN={hasEN}
+            updateLangField={updateLangField}
+            setFeaturesAt={setFeaturesAt}
+            addFeature={addFeature}
+            removeFeature={removeFeature}
             onPick={onPick}
             onDrop={onDrop}
             generating={generating}
@@ -593,7 +964,12 @@ export default function ProductFormModal({
                             (local?.description?.es || "").trim()
                           )
                         : false,
-                    category: !local?.category?.trim(),
+                    category:
+                      tab === "es"
+                        ? typeof local?.category === "object"
+                          ? !local?.category?.es?.trim()
+                          : !local?.category?.trim()
+                        : false,
                   }
             }
             showHints={showHint}

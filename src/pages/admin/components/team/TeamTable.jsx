@@ -149,9 +149,9 @@ export default function TeamTable({ team, onView, onEdit, onArchiveToggle }) {
                 </td>
 
                 <td
-                  className={`td cell-sep text-center ${getStickyClass("status")} ${
-                    !isColumnVisible("status") ? "column-hidden" : ""
-                  }`}
+                  className={`td cell-sep text-center ${getStickyClass(
+                    "status"
+                  )} ${!isColumnVisible("status") ? "column-hidden" : ""}`}
                   style={{
                     width: columnWidths.status || "auto",
                   }}
@@ -168,9 +168,9 @@ export default function TeamTable({ team, onView, onEdit, onArchiveToggle }) {
                 </td>
 
                 <td
-                  className={`td cell-sep text-center ${getStickyClass("actions")} ${
-                    !isColumnVisible("actions") ? "column-hidden" : ""
-                  }`}
+                  className={`td cell-sep text-center ${getStickyClass(
+                    "actions"
+                  )} ${!isColumnVisible("actions") ? "column-hidden" : ""}`}
                   style={{ width: columnWidths.actions || "auto" }}
                 >
                   <div className="flex items-center gap-1.5">

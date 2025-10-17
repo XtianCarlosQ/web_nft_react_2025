@@ -157,17 +157,23 @@ export default function ProductsTable({
                   className={`td cell-sep whitespace-nowrap truncate ${
                     !isColumnVisible("category") ? "column-hidden" : ""
                   }`}
-                  title={p.category}
+                  title={
+                    typeof p.category === "string"
+                      ? p.category
+                      : p.category?.es || "-"
+                  }
                   style={{ width: columnWidths.category || "auto" }}
                 >
-                  {p.category || "-"}
+                  {typeof p.category === "string"
+                    ? p.category
+                    : p.category?.es || "-"}
                 </td>
 
                 {/* Estado */}
                 <td
-                  className={`td cell-sep text-center ${getStickyClass("status")} ${
-                    !isColumnVisible("status") ? "column-hidden" : ""
-                  }`}
+                  className={`td cell-sep text-center ${getStickyClass(
+                    "status"
+                  )} ${!isColumnVisible("status") ? "column-hidden" : ""}`}
                   style={{ width: columnWidths.status || "auto" }}
                 >
                   <span
@@ -183,9 +189,9 @@ export default function ProductsTable({
 
                 {/* Acciones */}
                 <td
-                  className={`td cell-sep text-center ${getStickyClass("actions")} ${
-                    !isColumnVisible("actions") ? "column-hidden" : ""
-                  }`}
+                  className={`td cell-sep text-center ${getStickyClass(
+                    "actions"
+                  )} ${!isColumnVisible("actions") ? "column-hidden" : ""}`}
                   style={{ width: columnWidths.actions || "auto" }}
                 >
                   <div className="flex items-center gap-1.5">

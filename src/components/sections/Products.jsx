@@ -4,20 +4,47 @@ import { Link } from "react-router-dom";
 import brochurePdf from "../../assets/images/products/CATALOGO 2025_NFT_1.pdf";
 import { Brain, Clock, Award, Microscope } from "lucide-react";
 import { useLanguage } from "../../context/LanguageContext";
+import { messages } from "../../config/i18n";
 // Eliminado: catálogo fallback en src/data. Usamos exclusivamente /content/products.json
 
 export const ProductCard = ({
   product,
+  lang, // ✅ NEW: Idioma explícito para admin preview
   disabled = false,
   editable = false,
   onEdit,
   invalid,
   showHints,
+  previewMode = false, // Nuevo: si es true, usa directamente product sin buscar traducciones
 }) => {
-  const { t } = useLanguage();
+  const { t, lang: contextLang } = useLanguage();
+  // Usar lang prop si está disponible, sino usar contexto
+  const currentLang = lang || contextLang;
+
   // Overlay from i18n kept optional; canonical data provides defaults
-  const raw = editable ? null : t(`products.cards.${product.id}`);
+  // En modo preview del admin, no buscar traducciones adicionales
+  const raw =
+    editable || previewMode ? null : t(`products.cards.${product.id}`);
   const cardT = raw && typeof raw === "object" ? raw : {};
+
+  // Helper para obtener texto en idioma correcto
+  const getText = (field) => {
+    if (!product[field]) return "";
+    if (typeof product[field] === "string") return product[field];
+    return product[field][currentLang] || product[field].es || "";
+  };
+
+  // Button text with lang prop support
+  const buttonText = lang
+    ? messages[lang]?.products?.viewDetails ||
+      (lang === "es" ? "Ver Detalles" : "View Details")
+    : t("products.viewDetails");
+
+  // Helper para placeholders dinámicos (admin)
+  const getPlaceholder = (key) => {
+    return messages[currentLang]?.admin?.products?.placeholders?.[key] || "";
+  };
+
   return (
     <div className="bg-white rounded-2xl shadow hover:shadow-xl transition-all duration-500 group">
       {/* Card Container */}
@@ -27,7 +54,7 @@ export const ProductCard = ({
           <div className="w-full h-full flex items-center justify-center transform transition-transform duration-700 ease-out group-hover:scale-120">
             <img
               src={product.image || "/assets/images/logo/logo_NFT.png"}
-              alt={product.name}
+              alt={getText("name")}
               className="h-full w-auto object-contain"
               onError={(e) => {
                 e.currentTarget.src = "/assets/images/logo/logo_NFT.png";
@@ -48,7 +75,7 @@ export const ProductCard = ({
                   }`}
                   value={product.name || ""}
                   onChange={(e) => onEdit?.(["name"], e.target.value)}
-                  placeholder="Nombre del producto"
+                  placeholder={getPlaceholder("name")}
                   data-field="name"
                 />
                 {showHints && invalid?.name && (
@@ -59,7 +86,7 @@ export const ProductCard = ({
               </div>
             ) : (
               <h3 className="text-lg font-bold text-gray-900 mb-3">
-                {product.name}
+                {previewMode ? getText("name") : cardT.name || getText("name")}
               </h3>
             )}
             {editable ? (
@@ -73,7 +100,7 @@ export const ProductCard = ({
                   rows={3}
                   value={product.description || ""}
                   onChange={(e) => onEdit?.(["description"], e.target.value)}
-                  placeholder="Resumen breve (~30 palabras)"
+                  placeholder={getPlaceholder("description")}
                   data-field="description"
                 />
                 {showHints && invalid?.description && (
@@ -84,7 +111,9 @@ export const ProductCard = ({
               </div>
             ) : (
               <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
-                {cardT.description || product.description}
+                {previewMode
+                  ? getText("description")
+                  : cardT.description || getText("description")}
               </p>
             )}
           </div>
@@ -92,7 +121,7 @@ export const ProductCard = ({
           {/* Features List - Fixed height */}
           <div className="h-36">
             <ul className="space-y-1">
-              {(editable
+              {(editable || previewMode
                 ? product.features
                 : cardT.features || product.features
               ).map((feature, index) => (
@@ -112,7 +141,7 @@ export const ProductCard = ({
                       onChange={(e) =>
                         onEdit?.(["features", index], e.target.value)
                       }
-                      placeholder="Característica"
+                      placeholder={getPlaceholder("characteristic")}
                       data-field={index === 0 ? "features" : undefined}
                     />
                   ) : (
@@ -127,14 +156,14 @@ export const ProductCard = ({
           <div className="mt-auto">
             {disabled ? (
               <div className="block w-full text-center btn-cta py-2 px-4 text-sm font-medium opacity-60 cursor-default select-none">
-                {t("products.viewDetails")}
+                {buttonText}
               </div>
             ) : (
               <Link
                 to={`/productos/${product.id}`}
                 className="block w-full text-center btn-cta py-2 px-4 text-sm font-medium cursor-pointer"
               >
-                {t("products.viewDetails")}
+                {buttonText}
               </Link>
             )}
           </div>

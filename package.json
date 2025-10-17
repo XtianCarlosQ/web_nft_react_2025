@@ -8,9 +8,20 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:debug": "playwright test --debug",
+    "test:services": "playwright test admin-services-button-language",
+    "test:services:headed": "playwright test admin-services-button-language --headed",
+    "test:services:debug": "playwright test admin-services-button-language --debug",
     "enrich:dry": "node scripts/enrich-publications.mjs --dry",
     "enrich": "node scripts/enrich-publications.mjs",
-    "report:pubs": "node scripts/report-publications.mjs"
+    "report:pubs": "node scripts/report-publications.mjs",
+    "translate:products": "node scripts/translate-products.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.13",
@@ -24,6 +35,10 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
+    "@playwright/test": "^1.56.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.0",
@@ -31,6 +46,8 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
-    "vite": "^7.1.2"
+    "jsdom": "^27.0.0",
+    "vite": "^7.1.2",
+    "vitest": "^3.2.4"
   }
 }

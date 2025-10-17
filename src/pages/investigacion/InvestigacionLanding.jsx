@@ -1,27 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useLanguage } from "../../context/LanguageContext";
-import { Link } from "react-router-dom";
+import ArticleCard from "../../components/research/ArticleCard";
 import {
   Search,
   Filter,
   Calendar,
   BookOpen,
   Award,
-  Download,
-  ExternalLink,
   ChevronDown,
   X,
   Settings,
 } from "lucide-react";
 
 const InvestigacionLanding = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [articles, setArticles] = useState([]);
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedJournal, setSelectedJournal] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
-  const [sortBy, setSortBy] = useState("date-desc");
+  const [sortBy, setSortBy] = useState("order");
   const [showFilters, setShowFilters] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -29,11 +27,23 @@ const InvestigacionLanding = () => {
   useEffect(() => {
     const loadArticles = async () => {
       try {
-        const response = await fetch("/assets/images/investigacion/posts.json");
+        // Cambiado de /assets/images/investigacion/posts.json a /content/research.json
+        // para usar la misma fuente que el CMS
+        const response = await fetch("/content/research.json");
         const data = await response.json();
-        setArticles(data);
-        setFilteredArticles(data);
+
+        // Filtrar solo artículos activos (no archivados)
+        const activeArticles = data.filter((article) => !article.archived);
+
+        setArticles(activeArticles);
+        setFilteredArticles(activeArticles);
         setLoading(false);
+
+        console.log("📚 [InvestigacionLanding] Loaded articles:", {
+          total: data.length,
+          active: activeArticles.length,
+          archived: data.length - activeArticles.length,
+        });
       } catch (error) {
         console.error("Error loading articles:", error);
         setLoading(false);
@@ -96,12 +106,27 @@ const InvestigacionLanding = () => {
   // Filtrar y ordenar artículos
   useEffect(() => {
     let filtered = articles.filter((article) => {
+      // Helper para obtener texto del campo (puede ser string o objeto bilingüe)
+      const getText = (field) => {
+        if (!field) return "";
+        if (typeof field === "string") return field;
+        if (typeof field === "object") {
+          return field[language] || field.es || field.en || "";
+        }
+        return "";
+      };
+
+      const titleText = getText(article.title);
+      const abstractText = getText(article.abstract);
+      const searchLower = searchTerm.toLowerCase();
+
       const matchesSearch =
-        article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        article.abstract.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        article.keywords.some((keyword) =>
-          keyword.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+        titleText.toLowerCase().includes(searchLower) ||
+        abstractText.toLowerCase().includes(searchLower) ||
+        (Array.isArray(article.keywords) &&
+          article.keywords.some((keyword) =>
+            keyword.toLowerCase().includes(searchLower)
+          ));
 
       const matchesJournal =
         !selectedJournal || article.journal === selectedJournal;
@@ -115,6 +140,9 @@ const InvestigacionLanding = () => {
 
     // Ordenar
     switch (sortBy) {
+      case "order":
+        filtered.sort((a, b) => (a.order || 999) - (b.order || 999));
+        break;
       case "date-desc":
         filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
         break;
@@ -122,17 +150,37 @@ const InvestigacionLanding = () => {
         filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
         break;
       case "title-asc":
-        filtered.sort((a, b) => a.title.localeCompare(b.title));
+        filtered.sort((a, b) => {
+          const titleA =
+            typeof a.title === "string"
+              ? a.title
+              : a.title?.[language] || a.title?.es || "";
+          const titleB =
+            typeof b.title === "string"
+              ? b.title
+              : b.title?.[language] || b.title?.es || "";
+          return titleA.localeCompare(titleB);
+        });
         break;
       case "title-desc":
-        filtered.sort((a, b) => b.title.localeCompare(a.title));
+        filtered.sort((a, b) => {
+          const titleA =
+            typeof a.title === "string"
+              ? a.title
+              : a.title?.[language] || a.title?.es || "";
+          const titleB =
+            typeof b.title === "string"
+              ? b.title
+              : b.title?.[language] || b.title?.es || "";
+          return titleB.localeCompare(titleA);
+        });
         break;
       default:
         break;
     }
 
     setFilteredArticles(filtered);
-  }, [articles, searchTerm, selectedJournal, selectedYear, sortBy]);
+  }, [articles, searchTerm, selectedJournal, selectedYear, sortBy, language]);
 
   // Limpiar filtros
   const clearFilters = () => {
@@ -250,7 +298,7 @@ const InvestigacionLanding = () => {
                 <select
                   value={selectedJournal}
                   onChange={(e) => setSelectedJournal(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500"
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white dark:border-gray-600"
                 >
                   <option value="">{t("research.landing.allJournals")}</option>
                   {uniqueJournals.map((journal) => (
@@ -263,7 +311,7 @@ const InvestigacionLanding = () => {
                 <select
                   value={selectedYear}
                   onChange={(e) => setSelectedYear(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500"
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white dark:border-gray-600"
                 >
                   <option value="">{t("research.landing.allYears")}</option>
                   {uniqueYears.map((year) => (
@@ -276,8 +324,11 @@ const InvestigacionLanding = () => {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500"
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white dark:border-gray-600"
                 >
+                  <option value="order">
+                    {t("research.landing.sort.order")}
+                  </option>
                   <option value="date-desc">
                     {t("research.landing.sort.dateDesc")}
                   </option>
@@ -349,154 +400,6 @@ const InvestigacionLanding = () => {
         </div>
       </div>
     </div>
-  );
-};
-
-// Componente para cada tarjeta de artículo
-const ArticleCard = ({ article }) => {
-  const [imageError, setImageError] = useState(false);
-  const { t } = useLanguage();
-
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("es-ES", {
-      year: "numeric",
-      month: "short",
-    });
-  };
-
-  const handleViewDetail = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    // TODO: Navegar al detalle del artículo
-    console.log("Ver detalle del artículo:", article.slug);
-  };
-
-  return (
-    <Link
-      to={`/investigacion/${article.slug}`}
-      className="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 flex flex-col"
-    >
-      {/* Imagen - relación 16:9, ring y bordes redondeados */}
-      <div className="relative overflow-hidden flex-shrink-0 rounded-t-2xl bg-gray-50 ring-1 ring-gray-200 aspect-[16/9]">
-        {!imageError && article.localImage ? (
-          <img
-            src={article.localImage}
-            alt={article.title}
-            className="w-full h-full object-contain rounded-t-2xl"
-            onError={(e) => {
-              console.log("❌ Error cargando imagen:", e.target.src);
-              console.log("📂 Ruta del artículo:", article.localImage);
-              console.log("🔍 Verificar si existe:", article.localImage);
-              setImageError(true);
-            }}
-            onLoad={() => {
-              console.log(
-                "✅ Imagen cargada correctamente:",
-                article.localImage
-              );
-            }}
-          />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center">
-            <div className="text-center">
-              <BookOpen className="h-12 w-12 text-red-300 mx-auto mb-2" />
-              <p className="text-xs text-red-400">
-                {t("research.landing.imageNotAvailable")}
-              </p>
-              {imageError && (
-                <p className="text-xs text-red-500 mt-1">
-                  {t("research.landing.path")} {article.localImage}
-                </p>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Contenido */}
-      <div className="p-3 sm:p-4 md:p-5 flex-1 flex flex-col min-h-0">
-        {/* Metadata */}
-        <div className="flex items-center justify-between mb-2 sm:mb-3 flex-shrink-0">
-          <span className="bg-red-100 text-red-800 text-xs font-semibold px-2 py-1 rounded-full">
-            {article.journal}
-          </span>
-          <span className="text-xs sm:text-sm text-gray-500">
-            {formatDate(article.date)}
-          </span>
-        </div>
-
-        {/* Título */}
-        <div className="mb-2 sm:mb-3 flex-shrink-0 min-h-[3.5rem] sm:min-h-[3.75rem] md:min-h-[3.75rem] lg:min-h-[3.75rem] xl:min-h-[3.75rem]">
-          <h3 className="text-sm sm:text-base font-bold text-gray-900 line-clamp-3 group-hover:text-red-600 transition-colors leading-tight">
-            {article.title}
-          </h3>
-        </div>
-
-        {/* Resumen */}
-        <div className="text-gray-600 text-xs mb-2 sm:mb-3 flex-shrink-0 min-h-[3.75rem] sm:min-h-[3.75rem] md:min-h-[3.75rem] lg:min-h-[3.75rem] xl:min-h-[3.75rem]">
-          <p
-            className="leading-relaxed"
-            style={{
-              display: "-webkit-box",
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: "vertical",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {article.summary_30w}
-          </p>
-        </div>
-
-        {/* Keywords: fixed 2-row height, chips constant height */}
-        <div className="flex flex-wrap gap-1 mb-2 sm:mb-3 flex-shrink-0 h-[3.25rem] overflow-hidden content-start">
-          {article.keywords && article.keywords.length > 0 && (
-            <>
-              {article.keywords.slice(0, 6).map((keyword, index) => (
-                <span
-                  key={index}
-                  className="bg-gray-100 text-gray-600 text-xs inline-flex items-center h-6 px-2 rounded whitespace-nowrap border border-gray-200"
-                >
-                  {keyword}
-                </span>
-              ))}
-            </>
-          )}
-        </div>
-
-        {/* Productos relacionados */}
-        <div className="border-t pt-1 sm:pt-2 flex-shrink-0">
-          {article.products && article.products.length > 0 ? (
-            <>
-              <p className="text-xs text-gray-500 mb-1">
-                {t("research.landing.relatedProducts")}
-              </p>
-              <div className="flex flex-wrap gap-1">
-                {article.products.slice(0, 2).map((product, index) => (
-                  <span
-                    key={index}
-                    className="bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded"
-                  >
-                    {product}
-                  </span>
-                ))}
-                {article.products.length > 2 && (
-                  <span className="text-xs text-gray-400">
-                    {t("research.landing.moreCount", {
-                      count: article.products.length - 2,
-                    })}
-                  </span>
-                )}
-              </div>
-            </>
-          ) : (
-            <div className="text-xs text-gray-400">
-              {t("research.landing.noRelatedProducts")}
-            </div>
-          )}
-        </div>
-      </div>
-    </Link>
   );
 };
 
