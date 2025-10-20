@@ -1138,7 +1138,7 @@
   {
     "id": "product-86kfu4",
     "name": {
-      "es": "FIBERCLASS",
+      "es": "FIBERCLASS - Clasificador de Fibra de Alpaca Automatizado",
       "en": "FIBERCLASS - Automated Alpaca Fiber Classifier"
     },
     "tagline": {
@@ -1153,7 +1153,7 @@
       "es": "El FIBERCLASS es un clasificador de fibra de alpaca automatizado que utiliza la más moderna tecnología de Inteligencia Artificial para identificar y clasificar porciones de vellón de alpaca según las características de calidad establecidas en la NTP 231.301.2022. El sistema consta de una mesa de selección, faja de identificación, faja de clasificación y una interfaz gráfica del usuario, controlados por PLCs industriales.",
       "en": "The FIBERCLASS is an automated alpaca fiber classifier that uses state-of-the-art Artificial Intelligence technology to identify and classify alpaca fleece portions according to quality characteristics established in NTP 231.301.2022. The system comprises a selection table, identification belt, classification belt, and a graphical user interface, all controlled by industrial PLCs."
     },
-    "image": "/assets/images/products/images/Screenshot-2025-10-20-140556.png",
+    "image": "/assets/images/products/images/medulometro.png",
     "category": {
       "es": "Equipos de Análisis Textil",
       "en": "Textile Analysis Equipment"

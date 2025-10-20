@@ -117,7 +117,7 @@ export const ProductCard = ({
           </div>
 
           {/* Features List - Fixed height */}
-          <div className="h-36">
+          <div className="h-36 overflow-hidden relative pb-6">
             <ul className="space-y-1">
               {(editable || previewMode
                 ? product.features
@@ -125,9 +125,9 @@ export const ProductCard = ({
               ).map((feature, index) => (
                 <li
                   key={index}
-                  className="flex items-start text-sm text-gray-600"
+                  className="flex items-start text-sm text-gray-600 min-w-0"
                 >
-                  <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 mt-1.5"></span>
+                  <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 mt-1.5 flex-shrink-0"></span>
                   {editable ? (
                     <input
                       className={`flex-1 border rounded px-2 py-1 text-sm ${
@@ -143,11 +143,13 @@ export const ProductCard = ({
                       data-field={index === 0 ? "features" : undefined}
                     />
                   ) : (
-                    <span>{feature}</span>
+                    <span className="flex-1 line-clamp-2">{feature}</span>
                   )}
                 </li>
               ))}
             </ul>
+            {/* Fade overlay para ocultar la zona recortada (ajusta colores si usas tema oscuro) */}
+            <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white/90 to-transparent dark:from-gray-900/90" />
           </div>
 
           {/* Button Section - Fixed position at bottom */}
