@@ -24,10 +24,13 @@
     "translate:products": "node scripts/translate-products.mjs"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@tailwindcss/vite": "^4.1.13",
+    "formidable": "^3.5.4",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.544.0",
     "node-fetch": "^2.7.0",
+    "pdf-parse": "^2.4.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^6.30.1",

@@ -158,7 +158,8 @@ export default defineConfig(({ mode }) => {
           url.pathname.startsWith("/api/products/") ||
           url.pathname.startsWith("/api/research/") ||
           url.pathname === "/api/upload" ||
-          url.pathname.startsWith("/api/upload/")
+          url.pathname.startsWith("/api/upload/") ||
+          url.pathname === "/api/generate-product-content"
         ) {
           if (!authed) return send(401, { ok: false, error: "unauthorized" });
         }
@@ -427,6 +428,177 @@ export default defineConfig(({ mode }) => {
             return send(200, { ok: true, restored: file });
           } catch {
             return send(400, { ok: false, error: "restore_failed" });
+          }
+        }
+
+        // Generate product content with AI using Gemini
+        if (
+          url.pathname === "/api/generate-product-content" &&
+          req.method === "POST"
+        ) {
+          try {
+            const body = await readBodyBuffer(req);
+
+            // Import required modules for the handler
+            const { GoogleGenerativeAI } = await import(
+              "@google/generative-ai"
+            );
+            const formidable = await import("formidable");
+            const fs = await import("fs");
+            const pdfParseModule = await import("pdf-parse");
+
+            // Get the correct PDF parse function
+            const PDFParse =
+              pdfParseModule.PDFParse ||
+              pdfParseModule.default ||
+              pdfParseModule;
+
+            const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+            // Parse multipart form manually
+            const boundary = req.headers["content-type"]?.split("boundary=")[1];
+            if (!boundary) {
+              return send(400, { error: "Invalid multipart form data" });
+            }
+
+            // Simple multipart parsing for PDF extraction
+            const bodyStr = body.toString("binary");
+            const parts = bodyStr.split(`--${boundary}`);
+
+            let pdfBuffer = null;
+
+            for (const part of parts) {
+              if (part.includes("filename=") && part.includes(".pdf")) {
+                // Find the start of binary data (after double CRLF)
+                const dataStart = part.indexOf("\r\n\r\n") + 4;
+                if (dataStart > 3) {
+                  const binaryData = part.substring(dataStart);
+                  // Remove the trailing boundary
+                  const endIndex = binaryData.lastIndexOf("\r\n--");
+                  const cleanBinaryData =
+                    endIndex > 0
+                      ? binaryData.substring(0, endIndex)
+                      : binaryData;
+                  pdfBuffer = Buffer.from(cleanBinaryData, "binary");
+                  break;
+                }
+              }
+            }
+
+            if (!pdfBuffer) {
+              return send(400, { error: "No PDF file found in request" });
+            }
+
+            // Extract text from PDF
+            const parser = new PDFParse({ data: pdfBuffer });
+            const pdfData = await parser.getText();
+            const pdfText = pdfData.text;
+
+            if (!pdfText || pdfText.trim().length < 100) {
+              return send(400, { error: "PDF content too short or empty" });
+            }
+
+            // Generate content with Gemini
+            const model = genAI.getGenerativeModel({
+              model: "gemini-2.5-flash-lite",
+            });
+
+            const prompt = `Eres un experto en equipos de análisis de fibras textiles de la empresa NFT (Natural Fiber's Tech). 
+Analiza el siguiente contenido extraído de un PDF técnico y genera contenido estructurado para un CMS de productos.
+
+INSTRUCCIONES CRÍTICAS:
+1. Responde SOLAMENTE con JSON válido
+2. NO incluyas markdown, explicaciones o texto adicional
+3. NO uses \`\`\`json o \`\`\` en tu respuesta
+4. Inicia directamente con { y termina con }
+
+Estructura JSON requerida:
+{
+  "name": {"es": "Nombre del producto", "en": "Product name"},
+  "tagline": {"es": "Subtítulo descriptivo corto", "en": "Short descriptive tagline"},
+  "description": {"es": "Descripción corta para vista card (máximo 2 líneas)", "en": "Short description for card view (max 2 lines)"},
+  "descriptionDetail": {"es": "Descripción detallada para vista completa", "en": "Detailed description for full view"},
+  "category": {"es": "Categoría del producto", "en": "Product category"},
+  "features": {
+    "es": ["característica 1", "característica 2", "característica 3", "característica 4"],
+    "en": ["feature 1", "feature 2", "feature 3", "feature 4"]
+  },
+  "specifications": {
+    "es": {"Peso": "X kg", "Dimensiones": "X x Y x Z cm", "Precisión": "±X%"},
+    "en": {"Weight": "X kg", "Dimensions": "X x Y x Z cm", "Precision": "±X%"}
+  },
+  "capabilities": {
+    "es": ["capacidad 1", "capacidad 2"],
+    "en": ["capability 1", "capability 2"]
+  }
+}
+
+Contenido del PDF:
+${pdfText}`;
+
+            const result = await model.generateContent(prompt);
+            const response = await result.response;
+            const text = response.text();
+
+            // Clean and parse JSON response with better error handling
+            let cleanText = text.trim();
+
+            // Remove markdown code blocks if present
+            cleanText = cleanText.replace(/```json\n?|\n?```/g, "");
+
+            // Try to find JSON object in the response
+            const jsonMatch = cleanText.match(/\{[\s\S]*\}/);
+            if (jsonMatch) {
+              cleanText = jsonMatch[0];
+            }
+
+            // Additional cleanup
+            cleanText = cleanText.trim();
+
+            let generatedContent;
+            try {
+              generatedContent = JSON.parse(cleanText);
+            } catch (parseError) {
+              console.error("JSON Parse Error:", parseError.message);
+              console.error("Raw response:", text);
+              console.error("Cleaned text:", cleanText);
+
+              // Try alternative cleaning approach
+              const alternativeClean = text
+                .replace(/```json/g, "")
+                .replace(/```/g, "")
+                .replace(/^\s*[\w\s]*?\{/, "{") // Remove text before opening brace
+                .replace(/\}[\w\s]*?$/, "}") // Remove text after closing brace
+                .trim();
+
+              try {
+                generatedContent = JSON.parse(alternativeClean);
+              } catch (secondParseError) {
+                return send(400, {
+                  error: "Error parsing AI response: " + parseError.message,
+                  rawResponse: text.substring(0, 500) + "...",
+                  cleanedResponse: cleanText.substring(0, 500) + "...",
+                });
+              }
+            }
+
+            // DEBUG: Log del contenido generado
+            console.log(
+              "🔍 DEBUG - Contenido generado por Gemini (Vite):",
+              JSON.stringify(generatedContent, null, 2)
+            );
+
+            return send(200, {
+              success: true,
+              content: generatedContent,
+              message: "Contenido generado exitosamente con IA",
+            });
+          } catch (error) {
+            console.error("Error in generate-product-content:", error);
+            return send(500, {
+              success: false,
+              error: "Error generando contenido: " + error.message,
+            });
           }
         }
 

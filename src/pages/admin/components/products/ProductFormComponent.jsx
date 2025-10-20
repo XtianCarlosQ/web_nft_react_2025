@@ -300,21 +300,6 @@ export default function ProductFormComponent({
   };
 
   // 🔍 DEBUG: Verificar productForTemplate en modo detail
-  console.log("🟣 Detail mode - tab:", tab);
-  console.log("🟣 Detail mode - local.name:", local.name);
-  console.log(
-    "🟣 Detail mode - productForTemplate.name:",
-    productForTemplate.name
-  );
-  console.log("🟣 Detail mode - local.specifications:", local.specifications);
-  console.log(
-    "🟣 Detail mode - local.specifications[tab]:",
-    local.specifications?.[tab]
-  );
-  console.log(
-    "🟣 Detail mode - productForTemplate.specifications:",
-    productForTemplate.specifications
-  );
   console.log("🟣 Detail mode - productForTemplate:", productForTemplate);
 
   const handleEdit = (path, value) => {

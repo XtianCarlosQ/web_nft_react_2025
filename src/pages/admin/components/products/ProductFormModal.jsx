@@ -623,42 +623,181 @@ export default function ProductFormModal({
 
   async function handleGenerateAI() {
     try {
-      setGenerating(true);
-      // Basic placeholder call — requires backend implementation
-      const res = await fetch("/api/ai/products/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: local.id,
-          datasheets: local.technicalSheets,
-          language: tab,
-        }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        // Expecting { name, tagline, description, category, features }
-        const next = { ...local };
-        if (data.name) next.name = { ...next.name, [tab]: data.name };
-        if (data.tagline)
-          next.tagline = { ...next.tagline, [tab]: data.tagline };
-        if (data.description) {
-          next.description = { ...next.description, [tab]: data.description };
-          if (!next.descriptionDetail?.[tab]) {
-            next.descriptionDetail = {
-              ...(next.descriptionDetail || {}),
-              [tab]: data.description,
-            };
-          }
-        }
-        if (data.category) next.category = data.category;
-        if (Array.isArray(data.features))
-          next.features = { ...next.features, [tab]: data.features };
-        setLocal(next);
-      } else {
-        alert("No se pudo generar con IA (requiere backend)");
+      // Verificar si hay contenido existente
+      const hasContent =
+        local.name?.es ||
+        local.name?.en ||
+        local.description?.es ||
+        local.description?.en ||
+        (local.features?.es && local.features.es.length > 0) ||
+        (local.features?.en && local.features.en.length > 0);
+
+      if (hasContent) {
+        const message = isEdit
+          ? "⚠️ ADVERTENCIA: Estás editando un producto existente.\n\n" +
+            "Al generar contenido con IA se sobrescribirán TODOS los campos actuales.\n\n" +
+            "Esta acción es irreversible. ¿Deseas continuar?"
+          : "⚠️ ADVERTENCIA: Ya existen campos llenos.\n\n" +
+            "Al generar contenido con IA se sobrescribirán los datos existentes.\n\n" +
+            "¿Deseas continuar?";
+
+        const confirmed = confirm(message);
+        if (!confirmed) return;
       }
-    } catch (e) {
-      alert("Error generando con IA: " + (e?.message || e));
+
+      setGenerating(true);
+
+      // Determinar cual PDF usar (priorizar idioma actual)
+      const pdfUrl =
+        local.technicalSheets?.[tab] ||
+        local.technicalSheets?.es ||
+        local.technicalSheets?.en;
+
+      if (!pdfUrl) {
+        alert("❌ Error: No hay ningún PDF cargado para generar contenido.");
+        return;
+      }
+
+      // Fetch del PDF
+      const pdfResponse = await fetch(pdfUrl);
+      if (!pdfResponse.ok) {
+        throw new Error("No se pudo obtener el PDF");
+      }
+
+      const pdfBlob = await pdfResponse.blob();
+
+      // Crear FormData
+      const formData = new FormData();
+      formData.append("pdf", pdfBlob, "document.pdf");
+
+      // Llamar a la API de generación
+      const response = await fetch("/api/generate-product-content", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.details || errorData.error || "Error del servidor"
+        );
+      }
+
+      const responseData = await response.json();
+      console.log("🔍 DEBUG - Respuesta completa del servidor:", responseData);
+
+      // Extraer el contenido (puede estar en .content o directamente en la respuesta)
+      const generatedContent = responseData.content || responseData;
+
+      // DEBUG: Logging del contenido generado
+      console.log("🔍 DEBUG - Contenido generado por IA:", generatedContent);
+
+      // Aplicar contenido generado directamente al estado
+      setLocal((prev) => {
+        const newState = { ...prev };
+
+        // Aplicar campos bilingües manteniendo la estructura correcta
+        if (generatedContent.name) {
+          newState.name = {
+            es: generatedContent.name.es || prev.name?.es || "",
+            en: generatedContent.name.en || prev.name?.en || "",
+          };
+        }
+
+        if (generatedContent.tagline) {
+          newState.tagline = {
+            es: generatedContent.tagline.es || prev.tagline?.es || "",
+            en: generatedContent.tagline.en || prev.tagline?.en || "",
+          };
+        }
+
+        if (generatedContent.description) {
+          newState.description = {
+            es: generatedContent.description.es || prev.description?.es || "",
+            en: generatedContent.description.en || prev.description?.en || "",
+          };
+        }
+
+        if (generatedContent.descriptionDetail) {
+          newState.descriptionDetail = {
+            es:
+              generatedContent.descriptionDetail.es ||
+              prev.descriptionDetail?.es ||
+              "",
+            en:
+              generatedContent.descriptionDetail.en ||
+              prev.descriptionDetail?.en ||
+              "",
+          };
+        }
+
+        if (
+          generatedContent.category &&
+          typeof generatedContent.category === "object"
+        ) {
+          newState.category = {
+            es: generatedContent.category.es || prev.category?.es || "",
+            en: generatedContent.category.en || prev.category?.en || "",
+          };
+        }
+
+        // Para arrays y objetos complejos
+        if (generatedContent.featuresDetail) {
+          // Si featuresDetail no tiene iconos, agregar iconos por defecto
+          const iconDefaults = [
+            "BarChart3",
+            "Ruler",
+            "Shield",
+            "Monitor",
+            "Activity",
+            "Camera",
+            "Weight",
+            "Settings",
+          ];
+          newState.featuresDetail = generatedContent.featuresDetail.map(
+            (feature, index) => ({
+              ...feature,
+              icon: feature.icon || iconDefaults[index % iconDefaults.length], // Usar icono existente o asignar uno por defecto
+            })
+          );
+          console.log(
+            "🔧 DEBUG - FeaturesDetail aplicado al estado:",
+            newState.featuresDetail
+          );
+        } else {
+          console.log("❌ DEBUG - No se recibió featuresDetail del servidor");
+        }
+
+        if (generatedContent.features) {
+          newState.features = generatedContent.features;
+        }
+
+        if (generatedContent.capabilities) {
+          newState.capabilities = generatedContent.capabilities;
+        }
+
+        if (generatedContent.specifications) {
+          newState.specifications = generatedContent.specifications;
+        }
+
+        console.log("🔧 DEBUG - Nuevo estado completo aplicado:", newState);
+        return newState;
+      });
+
+      // Mostrar modal de confirmación
+      alert(
+        "✅ ¡Contenido generado exitosamente!\n\n" +
+          "📝 Se ha generado contenido tanto en español como en inglés.\n\n" +
+          "🔍 Revisa antes de guardar para asegurar la calidad."
+      );
+    } catch (error) {
+      console.error("Error generando contenido:", error);
+      alert(
+        "❌ Error generando contenido con IA:\n\n" +
+          error.message +
+          "\n\n" +
+          "Verifica que el PDF sea válido y contenga texto legible."
+      );
     } finally {
       setGenerating(false);
     }
@@ -798,7 +937,7 @@ export default function ProductFormModal({
     : "Vista de Producto";
   const hasES = !!local.technicalSheets?.es;
   const hasEN = !!local.technicalSheets?.en;
-  const showGenerateAI = isCreate;
+  const showGenerateAI = isCreate || isEdit; // Disponible en crear y editar
   const missingList = (
     previewTab === "card"
       ? Object.values(cardErrors)

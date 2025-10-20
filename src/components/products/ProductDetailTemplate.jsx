@@ -660,17 +660,34 @@ export default function ProductDetailTemplate({
                         product.technicalSheets?.en
                       )
                     }
-                    className={`inline-flex items-center gap-2 font-semibold py-3 px-4 rounded-xl border transition-colors text-white ${
+                    className={`inline-flex items-center gap-2 font-semibold py-3 px-4 rounded-xl border transition-all duration-200 ${
                       generating ||
                       !(
                         product.technicalSheets?.es ||
                         product.technicalSheets?.en
                       )
-                        ? "bg-red-300"
-                        : "bg-red-600 hover:bg-red-700"
+                        ? "bg-gray-100 text-gray-500 border-gray-200 cursor-not-allowed"
+                        : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-transparent shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                     }`}
+                    title={
+                      !(product.technicalSheets?.es || product.technicalSheets?.en)
+                        ? "Debes cargar al menos un PDF para generar contenido con IA"
+                        : "Generar contenido automáticamente con IA basado en el PDF"
+                    }
                   >
-                    {generating ? "Generando..." : "Generar con IA"}
+                    {generating ? (
+                      <>
+                        <div className="animate-spin h-4 w-4 border-2 border-gray-400 border-t-transparent rounded-full"></div>
+                        Generando...
+                      </>
+                    ) : (
+                      <>
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        Generar IA
+                      </>
+                    )}
                   </button>
                 )}
               </div>

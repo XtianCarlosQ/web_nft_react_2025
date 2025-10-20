@@ -990,7 +990,7 @@
   {
     "id": "product-gtpduv",
     "name": {
-      "es": "FIBER EC -  AI",
+      "es": "FIBER EC - Caracterizador Electrónico de Fibras - AI",
       "en": "FIBER EC - Electronic Fiber Characterizer"
     },
     "tagline": {
@@ -1058,81 +1058,6 @@
     "youtubeVideo": "",
     "additionalImages": [],
     "order": 9,
-    "archived": false
-  },
-  {
-    "id": "product-5ez332",
-    "name": {
-      "es": "FIBERCLASS - AI",
-      "en": "FIBERCLASS - Automated Alpaca Fiber Sorter"
-    },
-    "tagline": {
-      "es": "Clasificación objetiva y rápida de fibra de alpaca mediante Inteligencia Artificial",
-      "en": "Objective and rapid alpaca fiber classification using Artificial Intelligence"
-    },
-    "description": {
-      "es": "Equipo automatizado para determinar y clasificar la calidad de la fibra de alpaca según la NTP 231.301.2022.",
-      "en": "Automated equipment to determine and classify alpaca fiber quality according to NTP 231.301.2022."
-    },
-    "descriptionDetail": {
-      "es": "El FIBERCLASS es un clasificador de fibra de alpaca automatizado que identifica y clasifica porciones de vellón de alpaca según las características de calidad establecidas en la NTP 231.301.2022. Utiliza la más moderna tecnología de Inteligencia Artificial para lograr una clasificación objetiva y rápida. Consta de una mesa de selección, fajas de identificación y clasificación, y una interfaz gráfica de usuario.",
-      "en": "The FIBERCLASS is an automated alpaca fiber sorter that identifies and classifies alpaca fleece portions according to the quality characteristics established in NTP 231.301.2022. It utilizes the latest Artificial Intelligence technology for objective and rapid classification. It comprises a selection table, identification and classification belts, and a graphical user interface."
-    },
-    "image": "/assets/images/products/images/Mosiville.png",
-    "category": {
-      "es": "Equipos de Análisis Textil",
-      "en": "Textile Analysis Equipment"
-    },
-    "technicalSheets": {
-      "es": "/assets/images/products/pdf/FIBERCLASS_es.pdf",
-      "en": ""
-    },
-    "features": {
-      "es": [
-        "Automatizado con Inteligencia Artificial",
-        "Clasificación objetiva y rápida",
-        "Cumple con NTP 231.301.2022",
-        "Interfaz gráfica de usuario"
-      ],
-      "en": [
-        "AI-powered automation",
-        "Objective and rapid classification",
-        "Complies with NTP 231.301.2022",
-        "Graphical user interface"
-      ]
-    },
-    "featuresDetail": [],
-    "specifications": {
-      "es": {
-        "Peso": "270 kg",
-        "Dimensiones": "6.40 m x 1.10 m x 1.30 m",
-        "Longitud del equipo": "6.4 metros",
-        "Consumo de energía": "850 W",
-        "Suministro de energía": "220 – 240 VAC",
-        "Frecuencia": "50 – 60 Hz"
-      },
-      "en": {
-        "Weight": "270 kg",
-        "Dimensions": "6.40 m x 1.10 m x 1.30 m",
-        "Equipment Length": "6.4 meters",
-        "Power Consumption": "850 W",
-        "Power Supply": "220 – 240 VAC",
-        "Frequency": "50 – 60 Hz"
-      }
-    },
-    "capabilities": {
-      "es": [
-        "Determinación de calidad de fibra de alpaca",
-        "Clasificación de porciones de vellón de alpaca"
-      ],
-      "en": [
-        "Alpaca fiber quality determination",
-        "Alpaca fleece portion classification"
-      ]
-    },
-    "youtubeVideo": "",
-    "additionalImages": [],
-    "order": 10,
     "archived": false
   },
   {
