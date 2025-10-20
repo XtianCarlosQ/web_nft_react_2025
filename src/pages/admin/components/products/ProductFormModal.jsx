@@ -743,7 +743,9 @@ export default function ProductFormModal({
 
         // Para arrays y objetos complejos
         if (generatedContent.featuresDetail) {
-          // Si featuresDetail no tiene iconos, agregar iconos por defecto
+          // Normalizar diferentes formas que puede devolver el modelo:
+          // - { es: [...], en: [...] }
+          // - [ { title: {es,en}, description: {es,en} }, ... ]
           const iconDefaults = [
             "BarChart3",
             "Ruler",
@@ -754,16 +756,68 @@ export default function ProductFormModal({
             "Weight",
             "Settings",
           ];
-          newState.featuresDetail = generatedContent.featuresDetail.map(
-            (feature, index) => ({
-              ...feature,
-              icon: feature.icon || iconDefaults[index % iconDefaults.length], // Usar icono existente o asignar uno por defecto
-            })
-          );
-          console.log(
-            "🔧 DEBUG - FeaturesDetail aplicado al estado:",
-            newState.featuresDetail
-          );
+
+          const fd = [];
+
+          // Case A: object with es/en arrays
+          if (
+            typeof generatedContent.featuresDetail === "object" &&
+            !Array.isArray(generatedContent.featuresDetail) &&
+            (generatedContent.featuresDetail.es || generatedContent.featuresDetail.en)
+          ) {
+            const esArr = generatedContent.featuresDetail.es || [];
+            const enArr = generatedContent.featuresDetail.en || [];
+            const max = Math.max(esArr.length, enArr.length);
+            for (let i = 0; i < max; i++) {
+              const esItem = esArr[i] || {};
+              const enItem = enArr[i] || {};
+
+              const titleEs =
+                (esItem.title && (esItem.title.es || esItem.title)) ||
+                esItem ||
+                "";
+              const titleEn =
+                (enItem.title && (enItem.title.en || enItem.title)) ||
+                enItem ||
+                "";
+
+              const descEs =
+                (esItem.description && (esItem.description.es || esItem.description)) ||
+                "";
+              const descEn =
+                (enItem.description && (enItem.description.en || enItem.description)) ||
+                "";
+
+              fd.push({
+                icon: iconDefaults[i % iconDefaults.length],
+                title: { es: String(titleEs || "").trim(), en: String(titleEn || "").trim() },
+                description: { es: String(descEs || "").trim(), en: String(descEn || "").trim() },
+              });
+            }
+          } else if (Array.isArray(generatedContent.featuresDetail)) {
+            // Case B: already an array of feature objects
+            for (let i = 0; i < generatedContent.featuresDetail.length; i++) {
+              const feature = generatedContent.featuresDetail[i] || {};
+              fd.push({
+                icon: feature.icon || iconDefaults[i % iconDefaults.length],
+                title: feature.title || { es: feature.title || "", en: feature.title || "" },
+                description: feature.description || { es: feature.description || "", en: feature.description || "" },
+              });
+            }
+          }
+
+          // Ensure length and fill defaults
+          while (fd.length < 4) {
+            const i = fd.length;
+            fd.push({
+              icon: iconDefaults[i % iconDefaults.length],
+              title: { es: "", en: "" },
+              description: { es: "", en: "" },
+            });
+          }
+
+          newState.featuresDetail = fd;
+          console.log("🔧 DEBUG - FeaturesDetail normalizado aplicado:", newState.featuresDetail);
         } else {
           console.log("❌ DEBUG - No se recibió featuresDetail del servidor");
         }
