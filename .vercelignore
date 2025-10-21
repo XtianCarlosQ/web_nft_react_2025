@@ -6,6 +6,10 @@ disabled_api/
 api/*copy*
 api/*copy*.*
 
+# Ignore old auth folder to avoid duplicate functions; keep top-level api/auth.js
+api/auth/
+!api/auth.js
+
 # Node modules and build artifacts
 node_modules/
 dist/
