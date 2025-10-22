@@ -328,7 +328,7 @@
         "travel in time"
       ]
     },
-    "order": 10,
+    "order": 11,
     "archived": false
   },
   {
@@ -354,7 +354,33 @@
         "Scientist"
       ]
     },
-    "order": 11,
+    "order": 12,
+    "archived": false
+  },
+  {
+    "id": "team-gh1td3",
+    "name": {
+      "es": "Katherine Arias",
+      "en": "Katherine Arias"
+    },
+    "role": {
+      "es": "Investigadora",
+      "en": "Investigadora"
+    },
+    "bio": {
+      "es": "",
+      "en": ""
+    },
+    "photo": "/assets/images/team/katherine-arias.jpg",
+    "skills": {
+      "es": [
+        "UCM - España"
+      ],
+      "en": [
+        "UCM - España"
+      ]
+    },
+    "order": 10,
     "archived": false
   }
 ]

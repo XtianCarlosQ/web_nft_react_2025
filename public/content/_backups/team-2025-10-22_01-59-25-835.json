@@ -88,7 +88,7 @@
         "Zootechnical Engineer"
       ]
     },
-    "order": 8,
+    "order": 7,
     "archived": false
   },
   {
@@ -146,7 +146,7 @@
         "Parts design: simulation and physical creation"
       ]
     },
-    "order": 9,
+    "order": 8,
     "archived": false
   },
   {
@@ -204,7 +204,7 @@
         "Automatización de procesos"
       ]
     },
-    "order": 11,
+    "order": 9,
     "archived": false
   },
   {
@@ -239,32 +239,6 @@
       ]
     },
     "order": 1,
-    "archived": false
-  },
-  {
-    "id": "team-usk7r1",
-    "name": {
-      "es": "Xtian C. QB",
-      "en": "Xtian"
-    },
-    "role": {
-      "es": "Data",
-      "en": "Data"
-    },
-    "bio": {
-      "es": "",
-      "en": ""
-    },
-    "photo": "/assets/images/team/Imagen-de-WhatsApp-2024-08-15-a-las-16.1-1759509772739.jpg",
-    "skills": {
-      "es": [
-        "Ahora sí"
-      ],
-      "en": [
-        "Now yes"
-      ]
-    },
-    "order": 10,
     "archived": false
   },
   {
@@ -327,6 +301,60 @@
       ]
     },
     "order": 7,
+    "archived": true
+  },
+  {
+    "id": "team-usk7r1",
+    "name": {
+      "es": "Xtian C.QB",
+      "en": "Xtian C.QB"
+    },
+    "role": {
+      "es": "Arquitecto de Software",
+      "en": "Software Architect"
+    },
+    "bio": {
+      "es": "",
+      "en": ""
+    },
+    "photo": "/assets/images/team/Xtian.jpg",
+    "skills": {
+      "es": [
+        "Ahora si",
+        "Viaja en el tiempo"
+      ],
+      "en": [
+        "Now yes",
+        "travel in time"
+      ]
+    },
+    "order": 10,
+    "archived": false
+  },
+  {
+    "id": "team-j28ccm",
+    "name": {
+      "es": "Jesus Trigo",
+      "en": "Jesus Trigo"
+    },
+    "role": {
+      "es": "Científico",
+      "en": "Scientist"
+    },
+    "bio": {
+      "es": "",
+      "en": ""
+    },
+    "photo": "/assets/images/team/jesus-trigo.jpg",
+    "skills": {
+      "es": [
+        "Científico"
+      ],
+      "en": [
+        "Scientist"
+      ]
+    },
+    "order": 11,
     "archived": false
   }
 ]
