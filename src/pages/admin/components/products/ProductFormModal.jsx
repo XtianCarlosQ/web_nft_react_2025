@@ -763,7 +763,8 @@ export default function ProductFormModal({
           if (
             typeof generatedContent.featuresDetail === "object" &&
             !Array.isArray(generatedContent.featuresDetail) &&
-            (generatedContent.featuresDetail.es || generatedContent.featuresDetail.en)
+            (generatedContent.featuresDetail.es ||
+              generatedContent.featuresDetail.en)
           ) {
             const esArr = generatedContent.featuresDetail.es || [];
             const enArr = generatedContent.featuresDetail.en || [];
@@ -782,16 +783,24 @@ export default function ProductFormModal({
                 "";
 
               const descEs =
-                (esItem.description && (esItem.description.es || esItem.description)) ||
+                (esItem.description &&
+                  (esItem.description.es || esItem.description)) ||
                 "";
               const descEn =
-                (enItem.description && (enItem.description.en || enItem.description)) ||
+                (enItem.description &&
+                  (enItem.description.en || enItem.description)) ||
                 "";
 
               fd.push({
                 icon: iconDefaults[i % iconDefaults.length],
-                title: { es: String(titleEs || "").trim(), en: String(titleEn || "").trim() },
-                description: { es: String(descEs || "").trim(), en: String(descEn || "").trim() },
+                title: {
+                  es: String(titleEs || "").trim(),
+                  en: String(titleEn || "").trim(),
+                },
+                description: {
+                  es: String(descEs || "").trim(),
+                  en: String(descEn || "").trim(),
+                },
               });
             }
           } else if (Array.isArray(generatedContent.featuresDetail)) {
@@ -800,8 +809,14 @@ export default function ProductFormModal({
               const feature = generatedContent.featuresDetail[i] || {};
               fd.push({
                 icon: feature.icon || iconDefaults[i % iconDefaults.length],
-                title: feature.title || { es: feature.title || "", en: feature.title || "" },
-                description: feature.description || { es: feature.description || "", en: feature.description || "" },
+                title: feature.title || {
+                  es: feature.title || "",
+                  en: feature.title || "",
+                },
+                description: feature.description || {
+                  es: feature.description || "",
+                  en: feature.description || "",
+                },
               });
             }
           }
@@ -817,7 +832,10 @@ export default function ProductFormModal({
           }
 
           newState.featuresDetail = fd;
-          console.log("🔧 DEBUG - FeaturesDetail normalizado aplicado:", newState.featuresDetail);
+          console.log(
+            "🔧 DEBUG - FeaturesDetail normalizado aplicado:",
+            newState.featuresDetail
+          );
         } else {
           console.log("❌ DEBUG - No se recibió featuresDetail del servidor");
         }

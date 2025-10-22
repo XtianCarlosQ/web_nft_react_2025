@@ -1,63 +1,5 @@
 [
   {
-    "id": "analisis-laboratorio",
-    "icon": "BarChart3",
-    "title": {
-      "es": "Análisis de Laboratorio",
-      "en": "Laboratory Analysis"
-    },
-    "description": {
-      "es": "Servicios especializados de caracterización de fibras con precisión científica.",
-      "en": "Specialized fiber characterization services with scientific precision."
-    },
-    "features": {
-      "es": [
-        "MDF, CVMDF, DEMDF",
-        "Factores de confort",
-        "Protocolos validados",
-        "Reportes técnicos"
-      ],
-      "en": [
-        "MDF, CVMDF, DEMDF",
-        "Comfort factors",
-        "Validated protocols",
-        "Technical reports"
-      ]
-    },
-    "order": 1,
-    "whatsapp": "51988496839",
-    "archived": false
-  },
-  {
-    "id": "id-colaborativo",
-    "icon": "Lightbulb",
-    "title": {
-      "es": "I+D Colaborativo",
-      "en": "Collaborative R&D"
-    },
-    "description": {
-      "es": "Investigación aplicada junto a universidades e instituciones para crear nuevas soluciones.",
-      "en": "Applied research with universities and institutions to create new solutions."
-    },
-    "features": {
-      "es": [
-        "Publicaciones y patentes",
-        "Desarrollo conjunto",
-        "Transferencia tecnológica",
-        "Prototipado"
-      ],
-      "en": [
-        "Publications and patents",
-        "Joint development",
-        "Technology transfer",
-        "Prototyping"
-      ]
-    },
-    "order": 2,
-    "whatsapp": "51988496839",
-    "archived": false
-  },
-  {
     "id": "proyectos-medida",
     "icon": "Users",
     "title": {
@@ -82,7 +24,36 @@
         "Scalability"
       ]
     },
-    "order": 3,
+    "order": 1,
+    "whatsapp": "51988496839",
+    "archived": false
+  },
+  {
+    "id": "analisis-laboratorio",
+    "icon": "BarChart3",
+    "title": {
+      "es": "Análisis de Laboratorio",
+      "en": "Laboratory Analysis"
+    },
+    "description": {
+      "es": "Servicios especializados de caracterización de fibras con precisión científica.",
+      "en": "Specialized fiber characterization services with scientific precision."
+    },
+    "features": {
+      "es": [
+        "MDF, CVMDF, DEMDF",
+        "Factores de confort",
+        "Protocolos validados",
+        "Reportes técnicos"
+      ],
+      "en": [
+        "MDF, CVMDF, DEMDF",
+        "Comfort factors",
+        "Validated protocols",
+        "Technical reports"
+      ]
+    },
+    "order": 2,
     "whatsapp": "51988496839",
     "archived": false
   },
@@ -111,7 +82,7 @@
         "Software updates"
       ]
     },
-    "order": 4,
+    "order": 3,
     "whatsapp": "51988496839"
   },
   {
@@ -139,8 +110,37 @@
         "Hands-on workshops"
       ]
     },
-    "order": 5,
+    "order": 4,
     "whatsapp": "51988496839"
+  },
+  {
+    "id": "id-colaborativo",
+    "icon": "Lightbulb",
+    "title": {
+      "es": "I+D Colaborativo",
+      "en": "Collaborative R&D"
+    },
+    "description": {
+      "es": "Investigación aplicada junto a universidades e instituciones para crear nuevas soluciones.",
+      "en": "Applied research with universities and institutions to create new solutions."
+    },
+    "features": {
+      "es": [
+        "Publicaciones y patentes",
+        "Desarrollo conjunto",
+        "Transferencia tecnológica",
+        "Prototipado"
+      ],
+      "en": [
+        "Publications and patents",
+        "Joint development",
+        "Technology transfer",
+        "Prototyping"
+      ]
+    },
+    "order": 5,
+    "whatsapp": "51988496839",
+    "archived": false
   },
   {
     "id": "consultoria-tecnica",
@@ -194,7 +194,7 @@
         "theory of relativity"
       ]
     },
-    "order": 1,
+    "order": 7,
     "whatsapp": "51988496839",
     "archived": true
   }

@@ -1,27 +1,25 @@
 [
   {
-    "id": "analisis-laboratorio",
-    "icon": "BarChart3",
+    "id": "service-r1uxhr",
+    "icon": "Lightbulb",
     "title": {
-      "es": "Análisis de Laboratorio",
-      "en": "Laboratory Analysis"
+      "es": "Servicio de Estadística II",
+      "en": "Statistics Service II"
     },
     "description": {
-      "es": "Servicios especializados de caracterización de fibras con precisión científica.",
-      "en": "Specialized fiber characterization services with scientific precision."
+      "es": "Servicios de estadística para tesis y redacción. temas de búsqueda.",
+      "en": "Statistics services for thesis and writing. search topics."
     },
     "features": {
       "es": [
-        "MDF, CVMDF, DEMDF",
-        "Factores de confort",
-        "Protocolos validados",
-        "Reportes técnicos"
+        "Estadística",
+        "teoría de campo",
+        "teoría de la relatividad"
       ],
       "en": [
-        "MDF, CVMDF, DEMDF",
-        "Comfort factors",
-        "Validated protocols",
-        "Technical reports"
+        "Statistics",
+        "field theory",
+        "theory of relativity"
       ]
     },
     "order": 1,
@@ -87,6 +85,35 @@
     "archived": false
   },
   {
+    "id": "analisis-laboratorio",
+    "icon": "BarChart3",
+    "title": {
+      "es": "Análisis de Laboratorio",
+      "en": "Laboratory Analysis"
+    },
+    "description": {
+      "es": "Servicios especializados de caracterización de fibras con precisión científica.",
+      "en": "Specialized fiber characterization services with scientific precision."
+    },
+    "features": {
+      "es": [
+        "MDF, CVMDF, DEMDF",
+        "Factores de confort",
+        "Protocolos validados",
+        "Reportes técnicos"
+      ],
+      "en": [
+        "MDF, CVMDF, DEMDF",
+        "Comfort factors",
+        "Validated protocols",
+        "Technical reports"
+      ]
+    },
+    "order": 4,
+    "whatsapp": "51988496839",
+    "archived": false
+  },
+  {
     "id": "implementacion-soporte",
     "icon": "Settings",
     "title": {
@@ -111,7 +138,7 @@
         "Software updates"
       ]
     },
-    "order": 4,
+    "order": 5,
     "whatsapp": "51988496839"
   },
   {
@@ -139,7 +166,7 @@
         "Hands-on workshops"
       ]
     },
-    "order": 5,
+    "order": 6,
     "whatsapp": "51988496839"
   },
   {
@@ -167,35 +194,8 @@
         "Diagnosis and roadmap"
       ]
     },
-    "order": 6,
+    "order": 7,
     "whatsapp": "51988496839",
     "archived": false
-  },
-  {
-    "id": "service-r1uxhr",
-    "icon": "Lightbulb",
-    "title": {
-      "es": "Servicio de Estadística II",
-      "en": "Statistics Service II"
-    },
-    "description": {
-      "es": "Servicios de estadística para tesis y redacción. temas de búsqueda.",
-      "en": "Statistics services for thesis and writing. search topics."
-    },
-    "features": {
-      "es": [
-        "Estadística",
-        "teoría de campo",
-        "teoría de la relatividad"
-      ],
-      "en": [
-        "Statistics",
-        "field theory",
-        "theory of relativity"
-      ]
-    },
-    "order": 1,
-    "whatsapp": "51988496839",
-    "archived": true
   }
 ]

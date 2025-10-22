@@ -1,34 +1,5 @@
 [
   {
-    "id": "analisis-laboratorio",
-    "icon": "BarChart3",
-    "title": {
-      "es": "Análisis de Laboratorio",
-      "en": "Laboratory Analysis"
-    },
-    "description": {
-      "es": "Servicios especializados de caracterización de fibras con precisión científica.",
-      "en": "Specialized fiber characterization services with scientific precision."
-    },
-    "features": {
-      "es": [
-        "MDF, CVMDF, DEMDF",
-        "Factores de confort",
-        "Protocolos validados",
-        "Reportes técnicos"
-      ],
-      "en": [
-        "MDF, CVMDF, DEMDF",
-        "Comfort factors",
-        "Validated protocols",
-        "Technical reports"
-      ]
-    },
-    "order": 1,
-    "whatsapp": "51988496839",
-    "archived": false
-  },
-  {
     "id": "id-colaborativo",
     "icon": "Lightbulb",
     "title": {
@@ -53,7 +24,7 @@
         "Prototyping"
       ]
     },
-    "order": 2,
+    "order": 1,
     "whatsapp": "51988496839",
     "archived": false
   },
@@ -80,6 +51,35 @@
         "Automation",
         "Custom dashboards and reports",
         "Scalability"
+      ]
+    },
+    "order": 2,
+    "whatsapp": "51988496839",
+    "archived": false
+  },
+  {
+    "id": "analisis-laboratorio",
+    "icon": "BarChart3",
+    "title": {
+      "es": "Análisis de Laboratorio",
+      "en": "Laboratory Analysis"
+    },
+    "description": {
+      "es": "Servicios especializados de caracterización de fibras con precisión científica.",
+      "en": "Specialized fiber characterization services with scientific precision."
+    },
+    "features": {
+      "es": [
+        "MDF, CVMDF, DEMDF",
+        "Factores de confort",
+        "Protocolos validados",
+        "Reportes técnicos"
+      ],
+      "en": [
+        "MDF, CVMDF, DEMDF",
+        "Comfort factors",
+        "Validated protocols",
+        "Technical reports"
       ]
     },
     "order": 3,

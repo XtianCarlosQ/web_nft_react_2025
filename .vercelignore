@@ -6,9 +6,10 @@ disabled_api/
 # Defensive: ignore any files named with 'copy' (created during development)
 
 api/_copy_
-api/_copy_.*
+api/_copy_.\*
 
 # Ignore legacy auth folder (we provide a top-level api/auth.js wrapper)
+
 api/auth/
 !api/auth.js
 
