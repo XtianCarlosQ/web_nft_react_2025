@@ -46,60 +46,91 @@ module.exports = async (req, res) => {
 
   // Decide action based on path and method
   try {
-    // /api/auth/login -> POST
-    if (pathname.endsWith("/api/auth/login") && req.method === "POST") {
+    // ✅ NUEVO: Sistema action-based para /api/auth
+    // En lugar de múltiples rutas (/api/auth/login, /api/auth/logout, etc.)
+    // ahora usamos una sola ruta /api/auth con un campo "action" en el body
+    if (pathname.endsWith("/api/auth") && req.method === "POST") {
       const parsed = await readParsedBody(req);
-      const username = (parsed?.username || "").trim();
-      const password = (parsed?.password || "").trim();
+      const action = (parsed?.action || "").trim();
 
-      if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD) {
-        res.statusCode = 500;
-        return res.end(
-          JSON.stringify({ ok: false, error: "missing_env_admin_credentials" })
-        );
-      }
-      if (!process.env.JWT_SECRET) {
-        res.statusCode = 500;
-        return res.end(
-          JSON.stringify({ ok: false, error: "missing_env_jwt_secret" })
-        );
+      // 🔐 LOGIN: Valida credenciales y crea cookie de sesión
+      if (action === "login") {
+        const username = (parsed?.username || "").trim();
+        const password = (parsed?.password || "").trim();
+
+        // Verificar que las variables de entorno existan
+        if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD) {
+          res.statusCode = 500;
+          return res.end(
+            JSON.stringify({
+              ok: false,
+              error: "missing_env_admin_credentials",
+            })
+          );
+        }
+        if (!process.env.JWT_SECRET) {
+          res.statusCode = 500;
+          return res.end(
+            JSON.stringify({ ok: false, error: "missing_env_jwt_secret" })
+          );
+        }
+
+        // Comparar credenciales con las almacenadas en .env
+        const envUser = (process.env.ADMIN_USERNAME || "").trim();
+        const envPass = (process.env.ADMIN_PASSWORD || "").trim();
+        const okUser = username === envUser;
+        const okPass = password === envPass;
+
+        if (!okUser || !okPass) {
+          res.statusCode = 401;
+          return res.end(
+            JSON.stringify({ ok: false, error: "invalid_credentials" })
+          );
+        }
+
+        // ✅ Credenciales válidas: crear token JWT y cookie
+        const token = signToken({ u: username });
+        setAuthCookie(res, token);
+        return res.end(JSON.stringify({ ok: true }));
       }
 
-      const envUser = (process.env.ADMIN_USERNAME || "").trim();
-      const envPass = (process.env.ADMIN_PASSWORD || "").trim();
-      const okUser = username === envUser;
-      const okPass = password === envPass;
-      if (!okUser || !okPass) {
-        res.statusCode = 401;
-        return res.end(
-          JSON.stringify({ ok: false, error: "invalid_credentials" })
-        );
+      // 🚪 LOGOUT: Elimina la cookie de sesión
+      // Nota: Usa POST (no GET) porque cambia el estado del servidor
+      if (action === "logout") {
+        clearAuthCookie(res);
+        return res.end(JSON.stringify({ ok: true }));
       }
 
-      const token = signToken({ u: username });
-      setAuthCookie(res, token);
-      return res.end(JSON.stringify({ ok: true }));
+      // ❌ Action no reconocido para POST
+      res.statusCode = 400;
+      return res.end(JSON.stringify({ ok: false, error: "invalid_action" }));
     }
 
-    // /api/auth/me -> GET
-    if (pathname.endsWith("/api/auth/me") && req.method === "GET") {
-      const user = verifyTokenFromCookie(req);
-      if (!user) return res.end(JSON.stringify({ authenticated: false }));
-      return res.end(
-        JSON.stringify({ authenticated: true, user: { name: user.u } })
-      );
+    // ✅ NUEVO: Verificación de sesión con GET (operación de solo lectura)
+    // GET /api/auth?action=me
+    // Ventaja: usa query params porque GET no tiene body
+    if (pathname.endsWith("/api/auth") && req.method === "GET") {
+      const url = new URL(req.url, "http://localhost");
+      const action = url.searchParams.get("action");
+
+      // 🔍 ME: Verifica si hay una sesión activa (cookie válida)
+      if (action === "me") {
+        const user = verifyTokenFromCookie(req);
+        if (!user) {
+          return res.end(JSON.stringify({ authenticated: false }));
+        }
+        return res.end(
+          JSON.stringify({ authenticated: true, user: { name: user.u } })
+        );
+      }
+
+      // ❌ Action no reconocido para GET
+      res.statusCode = 400;
+      return res.end(JSON.stringify({ ok: false, error: "invalid_action" }));
     }
 
-    // /api/auth/logout -> POST or GET
-    if (
-      pathname.endsWith("/api/auth/logout") &&
-      (req.method === "POST" || req.method === "GET")
-    ) {
-      clearAuthCookie(res);
-      return res.end(JSON.stringify({ ok: true }));
-    }
-
-    // If reached here, method or path not allowed
+    // ✅ Todas las rutas legacy eliminadas - ahora solo usamos action-based
+    // Si llegamos aquí, la ruta o método no está permitido
     res.statusCode = 404;
     return res.end(JSON.stringify({ ok: false, error: "not_found" }));
   } catch (err) {

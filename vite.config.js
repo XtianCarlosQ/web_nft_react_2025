@@ -72,66 +72,106 @@ export default defineConfig(({ mode }) => {
           res.end(JSON.stringify(obj));
         };
 
-        // Auth routes
-        if (url.pathname === "/api/auth/me" && req.method === "GET") {
-          const cookies = parseCookies(req);
-          const token = cookies[COOKIE_NAME];
-          // Dev convenience: if admin creds are not configured, auto-authenticate
-          const devNoCreds =
-            !process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD;
-          if (devNoCreds && !token) {
-            try {
-              const t = jwt.sign({ u: "dev" }, process.env.JWT_SECRET, {
-                expiresIn: 60 * 60 * 12,
-              });
-              setCookie(res, COOKIE_NAME, t, { maxAge: 60 * 60 * 12 });
-              return send(200, { authenticated: true, user: { name: "dev" } });
-            } catch {
-              // fall-through
-            }
-          }
-          if (!token || !process.env.JWT_SECRET)
-            return send(200, { authenticated: false });
-          try {
-            const user = jwt.verify(token, process.env.JWT_SECRET);
-            return send(200, { authenticated: true, user: { name: user.u } });
-          } catch {
-            return send(200, { authenticated: false });
-          }
-        }
-
-        if (url.pathname === "/api/auth/login" && req.method === "POST") {
+        // ✅ NUEVO: Auth routes con sistema action-based unificado
+        // Sistema refactorizado: una sola ruta /api/auth con campo "action"
+        // Ventaja: reduce funciones serverless de 3 a 1 (cumple límite Vercel)
+        if (url.pathname === "/api/auth" && req.method === "POST") {
           const raw = await readBody(req);
           let body = {};
           try {
             body = raw ? JSON.parse(raw) : {};
           } catch {}
-          if (
-            !process.env.ADMIN_USERNAME ||
-            !process.env.ADMIN_PASSWORD ||
-            !process.env.JWT_SECRET
-          ) {
-            return send(500, { ok: false, error: "missing_env" });
+
+          const action = (body?.action || "").trim();
+
+          // 🔐 ACTION: login - Valida credenciales y crea sesión
+          if (action === "login") {
+            if (
+              !process.env.ADMIN_USERNAME ||
+              !process.env.ADMIN_PASSWORD ||
+              !process.env.JWT_SECRET
+            ) {
+              return send(500, { ok: false, error: "missing_env" });
+            }
+            if (
+              body.username !== process.env.ADMIN_USERNAME ||
+              body.password !== process.env.ADMIN_PASSWORD
+            ) {
+              return send(401, { ok: false, error: "invalid_credentials" });
+            }
+            const token = jwt.sign(
+              { u: body.username },
+              process.env.JWT_SECRET,
+              {
+                expiresIn: 60 * 60 * 2,
+              }
+            );
+            setCookie(res, COOKIE_NAME, token, { maxAge: 60 * 60 * 2 });
+            return send(200, { ok: true });
           }
-          if (
-            body.username !== process.env.ADMIN_USERNAME ||
-            body.password !== process.env.ADMIN_PASSWORD
-          ) {
-            return send(401, { ok: false, error: "invalid_credentials" });
+
+          // 🚪 ACTION: logout - Elimina cookie de sesión
+          if (action === "logout") {
+            setCookie(res, COOKIE_NAME, "", { maxAge: 0 });
+            return send(200, { ok: true });
           }
-          const token = jwt.sign({ u: body.username }, process.env.JWT_SECRET, {
-            expiresIn: 60 * 60 * 2,
-          });
-          setCookie(res, COOKIE_NAME, token, { maxAge: 60 * 60 * 2 });
-          return send(200, { ok: true });
+
+          // ❌ Action no reconocido para POST
+          return send(400, { ok: false, error: "invalid_action" });
         }
 
-        if (url.pathname === "/api/auth/logout") {
-          setCookie(res, COOKIE_NAME, "", { maxAge: 0 });
-          return send(200, { ok: true });
+        // ✅ NUEVO: Verificación de sesión con GET (solo lectura)
+        // GET /api/auth?action=me
+        // Usa query params porque GET no puede tener body
+        if (url.pathname === "/api/auth" && req.method === "GET") {
+          const action = url.searchParams.get("action");
+
+          // 🔍 ACTION: me - Verifica si hay sesión activa
+          if (action === "me") {
+            const cookies = parseCookies(req);
+            const token = cookies[COOKIE_NAME];
+
+            // Dev convenience: si no hay credenciales configuradas, auto-autenticar
+            const devNoCreds =
+              !process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD;
+            if (devNoCreds && !token) {
+              try {
+                const t = jwt.sign({ u: "dev" }, process.env.JWT_SECRET, {
+                  expiresIn: 60 * 60 * 12,
+                });
+                setCookie(res, COOKIE_NAME, t, { maxAge: 60 * 60 * 12 });
+                return send(200, {
+                  authenticated: true,
+                  user: { name: "dev" },
+                });
+              } catch {
+                // fall-through
+              }
+            }
+
+            if (!token || !process.env.JWT_SECRET) {
+              return send(200, { authenticated: false });
+            }
+
+            try {
+              const user = jwt.verify(token, process.env.JWT_SECRET);
+              return send(200, {
+                authenticated: true,
+                user: { name: user.u },
+              });
+            } catch {
+              return send(200, { authenticated: false });
+            }
+          }
+
+          // ❌ Action no reconocido para GET
+          return send(400, { ok: false, error: "invalid_action" });
         }
 
-        // Protected routes
+        // ✅ Todas las rutas legacy eliminadas - ahora solo usamos action-based
+        // Sistema unificado: POST /api/auth (login, logout) y GET /api/auth?action=me
+
+        // Protected routes (validación de autenticación para otros endpoints)
         const cookies = parseCookies(req);
         let authed = false;
         if (cookies[COOKIE_NAME] && process.env.JWT_SECRET) {

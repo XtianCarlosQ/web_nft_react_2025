@@ -50,15 +50,31 @@ async function fetchJson(url, options = {}) {
   return data;
 }
 
+/**
+ * 🔐 useAuth: Hook que verifica si el usuario está autenticado
+ * 
+ * Sistema refactorizado action-based:
+ * - Antes: GET /api/auth/me
+ * - Ahora: GET /api/auth?action=me
+ * 
+ * ¿Por qué GET y no POST?
+ * - Solo CONSULTA el estado (no lo cambia)
+ * - Las operaciones de solo lectura usan GET
+ * - Los parámetros van en la query string (?action=me)
+ * 
+ * Se ejecuta una vez al montar el componente para verificar
+ * si ya existe una sesión activa (cookie válida)
+ */
 function useAuth() {
   const [auth, setAuth] = useState({ loading: true, ok: false });
   useEffect(() => {
     (async () => {
       try {
-        const d = await fetchJson("/api/auth/me");
+        // ✅ Nueva ruta: agregar ?action=me como query parameter
+        const d = await fetchJson("/api/auth?action=me");
         setAuth({ loading: false, ok: !!d.authenticated });
       } catch {
-        // API not available or not logged in
+        // API no disponible o no logueado
         setAuth({ loading: false, ok: false });
       }
     })();
@@ -226,18 +242,36 @@ export default function AdminApp() {
     }
   }, [auth]);
 
+  /**
+   * 🔐 LOGIN: Maneja el envío del formulario de inicio de sesión
+   *
+   * Sistema refactorizado action-based:
+   * - Antes: POST a /api/auth/login con {username, password}
+   * - Ahora: POST a /api/auth con {action: "login", username, password}
+   *
+   * Ventajas:
+   * - Reduce funciones serverless (de 3 archivos a 1)
+   * - Código más organizado y escalable
+   * - Cumple límite de 12 funciones en Vercel Hobby
+   */
   async function login(e) {
     e.preventDefault();
     try {
+      // ✅ Nuevo formato: agregar campo "action" al payload
       const payload = {
+        action: "login", // 🔑 Indica qué operación queremos realizar
         username: (form.username || "").trim(),
         password: (form.password || "").trim(),
       };
-      const d = await fetchJson("/api/auth/login", {
+
+      // ✅ Nueva ruta: /api/auth (unificada) en lugar de /api/auth/login
+      const d = await fetchJson("/api/auth", {
         method: "POST",
         body: JSON.stringify(payload),
       });
+
       if (d?.ok) {
+        // Login exitoso: recargar para obtener nueva sesión
         window.location.reload();
       } else {
         alert("Credenciales inválidas");
@@ -254,8 +288,32 @@ export default function AdminApp() {
     }
   }
 
-  function logout() {
-    fetch("/api/auth/logout").then(() => window.location.reload());
+  /**
+   * 🚪 LOGOUT: Cierra la sesión del usuario
+   * 
+   * Sistema refactorizado action-based:
+   * - Antes: POST/GET a /api/auth/logout
+   * - Ahora: POST a /api/auth con {action: "logout"}
+   * 
+   * ¿Por qué POST?
+   * - Operaciones que cambian estado del servidor deben ser POST
+   * - Logout elimina la cookie de sesión (cambio de estado)
+   * - Más seguro que GET (no se puede activar con un link malicioso)
+   */
+  async function logout() {
+    try {
+      // ✅ Nuevo formato: usar action-based
+      await fetchJson("/api/auth", {
+        method: "POST",
+        body: JSON.stringify({ action: "logout" }), // 🔑 Indica la operación
+      });
+    } catch (err) {
+      // Incluso si falla, recargar para limpiar estado local
+      console.warn("Logout API error:", err);
+    } finally {
+      // Recargar la página para limpiar todo el estado de React
+      window.location.reload();
+    }
   }
 
   function loadServices() {

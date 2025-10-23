@@ -1,10 +1,14 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { ThemeProvider } from "./context/ThemeContext";
 import { LanguageProvider } from "./context/LanguageContext";
 import { GridProvider } from "./context/GridContext";
 import { ProductsProvider } from "./context/ProductsContext";
 import Navbar from "./components/layout/Navbar";
 import { Routes, Route, Link } from "react-router-dom";
+
+// ========================================
+// ✅ WEB PÚBLICA - Carga inmediata
+// ========================================
 import Hero from "./components/sections/Hero";
 import Products from "./components/sections/Products";
 import Team from "./components/sections/Team";
@@ -16,11 +20,25 @@ import ProductDetail from "./pages/products/ProductDetail";
 import InvestigacionLanding from "./pages/investigacion/InvestigacionLanding";
 import InvestigacionDetail from "./pages/investigacion/InvestigacionDetail";
 import Footer from "./components/layout/Footer";
-import AdminApp from "./pages/admin/AdminApp";
 import WhatsAppButton from "./components/common/WhatsAppButton";
 import GridOverlay from "./components/GridOverlay";
 import ScrollToTop from "./components/ScrollToTop";
 import ErrorBoundary from "./components/ErrorBoundary";
+
+// ========================================
+// 🔐 CMS - Carga bajo demanda (lazy)
+// ========================================
+const AdminApp = lazy(() => import("./pages/admin/AdminApp"));
+
+// Loading screen mientras carga el CMS
+const LoadingScreen = () => (
+  <div className="flex items-center justify-center min-h-screen bg-gray-50">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-red-600 mx-auto mb-4"></div>
+      <p className="text-gray-600 font-medium">Cargando panel de administración...</p>
+    </div>
+  </div>
+);
 
 const App = () => {
   return (
@@ -135,25 +153,29 @@ const App = () => {
                       </>
                     }
                   />
+                  
+                  {/* ========================================
+                      🔐 CMS - ADMIN ONLY (lazy loading)
+                      ======================================== */}
                   <Route
                     path="/adminx"
                     element={
-                      <>
+                      <Suspense fallback={<LoadingScreen />}>
                         <main className="pt-16">
                           <AdminApp />
                         </main>
-                      </>
+                      </Suspense>
                     }
                   />
                   {/* Allow section-prefixed admin path, e.g., /contacto/adminx */}
                   <Route
                     path="/:prefix/adminx"
                     element={
-                      <>
+                      <Suspense fallback={<LoadingScreen />}>
                         <main className="pt-16">
                           <AdminApp />
                         </main>
-                      </>
+                      </Suspense>
                     }
                   />
                 </Routes>
