@@ -488,6 +488,132 @@
     }
   },
   {
+    "id": "fiber-tst",
+    "name": {
+      "es": "FIBER TST V2.0",
+      "en": "FIBER TST"
+    },
+    "tagline": {
+      "es": "Medidor de Esfuerzo a la Tracción",
+      "en": "Tensile Strength Meter"
+    },
+    "description": {
+      "es": "Medidor de esfuerzo a la tracción con tecnología de muestreo en tiempo real y graficado automático.",
+      "en": "Tensile stress meter with real-time sampling and automatic graphing technology."
+    },
+    "descriptionDetail": {
+      "es": "Medidor de esfuerzo a la tracción de fibras (Tensile Strength Tester) que utiliza tecnología de muestreo de datos en tiempo real con almacenamiento y graficado automático.",
+      "en": "Fiber tensile strength meter (Tensile Strength Tester) that uses real-time data sampling technology with automatic storage and graphing."
+    },
+    "image": "/uploads/FIBER TST.png",
+    "category": {
+      "es": "Análisis de Resistencia",
+      "en": "Resistance Analysis"
+    },
+    "features": {
+      "es": [
+        "Velocidad 6-64 mm/s",
+        "Gráficos en tiempo real",
+        "Máximo 30 kg",
+        "Sistema neumático"
+      ],
+      "en": [
+        "Speed ​​6-64mm/s",
+        "Real-time graphics",
+        "Maximum 30kg",
+        "Pneumatic system"
+      ]
+    },
+    "featuresDetail": [
+      {
+        "icon": "Activity",
+        "title": {
+          "es": "Tiempo Real",
+          "en": "Real time"
+        },
+        "description": {
+          "es": "Muestreo de datos y graficado en tiempo real durante las pruebas",
+          "en": "Data sampling and real-time graphing during testing"
+        }
+      },
+      {
+        "icon": "BarChart3",
+        "title": {
+          "es": "Análisis Completo",
+          "en": "Complete Analysis"
+        },
+        "description": {
+          "es": "Esfuerzo máximo, media, coeficiente de variación y punto de ruptura",
+          "en": "Maximum stress, mean, coefficient of variation and breaking point"
+        }
+      },
+      {
+        "icon": "Settings",
+        "title": {
+          "es": "Velocidad Variable",
+          "en": "Variable Speed"
+        },
+        "description": {
+          "es": "Opciones de velocidad desde 6 hasta 64 mm/s para diferentes tipos de fibra",
+          "en": "Speed ​​options from 6 to 64 mm/s for different fiber types"
+        }
+      },
+      {
+        "icon": "Shield",
+        "title": {
+          "es": "Seguridad",
+          "en": "Security"
+        },
+        "description": {
+          "es": "Mecanismo de seguridad integrado con accesorios especializados",
+          "en": "Integrated safety mechanism with specialized accessories"
+        }
+      }
+    ],
+    "specifications": {
+      "es": {
+        "Tipo": "Equipo de sobremesa",
+        "Peso": "Máximo 30 kg",
+        "Dimensiones": "80 cm x 40 cm x 36 cm",
+        "Consumo": "150 W",
+        "Alimentación": "220-240 VAC, 50-60 Hz",
+        "Velocidad": "6 a 64 mm/s"
+      },
+      "en": {
+        "Type": "Desktop equipment",
+        "Weight": "Maximum 30 kg",
+        "Dimensions": "80 cm x 40 cm x 36 cm",
+        "Consumption": "150 W",
+        "Power Supply": "220-240 VAC, 50-60 Hz",
+        "Speed": "6 to 64 mm/s"
+      }
+    },
+    "capabilities": {
+      "es": [
+        "Esfuerzo a la tracción máxima (N/Ktex)",
+        "Media del esfuerzo a la tracción máxima (MET)",
+        "Fuerza máxima a la rotura (N)",
+        "Coeficiente de Variación y Desviación Estándar"
+      ],
+      "en": [
+        "Maximum tensile stress (N/Ktex)",
+        "Mean maximum tensile stress (MET)",
+        "Maximum breaking force (N)",
+        "Coefficient of Variation and Standard Deviation"
+      ]
+    },
+    "youtubeVideo": "https://www.youtube.com/watch?v=-b4Ztxmlbjw",
+    "additionalImages": [
+      "/assets/images/products/FIBER TST.png"
+    ],
+    "order": 5,
+    "archived": false,
+    "technicalSheets": {
+      "es": "/assets/images/products/pdf/FIBER_TST_V2.0.pdf",
+      "en": "/assets/images/products/pdf/FIBER_TST_V2.0.pdf"
+    }
+  },
+  {
     "id": "medulometro",
     "name": {
       "es": "MEDULÓMETRO",
@@ -602,7 +728,7 @@
     "additionalImages": [
       "/assets/images/products/medulometro.png"
     ],
-    "order": 5,
+    "order": 6,
     "archived": false,
     "technicalSheets": {
       "es": "/assets/images/products/pdf/Medulometro_es.pdf",
@@ -728,137 +854,11 @@
     "additionalImages": [
       "/assets/images/products/Fiber-Den-1.png"
     ],
-    "order": 6,
+    "order": 7,
     "archived": false,
     "technicalSheets": {
       "es": "/assets/images/products/pdf/FIBER_DEN_es.pdf",
       "en": "/assets/images/products/pdf/FIBER_DEN_es.pdf"
-    }
-  },
-  {
-    "id": "fiber-tst",
-    "name": {
-      "es": "FIBER TST V2.0",
-      "en": "FIBER TST"
-    },
-    "tagline": {
-      "es": "Medidor de Esfuerzo a la Tracción",
-      "en": "Tensile Strength Meter"
-    },
-    "description": {
-      "es": "Medidor de esfuerzo a la tracción con tecnología de muestreo en tiempo real y graficado automático.",
-      "en": "Tensile stress meter with real-time sampling and automatic graphing technology."
-    },
-    "descriptionDetail": {
-      "es": "Medidor de esfuerzo a la tracción de fibras (Tensile Strength Tester) que utiliza tecnología de muestreo de datos en tiempo real con almacenamiento y graficado automático.",
-      "en": "Fiber tensile strength meter (Tensile Strength Tester) that uses real-time data sampling technology with automatic storage and graphing."
-    },
-    "image": "/uploads/FIBER TST.png",
-    "category": {
-      "es": "Análisis de Resistencia",
-      "en": "Resistance Analysis"
-    },
-    "features": {
-      "es": [
-        "Velocidad 6-64 mm/s",
-        "Gráficos en tiempo real",
-        "Máximo 30 kg",
-        "Sistema neumático"
-      ],
-      "en": [
-        "Speed ​​6-64mm/s",
-        "Real-time graphics",
-        "Maximum 30kg",
-        "Pneumatic system"
-      ]
-    },
-    "featuresDetail": [
-      {
-        "icon": "Activity",
-        "title": {
-          "es": "Tiempo Real",
-          "en": "Real time"
-        },
-        "description": {
-          "es": "Muestreo de datos y graficado en tiempo real durante las pruebas",
-          "en": "Data sampling and real-time graphing during testing"
-        }
-      },
-      {
-        "icon": "BarChart3",
-        "title": {
-          "es": "Análisis Completo",
-          "en": "Complete Analysis"
-        },
-        "description": {
-          "es": "Esfuerzo máximo, media, coeficiente de variación y punto de ruptura",
-          "en": "Maximum stress, mean, coefficient of variation and breaking point"
-        }
-      },
-      {
-        "icon": "Settings",
-        "title": {
-          "es": "Velocidad Variable",
-          "en": "Variable Speed"
-        },
-        "description": {
-          "es": "Opciones de velocidad desde 6 hasta 64 mm/s para diferentes tipos de fibra",
-          "en": "Speed ​​options from 6 to 64 mm/s for different fiber types"
-        }
-      },
-      {
-        "icon": "Shield",
-        "title": {
-          "es": "Seguridad",
-          "en": "Security"
-        },
-        "description": {
-          "es": "Mecanismo de seguridad integrado con accesorios especializados",
-          "en": "Integrated safety mechanism with specialized accessories"
-        }
-      }
-    ],
-    "specifications": {
-      "es": {
-        "Tipo": "Equipo de sobremesa",
-        "Peso": "Máximo 30 kg",
-        "Dimensiones": "80 cm x 40 cm x 36 cm",
-        "Consumo": "150 W",
-        "Alimentación": "220-240 VAC, 50-60 Hz",
-        "Velocidad": "6 a 64 mm/s"
-      },
-      "en": {
-        "Type": "Desktop equipment",
-        "Weight": "Maximum 30 kg",
-        "Dimensions": "80 cm x 40 cm x 36 cm",
-        "Consumption": "150 W",
-        "Power Supply": "220-240 VAC, 50-60 Hz",
-        "Speed": "6 to 64 mm/s"
-      }
-    },
-    "capabilities": {
-      "es": [
-        "Esfuerzo a la tracción máxima (N/Ktex)",
-        "Media del esfuerzo a la tracción máxima (MET)",
-        "Fuerza máxima a la rotura (N)",
-        "Coeficiente de Variación y Desviación Estándar"
-      ],
-      "en": [
-        "Maximum tensile stress (N/Ktex)",
-        "Mean maximum tensile stress (MET)",
-        "Maximum breaking force (N)",
-        "Coefficient of Variation and Standard Deviation"
-      ]
-    },
-    "youtubeVideo": "https://www.youtube.com/watch?v=-b4Ztxmlbjw",
-    "additionalImages": [
-      "/assets/images/products/FIBER TST.png"
-    ],
-    "order": 7,
-    "archived": false,
-    "technicalSheets": {
-      "es": "/assets/images/products/pdf/FIBER_TST_V2.0.pdf",
-      "en": "/assets/images/products/pdf/FIBER_TST_V2.0.pdf"
     }
   },
   {
