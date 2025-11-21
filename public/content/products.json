@@ -738,7 +738,7 @@
   {
     "id": "fiber-tst",
     "name": {
-      "es": "FIBER TST",
+      "es": "FIBER TST V2.0",
       "en": "FIBER TST"
     },
     "tagline": {
@@ -753,7 +753,7 @@
       "es": "Medidor de esfuerzo a la tracción de fibras (Tensile Strength Tester) que utiliza tecnología de muestreo de datos en tiempo real con almacenamiento y graficado automático.",
       "en": "Fiber tensile strength meter (Tensile Strength Tester) that uses real-time data sampling technology with automatic storage and graphing."
     },
-    "image": "/assets/images/products/FIBER TST.png",
+    "image": "/uploads/FIBER TST.png",
     "category": {
       "es": "Análisis de Resistencia",
       "en": "Resistance Analysis"
