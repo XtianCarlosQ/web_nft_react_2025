@@ -364,128 +364,6 @@
     }
   },
   {
-    "id": "medulometro",
-    "name": {
-      "es": "MEDULÓMETRO",
-      "en": "MEDULOMETER"
-    },
-    "tagline": {
-      "es": "Microscopio de Proyección Computarizado",
-      "en": "Computer Projection Microscope"
-    },
-    "description": {
-      "es": "Versión básica del FIBER MED. Microscopio de proyección computarizado para análisis de medulación.",
-      "en": "Basic version of FIBER MED. Computerized projection microscope for bone marrow analysis."
-    },
-    "descriptionDetail": {
-      "es": "Versión básica del FIBER MED. Microscopio de proyección computarizado y semi-automatizado para evaluar la calidad de fibras mediante interpretación de imágenes digitales.",
-      "en": "Basic version of FIBER MED. Computerized and semi-automated projection microscope to evaluate fiber quality through digital image interpretation."
-    },
-    "image": "/assets/images/products/medulometro.png",
-    "category": {
-      "es": "Análisis Básico de Medulación",
-      "en": "Basic Marrow Analysis"
-    },
-    "features": {
-      "es": [
-        "Microscopio digital",
-        "Semi-automatizado",
-        "10 kg de peso",
-        "Multi-especie"
-      ],
-      "en": [
-        "digital microscope",
-        "Semi-automated",
-        "10kg weight",
-        "Multi-species"
-      ]
-    },
-    "featuresDetail": [
-      {
-        "icon": "Microscope",
-        "title": {
-          "es": "Microscopio Digital",
-          "en": "Digital Microscope"
-        },
-        "description": {
-          "es": "Microscopio de proyección computarizado y semi-automatizado",
-          "en": "Computerized and semi-automated projection microscope"
-        }
-      },
-      {
-        "icon": "BarChart3",
-        "title": {
-          "es": "Análisis por Tipo",
-          "en": "Analysis by Type"
-        },
-        "description": {
-          "es": "Media del diámetro por tipo de medulación y desviación estándar",
-          "en": "Mean diameter by type of pith and standard deviation"
-        }
-      },
-      {
-        "icon": "Shield",
-        "title": {
-          "es": "Multi-especie",
-          "en": "Multi-species"
-        },
-        "description": {
-          "es": "Camélidos, ovinos, cabras, conejos, camellos, vacunos y más",
-          "en": "Camelids, sheep, goats, rabbits, camels, cattle and more"
-        }
-      },
-      {
-        "icon": "Monitor",
-        "title": {
-          "es": "Almacenamiento Digital",
-          "en": "Digital Storage"
-        },
-        "description": {
-          "es": "Transmisión y almacenamiento de base de datos y gráficos",
-          "en": "Database and graphics transmission and storage"
-        }
-      }
-    ],
-    "specifications": {
-      "es": {
-        "Peso": "10 kg",
-        "Dimensiones": "25.3 cm x 18.8 cm x 38.5 cm",
-        "Alimentación": "220-240 VAC, 50-60 Hz",
-        "Componentes": "4 sistemas: Electrónico, Mecánico, Óptico, Software"
-      },
-      "en": {
-        "Weight": "10 kg",
-        "Dimensions": "25.3 cm x 18.8 cm x 38.5 cm",
-        "Power Supply": "220-240 VAC, 50-60 Hz",
-        "Components": "4 systems: Electronic, Mechanical, Optical, Software"
-      }
-    },
-    "capabilities": {
-      "es": [
-        "Media del diámetro de fibra (MDF) por tipo de medulación",
-        "Desviación estándar por tipo de medulación",
-        "Clasificación: no medulada, fragmentada, discontinua, continua",
-        "Transmisión y almacenamiento de datos"
-      ],
-      "en": [
-        "Mean fiber diameter (MFD) by medulla type",
-        "Standard deviation by medulla type",
-        "Classification: non-medullated, fragmented, discontinuous, continuous",
-        "Data transmission and storage"
-      ]
-    },
-    "youtubeVideo": "https://www.youtube.com/watch?v=-b4Ztxmlbjw",
-    "additionalImages": [
-      "/assets/images/products/medulometro.png"
-    ],
-    "order": 4,
-    "archived": false,
-    "technicalSheets": {
-      "es": "/assets/images/products/pdf/Medulometro_es.pdf",
-      "en": "/assets/images/products/pdf/Medulometro_es.pdf"
-    }
-  },
-  {
     "id": "fiber-ec",
     "name": {
       "es": "FIBER EC V5.0",
@@ -602,11 +480,133 @@
     "additionalImages": [
       "/assets/images/products/FIBER EC.png"
     ],
-    "order": 5,
+    "order": 4,
     "archived": false,
     "technicalSheets": {
       "es": "/assets/images/products/pdf/FIBER_EC_es.pdf",
       "en": "/assets/images/products/pdf/FIBER_EC_es.pdf"
+    }
+  },
+  {
+    "id": "medulometro",
+    "name": {
+      "es": "MEDULÓMETRO",
+      "en": "MEDULOMETER"
+    },
+    "tagline": {
+      "es": "Microscopio de Proyección Computarizado",
+      "en": "Computer Projection Microscope"
+    },
+    "description": {
+      "es": "Versión básica del FIBER MED. Microscopio de proyección computarizado para análisis de medulación.",
+      "en": "Basic version of FIBER MED. Computerized projection microscope for bone marrow analysis."
+    },
+    "descriptionDetail": {
+      "es": "Versión básica del FIBER MED. Microscopio de proyección computarizado y semi-automatizado para evaluar la calidad de fibras mediante interpretación de imágenes digitales.",
+      "en": "Basic version of FIBER MED. Computerized and semi-automated projection microscope to evaluate fiber quality through digital image interpretation."
+    },
+    "image": "/assets/images/products/medulometro.png",
+    "category": {
+      "es": "Análisis Básico de Medulación",
+      "en": "Basic Marrow Analysis"
+    },
+    "features": {
+      "es": [
+        "Microscopio digital",
+        "Semi-automatizado",
+        "10 kg de peso",
+        "Multi-especie"
+      ],
+      "en": [
+        "digital microscope",
+        "Semi-automated",
+        "10kg weight",
+        "Multi-species"
+      ]
+    },
+    "featuresDetail": [
+      {
+        "icon": "Microscope",
+        "title": {
+          "es": "Microscopio Digital",
+          "en": "Digital Microscope"
+        },
+        "description": {
+          "es": "Microscopio de proyección computarizado y semi-automatizado",
+          "en": "Computerized and semi-automated projection microscope"
+        }
+      },
+      {
+        "icon": "BarChart3",
+        "title": {
+          "es": "Análisis por Tipo",
+          "en": "Analysis by Type"
+        },
+        "description": {
+          "es": "Media del diámetro por tipo de medulación y desviación estándar",
+          "en": "Mean diameter by type of pith and standard deviation"
+        }
+      },
+      {
+        "icon": "Shield",
+        "title": {
+          "es": "Multi-especie",
+          "en": "Multi-species"
+        },
+        "description": {
+          "es": "Camélidos, ovinos, cabras, conejos, camellos, vacunos y más",
+          "en": "Camelids, sheep, goats, rabbits, camels, cattle and more"
+        }
+      },
+      {
+        "icon": "Monitor",
+        "title": {
+          "es": "Almacenamiento Digital",
+          "en": "Digital Storage"
+        },
+        "description": {
+          "es": "Transmisión y almacenamiento de base de datos y gráficos",
+          "en": "Database and graphics transmission and storage"
+        }
+      }
+    ],
+    "specifications": {
+      "es": {
+        "Peso": "10 kg",
+        "Dimensiones": "25.3 cm x 18.8 cm x 38.5 cm",
+        "Alimentación": "220-240 VAC, 50-60 Hz",
+        "Componentes": "4 sistemas: Electrónico, Mecánico, Óptico, Software"
+      },
+      "en": {
+        "Weight": "10 kg",
+        "Dimensions": "25.3 cm x 18.8 cm x 38.5 cm",
+        "Power Supply": "220-240 VAC, 50-60 Hz",
+        "Components": "4 systems: Electronic, Mechanical, Optical, Software"
+      }
+    },
+    "capabilities": {
+      "es": [
+        "Media del diámetro de fibra (MDF) por tipo de medulación",
+        "Desviación estándar por tipo de medulación",
+        "Clasificación: no medulada, fragmentada, discontinua, continua",
+        "Transmisión y almacenamiento de datos"
+      ],
+      "en": [
+        "Mean fiber diameter (MFD) by medulla type",
+        "Standard deviation by medulla type",
+        "Classification: non-medullated, fragmented, discontinuous, continuous",
+        "Data transmission and storage"
+      ]
+    },
+    "youtubeVideo": "https://www.youtube.com/watch?v=-b4Ztxmlbjw",
+    "additionalImages": [
+      "/assets/images/products/medulometro.png"
+    ],
+    "order": 5,
+    "archived": false,
+    "technicalSheets": {
+      "es": "/assets/images/products/pdf/Medulometro_es.pdf",
+      "en": "/assets/images/products/pdf/Medulometro_es.pdf"
     }
   },
   {
