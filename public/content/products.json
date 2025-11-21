@@ -488,7 +488,7 @@
   {
     "id": "fiber-ec",
     "name": {
-      "es": "FIBER EC",
+      "es": "FIBER EC V5.0",
       "en": "FIBER EC"
     },
     "tagline": {
@@ -503,7 +503,7 @@
       "es": "Caracterizador electrónico que evalúa la calidad de fibras de origen animal mediante tecnología de interpretación de imágenes digitales.",
       "en": "Electronic characterizer that evaluates the quality of fibers of animal origin using digital image interpretation technology."
     },
-    "image": "/assets/images/products/FIBER EC.png",
+    "image": "/uploads/FIBER EC.jpg",
     "category": {
       "es": "Caracterización de Fibras",
       "en": "Fiber Characterization"
