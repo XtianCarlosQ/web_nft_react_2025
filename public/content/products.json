@@ -988,79 +988,6 @@
     }
   },
   {
-    "id": "product-gtpduv",
-    "name": {
-      "es": "FIBER EC -  AI",
-      "en": "FIBER EC - Electronic Fiber Characterizer"
-    },
-    "tagline": {
-      "es": "Evaluación avanzada de la calidad de fibras animales.",
-      "en": "Advanced assessment of animal fiber quality."
-    },
-    "description": {
-      "es": "Equipo electrónico para evaluar la calidad de fibras animales, midiendo características físicas clave.",
-      "en": "Electronic equipment to assess animal fiber quality, measuring key physical characteristics."
-    },
-    "descriptionDetail": {
-      "es": "El FIBER EC es un caracterizador electrónico de fibras diseñado para evaluar la calidad de fibras de origen animal (camélidos sudamericanos, ovinos, cabras, conejos, camellos, buey almizclero, vacunos, etc.). Utiliza tecnología de procesamiento digital para medir diversas características físicas, incluyendo Media de Diámetro de Fibra (MDF), Coeficiente de Variación de la MDF (CVMDF), Desviación Estándar de la MDF (DEMDF), Factor de Picazón (FP), Factor de confort (FC) y Finura al hilado (FIHI). Permite evaluar mechas completas, obteniendo el perfil de las fibras y generando miles de datos por muestra, además de monitorear la temperatura y humedad ambiental. La transmisión y almacenamiento de datos y gráficos facilitan su posterior impresión. El sistema consta de componentes electrónicos, mecánicos, ópticos y software.",
-      "en": "The FIBER EC is an electronic fiber characterizer designed to assess the quality of animal-origin fibers (South American camelids, sheep, goats, rabbits, camels, musk ox, cattle, etc.). It utilizes digital processing technology to measure various physical characteristics, including Mean Fiber Diameter (MFD), Coefficient of Variation of MFD (CVMFD), Standard Deviation of MFD (SDMFD), Itch Factor (IF), Comfort Factor (CF), and Spinnability Fineness (SF). It allows for the evaluation of complete slivers, obtaining fiber profiles and generating thousands of data points per sample, in addition to monitoring ambient temperature and humidity. Data and graph transmission and storage facilitate subsequent printing. The system consists of electronic, mechanical, optical, and software components."
-    },
-    "image": "/assets/images/products/images/FIBER-EC.png",
-    "category": {
-      "es": "Equipos de Análisis Textil",
-      "en": "Textile Analysis Equipment"
-    },
-    "technicalSheets": {
-      "es": "/assets/images/products/pdf/FIBER_EC_es.pdf",
-      "en": ""
-    },
-    "features": {
-      "es": [
-        "Medición de múltiples parámetros de calidad de fibra.",
-        "Capacidad de procesar diversos tipos de fibras animales.",
-        "Tecnología de procesamiento digital avanzada.",
-        "Almacenamiento y transmisión de datos para análisis posterior."
-      ],
-      "en": [
-        "Measurement of multiple fiber quality parameters.",
-        "Capability to process various types of animal fibers.",
-        "Advanced digital processing technology.",
-        "Data storage and transmission for further analysis."
-      ]
-    },
-    "featuresDetail": [],
-    "specifications": {
-      "es": {
-        "Peso": "8 kg",
-        "Dimensiones": "34 cm x 23.4 cm x 29 cm",
-        "Material de Carcasa": "Aluminio y otros compuestos",
-        "Suministro de Energía": "220 – 240 VAC/ 50 – 60 Hz",
-        "Garantía": "01 año"
-      },
-      "en": {
-        "Weight": "8 kg",
-        "Dimensions": "34 cm x 23.4 cm x 29 cm",
-        "Casing Material": "Aluminum and other compounds",
-        "Power Supply": "220 – 240 VAC/ 50 – 60 Hz",
-        "Warranty": "01 year"
-      }
-    },
-    "capabilities": {
-      "es": [
-        "Determinación de Media de diámetro de fibra (MDF), CVMDF, DEMDF.",
-        "Cálculo de Factor de Picazón (FP) y Factor de confort (FC)."
-      ],
-      "en": [
-        "Determination of Mean Fiber Diameter (MFD), CVMFD, SDMFD.",
-        "Calculation of Itch Factor (IF) and Comfort Factor (CF)."
-      ]
-    },
-    "youtubeVideo": "",
-    "additionalImages": [],
-    "order": 9,
-    "archived": false
-  },
-  {
     "id": "product-5ez332",
     "name": {
       "es": "FIBERCLASS - AI",
@@ -1132,7 +1059,7 @@
     },
     "youtubeVideo": "",
     "additionalImages": [],
-    "order": 10,
+    "order": 9,
     "archived": false
   },
   {
@@ -1205,7 +1132,7 @@
     },
     "youtubeVideo": "",
     "additionalImages": [],
-    "order": 11,
+    "order": 10,
     "archived": false
   },
   {
@@ -1274,8 +1201,81 @@
     },
     "youtubeVideo": "",
     "additionalImages": [],
-    "order": 12,
+    "order": 11,
     "archived": false
+  },
+  {
+    "id": "product-gtpduv",
+    "name": {
+      "es": "FIBER EC -  AI",
+      "en": "FIBER EC - Electronic Fiber Characterizer"
+    },
+    "tagline": {
+      "es": "Evaluación avanzada de la calidad de fibras animales.",
+      "en": "Advanced assessment of animal fiber quality."
+    },
+    "description": {
+      "es": "Equipo electrónico para evaluar la calidad de fibras animales, midiendo características físicas clave.",
+      "en": "Electronic equipment to assess animal fiber quality, measuring key physical characteristics."
+    },
+    "descriptionDetail": {
+      "es": "El FIBER EC es un caracterizador electrónico de fibras diseñado para evaluar la calidad de fibras de origen animal (camélidos sudamericanos, ovinos, cabras, conejos, camellos, buey almizclero, vacunos, etc.). Utiliza tecnología de procesamiento digital para medir diversas características físicas, incluyendo Media de Diámetro de Fibra (MDF), Coeficiente de Variación de la MDF (CVMDF), Desviación Estándar de la MDF (DEMDF), Factor de Picazón (FP), Factor de confort (FC) y Finura al hilado (FIHI). Permite evaluar mechas completas, obteniendo el perfil de las fibras y generando miles de datos por muestra, además de monitorear la temperatura y humedad ambiental. La transmisión y almacenamiento de datos y gráficos facilitan su posterior impresión. El sistema consta de componentes electrónicos, mecánicos, ópticos y software.",
+      "en": "The FIBER EC is an electronic fiber characterizer designed to assess the quality of animal-origin fibers (South American camelids, sheep, goats, rabbits, camels, musk ox, cattle, etc.). It utilizes digital processing technology to measure various physical characteristics, including Mean Fiber Diameter (MFD), Coefficient of Variation of MFD (CVMFD), Standard Deviation of MFD (SDMFD), Itch Factor (IF), Comfort Factor (CF), and Spinnability Fineness (SF). It allows for the evaluation of complete slivers, obtaining fiber profiles and generating thousands of data points per sample, in addition to monitoring ambient temperature and humidity. Data and graph transmission and storage facilitate subsequent printing. The system consists of electronic, mechanical, optical, and software components."
+    },
+    "image": "/assets/images/products/images/FIBER-EC.png",
+    "category": {
+      "es": "Equipos de Análisis Textil",
+      "en": "Textile Analysis Equipment"
+    },
+    "technicalSheets": {
+      "es": "/assets/images/products/pdf/FIBER_EC_es.pdf",
+      "en": ""
+    },
+    "features": {
+      "es": [
+        "Medición de múltiples parámetros de calidad de fibra.",
+        "Capacidad de procesar diversos tipos de fibras animales.",
+        "Tecnología de procesamiento digital avanzada.",
+        "Almacenamiento y transmisión de datos para análisis posterior."
+      ],
+      "en": [
+        "Measurement of multiple fiber quality parameters.",
+        "Capability to process various types of animal fibers.",
+        "Advanced digital processing technology.",
+        "Data storage and transmission for further analysis."
+      ]
+    },
+    "featuresDetail": [],
+    "specifications": {
+      "es": {
+        "Peso": "8 kg",
+        "Dimensiones": "34 cm x 23.4 cm x 29 cm",
+        "Material de Carcasa": "Aluminio y otros compuestos",
+        "Suministro de Energía": "220 – 240 VAC/ 50 – 60 Hz",
+        "Garantía": "01 año"
+      },
+      "en": {
+        "Weight": "8 kg",
+        "Dimensions": "34 cm x 23.4 cm x 29 cm",
+        "Casing Material": "Aluminum and other compounds",
+        "Power Supply": "220 – 240 VAC/ 50 – 60 Hz",
+        "Warranty": "01 year"
+      }
+    },
+    "capabilities": {
+      "es": [
+        "Determinación de Media de diámetro de fibra (MDF), CVMDF, DEMDF.",
+        "Cálculo de Factor de Picazón (FP) y Factor de confort (FC)."
+      ],
+      "en": [
+        "Determination of Mean Fiber Diameter (MFD), CVMFD, SDMFD.",
+        "Calculation of Itch Factor (IF) and Comfort Factor (CF)."
+      ]
+    },
+    "youtubeVideo": "",
+    "additionalImages": [],
+    "order": 9,
+    "archived": true
   },
   {
     "id": "fiber-med-2",
