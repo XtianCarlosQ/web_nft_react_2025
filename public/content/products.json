@@ -238,6 +238,132 @@
     }
   },
   {
+    "id": "s-fiber-ec",
+    "name": {
+      "es": "S-FIBER EC",
+      "en": "S-FIBER EC"
+    },
+    "tagline": {
+      "es": "Caracterizador Portátil de Campo",
+      "en": "Portable Field Characterizer"
+    },
+    "description": {
+      "es": "Versión portátil del FIBER EC, diseñada para uso en campo. Perfecta para evaluaciones in-situ con la misma precisión.",
+      "en": "Portable version of the FIBER EC, designed for field use. Perfect for on-site evaluations with the same precision."
+    },
+    "descriptionDetail": {
+      "es": "Versión básica y portátil del FIBER EC, diseñada para evaluaciones en campo con mochila de transporte incluida. Trabaja en altitudes hasta 5,300 m.s.n.m.",
+      "en": "Basic and portable version of the FIBER EC, designed for field evaluations with a carrying backpack included. Works at altitudes up to 5,300 m.a.s.l."
+    },
+    "image": "/assets/images/products/S-FIBER EC.png",
+    "category": {
+      "es": "Caracterización Portátil",
+      "en": "Portable Characterization"
+    },
+    "features": {
+      "es": [
+        "Solo 3.8 kg",
+        "Hasta 5,300 m.s.n.m.",
+        "-7°C a 45°C",
+        "Mochila incluida"
+      ],
+      "en": [
+        "Only 3.8kg",
+        "Up to 5,300 meters above sea level.",
+        "-7°C to 45°C",
+        "Backpack included"
+      ]
+    },
+    "featuresDetail": [
+      {
+        "icon": "Weight",
+        "title": {
+          "es": "Ultra Portátil",
+          "en": "Ultra Portable"
+        },
+        "description": {
+          "es": "Solo 3.8 kg con mochila de transporte incluida para trabajo en campo",
+          "en": "Only 3.8 kg with carrying backpack included for field work"
+        }
+      },
+      {
+        "icon": "Settings",
+        "title": {
+          "es": "Condiciones Extremas",
+          "en": "Extreme Conditions"
+        },
+        "description": {
+          "es": "Funciona hasta 5,300 m.s.n.m. y temperaturas de -7°C a 45°C",
+          "en": "It works up to 5,300 meters above sea level. and temperatures from -7°C to 45°C"
+        }
+      },
+      {
+        "icon": "BarChart3",
+        "title": {
+          "es": "Parámetros Básicos",
+          "en": "Basic Parameters"
+        },
+        "description": {
+          "es": "Determina Media de diámetro de fibra (MDF) y Desviación Estándar (DEMDF)",
+          "en": "Determines Mean Fiber Diameter (MDF) and Standard Deviation (SEMDF)"
+        }
+      },
+      {
+        "icon": "Monitor",
+        "title": {
+          "es": "Tecnología Digital",
+          "en": "Digital Technology"
+        },
+        "description": {
+          "es": "Interpretación de imágenes digitales con almacenamiento de datos",
+          "en": "Interpretation of digital images with data storage"
+        }
+      }
+    ],
+    "specifications": {
+      "es": {
+        "Peso": "3.8 kg",
+        "Carcasa": "Acrílico",
+        "Dimensiones": "22.5 cm x 22.4 cm x 28.5 cm",
+        "Alimentación": "220-240 VAC, 50-60 Hz",
+        "Componentes": "4 sistemas: Electrónico, Mecánico, Óptico, Software",
+        "Accesorios": "Mochila de transporte incluida"
+      },
+      "en": {
+        "Weight": "3.8 kg",
+        "Housing": "Acrylic",
+        "Dimensions": "22.5 cm x 22.4 cm x 28.5 cm",
+        "Power Supply": "220-240 VAC, 50-60 Hz",
+        "Components": "4 systems: Electronic, Mechanical, Optical, Software",
+        "Accessories": "Carrying backpack included"
+      }
+    },
+    "capabilities": {
+      "es": [
+        "Media de diámetro de fibra (MDF)",
+        "Desviación Estándar de la MDF (DEMDF)",
+        "Trabajo en condiciones de altitud extrema",
+        "Transmisión y almacenamiento de datos"
+      ],
+      "en": [
+        "Mean Fiber Diameter (MFD)",
+        "Standard Deviation of MFD (DEMFD)",
+        "Work in extreme altitude conditions",
+        "Data transmission and storage"
+      ]
+    },
+    "youtubeVideo": "https://www.youtube.com/watch?v=HW_8GKVgmdw",
+    "additionalImages": [
+      "/assets/images/products/S-FIBER EC.png"
+    ],
+    "order": 3,
+    "archived": false,
+    "technicalSheets": {
+      "es": "/assets/images/products/pdf/S-FIBER_EC_es.pdf",
+      "en": "/assets/images/products/pdf/S-FIBER_EC_es.pdf"
+    }
+  },
+  {
     "id": "medulometro",
     "name": {
       "es": "MEDULÓMETRO",
@@ -352,7 +478,7 @@
     "additionalImages": [
       "/assets/images/products/medulometro.png"
     ],
-    "order": 3,
+    "order": 4,
     "archived": false,
     "technicalSheets": {
       "es": "/assets/images/products/pdf/Medulometro_es.pdf",
@@ -476,137 +602,11 @@
     "additionalImages": [
       "/assets/images/products/FIBER EC.png"
     ],
-    "order": 4,
+    "order": 5,
     "archived": false,
     "technicalSheets": {
       "es": "/assets/images/products/pdf/FIBER_EC_es.pdf",
       "en": "/assets/images/products/pdf/FIBER_EC_es.pdf"
-    }
-  },
-  {
-    "id": "s-fiber-ec",
-    "name": {
-      "es": "S-FIBER EC",
-      "en": "S-FIBER EC"
-    },
-    "tagline": {
-      "es": "Caracterizador Portátil de Campo",
-      "en": "Portable Field Characterizer"
-    },
-    "description": {
-      "es": "Versión portátil del FIBER EC, diseñada para uso en campo. Perfecta para evaluaciones in-situ con la misma precisión.",
-      "en": "Portable version of the FIBER EC, designed for field use. Perfect for on-site evaluations with the same precision."
-    },
-    "descriptionDetail": {
-      "es": "Versión básica y portátil del FIBER EC, diseñada para evaluaciones en campo con mochila de transporte incluida. Trabaja en altitudes hasta 5,300 m.s.n.m.",
-      "en": "Basic and portable version of the FIBER EC, designed for field evaluations with a carrying backpack included. Works at altitudes up to 5,300 m.a.s.l."
-    },
-    "image": "/assets/images/products/S-FIBER EC.png",
-    "category": {
-      "es": "Caracterización Portátil",
-      "en": "Portable Characterization"
-    },
-    "features": {
-      "es": [
-        "Solo 3.8 kg",
-        "Hasta 5,300 m.s.n.m.",
-        "-7°C a 45°C",
-        "Mochila incluida"
-      ],
-      "en": [
-        "Only 3.8kg",
-        "Up to 5,300 meters above sea level.",
-        "-7°C to 45°C",
-        "Backpack included"
-      ]
-    },
-    "featuresDetail": [
-      {
-        "icon": "Weight",
-        "title": {
-          "es": "Ultra Portátil",
-          "en": "Ultra Portable"
-        },
-        "description": {
-          "es": "Solo 3.8 kg con mochila de transporte incluida para trabajo en campo",
-          "en": "Only 3.8 kg with carrying backpack included for field work"
-        }
-      },
-      {
-        "icon": "Settings",
-        "title": {
-          "es": "Condiciones Extremas",
-          "en": "Extreme Conditions"
-        },
-        "description": {
-          "es": "Funciona hasta 5,300 m.s.n.m. y temperaturas de -7°C a 45°C",
-          "en": "It works up to 5,300 meters above sea level. and temperatures from -7°C to 45°C"
-        }
-      },
-      {
-        "icon": "BarChart3",
-        "title": {
-          "es": "Parámetros Básicos",
-          "en": "Basic Parameters"
-        },
-        "description": {
-          "es": "Determina Media de diámetro de fibra (MDF) y Desviación Estándar (DEMDF)",
-          "en": "Determines Mean Fiber Diameter (MDF) and Standard Deviation (SEMDF)"
-        }
-      },
-      {
-        "icon": "Monitor",
-        "title": {
-          "es": "Tecnología Digital",
-          "en": "Digital Technology"
-        },
-        "description": {
-          "es": "Interpretación de imágenes digitales con almacenamiento de datos",
-          "en": "Interpretation of digital images with data storage"
-        }
-      }
-    ],
-    "specifications": {
-      "es": {
-        "Peso": "3.8 kg",
-        "Carcasa": "Acrílico",
-        "Dimensiones": "22.5 cm x 22.4 cm x 28.5 cm",
-        "Alimentación": "220-240 VAC, 50-60 Hz",
-        "Componentes": "4 sistemas: Electrónico, Mecánico, Óptico, Software",
-        "Accesorios": "Mochila de transporte incluida"
-      },
-      "en": {
-        "Weight": "3.8 kg",
-        "Housing": "Acrylic",
-        "Dimensions": "22.5 cm x 22.4 cm x 28.5 cm",
-        "Power Supply": "220-240 VAC, 50-60 Hz",
-        "Components": "4 systems: Electronic, Mechanical, Optical, Software",
-        "Accessories": "Carrying backpack included"
-      }
-    },
-    "capabilities": {
-      "es": [
-        "Media de diámetro de fibra (MDF)",
-        "Desviación Estándar de la MDF (DEMDF)",
-        "Trabajo en condiciones de altitud extrema",
-        "Transmisión y almacenamiento de datos"
-      ],
-      "en": [
-        "Mean Fiber Diameter (MFD)",
-        "Standard Deviation of MFD (DEMFD)",
-        "Work in extreme altitude conditions",
-        "Data transmission and storage"
-      ]
-    },
-    "youtubeVideo": "https://www.youtube.com/watch?v=HW_8GKVgmdw",
-    "additionalImages": [
-      "/assets/images/products/S-FIBER EC.png"
-    ],
-    "order": 5,
-    "archived": false,
-    "technicalSheets": {
-      "es": "/assets/images/products/pdf/S-FIBER_EC_es.pdf",
-      "en": "/assets/images/products/pdf/S-FIBER_EC_es.pdf"
     }
   },
   {
