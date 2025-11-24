@@ -1004,6 +1004,101 @@
     "archived": false
   },
   {
+    "id": "product-l7ay5e",
+    "name": {
+      "es": "MESA DE SUJECION",
+      "en": "MESA DE SUJECION"
+    },
+    "tagline": {
+      "es": "",
+      "en": ""
+    },
+    "description": {
+      "es": "Facilita la obtención de muestras de fibra en camélidos y ovinos, garantizando la seguridad, comodidad y bienestar animal, así como la ergonomía del personal técnico.",
+      "en": "Facilita la obtención de muestras de fibra en camélidos y ovinos, garantizando la seguridad, comodidad y bienestar animal, así como la ergonomía del personal técnico."
+    },
+    "descriptionDetail": {
+      "es": "",
+      "en": ""
+    },
+    "image": "/uploads/MESA DE SUJECION.png",
+    "category": {
+      "es": "",
+      "en": ""
+    },
+    "technicalSheets": {
+      "es": "",
+      "en": ""
+    },
+    "features": {
+      "es": [
+        "Sistema giratorio con bloqueo seguro",
+        "Sujeción práctica y confiable",
+        "Liberación sin estrés",
+        "Diseño ergonómico"
+      ],
+      "en": []
+    },
+    "featuresDetail": [
+      {
+        "icon": "BarChart3",
+        "title": {
+          "es": "Sistema giratorio con bloqueo seguro",
+          "en": ""
+        },
+        "description": {
+          "es": "",
+          "en": ""
+        }
+      },
+      {
+        "icon": "BarChart3",
+        "title": {
+          "es": "Sujeción práctica y confiable",
+          "en": ""
+        },
+        "description": {
+          "es": "",
+          "en": ""
+        }
+      },
+      {
+        "icon": "BarChart3",
+        "title": {
+          "es": "Liberación sin estrés",
+          "en": ""
+        },
+        "description": {
+          "es": "",
+          "en": ""
+        }
+      },
+      {
+        "icon": "BarChart3",
+        "title": {
+          "es": "Diseño ergonómico",
+          "en": ""
+        },
+        "description": {
+          "es": "",
+          "en": ""
+        }
+      }
+    ],
+    "specifications": {
+      "es": {},
+      "en": {}
+    },
+    "capabilities": {
+      "es": [],
+      "en": []
+    },
+    "youtubeVideo": "",
+    "additionalImages": [],
+    "order": 10,
+    "archived": false
+  },
+  {
     "id": "mosiville",
     "name": {
       "es": "MOSIVILLE",
