@@ -332,32 +332,6 @@
     "archived": false
   },
   {
-    "id": "team-nplgc9",
-    "name": {
-      "es": "Efraín",
-      "en": "Efraín"
-    },
-    "role": {
-      "es": "Practicante",
-      "en": "Intern"
-    },
-    "bio": {
-      "es": "",
-      "en": ""
-    },
-    "photo": "/assets/images/team/efrain.jpg",
-    "skills": {
-      "es": [
-        "Ing. Zootecnista"
-      ],
-      "en": [
-        "Zootechnical Engineer"
-      ]
-    },
-    "order": 6,
-    "archived": false
-  },
-  {
     "id": "team-lihr02",
     "name": {
       "es": "Fidel Moreno",
@@ -381,6 +355,32 @@
       ]
     },
     "order": 7,
+    "archived": false
+  },
+  {
+    "id": "team-nplgc9",
+    "name": {
+      "es": "Efraín",
+      "en": "Efraín"
+    },
+    "role": {
+      "es": "Asistente de Investigación",
+      "en": "Intern"
+    },
+    "bio": {
+      "es": "",
+      "en": ""
+    },
+    "photo": "/assets/images/team/efrain.jpg",
+    "skills": {
+      "es": [
+        "Ing. Zootecnista"
+      ],
+      "en": [
+        "Zootechnical Engineer"
+      ]
+    },
+    "order": 6,
     "archived": false
   }
 ]
