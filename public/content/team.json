@@ -120,7 +120,7 @@
         "Automatización de procesos"
       ]
     },
-    "order": 9,
+    "order": 8,
     "archived": false
   },
   {
@@ -185,7 +185,7 @@
       ]
     },
     "order": 6,
-    "archived": false
+    "archived": true
   },
   {
     "id": "team-cqr3bh",
@@ -270,7 +270,7 @@
         "Scientist"
       ]
     },
-    "order": 11,
+    "order": 10,
     "archived": false
   },
   {
@@ -296,7 +296,7 @@
         "UCM - España"
       ]
     },
-    "order": 10,
+    "order": 9,
     "archived": false
   },
   {
@@ -354,7 +354,7 @@
         "Zootechnical Engineer"
       ]
     },
-    "order": 7,
+    "order": 6,
     "archived": false
   },
   {
@@ -380,7 +380,7 @@
         "Parts design: simulation and physical creation"
       ]
     },
-    "order": 8,
+    "order": 7,
     "archived": false
   }
 ]
