@@ -18,7 +18,9 @@ export default function TeamFormModal({
   const [showTip, setShowTip] = useState(null);
   const [activeLang, setActiveLang] = useState("es"); // ✅ Consistente con Services
   const fileInputRef = useRef(null);
+  const cvInputRef = useRef(null); // ✅ Ref para input de CV
   const [uploadMsg, setUploadMsg] = useState("");
+  const [cvMsg, setCvMsg] = useState(""); // ✅ Mensaje para upload de CV
   const [previewMode, setPreviewMode] = useState(
     mode === "view" ? "plain" : "overlay"
   ); // 'overlay' | 'plain'
@@ -74,6 +76,14 @@ export default function TeamFormModal({
     maxSize: 5 * 1024 * 1024, // 5MB
     uploadPath: "public/assets/images/team/",
     onSuccess: (fileUrl) => setData((d) => ({ ...d, photo: fileUrl })),
+  });
+
+  // ✅ Hook para subir CV (PDF)
+  const uploadCV = useFileUpload({
+    accept: ".pdf",
+    maxSize: 10 * 1024 * 1024, // 10MB
+    uploadPath: "public/assets/docs/team/",
+    onSuccess: (fileUrl) => setData((d) => ({ ...d, cv: fileUrl })),
   });
 
   // 🔥 Hook de auto-traducción DINÁMICO - configuración basada en activeLang (como Products)
@@ -380,6 +390,15 @@ export default function TeamFormModal({
     }
   };
 
+  // ✅ Handler para CV
+  const onPickCV = (e) => {
+    uploadCV.pickFile(e);
+    if (uploadCV.uploadMessage) {
+      setCvMsg(uploadCV.uploadMessage);
+      setTimeout(() => setCvMsg(""), 3000);
+    }
+  };
+
   function submit(e) {
     e?.preventDefault?.();
     if (!validate()) return;
@@ -442,6 +461,8 @@ export default function TeamFormModal({
       role: { es: roleES.trim(), en: (roleEN || roleES).trim() },
       bio: { es: bioES, en: bioEN || bioES },
       photo: (data.photo || data.image || "").trim(),
+      src_cv_pdf: (data.src_cv_pdf || "").trim(), // ✅ Campo correcto
+      link_bio: (data.link_bio || "").trim(),     // ✅ Campo correcto
       skills: {
         es: skillsES.length > 0 ? skillsES : skillsEN,
         en: skillsEN.length > 0 ? skillsEN : skillsES,
@@ -798,6 +819,96 @@ export default function TeamFormModal({
                     Campo obligatorio
                   </div>
                 )}
+              </div>
+
+              {/* CV Upload Section */}
+              <div className="bg-gray-50 rounded-lg px-4 py-2.5 border border-gray-200">
+                <label className="block text-sm font-medium mb-1">
+                  CV (PDF) y Biografía
+                </label>
+                <div className="space-y-3">
+                  {/* CV Upload */}
+                  <div>
+                    <label className="text-xs text-gray-500 mb-1 block">
+                      Archivo PDF (src_cv_pdf)
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <input
+                        className="flex-1 border rounded px-3 py-2 text-sm"
+                        placeholder="URL del PDF o subir archivo..."
+                        value={data.src_cv_pdf || ""}
+                        onChange={(e) =>
+                          setData((d) => ({ ...d, src_cv_pdf: e.target.value }))
+                        }
+                        disabled={isView}
+                      />
+                      {/* Hidden file input for CV */}
+                      <input
+                        ref={cvInputRef}
+                        type="file"
+                        accept=".pdf"
+                        className="hidden"
+                        onChange={onPickCV}
+                      />
+                      {!isView && (
+                        <button
+                          type="button"
+                          className="px-3 py-2 bg-gray-200 hover:bg-gray-300 rounded text-gray-700 transition-colors"
+                          onClick={() => cvInputRef.current?.click()}
+                          disabled={uploadCV.uploading}
+                          title="Subir PDF"
+                        >
+                          {uploadCV.uploading ? (
+                            <span className="animate-spin inline-block">⟳</span>
+                          ) : (
+                            <Upload className="w-4 h-4" />
+                          )}
+                        </button>
+                      )}
+                      {/* Download/View button if CV exists */}
+                      {data.src_cv_pdf && (
+                        <a
+                          href={data.src_cv_pdf}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-3 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded transition-colors"
+                          title="Ver CV actual"
+                        >
+                          📄
+                        </a>
+                      )}
+                    </div>
+                    {(cvMsg || uploadCV.uploadMessage) && (
+                      <div
+                        className={`text-xs mt-1 ${
+                          uploadCV.uploadMessage?.includes("✅")
+                            ? "text-green-600"
+                            : uploadCV.uploadMessage?.includes("❌")
+                            ? "text-red-600"
+                            : "text-yellow-600"
+                        }`}
+                      >
+                        {uploadCV.uploadMessage || cvMsg}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Link Bio */}
+                  <div>
+                    <label className="text-xs text-gray-500 mb-1 block">
+                      Enlace Biografía (link_bio) - Opcional
+                    </label>
+                    <input
+                      className="w-full border rounded px-3 py-2 text-sm"
+                      placeholder="https://linkedin.com/in/..."
+                      value={data.link_bio || ""}
+                      onChange={(e) =>
+                        setData((d) => ({ ...d, link_bio: e.target.value }))
+                      }
+                      disabled={isView}
+                    />
+                  </div>
+                </div>
               </div>
               <div>
                 <label className="block text-sm font-medium">

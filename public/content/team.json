@@ -14,6 +14,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/max-quispe.jpg",
+    "src_cv_pdf": "/assets/images/team/cvs/CV_VITAE_MAX.pdf",
+    "link_bio": "",
     "skills": {
       "es": [
         "PhD (c)",
@@ -48,6 +50,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/henry-chico.jpg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Magister en Agronegocios",
@@ -80,6 +84,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/carlos-quispe3.png",
+    "src_cv_pdf": "/assets/images/team/cvs/CV_VITAE_Christian_QB.pdf",
+    "link_bio": "https://www.linkedin.com/in/christian-carlos-quispe-bonilla-094b1327/?trk=opento_sprofile_details",
     "skills": {
       "es": [
         "Ingeniero Físico",
@@ -112,6 +118,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/edgar-quispe-2.jpg",
+    "src_cv_pdf": "/assets/images/team/cvs/CV_VITAE_EDGAR.pdf",
+    "link_bio": "",
     "skills": {
       "es": [
         "PhD",
@@ -146,6 +154,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/adolfo-poma.jpg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Ingeniero Zootecnista",
@@ -176,6 +186,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/acerca_de1-1759521875238.png",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Guitarra",
@@ -208,6 +220,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/Xtian.jpg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Ahora si",
@@ -236,6 +250,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/jesus-trigo.jpg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Científico"
@@ -262,6 +278,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/sherysh_cunyas.png",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Secretaria administrativa",
@@ -294,6 +312,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/efrain.jpg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Ing. Zootecnista"
@@ -320,6 +340,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/Fidel-Moreno_Ingeniero-Mecatr-nico.jpeg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Diseño de piezas: simulación y creación en físico"
@@ -346,6 +368,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/Freddy-Marrero_Investigador-Asociado.jpg",
+    "src_cv_pdf": "/assets/images/team/cvs/CV_VITAE_Freddy Marrero.pdf",
+    "link_bio": "",
     "skills": {
       "es": [
         "Automatización de procesos"
@@ -372,6 +396,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/Katherine-Arias_Investigadora.jpeg",
+    "src_cv_pdf": "/assets/images/team/cvs/CV_VITAE_Katherine Arias.pdf",
+    "link_bio": "",
     "skills": {
       "es": [
         "UCM - España"
@@ -398,6 +424,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/Daniel-Allain_Investigador-Asociado.jpg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Investigador"
@@ -424,6 +452,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/Lawrance-Hunter_Investigador-Asociado.jpg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Investigador"
@@ -450,6 +480,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/Ysai-Pa-car_Investigador-Asociado.jpg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Investigador"
@@ -476,6 +508,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/Diego-Sacchero_Investigador-Asociado.jpeg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Investigador"

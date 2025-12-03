@@ -85,8 +85,29 @@ export const TeamMemberCard = ({ member, forceOverlay = false, lang }) => {
       (lang === "es" ? "Especialidades:" : "Specialties:")
     : t("team.specialties");
 
+  // ✅ Handler para abrir CV o Bio
+  const handleCardClick = () => {
+    if (member.src_cv_pdf) {
+      window.open(member.src_cv_pdf, "_blank", "noopener,noreferrer");
+    } else if (member.link_bio) {
+      window.open(member.link_bio, "_blank", "noopener,noreferrer");
+    } else {
+      alert("Bibliografía en construcción");
+    }
+  };
+
+  const getTitle = () => {
+    if (member.src_cv_pdf) return lang === "en" ? "View CV" : "Ver CV";
+    if (member.link_bio) return lang === "en" ? "View Bio" : "Ver Biografía";
+    return "";
+  };
+
   return (
-    <div className="relative group overflow-hidden rounded-2xl shadow-lg transition-transform duration-900 hover:shadow-xl w-full max-w-[300px] sm:max-w-[360px] mx-auto">
+    <div
+      onClick={handleCardClick}
+      className="relative group overflow-hidden rounded-2xl shadow-lg transition-transform duration-900 hover:shadow-xl w-full max-w-[300px] sm:max-w-[360px] mx-auto cursor-pointer"
+      title={getTitle()}
+    >
       {/* Imagen del miembro */}
       <div className="aspect-[3/4] relative overflow-hidden rounded-2xl">
         <img
@@ -123,6 +144,33 @@ export const TeamMemberCard = ({ member, forceOverlay = false, lang }) => {
               </li>
             ))}
           </ul>
+          {/* Indicador visual de CV/Bio en el overlay */}
+          {(member.src_cv_pdf || member.link_bio) && (
+            <div className="mt-4 pt-4 border-t border-white/20 flex items-center justify-center gap-3">
+              {member.src_cv_pdf && (
+                <a
+                  href={member.src_cv_pdf}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-medium bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full backdrop-blur-sm transition-colors flex items-center gap-1"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {lang === "en" ? "View CV" : "Ver CV"} ↗
+                </a>
+              )}
+              {member.link_bio && (
+                <a
+                  href={member.link_bio}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-medium bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full backdrop-blur-sm transition-colors flex items-center gap-1"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {lang === "en" ? "Link Bio" : "Link Bio"} ↗
+                </a>
+              )}
+            </div>
+          )}
         </div>
       </div>
       {/* Información del miembro: Nombre-Title */}
@@ -187,6 +235,8 @@ const Team = () => {
               bio: getI18nValue(m.bio),
               photo: m.photo || m.image || "",
               image: m.photo || m.image || "",
+              src_cv_pdf: m.src_cv_pdf || "", // ✅ Mapeo directo
+              link_bio: m.link_bio || "",     // ✅ Mapeo directo
               skills: getI18nArray(m.skills),
               order: typeof m.order === "number" ? m.order : 9999,
               archived: !!m.archived,
