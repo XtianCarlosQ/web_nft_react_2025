@@ -37,7 +37,7 @@ const ContactForm = () => {
     const body = encodeURIComponent(
       `Nombre: ${formData.name}\nEmail: ${formData.email}\nEmpresa: ${formData.company}\nMensaje:\n${formData.message}`
     );
-    const mailtoUrl = `mailto:edgarquispe62@gmail.com?subject=${subject}&body=${body}`;
+    const mailtoUrl = `mailto:naturalfiberstech@gmail.com?subject=${subject}&body=${body}`;
     window.location.href = mailtoUrl;
   };
 
@@ -130,8 +130,8 @@ const Contact = () => {
     {
       icon: Mail,
       title: t("contact.titles.email"),
-      details: ["edgarquispe62@gmail.com"],
-      action: "mailto:edgarquispe62@gmail.com",
+      details: ["naturalfiberstech@gmail.com"],
+      action: "mailto:naturalfiberstech@gmail.com",
     },
     {
       icon: Phone,
@@ -187,7 +187,8 @@ const Contact = () => {
     },
     {
       label: "YouTube",
-      href: "https://www.youtube.com/channel/UCm3n-3n546Q0fcVMylG7Kig",
+      // href: "https://www.youtube.com/channel/UCm3n-3n546Q0fcVMylG7Kig",
+      href: "https://www.youtube.com/@naturalfiberstech953",
       color: "hover:text-red-600",
       svg: (
         <svg
@@ -202,7 +203,8 @@ const Contact = () => {
     },
     {
       label: "X",
-      href: "https://x.com/fiberstech",
+      // href: "https://x.com/fiberstech",
+      href: "https://x.com/fibers_tech",
       color: "hover:text-black",
       svg: (
         <svg
@@ -212,6 +214,36 @@ const Contact = () => {
           aria-hidden="true"
         >
           <path d="M18.244 2H21.5l-7.5 8.568L23.5 22h-7.356l-5.754-7.206L3.5 22H.244l8.214-9.393L.5 2h7.38l5.19 6.69L18.244 2zm-1.29 18h2.02L7.12 4H5.02l11.934 16z" />
+        </svg>
+      ),
+    },
+    {
+      label: "Instagram",
+      href: "https://instagram.com/nft_sac/",
+      color: "hover:text-pink-600",
+      svg: (
+        <svg
+          className="w-5 h-5"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 2a3 3 0 013 3v10a3 3 0 01-3 3H7a3 3 0 01-3-3V7a3 3 0 013-3h10zm-5 3a5 5 0 100 10 5 5 0 000-10zm0 2.5a2.5 2.5 0 110 5 2.5 2.5 0 010-5zM18 6.5a1 1 0 110 2 1 1 0 010-2z" />
+        </svg>
+      ),
+    },
+    {
+      label: "TikTok",
+      href: "https://www.tiktok.com/@nft_sac?lang=es-419",
+      color: "hover:text-black",
+      svg: (
+        <svg
+          className="w-5 h-5"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
         </svg>
       ),
     },

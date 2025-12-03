@@ -434,31 +434,5 @@
     },
     "order": 11,
     "archived": false
-  },
-  {
-    "id": "team-w7l9k0",
-    "name": {
-      "es": "Ysai Paúcar",
-      "en": "Ysai Paúcar"
-    },
-    "role": {
-      "es": "Investigador Asociado",
-      "en": "Investigador Asociado"
-    },
-    "bio": {
-      "es": "",
-      "en": ""
-    },
-    "photo": "/assets/images/team/Ysai-Pa-car_Investigador-Asociado.jpg",
-    "skills": {
-      "es": [
-        "Investigador"
-      ],
-      "en": [
-        "Investigador"
-      ]
-    },
-    "order": 12,
-    "archived": false
   }
 ]

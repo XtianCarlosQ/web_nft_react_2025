@@ -294,7 +294,7 @@ const Products = ({ limit }) => {
             )}
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Button "Descargar Folleto Empresarial"*/}
           <div className="text-center mt-8 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8">
             {limit && (
               <Link
@@ -306,8 +306,10 @@ const Products = ({ limit }) => {
                 {t("products.viewAll")}
               </Link>
             )}
+            {/* ubicación del archivo: 
+                C:\PROYECTOS\web_nft_react\web_nft_react_2025\public\assets\images\products\CATALOGO_NFT_2025_12_02.pdf*/}
             <a
-              href="/assets/images/products/CATALOGO 2025_NFT_1.pdf"
+              href="/assets/images/products/CATALOGO_NFT_2025_12_02.pdf"
               target="_blank"
               rel="noreferrer"
               className="bg-red-600 hover:bg-red-700 text-white 

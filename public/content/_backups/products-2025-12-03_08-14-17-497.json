@@ -108,7 +108,7 @@
         "angular capacity"
       ]
     },
-    "youtubeVideo": "https://www.youtube.com/watch?v=rlb-nlIA2_E",
+    "youtubeVideo": "",
     "additionalImages": [],
     "order": 1,
     "archived": false
@@ -131,7 +131,7 @@
       "es": "Versión mejorada del FIBER MED que determina medulación en fibras de diferentes colores, incluyendo fibras oscuras con decoloración. Evalúa cada muestra en 40 segundos caracterizando más de 3000 fibras.",
       "en": "Improved version of FIBER MED that determines medullation in fibers of different colors, including dark fibers with discoloration. Evaluate each sample in 40 seconds, characterizing more than 3000 fibers."
     },
-    "image": "/assets/images/products/images/FIBER-MED-V2.0.jpg",
+    "image": "/assets/images/products/FIBER MED V2.0.jpg",
     "category": {
       "es": "Análisis de Medulación Avanzado",
       "en": "Advanced Marrow Analysis"
@@ -228,7 +228,7 @@
     },
     "youtubeVideo": "https://www.youtube.com/watch?v=-RJHbgvkm5M",
     "additionalImages": [
-      "/assets/images/products/images/FIBER-MED-V2.0.jpg"
+      "/assets/images/products/FIBER MED V2.0.jpg"
     ],
     "order": 2,
     "archived": false,

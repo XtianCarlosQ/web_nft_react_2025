@@ -98,6 +98,32 @@
     "archived": false
   },
   {
+    "id": "team-socz5a",
+    "name": {
+      "es": "Freddy Marrero",
+      "en": "Freddy Marrero"
+    },
+    "role": {
+      "es": "PhD. Ing. Industrial",
+      "en": "PhD. Ing. Industrial"
+    },
+    "bio": {
+      "es": "",
+      "en": ""
+    },
+    "photo": "/assets/images/team/freddy_marrero.png",
+    "skills": {
+      "es": [
+        "Automatización de procesos"
+      ],
+      "en": [
+        "Automatización de procesos"
+      ]
+    },
+    "order": 8,
+    "archived": false
+  },
+  {
     "id": "team-z57q5i",
     "name": {
       "es": "Edgar Quispe Peña",
@@ -248,6 +274,32 @@
     "archived": true
   },
   {
+    "id": "team-gh1td3",
+    "name": {
+      "es": "Katherine Arias",
+      "en": "Katherine Arias"
+    },
+    "role": {
+      "es": "Investigadora",
+      "en": "Investigadora"
+    },
+    "bio": {
+      "es": "",
+      "en": ""
+    },
+    "photo": "/assets/images/team/katherine-arias.jpg",
+    "skills": {
+      "es": [
+        "UCM - España"
+      ],
+      "en": [
+        "UCM - España"
+      ]
+    },
+    "order": 9,
+    "archived": false
+  },
+  {
     "id": "team-ezk493",
     "name": {
       "es": "Sherysh Cunyas",
@@ -280,6 +332,32 @@
     "archived": false
   },
   {
+    "id": "team-lihr02",
+    "name": {
+      "es": "Fidel Moreno",
+      "en": "Fidel Moreno"
+    },
+    "role": {
+      "es": "Ingeniero Mecatrónico",
+      "en": "Mechatronics Engineer"
+    },
+    "bio": {
+      "es": "",
+      "en": ""
+    },
+    "photo": "/assets/images/team/fidel_moreno.png",
+    "skills": {
+      "es": [
+        "Diseño de piezas: simulación y creación en físico"
+      ],
+      "en": [
+        "Parts design: simulation and physical creation"
+      ]
+    },
+    "order": 7,
+    "archived": false
+  },
+  {
     "id": "team-nplgc9",
     "name": {
       "es": "Efraín",
@@ -303,162 +381,6 @@
       ]
     },
     "order": 6,
-    "archived": false
-  },
-  {
-    "id": "team-lihr02",
-    "name": {
-      "es": "Fidel Moreno",
-      "en": "Fidel Moreno"
-    },
-    "role": {
-      "es": "Ingeniero Mecatrónico",
-      "en": "Mechatronics Engineer"
-    },
-    "bio": {
-      "es": "",
-      "en": ""
-    },
-    "photo": "/assets/images/team/Fidel-Moreno_Ingeniero-Mecatr-nico.jpeg",
-    "skills": {
-      "es": [
-        "Diseño de piezas: simulación y creación en físico"
-      ],
-      "en": [
-        "Parts design: simulation and physical creation"
-      ]
-    },
-    "order": 7,
-    "archived": false
-  },
-  {
-    "id": "team-socz5a",
-    "name": {
-      "es": "Freddy Marrero",
-      "en": "Freddy Marrero"
-    },
-    "role": {
-      "es": "PhD. Ing. Industrial",
-      "en": "PhD. Ing. Industrial"
-    },
-    "bio": {
-      "es": "",
-      "en": ""
-    },
-    "photo": "/assets/images/team/Freddy-Marrero_Investigador-Asociado.jpg",
-    "skills": {
-      "es": [
-        "Automatización de procesos"
-      ],
-      "en": [
-        "Automatización de procesos"
-      ]
-    },
-    "order": 8,
-    "archived": false
-  },
-  {
-    "id": "team-gh1td3",
-    "name": {
-      "es": "Katherine Arias",
-      "en": "Katherine Arias"
-    },
-    "role": {
-      "es": "Investigadora",
-      "en": "Investigadora"
-    },
-    "bio": {
-      "es": "",
-      "en": ""
-    },
-    "photo": "/assets/images/team/Katherine-Arias_Investigadora.jpeg",
-    "skills": {
-      "es": [
-        "UCM - España"
-      ],
-      "en": [
-        "UCM - España"
-      ]
-    },
-    "order": 9,
-    "archived": false
-  },
-  {
-    "id": "team-e22v0g",
-    "name": {
-      "es": "Daniel Allain",
-      "en": "Daniel Allain"
-    },
-    "role": {
-      "es": "Investigador Asociado",
-      "en": "Investigador Asociado"
-    },
-    "bio": {
-      "es": "",
-      "en": ""
-    },
-    "photo": "/assets/images/team/Daniel-Allain_Investigador-Asociado.jpg",
-    "skills": {
-      "es": [
-        "Investigador"
-      ],
-      "en": [
-        "Investigador"
-      ]
-    },
-    "order": 10,
-    "archived": false
-  },
-  {
-    "id": "team-uyzznu",
-    "name": {
-      "es": "Lawrance Hunter",
-      "en": "Lawrance Hunter"
-    },
-    "role": {
-      "es": "Investigador Asociado",
-      "en": "Investigador Asociado"
-    },
-    "bio": {
-      "es": "",
-      "en": ""
-    },
-    "photo": "/assets/images/team/Lawrance-Hunter_Investigador-Asociado.jpg",
-    "skills": {
-      "es": [
-        "Investigador"
-      ],
-      "en": [
-        "Investigador"
-      ]
-    },
-    "order": 11,
-    "archived": false
-  },
-  {
-    "id": "team-w7l9k0",
-    "name": {
-      "es": "Ysai Paúcar",
-      "en": "Ysai Paúcar"
-    },
-    "role": {
-      "es": "Investigador Asociado",
-      "en": "Investigador Asociado"
-    },
-    "bio": {
-      "es": "",
-      "en": ""
-    },
-    "photo": "/assets/images/team/Ysai-Pa-car_Investigador-Asociado.jpg",
-    "skills": {
-      "es": [
-        "Investigador"
-      ],
-      "en": [
-        "Investigador"
-      ]
-    },
-    "order": 12,
     "archived": false
   }
 ]
