@@ -406,7 +406,7 @@
         "Investigador"
       ]
     },
-    "order": 11,
+    "order": 10,
     "archived": false
   },
   {
@@ -432,7 +432,7 @@
         "Investigador"
       ]
     },
-    "order": 12,
+    "order": 11,
     "archived": false
   },
   {
@@ -458,33 +458,7 @@
         "Investigador"
       ]
     },
-    "order": 13,
-    "archived": false
-  },
-  {
-    "id": "team-gt57y0",
-    "name": {
-      "es": "Diego Sacchero",
-      "en": "Diego Sacchero"
-    },
-    "role": {
-      "es": "Investigador Asociado",
-      "en": "Investigador Asociado"
-    },
-    "bio": {
-      "es": "",
-      "en": ""
-    },
-    "photo": "/assets/images/team/Diego-Sacchero_Investigador-Asociado.jpeg",
-    "skills": {
-      "es": [
-        "Investigador"
-      ],
-      "en": [
-        "Investigador"
-      ]
-    },
-    "order": 10,
+    "order": 12,
     "archived": false
   }
 ]
