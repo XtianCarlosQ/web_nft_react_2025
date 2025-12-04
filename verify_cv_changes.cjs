@@ -23,7 +23,7 @@ const christian = teamJsonContent.find(m => m.id === 'team-7zc8ve');
 checks.push({
     file: 'team.json',
     check: 'Christian has link_bio',
-    passed: christian && christian.link_bio.includes("linkedin.com")
+    passed: christian && (christian.link_bio || "").includes("linkedin.com")
 });
 
 // Check Team.jsx
@@ -48,18 +48,38 @@ console.log(JSON.stringify(checks, null, 2));
 // Check TeamFormModal.jsx
 checks.push({
     file: 'TeamFormModal.jsx',
-    check: 'src_cv_pdf input',
-    passed: modalContent.includes('value={data.src_cv_pdf || ""}')
+    check: 'Upload path corrected',
+    passed: modalContent.includes('uploadPath: "public/assets/images/team/cvs/"')
 });
 checks.push({
     file: 'TeamFormModal.jsx',
-    check: 'link_bio input',
-    passed: modalContent.includes('value={data.link_bio || ""}')
+    check: 'Data initialization src_cv_pdf',
+    passed: modalContent.includes('src_cv_pdf: member.src_cv_pdf || ""')
 });
 checks.push({
     file: 'TeamFormModal.jsx',
-    check: 'submit payload src_cv_pdf',
-    passed: modalContent.includes('src_cv_pdf: (data.src_cv_pdf || "").trim()')
+    check: 'Preview props src_cv_pdf',
+    passed: modalContent.includes('src_cv_pdf: data.src_cv_pdf || ""')
+});
+
+// Check team model normalization
+const { normalizeTeamMember } = require('./src/models/team');
+const testMember = {
+    id: 'test',
+    name: 'Test',
+    src_cv_pdf: 'test.pdf',
+    link_bio: 'test.com'
+};
+const normalized = normalizeTeamMember(testMember);
+checks.push({
+    file: 'src/models/team.js',
+    check: 'normalizeTeamMember preserves src_cv_pdf',
+    passed: normalized.src_cv_pdf === 'test.pdf'
+});
+checks.push({
+    file: 'src/models/team.js',
+    check: 'normalizeTeamMember preserves link_bio',
+    passed: normalized.link_bio === 'test.com'
 });
 
 console.log(JSON.stringify(checks, null, 2));

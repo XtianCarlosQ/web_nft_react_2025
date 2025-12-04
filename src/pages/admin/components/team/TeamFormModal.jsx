@@ -82,8 +82,8 @@ export default function TeamFormModal({
   const uploadCV = useFileUpload({
     accept: ".pdf",
     maxSize: 10 * 1024 * 1024, // 10MB
-    uploadPath: "public/assets/docs/team/",
-    onSuccess: (fileUrl) => setData((d) => ({ ...d, cv: fileUrl })),
+    uploadPath: "public/assets/images/team/cvs/", // ✅ Ruta corregida
+    onSuccess: (fileUrl) => setData((d) => ({ ...d, src_cv_pdf: fileUrl })),
   });
 
   // 🔥 Hook de auto-traducción DINÁMICO - configuración basada en activeLang (como Products)
@@ -262,6 +262,9 @@ export default function TeamFormModal({
           typeof member.bio === "object" && member.bio !== null
             ? member.bio
             : { es: String(member.bio || ""), en: String(member.bio || "") },
+        // ✅ Inicializar campos nuevos
+        src_cv_pdf: member.src_cv_pdf || "",
+        link_bio: member.link_bio || "",
       };
 
       console.log("🔍 TeamFormModal - member normalizado:", normalizedMember);
@@ -544,6 +547,8 @@ export default function TeamFormModal({
       photo: data.photo || data.image || "",
       image: data.photo || data.image || "",
       skills: skillsObj, // Siempre objeto bilingüe {es: [], en: []}
+      src_cv_pdf: data.src_cv_pdf || "", // ✅ Pasar al preview
+      link_bio: data.link_bio || "",     // ✅ Pasar al preview
     };
 
     // DEBUG: Verificar Preview

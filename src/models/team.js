@@ -53,6 +53,8 @@ export function normalizeTeamMember(m) {
     role: normalizeBilingual(m?.role ?? m?.position, ""),
     bio: normalizeBilingual(m?.bio, ""),
     photo: String(m?.photo ?? m?.image ?? ""),
+    src_cv_pdf: String(m?.src_cv_pdf || ""),
+    link_bio: String(m?.link_bio || ""),
     skills: normalizeSkills(m?.skills),
     order: Number(m?.order) > 0 ? Number(m.order) : 9999,
     archived: !!m?.archived,
