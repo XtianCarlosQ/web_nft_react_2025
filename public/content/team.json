@@ -50,6 +50,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/henry-chico.jpg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Magister en Agronegocios",
@@ -152,6 +154,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/adolfo-poma.jpg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Ingeniero Zootecnista",
@@ -182,6 +186,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/acerca_de1-1759521875238.png",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Guitarra",
@@ -214,6 +220,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/Xtian.jpg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Ahora si",
@@ -242,6 +250,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/jesus-trigo.jpg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Científico"
@@ -268,6 +278,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/sherysh_cunyas.png",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Secretaria administrativa",
@@ -300,6 +312,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/efrain.jpg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Ing. Zootecnista"
@@ -326,6 +340,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/Fidel-Moreno_Ingeniero-Mecatr-nico.jpeg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Diseño de piezas: simulación y creación en físico"
@@ -408,6 +424,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/Daniel-Allain_Investigador-Asociado.jpg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Investigador"
@@ -434,6 +452,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/Lawrance-Hunter_Investigador-Asociado.jpg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Investigador"
@@ -460,6 +480,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/Ysai-Pa-car_Investigador-Asociado.jpg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Investigador"
@@ -486,6 +508,8 @@
       "en": ""
     },
     "photo": "/assets/images/team/Diego-Sacchero_Investigador-Asociado.jpeg",
+    "src_cv_pdf": "",
+    "link_bio": "",
     "skills": {
       "es": [
         "Investigador"
@@ -523,6 +547,6 @@
       ]
     },
     "order": 14,
-    "archived": false
+    "archived": true
   }
 ]
