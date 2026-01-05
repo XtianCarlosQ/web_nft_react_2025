@@ -29,10 +29,9 @@
       "Edgar Quispe"
     ],
     "products": [
-      "Otros",
+      "FIBER TST",
       "FIBER MULT",
-      "FIBER EC",
-      "FIBER TST"
+      "FIBER EC"
     ],
     "abstract": "La fibra de alpaca presenta diferentes grupos de calidades en función del diámetro de fibra y está regulada por la Norma Técnica Peruana – NTP 231.301.2022; sin embargo, existen pocos estudios de sus características transversales y resistencia a la tracción en función de las diferentes calidades. El presente trabajo tuvo como objetivo estudiar las características transversales, diámetro de fibra y resistencia a la tracción en función a los grupos de calidad. Se conformaron siete grupos de calidad de fibra mediante la medición de mechas de fibra, y se tomaron cuatro muestras de cada grupo. Se midieron las características transversales, diámetro de fibra y la resistencia a la tracción utilizando los dispositivos Fiber Mult, Fiber EC y Fiber TST, respectivamente. Las tres variables fueron afectadas por la calidad de la fibra (p<0.05), evidenciándose mayores áreas transversales y diámetros en fibras con menor calidad, mientras que la resistencia a la tracción se incrementa hasta las fibras de calidad 5 (Fina) para comenzar a disminuir, posiblemente por la presencia de mayor incidencia de fibras meduladas y mayor área de la médula en los grupos de mala calidad. Por otro lado, la resistencia a la tracción es más alta que las fibras de lana y no tendrían problemas durante el procesamiento textil. Se obtuvo correlaciones altas y positivas entre la media del diámetro de fibra (MDF) con las características transversales, media de diámetro de fibra equivalente (MDF_e) y media de diámetro de fibra aparente (MDF_a). Las características transversales de la fibra de alpaca son buenos estimadores de la MDF, pero la MDF_e, MDF_a y las características transversales serían los mejores indicadores de la finura de la fibra.",
     "download_link_DOI": "https://doi.org/10.15381/rivep.v36i6.32165",
@@ -70,9 +69,11 @@
       "Lawrance Hunter"
     ],
     "products": [
-      "Otros"
+      "FIBER MULT",
+      "FIBER EC",
+      "Fiber Med"
     ],
-    "abstract": "It is recognized that visually objectionable fibers (VOFs) are undesirable in quality products because they appear lighter in dyed garments. Nevertheless, although a great deal of work has been done on mohair to characterize VOFs, this is not the case for alpaca fibers. Hence, this study was undertaken to characterize VOFs and visually non-objectionable fibers (VNOFs) in alpaca. Thus, a range of 52 alpaca fiber samples were obtained and visually separated into VOF and VNOF categories, and their respective cross-sectional, medullation, and average fiber diameter (AFD) characteristics were measured, analyzed, and characterized. The incidence of VOFs was found to be less than 2.5% by weight on average and was higher in adult alpacas than in younger ones (p < .05). Cross-sectional characteristics, degree of medullation, AFD, standard deviation of AFD, % of fibers ≥30 µm, and spinning fineness for VOFs were all greater than those for VNOFs. The correlations between AFD and the fiber cross-sectional characteristics were higher for VNOFs than for VOFs, except for ellipticity. The correlations between the cross-sectional characteristics and the degree of medullation were slightly lower for VOF than for VNOFs, except for ellipticity.",
+    "abstract": "It is recognized that visually objectionable fibers (VOFs) are undesirable in quality products because they appear lighter in dyed garments. Nevertheless, although a great deal of work has been done on mohair to characterize VOFs, this is not the case for alpaca fibers. Hence, this study was undertaken to characterize VOFs and visually non-objectionable fibers (VNOFs) in alpaca. Thus, a range of 52 alpaca fiber samples were obtained and visually separated into VOF and VNOF categories, and their respective cross-sectional, medullation, and average fiber diameter (AFD) characteristics were measured, analyzed, and characterized. The incidence of VOFs was found to be less than 2.5% by weight on average and was higher in adult alpacas than in younger ones (p<0.05). Cross-sectional characteristics, degree of medullation, AFD, standard deviation of AFD, % of fibers ≥30µm, and spinning fineness for VOFs were all greater than those for VNOFs. The correlations between AFD and the fiber cross-sectional characteristics were higher for VNOFs than for VOFs, except for ellipticity. The correlations between the cross-sectional characteristics and the degree of medullation were slightly lower for VOF than for VNOFs, except for ellipticity.",
     "download_link_DOI": "https://doi.org/10.1080/15440478.2025.2600506",
     "download_link_pdf": "/assets/images/investigacion/pdf/characterizing-visually-objectionable-and-non-objectionable-medullated-alpaca-fibers.pdf",
     "archived": false
