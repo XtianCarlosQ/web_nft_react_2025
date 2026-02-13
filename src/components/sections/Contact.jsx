@@ -259,13 +259,9 @@ const Contact = () => {
         <div className="grid-ctx mb-[40px]">
           <div className="span-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              {t("contact.talk").split(" ")[0]} de tu{" "}
+              {t("contact.talk").split(" ").slice(0, -1).join(" ")}{" "}
               <span className="text-red-600">
-                {
-                  t("contact.talk").split(" ")[
-                    t("contact.talk").split(" ").length - 1
-                  ]
-                }
+                {t("contact.talk").split(" ").slice(-1)[0]}
               </span>
             </h2>
             <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto">
