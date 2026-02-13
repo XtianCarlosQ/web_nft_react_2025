@@ -148,8 +148,8 @@ export const ProductCard = ({
                 </li>
               ))}
             </ul>
-            {/* Fade overlay para ocultar la zona recortada (ajusta colores si usas tema oscuro) */}
-            <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white/90 to-transparent dark:from-gray-900/90" />
+            {/* Fade overlay para ocultar la zona recortada con gradiente */}
+            <div className="product-fade-overlay" />
           </div>
 
           {/* Button Section - Fixed position at bottom */}
