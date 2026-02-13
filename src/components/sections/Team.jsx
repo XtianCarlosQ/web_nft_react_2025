@@ -175,7 +175,7 @@ export const TeamMemberCard = ({ member, forceOverlay = false, lang }) => {
       </div>
       {/* Información del miembro: Nombre-Title */}
       <div className="absolute bottom-0 left-0 right-0 p-4 bg-white/40 backdrop-blur-sm rounded-b-2xl">
-        <h3 className="text-xs md:text-lg lg:text-xl font-bold text-gray-900">
+        <h3 className="text-xs md:text-lg lg:text-xl font-bold text-[#111827]">
           {name}
         </h3>
         <p className="text-xs md:text-lg lg:text-xl text-red-600 font-medium">
