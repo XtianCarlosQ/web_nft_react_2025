@@ -1,5 +1,5 @@
 import React from "react";
-import concytecPdf from "../../assets/images/About/Resolución-CONCYTEC.pdf";
+import concytecPdf from "../../assets/images/About/Resolucion-CONCYTEC.pdf";
 import Team from "./Team";
 import {
   Users,
