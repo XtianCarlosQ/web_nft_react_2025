@@ -57,7 +57,7 @@ const Hero = () => {
               ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
             >
               {/* Overlay gradient - Removido el rojo para ver las imágenes claramente */}
-              <div className="absolute inset-0 bg-black/0 z-10 rounded-[1rem]" />
+              <div className="absolute inset-0 z-10 rounded-[1rem]" />
 
               {/* Background image with 3D effect (img-based for better responsiveness) */}
               <div
@@ -83,30 +83,18 @@ const Hero = () => {
               </div>
 
               {/* Content */}
-              <div className="relative h-full flex items-center z-20 ">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                  <h1
-                    className="text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-6 opacity-0 translate-y-8 animate-fadeIn drop-shadow-lg "
-                    style={{
-                      animation:
-                        index === currentSlide
-                          ? "fadeInUp 0.8s ease forwards 0.5s"
-                          : "none",
-                    }}
-                  >
-                    {slide.title}
-                  </h1>
-                  <p
-                    className="text-xl sm:text-2xl text-white mb-8 max-w-3xl mx-auto opacity-0 translate-y-8 animate-fadeIn drop-shadow-md"
-                    style={{
-                      animation:
-                        index === currentSlide
-                          ? "fadeInUp 0.8s ease forwards 0.7s"
-                          : "none",
-                    }}
-                  >
-                    {slide.subtitle}
-                  </p>
+              <div className="absolute inset-0 z-20 flex items-center justify-center ">
+                <div className =" bg-opacity-50 w-full flex justify-center">
+                  <div className ="max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
+                    <h1
+                        className="text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-6 translate-y-8 animate-fadeIn drop-shadow-lg/50 ">
+                      {slide.title}
+                    </h1>
+                    <p
+                        className="text-xl sm:text-2xl text-white mb-8 max-w-3xl mx-auto translate-y-8 animate-fadeIn drop-shadow-md/50">
+                      {slide.subtitle}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
