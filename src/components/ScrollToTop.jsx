@@ -7,7 +7,7 @@ export default function ScrollToTop() {
   useEffect(() => {
     // Scroll to top on route change
     if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     }
   }, [pathname]);
 
