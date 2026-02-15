@@ -6,6 +6,11 @@ import { useGrid } from "../context/hooks/useGrid";
 export const GridToggleButton = () => {
   const { visible, toggleGrid } = useGrid();
 
+  // Solo mostrar el botón en entorno de desarrollo
+  if (!import.meta.env?.DEV) {
+    return null;
+  }
+
   return (
     <button
       onClick={toggleGrid}
@@ -41,19 +46,6 @@ const GridOverlay = () => {
   // Keyboard shortcut effect
   useEffect(() => {
     const handleKeyPress = (event) => {
-      if (event.ctrlKey && event.key.toLowerCase() === "g") {
-        event.preventDefault();
-        toggleGrid();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyPress);
-    return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [toggleGrid]);
-
-  useEffect(() => {
-    const handleKeyPress = (event) => {
-      // Toggle grid when Ctrl+G is pressed
       if (event.ctrlKey && event.key.toLowerCase() === "g") {
         event.preventDefault();
         toggleGrid();
