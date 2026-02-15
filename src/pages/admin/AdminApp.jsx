@@ -14,7 +14,7 @@ import ResearchFormModal from "./components/research/ResearchFormModal";
 import ResearchArchiveConfirmModal from "./components/research/ResearchArchiveConfirmModal";
 import { notifyDevOnComplete } from "../../config/devNotify";
 import { normalizeTeamMember, normalizeTeamOrder } from "../../models/team";
-import { useProducts } from "../../context/ProductsContext";
+import { useProducts } from "../../context/hooks/useProducts.js";
 // ✅ Importar utilidades comunes para CRUD escalable
 import {
   normalizeOrder as normalizeOrderCommon,
