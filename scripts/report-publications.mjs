@@ -8,7 +8,7 @@ const POSTS_PATH = path.join(
   "public",
   "assets",
   "images",
-  "investigacion",
+  "investigation",
   "posts.json"
 );
 const REPORT_DIR = path.join(ROOT, "reports");

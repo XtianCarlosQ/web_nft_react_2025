@@ -35,7 +35,7 @@
 - ❌ Campo "Resultados" (línea ~210) - No existe en JSON
 - ❌ Campo "Conclusiones" (línea ~225) - No existe en JSON
 
-**Nuevo orden (según InvestigacionDetail.jsx):**
+**Nuevo orden (según InvestigationDetail.jsx):**
 
 1. 🖼️ **Imagen Portada** (16:9 aspect ratio)
    - Nota: "La imagen debe contener el título del artículo"
@@ -50,7 +50,7 @@
 
 **Resultado:**
 
-- 🟢 Orden exacto del componente público InvestigacionDetail.jsx
+- 🟢 Orden exacto del componente público InvestigationDetail.jsx
 - 🟢 Solo campos que realmente existen en el JSON
 - 🟢 Notas explicativas para el usuario
 - 🟢 Sin campos redundantes o confusos
@@ -201,7 +201,7 @@ research.json (actualizado)
 - El JSON actual tiene `title`, `summary_30w` y `abstract` como **strings**
 - El CMS convierte a objetos `{es, en}` para edición
 - Al guardar, mantiene el formato de objetos
-- InvestigacionDetail.jsx funciona con ambos formatos
+- InvestigationDetail.jsx funciona con ambos formatos
 
 ### Performance
 

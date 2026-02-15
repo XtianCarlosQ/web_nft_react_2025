@@ -19,19 +19,19 @@ El archivo JavaScript principal es muy grande (>500 KB). Esto hace que la web se
 ```javascript
 // src/App.jsx - Antes (carga todo de una vez)
 import AdminApp from './pages/admin/AdminApp';
-import InvestigacionLanding from './pages/investigacion/InvestigacionLanding';
+import InvestigationLanding from './pages/investigation/InvestigationLanding';
 import ProductDetail from './pages/products/ProductDetail';
 
 // Después (carga solo cuando se necesita)
 const AdminApp = lazy(() => import('./pages/admin/AdminApp'));
-const InvestigacionLanding = lazy(() => import('./pages/investigacion/InvestigacionLanding'));
+const InvestigationLanding = lazy(() => import('./pages/investigation/InvestigationLanding'));
 const ProductDetail = lazy(() => import('./pages/products/ProductDetail'));
 
 // Wrap con Suspense
 <Suspense fallback={<div>Loading...</div>}>
   <Routes>
     <Route path="/adminx" element={<AdminApp />} />
-    <Route path="/investigacion" element={<InvestigacionLanding />} />
+    <Route path="/investigacion" element={<InvestigationLanding />} />
     {/* ... */}
   </Routes>
 </Suspense>
@@ -166,8 +166,8 @@ import Team from './components/sections/Team';
 import Partners from './components/sections/Partners';
 import Contact from './components/sections/Contact';
 import ProductDetail from './pages/products/ProductDetail';
-import InvestigacionLanding from './pages/investigacion/InvestigacionLanding'; // ✅ Es público
-import InvestigacionDetail from './pages/investigacion/InvestigacionDetail';   // ✅ Es público
+import InvestigationLanding from './pages/investigation/InvestigationLanding'; // ✅ Es público
+import InvestigationDetail from './pages/investigation/InvestigationDetail';   // ✅ Es público
 
 // 🔐 CMS: carga bajo demanda (SOLO si accedes a /adminx)
 const AdminApp = lazy(() => import('./pages/admin/AdminApp'));
@@ -178,8 +178,8 @@ function App() {
       <Routes>
         {/* ✅ Web pública: carga rápido */}
         <Route path="/" element={<HomePage />} />
-        <Route path="/investigacion" element={<InvestigacionLanding />} /> {/* PÚBLICO */}
-        <Route path="/investigacion/:slug" element={<InvestigacionDetail />} /> {/* PÚBLICO */}
+        <Route path="/investigacion" element={<InvestigationLanding />} /> {/* PÚBLICO */}
+        <Route path="/investigacion/:slug" element={<InvestigationDetail />} /> {/* PÚBLICO */}
         <Route path="/productos/:id" element={<ProductDetail />} />
         
         {/* 🔐 CMS: carga SOLO si el admin accede */}
@@ -198,7 +198,7 @@ function App() {
 - ❌ Investigación NO es parte del CMS
 - ✅ Investigación ES parte de la web pública
 - 🔐 El CMS solo EDITA los artículos (AdminApp)
-- 👥 Los usuarios VEN los artículos (InvestigacionLanding)
+- 👥 Los usuarios VEN los artículos (InvestigationLanding)
 
 ---
 

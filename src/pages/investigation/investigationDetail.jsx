@@ -1,4 +1,4 @@
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../context/hooks/useLanguage";
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -11,7 +11,7 @@ import {
 
 const PHONE_NUMBER = "51988496839"; // usado en otras partes del sitio
 
-const InvestigacionDetail = ({
+const InvestigationDetail = ({
   article: articleProp = null,
   isPreview = false,
 }) => {
@@ -32,7 +32,7 @@ const InvestigacionDetail = ({
 
     const load = async () => {
       try {
-        // Cambiado de /assets/images/investigacion/posts.json a /content/research.json
+        // Cambiado de /assets/images/investigation/posts.json a /content/research.json
         // para usar la misma fuente que el CMS y la landing
         const res = await fetch("/content/research.json");
         const data = await res.json();
@@ -42,7 +42,7 @@ const InvestigacionDetail = ({
 
         setArticles(activeArticles);
 
-        console.log("📄 [InvestigacionDetail] Loaded articles:", {
+        console.log("📄 [InvestigationDetail] Loaded articles:", {
           total: data.length,
           active: activeArticles.length,
           archived: data.length - activeArticles.length,
@@ -447,4 +447,4 @@ const CitationBlock = ({ article, doiUrl }) => {
   );
 };
 
-export default InvestigacionDetail;
+export default InvestigationDetail;

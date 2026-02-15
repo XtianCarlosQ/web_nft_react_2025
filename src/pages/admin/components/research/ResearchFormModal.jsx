@@ -3,11 +3,11 @@ import { X, Edit, Globe, RotateCcw } from "lucide-react";
 import ResearchCardForm from "./ResearchCardForm";
 import ResearchDetailForm from "./ResearchDetailForm";
 import ArticleCard from "../../../../components/research/ArticleCard";
-import InvestigacionDetail from "../../../../pages/investigacion/InvestigacionDetail";
 import {
   LanguageProvider,
   useLanguage,
 } from "../../../../context/LanguageContext";
+import InvestigationDetail from "../../../investigation/investigationDetail.jsx";
 import { validateOrder, getOrderRange } from "../../../../utils/crudHelpers";
 import FieldRequiredModal from "./FieldRequiredModal";
 import DetailIncompleteConfirmModal from "../products/DetailIncompleteConfirmModal";
@@ -70,7 +70,7 @@ export default function ResearchFormModal({
   const uploadPDF = useFileUpload({
     accept: ".pdf,application/pdf",
     maxSize: 10 * 1024 * 1024, // 10MB
-    uploadPath: "public/assets/images/investigacion/pdf/",
+    uploadPath: "public/assets/images/investigation/pdf/",
     onSuccess: (fileUrl) =>
       setFormData((p) => ({ ...p, download_link_pdf: fileUrl })),
   });
@@ -78,7 +78,7 @@ export default function ResearchFormModal({
   const uploadImage = useFileUpload({
     accept: "image/*",
     maxSize: 5 * 1024 * 1024, // 5MB
-    uploadPath: "public/assets/images/investigacion/images/",
+    uploadPath: "public/assets/images/investigation/images/",
     onSuccess: (fileUrl) => setFormData((p) => ({ ...p, localImage: fileUrl })),
   });
 
@@ -532,7 +532,7 @@ export default function ResearchFormModal({
                 <LanguageProvider>
                   <PreviewWrapper language={previewLanguage}>
                     {/* Vista Detalle: renderizar componente completo sin wrappers adicionales */}
-                    <InvestigacionDetail
+                    <InvestigationDetail
                       article={previewArticle}
                       isPreview={true}
                     />

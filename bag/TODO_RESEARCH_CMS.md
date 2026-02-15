@@ -4,7 +4,7 @@
 
 1. ✅ Cargar datos correctamente en tabla
 2. ✅ Normalizar IDs y orden
-3. ✅ InvestigacionDetail.jsx carga correctamente
+3. ✅ InvestigationDetail.jsx carga correctamente
 4. ✅ Mapeo correcto de title y summary_30w (string → objeto bilingüe)
 5. ✅ Mapeo de abstract → fullSummary
 
@@ -44,7 +44,7 @@
 - ✅ Resumen completo ya se mapea de `abstract`
 - ⚠️ Cambiar label "Resumen Completo" → "Abstract" o "Resumen"
 
-### 2.2 Layout NO es fiel a InvestigacionDetail.jsx
+### 2.2 Layout NO es fiel a InvestigationDetail.jsx
 
 **Orden correcto (Digital Twin):**
 

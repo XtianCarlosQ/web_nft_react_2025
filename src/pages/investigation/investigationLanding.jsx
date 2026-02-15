@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../context/hooks/useLanguage";
 import ArticleCard from "../../components/research/ArticleCard";
 import {
   Search,
@@ -12,7 +12,7 @@ import {
   Settings,
 } from "lucide-react";
 
-const InvestigacionLanding = () => {
+const InvestigationLanding = () => {
   const { t, language } = useLanguage();
   const [articles, setArticles] = useState([]);
   const [filteredArticles, setFilteredArticles] = useState([]);
@@ -27,7 +27,7 @@ const InvestigacionLanding = () => {
   useEffect(() => {
     const loadArticles = async () => {
       try {
-        // Cambiado de /assets/images/investigacion/posts.json a /content/research.json
+        // Cambiado de /assets/images/investigation/posts.json a /content/research.json
         // para usar la misma fuente que el CMS
         const response = await fetch("/content/research.json");
         const data = await response.json();
@@ -39,7 +39,7 @@ const InvestigacionLanding = () => {
         setFilteredArticles(activeArticles);
         setLoading(false);
 
-        console.log("📚 [InvestigacionLanding] Loaded articles:", {
+        console.log("📚 [InvestigationLanding] Loaded articles:", {
           total: data.length,
           active: activeArticles.length,
           archived: data.length - activeArticles.length,
@@ -403,4 +403,4 @@ const InvestigacionLanding = () => {
   );
 };
 
-export default InvestigacionLanding;
+export default InvestigationLanding;

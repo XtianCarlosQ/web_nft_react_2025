@@ -3,11 +3,23 @@
 ## 📊 Análisis de rutas
 
 ### ✅ WEB PÚBLICA (NO lazy - carga inmediata)
+
 ```javascript
 /                          → Landing page (Hero, About, Products...)
-/investigacion             → InvestigacionLanding (catálogo de artículos)
-/investigacion/:slug       → InvestigacionDetail (detalle de artículo)
-/productos/:id             → ProductDetail (detalle de producto)
+/investigacion             → InvestigationLanding (catálogo de artículos)
+/investigacion/
+:
+slug       → InvestigationDetail(detalle
+de
+artículo
+)
+/
+productos /
+:
+id             → ProductDetail(detalle
+de
+producto
+)
 ```
 
 **Razón:** Son rutas que usuarios normales visitan. Deben cargar rápido.
@@ -45,8 +57,8 @@ import Services from "./components/sections/Services";
 import Partners from "./components/sections/Partners";
 import Contact from "./components/sections/Contact";
 import ProductDetail from "./pages/products/ProductDetail";
-import InvestigacionLanding from "./pages/investigacion/InvestigacionLanding";
-import InvestigacionDetail from "./pages/investigacion/InvestigacionDetail";
+import InvestigationLanding from "./pages/investigation/InvestigationLanding";
+import InvestigationDetail from "./pages/investigation/InvestigationDetail";
 import WhatsAppButton from "./components/common/WhatsAppButton";
 import GridOverlay from "./components/GridOverlay";
 import ScrollToTop from "./components/ScrollToTop";
@@ -149,7 +161,7 @@ const App = () => {
                     element={
                       <>
                         <main className="pt-20">
-                          <InvestigacionLanding />
+                          <InvestigationLanding />
                         </main>
                         <Footer />
                         <WhatsAppButton />
@@ -163,7 +175,7 @@ const App = () => {
                     element={
                       <>
                         <main className="pt-20">
-                          <InvestigacionDetail />
+                          <InvestigationDetail />
                         </main>
                         <Footer />
                         <WhatsAppButton />
@@ -278,11 +290,11 @@ export default App;
 
 ---
 
-## 🎓 Por qué InvestigacionLanding NO es lazy
+## 🎓 Por qué InvestigationLanding NO es lazy
 
 ```javascript
 // ❌ INCORRECTO (mi error anterior)
-const InvestigacionLanding = lazy(() => import('./pages/investigacion/InvestigacionLanding'));
+const InvestigationLanding = lazy(() => import('./pages/investigation/InvestigationLanding'));
 
 // Problema: Los usuarios normales quieren ver investigación
 // Si es lazy, tendrán un delay cada vez que accedan
@@ -290,7 +302,7 @@ const InvestigacionLanding = lazy(() => import('./pages/investigacion/Investigac
 
 ```javascript
 // ✅ CORRECTO
-import InvestigacionLanding from './pages/investigacion/InvestigacionLanding';
+import InvestigationLanding from './pages/investigation/InvestigationLanding';
 
 // Beneficio: Carga inmediata sin delay
 // Es contenido público importante, debe ser rápido

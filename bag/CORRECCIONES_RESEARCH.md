@@ -9,7 +9,7 @@
 **Solución:**
 
 - ✅ Unificado todo en `/public/content/research.json`
-- ✅ Actualizado `InvestigacionLanding.jsx` para leer de `/content/research.json`
+- ✅ Actualizado `InvestigationLanding.jsx` para leer de `/content/research.json`
 - ✅ Eliminados archivos duplicados:
   - `public/assets/images/investigacion/posts.json`
   - `src/investigacion/posts.json`
@@ -80,9 +80,9 @@ public/
   "summary_30w": "Some animal fibers are considerably cheaper...",
   "keywords": ["Deep learning", "FTIR spectrometry", ...],
   "products": ["Otros"],
-  "localImage": "/assets/images/investigacion/images/...",
+  "localImage": "/assets/images/investigation/images/...",
   "download_link_DOI": "https://doi.org/10.1080/...",
-  "download_link_pdf": "/assets/images/investigacion/pdf/...",
+  "download_link_pdf": "/assets/images/investigation/pdf/...",
   "author": ["Max Quispe", "Jesús D. Trigo", ...]
 }
 ```

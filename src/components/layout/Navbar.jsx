@@ -45,7 +45,7 @@ const Navbar = () => {
   const activeInicio = pathname === "/";
   const activeProductos = pathname.startsWith("/productos");
   const activeServicios = pathname.startsWith("/servicios");
-  const activeInvestigacion = pathname.startsWith("/investigacion");
+  const activeInvestigacion = pathname.startsWith("/investigation");
   const activeNosotros = pathname.startsWith("/nosotros");
   const activeContacto = pathname.startsWith("/contacto");
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
