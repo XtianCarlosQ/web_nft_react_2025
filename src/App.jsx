@@ -64,8 +64,6 @@ const App = () => {
                           <Team />
                           <Partners />
                         </main>
-                        <Footer />
-                        <WhatsAppButton />
                       </>
                     }
                   />
@@ -76,8 +74,6 @@ const App = () => {
                         <main className="container-app pt-20">
                           <Products />
                         </main>
-                        <Footer />
-                        <WhatsAppButton />
                       </>
                     }
                   />
@@ -88,8 +84,6 @@ const App = () => {
                         <main className="container-app pt-20">
                           <Services />
                         </main>
-                        <Footer />
-                        <WhatsAppButton />
                       </>
                     }
                   />
@@ -100,8 +94,6 @@ const App = () => {
                         <main className="container-app pt-20">
                           <About />
                         </main>
-                        <Footer />
-                        <WhatsAppButton />
                       </>
                     }
                   />
@@ -112,8 +104,6 @@ const App = () => {
                         <main className="container-app pt-20">
                           <Contact />
                         </main>
-                        <Footer />
-                        <WhatsAppButton />
                       </>
                     }
                   />
@@ -124,8 +114,6 @@ const App = () => {
                         <main className="pt-16">
                           <ProductDetail />
                         </main>
-                        <Footer />
-                        <WhatsAppButton />
                       </>
                     }
                   />
@@ -136,8 +124,6 @@ const App = () => {
                         <main className="pt-16">
                           <InvestigationLanding />
                         </main>
-                        <Footer />
-                        <WhatsAppButton />
                       </>
                     }
                   />
@@ -148,8 +134,6 @@ const App = () => {
                         <main className="pt-16">
                           <InvestigationDetail />
                         </main>
-                        <Footer />
-                        <WhatsAppButton />
                       </>
                     }
                   />
@@ -179,6 +163,8 @@ const App = () => {
                     }
                   />
                 </Routes>
+                <Footer />
+                <WhatsAppButton />
               </div>
             </ProductsProvider>
           </GridProvider>
