@@ -14,7 +14,7 @@ import {
   Activity,
   Weight,
 } from "lucide-react";
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../context/hooks/useLanguage";
 import { messages } from "../../config/i18n";
 
 // Lightweight presentational components copied/adapted from ProductDetail.jsx

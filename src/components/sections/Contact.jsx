@@ -9,7 +9,7 @@ import {
   MessageCircle,
   Building,
 } from "lucide-react";
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../context/hooks/useLanguage";
 
 // Contact form component
 // - Simple controlled form

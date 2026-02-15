@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../context/hooks/useLanguage";
 import { messages } from "../../config/i18n"; // ✅ Importar messages para admin preview
 import {
   normalizeTeamMember,

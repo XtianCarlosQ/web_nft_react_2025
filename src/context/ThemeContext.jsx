@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-
-const ThemeContext = createContext();
+import React, { useEffect, useState, useCallback, useMemo } from "react";
+import { ThemeContext } from "./contexts/ThemeContext";
 
 export const ThemeProvider = ({ children }) => {
   const getInitial = () => {
@@ -17,7 +16,7 @@ export const ThemeProvider = ({ children }) => {
 
   const [darkMode, setDarkMode] = useState(getInitial);
 
-  const toggleDarkMode = () => setDarkMode((v) => !v);
+  const toggleDarkMode = useCallback(() => setDarkMode((v) => !v), []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -25,11 +24,16 @@ export const ThemeProvider = ({ children }) => {
     }
   }, [darkMode]);
 
+  const value = useMemo(
+    () => ({ darkMode, toggleDarkMode }),
+    [darkMode, toggleDarkMode]
+  );
+
   return (
-    <ThemeContext.Provider value={{ darkMode, toggleDarkMode }}>
+    <ThemeContext.Provider value={value}>
       <div className={`${darkMode ? "dark" : ""} app-theme`}>{children}</div>
     </ThemeContext.Provider>
   );
 };
 
-export const useTheme = () => useContext(ThemeContext);
+// Hook moved to src/context/hooks/useTheme.js to satisfy Fast Refresh lint rule.

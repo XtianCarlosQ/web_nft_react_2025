@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../context/hooks/useLanguage";
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);

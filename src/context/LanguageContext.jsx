@@ -1,13 +1,11 @@
 import React, {
-  createContext,
-  useContext,
   useEffect,
   useMemo,
   useState,
+  useCallback,
 } from "react";
 import { messages } from "../config/i18n";
-
-const LanguageContext = createContext();
+import { LanguageContext } from "./contexts/LanguageContext";
 
 export const LanguageProvider = ({ children }) => {
   const getInitial = () => {
@@ -31,12 +29,14 @@ export const LanguageProvider = ({ children }) => {
       if (typeof document !== "undefined") {
         document.documentElement.setAttribute("lang", language);
       }
-    } catch {}
+    } catch (err) {
+      console.warn("LanguageContext: failed to persist or set document lang", err);
+    }
   }, [language]);
 
-  const toggleLanguage = (lang) => {
+  const toggleLanguage = useCallback((lang) => {
     if (["es", "en"].includes(lang)) setLanguage(lang);
-  };
+  }, []);
 
   const t = useMemo(() => {
     const dict = messages[language] || messages.es || {};
@@ -53,7 +53,7 @@ export const LanguageProvider = ({ children }) => {
     };
   }, [language]);
 
-  const value = useMemo(() => ({ language, toggleLanguage, t }), [language, t]);
+  const value = useMemo(() => ({ language, toggleLanguage, t }), [language, toggleLanguage, t]);
 
   return (
     <LanguageContext.Provider value={value}>
@@ -62,4 +62,4 @@ export const LanguageProvider = ({ children }) => {
   );
 };
 
-export const useLanguage = () => useContext(LanguageContext);
+// Hook moved to src/context/hooks/useLanguage.js to satisfy Fast Refresh lint rule.

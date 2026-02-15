@@ -1,4 +1,4 @@
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../context/hooks/useLanguage";
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import {

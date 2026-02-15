@@ -1,6 +1,6 @@
 import React from "react";
 import { Phone, Mail } from "lucide-react";
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../context/hooks/useLanguage";
 
 const socials = [
   {

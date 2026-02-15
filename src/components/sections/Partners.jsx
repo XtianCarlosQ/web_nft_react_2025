@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../../styles/partners.css";
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../context/hooks/useLanguage";
 
 const partners = [
   { src: "/assets/images/partners/Maxcorp.png", alt: "Maxcorp" },

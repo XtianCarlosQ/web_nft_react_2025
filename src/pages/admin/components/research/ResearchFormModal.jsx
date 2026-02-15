@@ -3,11 +3,8 @@ import { X, Edit, Globe, RotateCcw } from "lucide-react";
 import ResearchCardForm from "./ResearchCardForm";
 import ResearchDetailForm from "./ResearchDetailForm";
 import ArticleCard from "../../../../components/research/ArticleCard";
-import {
-  LanguageProvider,
-  useLanguage,
-} from "../../../../context/LanguageContext";
 import InvestigationDetail from "../../../investigation/investigationDetail.jsx";
+import {LanguageProvider, useLanguage} from "../../../../context/LanguageContext";
 import { validateOrder, getOrderRange } from "../../../../utils/crudHelpers";
 import FieldRequiredModal from "./FieldRequiredModal";
 import DetailIncompleteConfirmModal from "../products/DetailIncompleteConfirmModal";

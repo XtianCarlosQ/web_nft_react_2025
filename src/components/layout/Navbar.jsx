@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useTheme } from "../../context/ThemeContext";
-import { useLanguage } from "../../context/LanguageContext";
-import { useProducts } from "../../context/ProductsContext";
+import { useTheme } from "../../context/hooks/useTheme";
+import { useLanguage } from "../../context/hooks/useLanguage";
+import { useProducts } from "../../context/hooks/useProducts";
 import { GridToggleButton } from "../GridOverlay";
 
 const Navbar = () => {
@@ -34,7 +34,6 @@ const Navbar = () => {
   }, [location.pathname]);
 
   const { pathname } = location;
-  const isActive = (matcher) => matcher(pathname);
   const navClass = (active) =>
     `px-3 py-1 rounded-lg font-medium text-md transition-colors ${
       active

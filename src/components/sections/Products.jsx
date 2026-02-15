@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Brain, Clock, Award, Microscope } from "lucide-react";
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../context/hooks/useLanguage";
 import { messages } from "../../config/i18n";
 // Eliminado: catálogo fallback en src/data. Usamos exclusivamente /content/products.json
 
