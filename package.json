@@ -18,10 +18,13 @@
     "test:services": "playwright test admin-services-button-language",
     "test:services:headed": "playwright test admin-services-button-language --headed",
     "test:services:debug": "playwright test admin-services-button-language --debug",
-    "enrich:dry": "node scripts/enrich-publications.mjs --dry",
-    "enrich": "node scripts/enrich-publications.mjs",
-    "report:pubs": "node scripts/report-publications.mjs",
-    "translate:products": "node scripts/translate-products.mjs"
+    "enrich": "node src/lib/maintenance/publications.js enrich",
+    "report:pubs": "node src/lib/maintenance/publications.js report",
+    "translate:products": "node src/lib/maintenance/products.js translate",
+    "validate:i18n": "node src/lib/maintenance/products.js validate",
+    "research:analyze": "node src/lib/maintenance/research.js analyze",
+    "research:clean": "node src/lib/maintenance/research.js clean",
+    "research:fix": "node src/lib/maintenance/research.js fix-ids"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
