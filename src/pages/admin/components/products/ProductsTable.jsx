@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import { Eye, Pencil, Archive, RotateCcw, Columns } from "lucide-react";
 import { useResponsiveColumns } from "../common/useResponsiveColumns";
-import "../common/admin-table.css";
 
 export default function ProductsTable({
   products,

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../../styles/partners.css";
+
 import { useLanguage } from "../../context/hooks/useLanguage";
 
 const partners = [

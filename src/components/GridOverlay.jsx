@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "../styles/grid-overlay.css";
+
 import { useGrid } from "../context/hooks/useGrid";
 
 // Exportamos el botón como componente separado para usarlo en el Navbar
