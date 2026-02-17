@@ -82,7 +82,7 @@ export const TeamMemberCard = ({ member, forceOverlay = false, lang }) => {
   // De lo contrario, usar t() del contexto (web pública)
   const specialtiesText = lang
     ? messages[lang]?.team?.specialties ||
-      (lang === "es" ? "Especialidades:" : "Specialties:")
+    (lang === "es" ? "Especialidades:" : "Specialties:")
     : t("team.specialties");
 
   // ✅ Handler para abrir CV o Bio
@@ -117,11 +117,10 @@ export const TeamMemberCard = ({ member, forceOverlay = false, lang }) => {
         />
         {/* Overlay con skills */}
         <div
-          className={`absolute inset-0 bg-gradient-to-t from-red-400/70 via-red-900/50 to-red-900/30 ${
-            forceOverlay
+          className={`absolute inset-0 bg-gradient-to-t from-red-400/70 via-red-900/50 to-red-900/30 ${forceOverlay
               ? "translate-y-0"
               : "translate-y-full group-hover:translate-y-0"
-          } transition-transform duration-800 ease-out flex flex-col justify-center px-6 text-white/95 backdrop-blur-[2px] rounded-2xl ring-1 ring-white/10`}
+            } transition-transform duration-800 ease-out flex flex-col justify-center px-6 text-white/95 backdrop-blur-[2px] rounded-2xl ring-1 ring-white/10`}
         >
           <h4 className="text-lg font-semibold mb-2">{specialtiesText}</h4>
           <ul className="space-y-2">
@@ -367,11 +366,10 @@ const Team = () => {
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-colors duration-200 ${
-                    index === currentSlide
+                  className={`w-3 h-3 rounded-full transition-colors duration-200 ${index === currentSlide
                       ? "bg-red-600"
                       : "bg-gray-300 hover:bg-red-400"
-                  }`}
+                    }`}
                 />
               ))}
             </div>

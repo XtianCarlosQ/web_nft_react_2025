@@ -67,8 +67,8 @@ const Hero = () => {
                     index === currentSlide
                       ? "scale(1) perspective(1000px) rotateY(0deg)"
                       : index === (currentSlide + 1) % slides.length
-                      ? "scale(0.9) perspective(1000px) rotateY(-15deg) translateX(5%)"
-                      : "scale(0.9) perspective(1000px) rotateY(15deg) translateX(-5%)",
+                        ? "scale(0.9) perspective(1000px) rotateY(-15deg) translateX(5%)"
+                        : "scale(0.9) perspective(1000px) rotateY(15deg) translateX(-5%)",
                   transformOrigin: "center center",
                   backfaceVisibility: "hidden",
                 }}
@@ -84,14 +84,14 @@ const Hero = () => {
 
               {/* Content */}
               <div className="absolute inset-0 z-20 flex items-center justify-center ">
-                <div className =" bg-opacity-50 w-full flex justify-center">
-                  <div className ="max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
+                <div className=" bg-opacity-50 w-full flex justify-center">
+                  <div className="max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
                     <h1
-                        className="text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-6 translate-y-8 animate-fadeIn drop-shadow-lg/50 ">
+                      className="text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-6 translate-y-8 animate-fadeIn drop-shadow-lg/50 ">
                       {slide.title}
                     </h1>
                     <p
-                        className="text-xl sm:text-2xl text-white mb-8 max-w-3xl mx-auto translate-y-8 animate-fadeIn drop-shadow-md/50">
+                      className="text-xl sm:text-2xl text-white mb-8 max-w-3xl mx-auto translate-y-8 animate-fadeIn drop-shadow-md/50">
                       {slide.subtitle}
                     </p>
                   </div>
@@ -151,10 +151,9 @@ const Hero = () => {
             key={index}
             onClick={() => setCurrentSlide(index)}
             className={`w-3 h-3 rounded-full transition-colors
-              ${
-                index === currentSlide
-                  ? "bg-white"
-                  : "bg-white/50 hover:bg-white/75"
+              ${index === currentSlide
+                ? "bg-white"
+                : "bg-white/50 hover:bg-white/75"
               }`}
           />
         ))}

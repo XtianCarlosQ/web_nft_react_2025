@@ -35,7 +35,7 @@ export const ProductCard = ({
   // Button text with lang prop support
   const buttonText = lang
     ? messages[lang]?.products?.viewDetails ||
-      (lang === "es" ? "Ver Detalles" : "View Details")
+    (lang === "es" ? "Ver Detalles" : "View Details")
     : t("products.viewDetails");
 
   // Helper para placeholders dinámicos (admin)
@@ -68,9 +68,8 @@ export const ProductCard = ({
             {editable ? (
               <div className="relative">
                 <input
-                  className={`text-lg font-bold text-gray-900 mb-3 w-full border rounded px-2 py-1 ${
-                    invalid?.name ? "border-red-500 ring-1 ring-red-300" : ""
-                  }`}
+                  className={`text-lg font-bold text-gray-900 mb-3 w-full border rounded px-2 py-1 ${invalid?.name ? "border-red-500 ring-1 ring-red-300" : ""
+                    }`}
                   value={product.name || ""}
                   onChange={(e) => onEdit?.(["name"], e.target.value)}
                   placeholder={getPlaceholder("name")}
@@ -90,11 +89,10 @@ export const ProductCard = ({
             {editable ? (
               <div className="relative">
                 <textarea
-                  className={`text-sm text-gray-700 leading-relaxed w-full border rounded px-2 py-1 ${
-                    invalid?.description
+                  className={`text-sm text-gray-700 leading-relaxed w-full border rounded px-2 py-1 ${invalid?.description
                       ? "border-red-500 ring-1 ring-red-300"
                       : ""
-                  }`}
+                    }`}
                   rows={3}
                   value={product.description || ""}
                   onChange={(e) => onEdit?.(["description"], e.target.value)}
@@ -130,11 +128,10 @@ export const ProductCard = ({
                   <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 mt-1.5 flex-shrink-0"></span>
                   {editable ? (
                     <input
-                      className={`flex-1 border rounded px-2 py-1 text-sm ${
-                        showHints && invalid?.features && !feature?.trim()
+                      className={`flex-1 border rounded px-2 py-1 text-sm ${showHints && invalid?.features && !feature?.trim()
                           ? "border-red-500 ring-1 ring-red-300"
                           : ""
-                      }`}
+                        }`}
                       value={feature || ""}
                       onChange={(e) =>
                         onEdit?.(["features", index], e.target.value)

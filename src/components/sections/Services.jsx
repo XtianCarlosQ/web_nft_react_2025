@@ -29,7 +29,7 @@ export const ServiceCard = ({ service, buttonText, lang }) => {
   // De lo contrario, usar t() del contexto (web pública)
   const consultText = lang
     ? messages[lang]?.services?.consult ||
-      (lang === "es" ? "Consultar" : "Consult")
+    (lang === "es" ? "Consultar" : "Consult")
     : buttonText || t("services.consult");
 
   return (
