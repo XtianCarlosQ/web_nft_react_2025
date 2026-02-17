@@ -27,21 +27,18 @@ const SectionHero = ({ resume }) => {
   const { t } = useLanguage();
   return (
     <div
-      className={`grid-ctx ${
-        resume ? "min-h-[360px] mb-[50px]" : "min-h-[220px] mb-[40px]"
-      } items-stretch`}
+      className={`grid-ctx ${resume ? "min-h-[360px] mb-[50px]" : "min-h-[220px] mb-[40px]"
+        } items-stretch`}
     >
       <div
-        className={`span-12 rounded-2xl shadow-lg ${
-          resume ? "bg-gray-50" : "bg-white p-8"
-        }`}
+        className={`span-12 rounded-2xl shadow-lg ${resume ? "bg-gray-50" : "bg-white p-8"
+          }`}
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-items-center">
           {/* Texto */}
           <div
-            className={`w-full flex flex-col justify-center ${
-              resume ? "text-center md:text-left md:pl-8" : ""
-            }`}
+            className={`w-full flex flex-col px-8 justify-center ${resume ? "text-center md:text-left md:pl-8" : ""
+              }`}
           >
             <h3 className="text-2xl font-bold text-gray-900">
               {t("about.title")}
