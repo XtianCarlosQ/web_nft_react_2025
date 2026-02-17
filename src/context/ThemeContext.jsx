@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { ThemeContext } from "./contexts/ThemeContext";
+import React, { useEffect, useState, useCallback, useMemo, createContext } from "react";
+
+export const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
   const getInitial = () => {

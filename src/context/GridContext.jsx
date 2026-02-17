@@ -1,5 +1,6 @@
-import React, { useState, useCallback, useMemo } from "react";
-import { GridContext } from "./contexts/GridContext";
+import React, { useState, useCallback, useMemo, createContext } from "react";
+
+export const GridContext = createContext();
 
 export const GridProvider = ({ children }) => {
   const [visible, setVisible] = useState(false);

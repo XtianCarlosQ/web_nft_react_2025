@@ -1,6 +1,7 @@
-import React, {useEffect, useMemo, useState, useCallback,} from "react";
+import React, { useEffect, useMemo, useState, useCallback, createContext } from "react";
 import { messages } from "../config/i18n";
-import { LanguageContext } from "./contexts/LanguageContext";
+
+export const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
   const getInitial = () => {

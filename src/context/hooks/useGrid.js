@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { GridContext } from "../contexts/GridContext";
+import { GridContext } from "../GridContext";
 
 export const useGrid = () => {
   const context = useContext(GridContext);
