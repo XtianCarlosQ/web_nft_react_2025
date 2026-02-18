@@ -196,11 +196,10 @@ const ProductMediaCarousel = ({ product }) => {
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                  index === currentIndex
-                    ? "bg-red-600"
-                    : "bg-gray-300 hover:bg-gray-400"
-                }`}
+                className={`w-3 h-3 rounded-full transition-all duration-200 ${index === currentIndex
+                  ? "bg-red-600"
+                  : "bg-gray-300 hover:bg-gray-400"
+                  }`}
               />
             ))}
           </div>
@@ -256,50 +255,50 @@ const ProductDetail = () => {
     : null;
   const product = jsonItem
     ? {
-        id: productId,
-        name: (jsonItem.name && jsonItem.name[language]) || productId,
-        tagline: (jsonItem.tagline && jsonItem.tagline[language]) || "",
-        image: jsonItem.image,
-        category: jsonItem.category,
-        description:
-          (jsonItem.description && jsonItem.description[language]) || "",
-        youtubeVideo: jsonItem.youtubeVideo || "",
-        additionalImages: jsonItem.additionalImages || [],
-        technicalSheets: jsonItem.technicalSheets || {},
-        // Preferir featuresDetail si existe; si no, mapear features simples
-        features_detail: Array.isArray(jsonItem.featuresDetail)
-          ? jsonItem.featuresDetail.map((fd) => ({
-              icon: fd.icon || "BarChart3",
-              title:
-                (fd.title &&
-                  (fd.title[language] || fd.title.es || fd.title.en)) ||
-                "",
-              description:
-                (fd.description &&
-                  (fd.description[language] ||
-                    fd.description.es ||
-                    fd.description.en)) ||
-                "",
-            }))
-          : Array.isArray(jsonItem.features) && jsonItem.features[language]
+      id: productId,
+      name: (jsonItem.name && jsonItem.name[language]) || productId,
+      tagline: (jsonItem.tagline && jsonItem.tagline[language]) || "",
+      image: jsonItem.image,
+      category: jsonItem.category,
+      description:
+        (jsonItem.description && jsonItem.description[language]) || "",
+      youtubeVideo: jsonItem.youtubeVideo || "",
+      additionalImages: jsonItem.additionalImages || [],
+      technicalSheets: jsonItem.technicalSheets || {},
+      // Preferir featuresDetail si existe; si no, mapear features simples
+      features_detail: Array.isArray(jsonItem.featuresDetail)
+        ? jsonItem.featuresDetail.map((fd) => ({
+          icon: fd.icon || "BarChart3",
+          title:
+            (fd.title &&
+              (fd.title[language] || fd.title.es || fd.title.en)) ||
+            "",
+          description:
+            (fd.description &&
+              (fd.description[language] ||
+                fd.description.es ||
+                fd.description.en)) ||
+            "",
+        }))
+        : Array.isArray(jsonItem.features) && jsonItem.features[language]
           ? jsonItem.features[language].map((f) => ({
-              icon: "BarChart3",
-              title: f,
-              description: f,
-            }))
+            icon: "BarChart3",
+            title: f,
+            description: f,
+          }))
           : [],
-        specifications:
-          jsonItem.specifications &&
+      specifications:
+        jsonItem.specifications &&
           typeof jsonItem.specifications === "object" &&
           jsonItem.specifications[language]
-            ? jsonItem.specifications[language]
-            : jsonItem.specifications || {},
-        capabilities: Array.isArray(jsonItem.capabilities?.[language])
-          ? jsonItem.capabilities[language]
-          : Array.isArray(jsonItem.capabilities)
+          ? jsonItem.specifications[language]
+          : jsonItem.specifications || {},
+      capabilities: Array.isArray(jsonItem.capabilities?.[language])
+        ? jsonItem.capabilities[language]
+        : Array.isArray(jsonItem.capabilities)
           ? jsonItem.capabilities
           : [],
-      }
+    }
     : null;
 
   // Merge translations for product content (category, tagline, description, feature titles/descriptions)
@@ -318,18 +317,18 @@ const ProductDetail = () => {
   // Build localized product view
   const localized = product
     ? {
-        ...product,
-        category: overlayText("category") || product.category,
-        tagline: overlayText("tagline") || product.tagline,
-        description: overlayText("description") || product.description,
-        features:
-          overlayArray("features")?.map((f, i) => ({
-            icon: product.features_detail?.[i]?.icon || BarChart3,
-            title: f.title || product.features_detail?.[i]?.title,
-            description:
-              f.description || product.features_detail?.[i]?.description,
-          })) || product.features_detail,
-      }
+      ...product,
+      category: overlayText("category") || product.category,
+      tagline: overlayText("tagline") || product.tagline,
+      description: overlayText("description") || product.description,
+      features:
+        overlayArray("features")?.map((f, i) => ({
+          icon: product.features_detail?.[i]?.icon || BarChart3,
+          title: f.title || product.features_detail?.[i]?.title,
+          description:
+            f.description || product.features_detail?.[i]?.description,
+        })) || product.features_detail,
+    }
     : null;
 
   // Handle product not found
@@ -362,7 +361,7 @@ const ProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container-app pt-4 pb-12">
+      <div className="w-full max-w-[1110px] mx-auto px-4 pt-4 pb-12">
         {/* Breadcrumb */}
         <div className="grid-ctx mb-4">
           <div className="span-12">
