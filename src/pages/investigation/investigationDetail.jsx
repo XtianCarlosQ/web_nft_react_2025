@@ -164,7 +164,7 @@ const InvestigationDetail = ({
 
   // Wrapper condicional: sin padding si es preview
   const Wrapper = isPreview ? "div" : "div";
-  const wrapperClass = isPreview ? "" : "container-app py-6";
+  const wrapperClass = isPreview ? "" : "w-full max-w-[1110px] mx-auto px-4 py-6";
 
   return (
     <div className={wrapperClass}>
@@ -179,9 +179,9 @@ const InvestigationDetail = ({
                 typeof article.title === "string"
                   ? article.title
                   : article.title?.[language] ||
-                    article.title?.es ||
-                    article.title?.en ||
-                    "Artículo"
+                  article.title?.es ||
+                  article.title?.en ||
+                  "Artículo"
               }
               className="w-full h-full object-contain"
             />
@@ -197,10 +197,10 @@ const InvestigationDetail = ({
             {typeof article.title === "string"
               ? article.title
               : article.title?.[language] ||
-                article.title?.[effectiveLanguage] ||
-                article.title?.es ||
-                article.title?.en ||
-                "Sin título"}
+              article.title?.[effectiveLanguage] ||
+              article.title?.es ||
+              article.title?.en ||
+              "Sin título"}
           </h1>
 
           {/* Meta */}
@@ -241,10 +241,10 @@ const InvestigationDetail = ({
               {typeof article.abstract === "string"
                 ? article.abstract
                 : article.abstract?.[language] ||
-                  article.abstract?.[effectiveLanguage] ||
-                  article.abstract?.es ||
-                  article.abstract?.en ||
-                  ""}
+                article.abstract?.[effectiveLanguage] ||
+                article.abstract?.es ||
+                article.abstract?.en ||
+                ""}
             </p>
           </div>
 
@@ -381,12 +381,10 @@ const CitationBlock = ({ article, doiUrl }) => {
     ? authorsList.join("; ")
     : "Autores no disponibles";
 
-  const apa = `${authorsAPA} (${parts.year}). ${articleTitle}. ${
-    article.journal
-  }. ${doiUrl || article.href || ""}`.trim();
-  const mla = `${authorsMLA}. "${articleTitle}." ${article.journal}, ${
-    parts.day
-  } ${parts.monthName} ${parts.year}. ${doiUrl || article.href || ""}`.trim();
+  const apa = `${authorsAPA} (${parts.year}). ${articleTitle}. ${article.journal
+    }. ${doiUrl || article.href || ""}`.trim();
+  const mla = `${authorsMLA}. "${articleTitle}." ${article.journal}, ${parts.day
+    } ${parts.monthName} ${parts.year}. ${doiUrl || article.href || ""}`.trim();
 
   const text = style === "APA" ? apa : mla;
 
@@ -409,21 +407,19 @@ const CitationBlock = ({ article, doiUrl }) => {
             {t("researchDetail.format")}{" "}
           </h2>
           <button
-            className={`px-3 py-1 rounded border font-semibold transition-colors ${
-              style === "APA"
-                ? "bg-red-600 text-white  hover:bg-red-700"
-                : "bg-gray-100 text-gray-600  hover:bg-gray-200"
-            }`}
+            className={`px-3 py-1 rounded border font-semibold transition-colors ${style === "APA"
+              ? "bg-red-600 text-white  hover:bg-red-700"
+              : "bg-gray-100 text-gray-600  hover:bg-gray-200"
+              }`}
             onClick={() => setStyle("APA")}
           >
             APA
           </button>
           <button
-            className={`px-3 py-1 rounded border font-semibold transition-colors ${
-              style === "MLA"
-                ? "bg-red-600 text-white  hover:bg-red-700"
-                : "bg-gray-100 text-gray-600  hover:bg-gray-200"
-            }`}
+            className={`px-3 py-1 rounded border font-semibold transition-colors ${style === "MLA"
+              ? "bg-red-600 text-white  hover:bg-red-700"
+              : "bg-gray-100 text-gray-600  hover:bg-gray-200"
+              }`}
             onClick={() => setStyle("MLA")}
           >
             MLA
