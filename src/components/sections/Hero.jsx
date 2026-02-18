@@ -85,13 +85,13 @@ const Hero = () => {
               {/* Content */}
               <div className="absolute inset-0 z-20 flex items-center justify-center ">
                 <div className=" bg-opacity-50 w-full flex justify-center">
-                  <div className="max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
+                  <div className="max-w-5xl px-4 sm:px-6 lg:px-8 text-center pt-12 md:pt-0">
                     <h1
-                      className="text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-6 translate-y-8 animate-fadeIn drop-shadow-lg/50 ">
+                      className="text-3xl sm:text-5xl md:text-7xl font-bold text-white mb-4 sm:mb-6 translate-y-8 animate-fadeIn drop-shadow-lg/50 leading-tight">
                       {slide.title}
                     </h1>
                     <p
-                      className="text-xl sm:text-2xl text-white mb-8 max-w-3xl mx-auto translate-y-8 animate-fadeIn drop-shadow-md/50">
+                      className="text-base sm:text-xl md:text-2xl text-white mb-6 sm:mb-8 max-w-3xl mx-auto translate-y-8 animate-fadeIn drop-shadow-md/50 leading-relaxed">
                       {slide.subtitle}
                     </p>
                   </div>
