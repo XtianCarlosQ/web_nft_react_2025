@@ -317,7 +317,7 @@ const About = ({ resume = false }) => {
       id="nosotros"
       className="bg-gray-50 rounded-2xl shadow-lg pt-[50px]"
     >
-      <div className="container-app">
+      <div className="w-full px-4">
         <SectionHero resume={resume} />
         <SectionStats stats={stats} />
         <SectionUnique />

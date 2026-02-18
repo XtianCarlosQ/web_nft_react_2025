@@ -193,7 +193,7 @@ const Services = ({ limit }) => {
 
   return (
     <section id="servicios" className="py-8 bg-gray-50 rounded-3xl shadow-lg">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="w-full mx-auto px-4">
         <div className="mb-10">
           <h2 className="text-2xl font-bold text-center mb-3 tracking-tight">
             {t("services.title").split(" ")[0]}{" "}

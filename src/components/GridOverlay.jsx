@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-
 import { useGrid } from "../context/hooks/useGrid";
 
 // Exportamos el botón como componente separado para usarlo en el Navbar

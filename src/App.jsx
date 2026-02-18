@@ -51,12 +51,12 @@ const App = () => {
                 <Navbar />
                 <ScrollToTop />
                 <GridOverlay />
-                <Routes>
+                <Routes >
                   <Route
                     path="/"
                     element={
                       <>
-                        <main className="container-app pt-20">
+                        <main className="w-full max-w-[1110px] mx-auto px-4 pt-20">
                           <Hero />
                           <About resume />
                           <Products limit={3} />
@@ -71,7 +71,7 @@ const App = () => {
                     path="/productos"
                     element={
                       <>
-                        <main className="container-app pt-20">
+                        <main className="w-full max-w-[1110px] mx-auto px-4 pt-20">
                           <Products />
                         </main>
                       </>
@@ -81,7 +81,7 @@ const App = () => {
                     path="/servicios"
                     element={
                       <>
-                        <main className="container-app pt-20">
+                        <main className="w-full max-w-[1110px] mx-auto px-4 pt-20">
                           <Services />
                         </main>
                       </>
@@ -91,7 +91,7 @@ const App = () => {
                     path="/nosotros"
                     element={
                       <>
-                        <main className="container-app pt-20">
+                        <main className="w-full max-w-[1110px] mx-auto px-4 pt-20">
                           <About />
                         </main>
                       </>
@@ -101,7 +101,7 @@ const App = () => {
                     path="/contacto"
                     element={
                       <>
-                        <main className="container-app pt-20">
+                        <main className="w-full max-w-[1110px] mx-auto px-4 pt-20">
                           <Contact />
                         </main>
                       </>
@@ -121,7 +121,7 @@ const App = () => {
                     path="/investigacion"
                     element={
                       <>
-                        <main className="pt-16">
+                        <main className="w-full max-w-[1110px] mx-auto px-4 pt-20">
                           <InvestigationLanding />
                         </main>
                       </>

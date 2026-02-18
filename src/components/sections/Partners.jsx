@@ -31,7 +31,7 @@ const Partners = () => {
 
   return (
     <section id="investigacion" className="relative py-16 bg-neutral-10">
-      <div className="container-app">
+      <div className="w-full px-4">
         <div className="grid-ctx items-end mb-8">
           <div className="span-12">
             <p className="text-xs tracking-widest uppercase text-gray-500 mb-2">

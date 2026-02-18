@@ -254,7 +254,7 @@ const Contact = () => {
       id="contacto"
       className="bg-gray-50 rounded-2xl shadow-lg pt-[50px] pb-[1px]"
     >
-      <div className="container-app">
+      <div className="w-full px-4">
         {/* Header */}
         <div className="grid-ctx mb-[40px]">
           <div className="span-12 text-center">

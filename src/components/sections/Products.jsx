@@ -90,8 +90,8 @@ export const ProductCard = ({
               <div className="relative">
                 <textarea
                   className={`text-sm text-gray-700 leading-relaxed w-full border rounded px-2 py-1 ${invalid?.description
-                      ? "border-red-500 ring-1 ring-red-300"
-                      : ""
+                    ? "border-red-500 ring-1 ring-red-300"
+                    : ""
                     }`}
                   rows={3}
                   value={product.description || ""}
@@ -129,8 +129,8 @@ export const ProductCard = ({
                   {editable ? (
                     <input
                       className={`flex-1 border rounded px-2 py-1 text-sm ${showHints && invalid?.features && !feature?.trim()
-                          ? "border-red-500 ring-1 ring-red-300"
-                          : ""
+                        ? "border-red-500 ring-1 ring-red-300"
+                        : ""
                         }`}
                       value={feature || ""}
                       onChange={(e) =>
@@ -228,7 +228,7 @@ const Products = ({ limit }) => {
 
   return (
     <section id="productos" className="py-8 bg-gray-0 rounded-3xl shadow-lg">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="w-full mx-auto px-4">
         <div className="mb-10">
           <h2 className="text-2xl font-bold text-center mb-3 tracking-tight">
             {t("products.title").split(" ")[0]}{" "}
