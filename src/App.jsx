@@ -21,6 +21,8 @@ import WhatsAppButton from "./components/common/WhatsAppButton";
 import GridOverlay from "./components/GridOverlay";
 import ScrollToTop from "./components/ScrollToTop";
 import ErrorBoundary from "./components/ErrorBoundary";
+import FAQChatbot from "./components/faqChatbot/index.jsx";
+
 
 // ========================================
 // 🔐 CMS - Carga bajo demanda (lazy)
@@ -135,8 +137,6 @@ const App = () => {
             {/* ========================================
                       🔐 CMS - ADMIN ONLY (lazy loading)
                       ======================================== */}
-                <Footer />
-                <WhatsAppButton />
             <Route
               path="/adminx"
               element={
@@ -160,6 +160,11 @@ const App = () => {
             />
           </Routes>
           <Footer />
+          <div className="fixed bottom-5 right-5 z-40 flex flex-row gap-4 items-end  ">
+            <WhatsAppButton />
+            <FAQChatbot />
+
+          </div>
         </div>
       </AppProviders>
     </ErrorBoundary>
