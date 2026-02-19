@@ -54,7 +54,7 @@ const FaqChatbot = () => {
                                 {msg.text}
                                 {msg.showContact && (
                                     <button
-                                        onClick={() => alert(language === 'es' ? 'Redirigiendo a contacto...' : 'Redirecting to contact...')}
+                                        onClick={() => window.open('https://wa.me/51988496839', '_blank')}
                                         className="mt-3 w-full bg-red-600/10 dark:bg-[#f05252]/10 text-red-600 dark:text-[#f05252] font-medium py-2 rounded-lg hover:bg-red-600/20 dark:hover:bg-[#f05252]/20 transition-colors text-xs flex items-center justify-center gap-2 border border-red-600/20 dark:border-[#f05252]/20"
                                     >
                                         {language === 'es' ? 'Contáctanos' : 'Contact Us'}
