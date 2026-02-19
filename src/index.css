@@ -1,5 +1,47 @@
 @import "tailwindcss";
 
+@theme {
+  --color-surface: color-mix(in srgb, var(--surface), transparent 0%);
+  --color-text-main: color-mix(in srgb, var(--text), transparent 0%);
+  --color-muted: color-mix(in srgb, var(--muted), transparent 0%);
+  --color-border-theme: color-mix(in srgb, var(--border), transparent 0%);
+  --color-primary: color-mix(in srgb, var(--primary), transparent 0%);
+  --color-primary-700: color-mix(in srgb, var(--primary-700), transparent 0%);
+  --color-glass-bg: color-mix(in srgb, var(--glass-bg), transparent 0%);
+
+  --animate-fade-in-up: fade-in-up 0.3s ease-out;
+  --animate-bounce-slow: bounce-slow 3s infinite;
+
+  @keyframes fade-in-up {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes bounce-slow {
+
+    0%,
+    100% {
+      transform: translateY(-5%);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+
+    50% {
+      transform: translateY(0);
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
+}
+
+/* Custom variant for dark mode */
+@variant dark (&:where(.dark, .dark *));
+
 body {
   font-family: "Poppins", sans-serif;
 }
@@ -36,6 +78,7 @@ body {
 }
 
 .dark {
+  color-scheme: dark;
   --bg: #0b0c0f;
   /* near-black with blue-ish undertone */
   --surface: #121316;
