@@ -1,23 +1,21 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { useState, useCallback, useMemo, createContext } from "react";
 
-const GridContext = createContext();
+export const GridContext = createContext();
 
 export const GridProvider = ({ children }) => {
   const [visible, setVisible] = useState(false);
 
-  const toggleGrid = () => setVisible((prev) => !prev);
+  const toggleGrid = useCallback(() => {
+    setVisible((prev) => !prev);
+  }, []);
+
+  const value = useMemo(() => ({ visible, toggleGrid }), [visible, toggleGrid]);
 
   return (
-    <GridContext.Provider value={{ visible, toggleGrid }}>
+    <GridContext.Provider value={value}>
       {children}
     </GridContext.Provider>
   );
 };
 
-export const useGrid = () => {
-  const context = useContext(GridContext);
-  if (!context) {
-    throw new Error("useGrid must be used within a GridProvider");
-  }
-  return context;
-};
+// Hook moved to src/context/hooks/useGrid.js to satisfy Fast Refresh lint rule.

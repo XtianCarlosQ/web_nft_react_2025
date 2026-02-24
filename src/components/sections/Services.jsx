@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../context/hooks/useLanguage";
 import { messages } from "../../config/i18n"; // ✅ Importar messages para admin preview
 import {
   Brain,
@@ -29,7 +29,7 @@ export const ServiceCard = ({ service, buttonText, lang }) => {
   // De lo contrario, usar t() del contexto (web pública)
   const consultText = lang
     ? messages[lang]?.services?.consult ||
-      (lang === "es" ? "Consultar" : "Consult")
+    (lang === "es" ? "Consultar" : "Consult")
     : buttonText || t("services.consult");
 
   return (
@@ -193,7 +193,7 @@ const Services = ({ limit }) => {
 
   return (
     <section id="servicios" className="py-8 bg-gray-50 rounded-3xl shadow-lg">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="w-full mx-auto px-4">
         <div className="mb-10">
           <h2 className="text-2xl font-bold text-center mb-3 tracking-tight">
             {t("services.title").split(" ")[0]}{" "}

@@ -1,8 +1,81 @@
 [
   {
+    "id": "research-fbyc6f",
+    "slug": "identificacion-caracterizacion-y-prediccion-de-fibras-de-alpaca-visualmente-objetables-y-no-objetables-mediante-sus-caracteristicas-de-seccion-transversal",
+    "order": 1,
+    "localImage": "/assets/images/investigacion/images/identifying -characterising-and-predicting-visually-objectionable-and-non-objectionable-alpaca-fibers-by-means-of-their-cross-sectional-characteristic.png",
+    "journal": "The Journal of The Textile Institute",
+    "date": "2026-02-20",
+    "title": {
+      "es": "Identificación, caracterización y predicción de fibras de alpaca visualmente objetables y no objetables mediante sus características de sección transversal",
+      "en": ""
+    },
+    "summary_30w": {
+      "es": "Estudio de 50 alpacas permitió identificar fibras objetables mediante modelos de regresión. Estas presentan mayor tamaño y presencia de médula (99.6%), facilitando su detección precisa para mejorar la calidad textil.",
+      "en": ""
+    },
+    "keywords": [
+      "Diámetro",
+      "Elipticidad",
+      "Médula",
+      "Fibras objetables",
+      "Calidad de la fibra",
+      "Camélidos Sudamericanos"
+    ],
+    "author": [
+      "Quispe-Peña Edgar Carlos, Alvarado Alex, Paucar Ysai, Quispe Bonilla Max David, Hunter Lawrance, Huayllani Fredy & McGregor Bruce A."
+    ],
+    "products": [
+      "FIBER MULT V3.0"
+    ],
+    "abstract": {
+      "es": "Alpaca fibers may be classified according to the type of medullation, into fibers with strongly medullated (StrMed), continuous (ContMed), discontinuous (DiscMed), fragmented (FragMed), and fibers without medulla (NoMed). ContMed and StrMed may cause prickling and issues during dyeing and are less resistant in textile processing; therefore, they should be eliminated from fleece. Thus, to produce more comfortable alpaca fibers, it is essential to establish a baseline, and for this reason, this research aimed to evaluate the incidence of fibers according to medullation type and their respective average fiber diameters (AFD) in Peruvian regions. Samples of alpaca fibers were collected from Apurímac, Arequipa, Cusco, Huancavelica, Junín, Pasco and Puno, which were analyzed using the Fiber Med equipment of the Textile Fiber Laboratory of the Natural Fiber′s Tech SAC, a Technological Research and Development Center. Medullation and fiber diameter data did not have a normal distribution, then for statistical analysis, nonparametric techniques were applied. The means of the percentages of medullation and fiber diameters were: 61.87% and 19.12 µm; 16.84% and 22.62 µm; 7.56% and 24.87 µm; 13.23% and 28.56 µm; and 0.50 and 45. 69 µm for NoMed, FragMed, DiscMed, ContMed, and StrMed, respectively; showing greater variation in medullation types than medullated fiber diameter. The geographical region, owner type, and age of animals influenced the medullation types and their fiber diameters (p < 0.05). On the other hand, ContMed was similar by breed; the sex only influenced FragMed. AFD_FragMed and AFD_StrMed were similar by breed. AFD_StrMed was also similar by sex. The percentages of medullation and the fiber diameters of alpacas from the seven Peruvian regions maintain high variability by location, age, owner type, breed and sex. Furthermore, there is a positive correlation between the percentage of medullation and its fiber diameters, with ContMed and StrMed fibers showing greater diameters.",
+      "en": ""
+    },
+    "download_link_DOI": "https://doi.org/10.1080/00405000.2026.2631943",
+    "download_link_pdf": "",
+    "archived": false
+  },
+  {
+    "id": "research-u5srom",
+    "slug": "evaluacion-comparativa-de-los-tipos-de-medulacion-y-su-respectivo-diametro-de-fibra-en-alpacas-de-siete-regiones-del-peru",
+    "order": 2,
+    "localImage": "/assets/images/investigacion/images/comparative-evaluation-of-medullation-types-and-their-respective-fiber-diameter-in-alpacas-from-seven-regions-of-peru.png",
+    "journal": "The Journal of The Textile Institute",
+    "date": "2026-01-30",
+    "title": {
+      "es": "Evaluación comparativa de los tipos de medulación y su respectivo diámetro de fibra en alpacas de siete regiones del Perú",
+      "en": ""
+    },
+    "summary_30w": {
+      "es": "Estudio en siete regiones peruanas analizó tipos de medulación y diámetros en alpacas. Factores como región y edad influyen en la variabilidad, hallando correlación positiva entre mayor medulación y diámetro.",
+      "en": ""
+    },
+    "keywords": [
+      "Alpaca",
+      "breeding",
+      "fiber quality",
+      "medullation",
+      "objectionable fibers"
+    ],
+    "author": [
+      "Quispe Edgar, Paucar Ysai, Pinares Rubén, Machaca Virgilio, Quispe Rolando, Lozano Franklin, Torres Richard, Fernández Armando, Paucar Rufino & Quispe Max"
+    ],
+    "products": [
+      "FIBER MED V2.0"
+    ],
+    "abstract": {
+      "es": "Alpaca fibers may be classified according to the type of medullation, into fibers with strongly medullated (StrMed), continuous (ContMed), discontinuous (DiscMed), fragmented (FragMed), and fibers without medulla (NoMed). ContMed and StrMed may cause prickling and issues during dyeing and are less resistant in textile processing; therefore, they should be eliminated from fleece. Thus, to produce more comfortable alpaca fibers, it is essential to establish a baseline, and for this reason, this research aimed to evaluate the incidence of fibers according to medullation type and their respective average fiber diameters (AFD) in Peruvian regions. Samples of alpaca fibers were collected from Apurímac, Arequipa, Cusco, Huancavelica, Junín, Pasco and Puno, which were analyzed using the Fiber Med equipment of the Textile Fiber Laboratory of the Natural Fiber′s Tech SAC, a Technological Research and Development Center. Medullation and fiber diameter data did not have a normal distribution, then for statistical analysis, nonparametric techniques were applied. The means of the percentages of medullation and fiber diameters were: 61.87% and 19.12 µm; 16.84% and 22.62 µm; 7.56% and 24.87 µm; 13.23% and 28.56 µm; and 0.50 and 45. 69 µm for NoMed, FragMed, DiscMed, ContMed, and StrMed, respectively; showing greater variation in medullation types than medullated fiber diameter. The geographical region, owner type, and age of animals influenced the medullation types and their fiber diameters (p < 0.05). On the other hand, ContMed was similar by breed; the sex only influenced FragMed. AFD_FragMed and AFD_StrMed were similar by breed. AFD_StrMed was also similar by sex. The percentages of medullation and the fiber diameters of alpacas from the seven Peruvian regions maintain high variability by location, age, owner type, breed and sex. Furthermore, there is a positive correlation between the percentage of medullation and its fiber diameters, with ContMed and StrMed fibers showing greater diameters.",
+      "en": ""
+    },
+    "download_link_DOI": "https://doi.org/10.1080/00405000.2026.2622879",
+    "download_link_pdf": "/assets/investigation/pdf/comparative-evaluation-of-medullation-types-and-their-respective-fiber-diameter-in-alpacas-from-seven-regions-of-peru.pdf",
+    "archived": false
+  },
+  {
     "id": "caracteristicas-transversales-diametro-de-fibra-y-resistencia-a-la-traccion-de-fibra-de-alpaca-segun-grupos-de-calidad",
     "slug": "caracteristicas-transversales-diametro-de-fibra-y-resistencia-a-la-traccion-de-fibra-de-alpaca-segun-grupos-de-calidad",
-    "order": 1,
+    "order": 3,
     "localImage": "/assets/images/investigacion/images/caracteristicas-transversales-diametro-de-fibra-y-resistencia-a-la-traccion-de-fibra-de-alpaca-segun-grupos-de-calidad.png",
     "journal": "Rev Inv Vet Perú",
     "date": "2025-12-19",
@@ -41,7 +114,7 @@
   {
     "id": "characterizing-visually-objectionable-and-non-objectionable-medullated-alpaca-fibers",
     "slug": "characterizing-visually-objectionable-and-non-objectionable-medullated-alpaca-fibers",
-    "order": 2,
+    "order": 4,
     "localImage": "/assets/images/investigacion/images/characterizing-visually-objectionable-and-non-objectionable-medullated-alpaca-fibers.png",
     "journal": "Journal of Natural Fibers",
     "date": "2025-12-17",
@@ -81,7 +154,7 @@
   {
     "id": "classification-of-south-american-camelid-and-goat-fiber-samples-based-on-fourier-transform",
     "slug": "classification-of-south-american-camelid-and-goat-fiber-samples-based-on-fourier-transform",
-    "order": 3,
+    "order": 5,
     "localImage": "/assets/images/investigacion/images/classification-of-south-american-camelid-and-goat-fiber-samples-based-on-fourier-transform.png",
     "journal": "SOUTH AMERICAN CAMELIDS",
     "date": "2024-04-04",
@@ -124,7 +197,7 @@
   {
     "id": "comparison-of-projection-microscope-with-ofda100-in-alpaca-fibers-medullation",
     "slug": "comparison-of-projection-microscope-with-ofda100-in-alpaca-fibers-medullation",
-    "order": 4,
+    "order": 6,
     "localImage": "/assets/images/investigacion/images/comparison-of-projection-microscope-with-ofda100-in-alpaca-fibers-medullation.png",
     "journal": "SOUTH AMERICAN CAMELIDS",
     "date": "2023-07-15",
@@ -159,7 +232,7 @@
   {
     "id": "fiber-density-and-hair-ducts-in-the-skin-of-alpacas-quantification-heritability-and-geneti",
     "slug": "fiber-density-and-hair-ducts-in-the-skin-of-alpacas-quantification-heritability-and-geneti",
-    "order": 5,
+    "order": 7,
     "localImage": "/assets/images/investigacion/images/fiber-density-and-hair-ducts-in-the-skin-of-alpacas-quantification-heritability-and-geneti.png",
     "journal": "SOUTH AMERICAN CAMELIDS",
     "date": "2023-08-07",
@@ -227,7 +300,7 @@
       "Edgar Carlos Quispe"
     ],
     "id": "fiber-density-and-hair-ducts-in-the-skin-of-alpacas-quantification-heritability-and-geneti-2",
-    "order": 6,
+    "order": 8,
     "archived": false
   },
   {
@@ -260,7 +333,7 @@
     "download_link_pdf": "/assets/images/investigacion/pdf/comparison-of-projection-microscope-with-ofda100-in-alpaca-fibers-medullation.pdf",
     "localImage": "/assets/images/investigacion/images/comparison-of-projection-microscope-with-ofda100-in-alpaca-fibers-medullation.png",
     "id": "comparison-of-projection-microscope-with-ofda100-in-alpaca-fibers-medullation-2",
-    "order": 7,
+    "order": 9,
     "archived": false
   },
   {
@@ -303,7 +376,7 @@
       "E.C. Quispe"
     ],
     "id": "development-and-validation-of-a-smart-system-for-medullation-and-diameter-assessment-of-al",
-    "order": 8,
+    "order": 10,
     "archived": false
   },
   {
@@ -349,30 +422,7 @@
       "Joaquín Pablo Mueller"
     ],
     "id": "densidad-de-fibras-y-densidad-de-conductos-pilosos-como-criterios-de-seleccion-para-mejora",
-    "order": 9,
-    "archived": false
-  },
-  {
-    "slug": "objective-measurement-of-objectionable-medullated-fibres-in-commercial-mohair-tops-sing-an",
-    "lang": "en",
-    "title": "OBJECTIVE MEASUREMENT OF «OBJECTIONABLE» MEDULLATED FIBRES IN COMMERCIAL MOHAIR TOPS SING AN OPTICAL FIBRE DIAMETER ANALYSER (OFDA) – AN INTRODUCTORY STUDY",
-    "date": "2023-03-20",
-    "journal": "SOUTH AMERICAN CAMELIDS",
-    "abstract": "with comments by L. HUNTER* *CSIR Division of Textile Technology. Port Elizabeth, South Africa SUMMARY: In a quest to find an objetive measure of those medullated fibres which «stand out» as being «optically different» and «objectionable» commercial mohair tops (including good quality tops containing relatively few such fibres), researchers at Gubb & Inggs have carried out exploratory studies using Cape, Texas and Turkish mohair spanning a wide range of diameter and «objectionable» medullated fibre count. The results have indicated that there is a good statistical fit between the number of «objectionable» medullated fibres counted visually at Gubb &Inggs and the number of medullated fibres (excluding «flat» fibres) counted on the OFDA, the statistical fit passing through a peak at an opacity threshold level of approximately 92 percent. This technique of measurement could, for the first time ever, offer a rapid, practical and cot-effective means for the objective measurement of objectionable medullated fibres in mohair, even at relatively low count levels down to 0.01 percent. It is hoped the this introductory study will stimulate further work and lead to the establishment of commercially viable Test Method within the near future. Download: Measurement of Medullated Fibres in Mohair Using OFDA-Turpie",
-    "summary_30w": "with comments by L. HUNTER * * CSIR Division of Textile Technology. Port Elizabeth, South Africa SUMMARY: In a quest to find an objetive measure of those medullated fibres which « stand out » as being « optically different » and « objectionable » commercial mohair tops ( including good quality tops containing relatively few such fibres ), researchers at Gubb & Inggs have carried out exploratory studies using Cape, Texas and Turkish mohair spanning a wide range of diameter and « objectionable » medullated fibre count.",
-    "keywords": [],
-    "categories": [],
-    "products": [
-      "Otros"
-    ],
-    "href": "http://localhost:8080/2023/03/objective-measurement-of-objectionable-medullated-fibres-in-commercial-mohair-tops-sing-an-optical-fibre-diameter-analyser-ofda-an-introductory-study/",
-    "download_link_DOI": "",
-    "download_link_google_drive": "",
-    "pdf_source_url": "https://fiberstech.com/wp-content/uploads/2024/07/Catalogo_NFT_2024.-v2.pdf",
-    "download_link_pdf": "/assets/images/investigacion/pdf/objective-measurement-of-objectionable-medullated-fibres-in-commercial-mohair-tops-sing-an.pdf",
-    "localImage": "/assets/images/investigacion/images/objective-measurement-of-objectionable-medullated-fibres-in-commercial-mohair-tops-sing-an.png",
-    "id": "objective-measurement-of-objectionable-medullated-fibres-in-commercial-mohair-tops-sing-an",
-    "order": 10,
+    "order": 11,
     "archived": false
   },
   {
@@ -395,7 +445,7 @@
     "download_link_pdf": "/assets/images/investigacion/pdf/the-definitions-of-medullation-threshold-values-used-by-different-testing-methods-to-defin.pdf",
     "localImage": "/assets/images/investigacion/images/the-definitions-of-medullation-threshold-values-used-by-different-testing-methods-to-defin.png",
     "id": "the-definitions-of-medullation-threshold-values-used-by-different-testing-methods-to-defin",
-    "order": 11,
+    "order": 12,
     "archived": false
   },
   {
@@ -438,7 +488,7 @@
       "Fredrik Dalerum"
     ],
     "id": "artificial-intelligence-as-a-potential-tool-for-micro-histological-analysis-of-herbivore-d",
-    "order": 12,
+    "order": 13,
     "archived": false
   },
   {
@@ -467,7 +517,7 @@
       "Edgar Carlos Quispe Peña"
     ],
     "id": "efecto-de-raza-momento-del-dia-y-caracteristicas-del-pelo-sobre-la-frecuencia-cardiaca-y-r",
-    "order": 13,
+    "order": 14,
     "archived": false
   },
   {
@@ -510,7 +560,7 @@
       "E.C. Quispe"
     ],
     "id": "variaciones-de-la-densidad-diametro-y-crecimiento-de-fibras-expansion-de-piel-y-peso-vivo-",
-    "order": 14,
+    "order": 15,
     "archived": false
   },
   {
@@ -540,7 +590,7 @@
       "Julio Málaga Apaza"
     ],
     "id": "estimacion-de-densidad-de-fibra-en-alpacas-del-centro-de-desarrollo-alpaquero-toccra-cedat",
-    "order": 15,
+    "order": 16,
     "archived": false
   },
   {
@@ -584,7 +634,7 @@
       "Bruce A. McGregor"
     ],
     "id": "relationships-between-the-incidence-and-degree-of-medullation-with-the-diameter-of-alpaca-",
-    "order": 16,
+    "order": 17,
     "archived": false
   },
   {
@@ -615,7 +665,7 @@
       "Edgar Quispe Peña"
     ],
     "id": "application-of-artificial-intelligence-and-digital-images-analysis-to-automatically-determ",
-    "order": 17,
+    "order": 18,
     "archived": false
   },
   {
@@ -659,7 +709,7 @@
       "Jordi Bartolomé"
     ],
     "id": "group-structure-in-vicuna-vicugna-vicugna-mensalis-subject-to-chaku-management-in-central-",
-    "order": 18,
+    "order": 19,
     "archived": false
   },
   {
@@ -689,7 +739,7 @@
       "RH Mamani-Cato"
     ],
     "id": "calibration-and-validation-of-the-mini-fiber-ec-image-analysis-instrument-mean-fiber-diame",
-    "order": 19,
+    "order": 20,
     "archived": false
   },
   {
@@ -734,7 +784,7 @@
       "Edgar Carlos Quispe Peña"
     ],
     "id": "evaluacion-de-la-medulacion-de-fibras-de-lanas-y-fibras-especiales-de-algunas-especies-de-",
-    "order": 20,
+    "order": 21,
     "archived": false
   },
   {
@@ -757,7 +807,7 @@
     "download_link_pdf": "/assets/images/investigacion/pdf/potential-for-a-machine-learning-method-to-be-applied-to-the-study-of-herbivore-diets.pdf",
     "localImage": "/assets/images/investigacion/images/potential-for-a-machine-learning-method-to-be-applied-to-the-study-of-herbivore-diets.png",
     "id": "potential-for-a-machine-learning-method-to-be-applied-to-the-study-of-herbivore-diets",
-    "order": 21,
+    "order": 22,
     "archived": false
   },
   {
@@ -798,7 +848,7 @@
       "M.D. Quispe"
     ],
     "id": "evaluation-of-a-new-portable-device-that-measures-diameter-of-animal-fibres",
-    "order": 22,
+    "order": 23,
     "archived": false
   },
   {
@@ -834,7 +884,7 @@
       "Edgar Ruiz L."
     ],
     "id": "comparacion-de-la-precision-y-exactitud-de-cuatro-equipos-para-determinar-la-media-del-dia",
-    "order": 23,
+    "order": 24,
     "archived": false
   },
   {
@@ -861,7 +911,7 @@
       "E. C. Quispe Peña"
     ],
     "id": "cuticle-and-cortical-cell-morphology-of-alpaca-and-other-rare-animal-fibres",
-    "order": 24,
+    "order": 25,
     "archived": false
   },
   {
@@ -891,7 +941,7 @@
       "E. C. Quispe"
     ],
     "id": "development-and-preliminary-validation-of-an-automatic-digital-analysis-system-for-animal-",
-    "order": 25,
+    "order": 26,
     "archived": false
   },
   {
@@ -914,7 +964,7 @@
     "download_link_pdf": "/assets/images/investigacion/pdf/determinacion-de-la-mejor-zona-de-muestreo-en-vellones-de-llamas-lama-glama-chaku-para-sei.pdf",
     "localImage": "/assets/images/investigacion/images/determinacion-de-la-mejor-zona-de-muestreo-en-vellones-de-llamas-lama-glama-chaku-para-sei.png",
     "id": "determinacion-de-la-mejor-zona-de-muestreo-en-vellones-de-llamas-lama-glama-chaku-para-sei",
-    "order": 26,
+    "order": 27,
     "archived": false
   },
   {
@@ -955,7 +1005,7 @@
       "Edwin Ormachea Valdez"
     ],
     "id": "componentes-de-varianza-y-repetibilidad-de-caracteristicas-productivas-y-textiles-de-la-fi",
-    "order": 27,
+    "order": 28,
     "archived": false
   },
   {
@@ -992,7 +1042,7 @@
     "download_link_pdf": "/assets/images/investigacion/pdf/comparacion-de-la-dieta-de-rebanos-mixtos-en-pajonales-altoandinos.pdf",
     "localImage": "/assets/images/investigacion/images/comparacion-de-la-dieta-de-rebanos-mixtos-en-pajonales-altoandinos.png",
     "id": "comparacion-de-la-dieta-de-rebanos-mixtos-en-pajonales-altoandinos",
-    "order": 28,
+    "order": 29,
     "archived": false
   },
   {
@@ -1048,7 +1098,7 @@
       "Edgar Carlos Quispe Peña"
     ],
     "id": "caracteristicas-tecnologicas-de-la-fibra-de-llama-lama-glama-chaku-antes-y-despues-de-desc",
-    "order": 29,
+    "order": 30,
     "archived": false
   },
   {
@@ -1094,7 +1144,7 @@
       "R. Pinares"
     ],
     "id": "analisis-economico-y-de-la-produccion-del-descerdado-manual-de-la-fibra-de-llamas-lama-gla",
-    "order": 30,
+    "order": 31,
     "archived": false
   },
   {
@@ -1135,7 +1185,7 @@
       "J. Bartolomé Filella"
     ],
     "id": "adaptation-strategies-of-andean-pastoralist-households-to-both-climate-and-non-climate-cha",
-    "order": 31,
+    "order": 32,
     "archived": false
   },
   {
@@ -1179,7 +1229,7 @@
       "Edgar Quispe P."
     ],
     "id": "caracteristicas-tecnologicas-de-la-fibra-blanca-de-alpaca-huacaya-en-la-zona-altoandina-de",
-    "order": 32,
+    "order": 33,
     "archived": false
   },
   {
@@ -1221,7 +1271,7 @@
       "Edgar Carlos Quispe Peña"
     ],
     "id": "estudio-de-la-diferencia-post-y-pre-descerdado-de-cinco-caracteristicas-textiles-de-la-fib",
-    "order": 33,
+    "order": 34,
     "archived": false
   },
   {
@@ -1260,7 +1310,7 @@
       "J Bartolomé-Filella"
     ],
     "id": "effect-of-genotype-and-sex-on-fiber-growth-rate-of-alpacas-for-their-first-year-of-fleece-",
-    "order": 34,
+    "order": 35,
     "archived": false
   },
   {
@@ -1304,7 +1354,7 @@
       "E. Quispe"
     ],
     "id": "prediction-of-alpaca-fibre-quality-by-near-infrared-reflectance-spectroscopy",
-    "order": 35,
+    "order": 36,
     "archived": false
   },
   {
@@ -1342,7 +1392,7 @@
       "Gloria María Cárcamo Valencia"
     ],
     "id": "efecto-del-pastoreo-por-diferentes-especies-ganaderas-sobre-la-estructura-vegetal-de-pajon",
-    "order": 36,
+    "order": 37,
     "archived": false
   },
   {
@@ -1384,7 +1434,7 @@
       "L. Alfonso"
     ],
     "id": "comparison-of-different-breeding-strategies-to-improve-alpaca-fibre-production-in-a-low-in",
-    "order": 37,
+    "order": 38,
     "archived": false
   },
   {
@@ -1426,7 +1476,7 @@
       "Antonio Purroy U."
     ],
     "id": "estudio-de-la-carcasa-de-alpacas-vicugna-pacos-en-relacion-al-peso-y-clasificacion-carnica",
-    "order": 38,
+    "order": 39,
     "archived": false
   },
   {
@@ -1473,7 +1523,7 @@
     "download_link_pdf": "/assets/images/investigacion/pdf/adaptaciones-hematologicas-de-los-camelidos-sudamericanos-que-viven-en-zonas-de-elevadas-a.pdf",
     "localImage": null,
     "id": "adaptaciones-hematologicas-de-los-camelidos-sudamericanos-que-viven-en-zonas-de-elevadas-a",
-    "order": 39,
+    "order": 40,
     "archived": false
   },
   {
@@ -1510,7 +1560,7 @@
       "L. Alfonso"
     ],
     "id": "differences-in-fibre-diameter-profile-between-shearing-periods-in-white-huacaya-alpacas-vi",
-    "order": 40,
+    "order": 41,
     "archived": false
   },
   {
@@ -1543,13 +1593,13 @@
       "L. Alfonso"
     ],
     "id": "fibre-characteristics-of-vicuna-vicugna-vicugna-mensalis",
-    "order": 41,
+    "order": 42,
     "archived": false
   },
   {
     "id": "variabilidad-del-color-de-la-fibra-de-alpaca-en-la-zona-altoandina-de-huancavelica-peru",
     "slug": "variabilidad-del-color-de-la-fibra-de-alpaca-en-la-zona-altoandina-de-huancavelica-peru",
-    "order": 42,
+    "order": 43,
     "localImage": "/assets/images/investigacion/images/variabilidad-del-color-de-la-fibra-de-alpaca-en-la-zona-altoandina-de-huancavelica-peru.png",
     "journal": "SOUTH AMERICAN CAMELIDS",
     "date": "2009-10-13",
@@ -1632,8 +1682,31 @@
       "Y. Ramos"
     ],
     "id": "bases-para-un-programa-de-mejora-de-alpacas-en-la-region-altoandina-de-huancavelica-peru",
-    "order": 43,
+    "order": 44,
     "archived": false
+  },
+  {
+    "slug": "objective-measurement-of-objectionable-medullated-fibres-in-commercial-mohair-tops-sing-an",
+    "lang": "en",
+    "title": "OBJECTIVE MEASUREMENT OF «OBJECTIONABLE» MEDULLATED FIBRES IN COMMERCIAL MOHAIR TOPS SING AN OPTICAL FIBRE DIAMETER ANALYSER (OFDA) – AN INTRODUCTORY STUDY",
+    "date": "2023-03-20",
+    "journal": "SOUTH AMERICAN CAMELIDS",
+    "abstract": "with comments by L. HUNTER* *CSIR Division of Textile Technology. Port Elizabeth, South Africa SUMMARY: In a quest to find an objetive measure of those medullated fibres which «stand out» as being «optically different» and «objectionable» commercial mohair tops (including good quality tops containing relatively few such fibres), researchers at Gubb & Inggs have carried out exploratory studies using Cape, Texas and Turkish mohair spanning a wide range of diameter and «objectionable» medullated fibre count. The results have indicated that there is a good statistical fit between the number of «objectionable» medullated fibres counted visually at Gubb &Inggs and the number of medullated fibres (excluding «flat» fibres) counted on the OFDA, the statistical fit passing through a peak at an opacity threshold level of approximately 92 percent. This technique of measurement could, for the first time ever, offer a rapid, practical and cot-effective means for the objective measurement of objectionable medullated fibres in mohair, even at relatively low count levels down to 0.01 percent. It is hoped the this introductory study will stimulate further work and lead to the establishment of commercially viable Test Method within the near future. Download: Measurement of Medullated Fibres in Mohair Using OFDA-Turpie",
+    "summary_30w": "with comments by L. HUNTER * * CSIR Division of Textile Technology. Port Elizabeth, South Africa SUMMARY: In a quest to find an objetive measure of those medullated fibres which « stand out » as being « optically different » and « objectionable » commercial mohair tops ( including good quality tops containing relatively few such fibres ), researchers at Gubb & Inggs have carried out exploratory studies using Cape, Texas and Turkish mohair spanning a wide range of diameter and « objectionable » medullated fibre count.",
+    "keywords": [],
+    "categories": [],
+    "products": [
+      "Otros"
+    ],
+    "href": "http://localhost:8080/2023/03/objective-measurement-of-objectionable-medullated-fibres-in-commercial-mohair-tops-sing-an-optical-fibre-diameter-analyser-ofda-an-introductory-study/",
+    "download_link_DOI": "",
+    "download_link_google_drive": "",
+    "pdf_source_url": "https://fiberstech.com/wp-content/uploads/2024/07/Catalogo_NFT_2024.-v2.pdf",
+    "download_link_pdf": "/assets/images/investigacion/pdf/objective-measurement-of-objectionable-medullated-fibres-in-commercial-mohair-tops-sing-an.pdf",
+    "localImage": "/assets/images/investigacion/images/objective-measurement-of-objectionable-medullated-fibres-in-commercial-mohair-tops-sing-an.png",
+    "id": "objective-measurement-of-objectionable-medullated-fibres-in-commercial-mohair-tops-sing-an",
+    "order": 10,
+    "archived": true
   },
   {
     "id": "research-tkipg4",

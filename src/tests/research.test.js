@@ -35,7 +35,7 @@ describe("generateSlug", () => {
 
   it("debe manejar texto con ñ", () => {
     const result = generateSlug("Niño y Niña en Investigación");
-    expect(result).toBe("nino-y-nina-en-investigacion");
+    expect(result).toBe("nino-y-nina-en-investigation");
   });
 
   it("debe manejar string vacío", () => {

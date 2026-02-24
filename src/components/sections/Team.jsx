@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../context/hooks/useLanguage";
 import { messages } from "../../config/i18n"; // ✅ Importar messages para admin preview
 import {
   normalizeTeamMember,
@@ -82,7 +82,7 @@ export const TeamMemberCard = ({ member, forceOverlay = false, lang }) => {
   // De lo contrario, usar t() del contexto (web pública)
   const specialtiesText = lang
     ? messages[lang]?.team?.specialties ||
-      (lang === "es" ? "Especialidades:" : "Specialties:")
+    (lang === "es" ? "Especialidades:" : "Specialties:")
     : t("team.specialties");
 
   // ✅ Handler para abrir CV o Bio
@@ -117,11 +117,10 @@ export const TeamMemberCard = ({ member, forceOverlay = false, lang }) => {
         />
         {/* Overlay con skills */}
         <div
-          className={`absolute inset-0 bg-gradient-to-t from-red-400/70 via-red-900/50 to-red-900/30 ${
-            forceOverlay
-              ? "translate-y-0"
-              : "translate-y-full group-hover:translate-y-0"
-          } transition-transform duration-800 ease-out flex flex-col justify-center px-6 text-white/95 backdrop-blur-[2px] rounded-2xl ring-1 ring-white/10`}
+          className={`absolute inset-0 bg-gradient-to-t from-red-400/70 via-red-900/50 to-red-900/30 ${forceOverlay
+            ? "translate-y-0"
+            : "translate-y-full group-hover:translate-y-0"
+            } transition-transform duration-800 ease-out flex flex-col justify-center px-6 text-white/95 backdrop-blur-[2px] rounded-2xl ring-1 ring-white/10`}
         >
           <h4 className="text-lg font-semibold mb-2">{specialtiesText}</h4>
           <ul className="space-y-2">
@@ -175,7 +174,7 @@ export const TeamMemberCard = ({ member, forceOverlay = false, lang }) => {
       </div>
       {/* Información del miembro: Nombre-Title */}
       <div className="absolute bottom-0 left-0 right-0 p-4 bg-white/40 backdrop-blur-sm rounded-b-2xl">
-        <h3 className="text-xs md:text-lg lg:text-xl font-bold text-gray-900">
+        <h3 className="text-xs md:text-lg lg:text-xl font-bold text-[#111827]">
           {name}
         </h3>
         <p className="text-xs md:text-lg lg:text-xl text-red-600 font-medium">
@@ -281,7 +280,7 @@ const Team = () => {
       id="nosotros"
       className="py-10 my-10 bg-gray-50 rounded-3xl shadow-lg overflow-x-hidden"
     >
-      <div className="container-app">
+      <div className="w-full px-4">
         <div className="grid grid-cols-12 gap-4 md:gap-8 w-full max-w-full box-border">
           {/* Header */}
           <div className="col-span-12 text-center mb-12">
@@ -367,11 +366,10 @@ const Team = () => {
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-colors duration-200 ${
-                    index === currentSlide
-                      ? "bg-red-600"
-                      : "bg-gray-300 hover:bg-red-400"
-                  }`}
+                  className={`w-3 h-3 rounded-full transition-colors duration-200 ${index === currentSlide
+                    ? "bg-red-600"
+                    : "bg-gray-300 hover:bg-red-400"
+                    }`}
                 />
               ))}
             </div>

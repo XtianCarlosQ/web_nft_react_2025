@@ -1,6 +1,6 @@
 import React from "react";
 import { Phone, Mail } from "lucide-react";
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../context/hooks/useLanguage";
 
 const socials = [
   {
@@ -105,7 +105,7 @@ const Footer = () => {
       className={`${bgClass} text-neutral-200 mt-4 relative overflow-hidden w-full`}
     >
       {/* Top row: 2 columns */}
-      <div className="container-app pt-10 pb-4">
+      <div className="w-full max-w-[1110px] mx-auto px-4 pt-10 pb-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start p-6">
           {/* 1) Arriba Izquierda: Brand */}
           <div className="md:pr-8">
@@ -164,7 +164,7 @@ const Footer = () => {
       </div>
 
       {/* Middle row: Social icons centered */}
-      <div className="container-app p-6">
+      <div className="w-full max-w-[1110px] mx-auto px-4 p-6">
         <div className="flex justify-center gap-4 sm:gap-4">
           {socials.map((s) => (
             <a
@@ -185,7 +185,7 @@ const Footer = () => {
       <div className="h-px bg-neutral-700/60" />
 
       {/* Bottom row: compact bar COPYRIGHT */}
-      <div className="container-app py-3">
+      <div className="w-full max-w-[1110px] mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <p className="text-xs text-neutral-300">
             {t("footer.copyright", { year: new Date().getFullYear() })}

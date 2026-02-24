@@ -18,17 +18,20 @@
     "test:services": "playwright test admin-services-button-language",
     "test:services:headed": "playwright test admin-services-button-language --headed",
     "test:services:debug": "playwright test admin-services-button-language --debug",
-    "enrich:dry": "node scripts/enrich-publications.mjs --dry",
-    "enrich": "node scripts/enrich-publications.mjs",
-    "report:pubs": "node scripts/report-publications.mjs",
-    "translate:products": "node scripts/translate-products.mjs"
+    "enrich": "node src/lib/maintenance/publications.js enrich",
+    "report:pubs": "node src/lib/maintenance/publications.js report",
+    "translate:products": "node src/lib/maintenance/products.js translate",
+    "validate:i18n": "node src/lib/maintenance/products.js validate",
+    "research:analyze": "node src/lib/maintenance/research.js analyze",
+    "research:clean": "node src/lib/maintenance/research.js clean",
+    "research:fix": "node src/lib/maintenance/research.js fix-ids"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@tailwindcss/vite": "^4.1.13",
     "formidable": "^3.5.4",
     "jsonwebtoken": "^9.0.2",
-    "lucide-react": "^0.544.0",
+    "lucide-react": "^0.575.0",
     "node-fetch": "^2.7.0",
     "pdf-parse": "^2.4.3",
     "react": "^19.1.1",
@@ -37,6 +40,9 @@
     "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-react": "^7.28.5",
+    "@babel/register": "^7.28.6",
     "@eslint/js": "^9.33.0",
     "@playwright/test": "^1.56.0",
     "@testing-library/jest-dom": "^6.9.1",

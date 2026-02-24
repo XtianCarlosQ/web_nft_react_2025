@@ -1,20 +1,12 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo, createContext } from "react";
 
-const ProductsContext = createContext();
-
-export const useProducts = () => {
-  const context = useContext(ProductsContext);
-  if (!context) {
-    throw new Error("useProducts must be used within ProductsProvider");
-  }
-  return context;
-};
+export const ProductsContext = createContext();
 
 export const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const loadProducts = async () => {
+  const loadProducts = useCallback(async () => {
     try {
       const res = await fetch("/content/products.json");
       const data = await res.json();
@@ -27,22 +19,26 @@ export const ProductsProvider = ({ children }) => {
       setProducts([]);
       setLoading(false);
     }
-  };
+  }, []);
 
   // Load on mount
   useEffect(() => {
     loadProducts();
-  }, []);
+  }, [loadProducts]);
 
   // Function to refresh products (called from admin after save)
-  const refreshProducts = () => {
+  const refreshProducts = useCallback(() => {
     console.log("🔄 Refreshing products...");
     loadProducts();
-  };
+  }, [loadProducts]);
+
+  const value = useMemo(() => ({ products, loading, refreshProducts }), [products, loading, refreshProducts]);
 
   return (
-    <ProductsContext.Provider value={{ products, loading, refreshProducts }}>
+    <ProductsContext.Provider value={value}>
       {children}
     </ProductsContext.Provider>
   );
 };
+
+// Hook moved to src/context/hooks/useProducts.js to satisfy Fast Refresh lint rule.

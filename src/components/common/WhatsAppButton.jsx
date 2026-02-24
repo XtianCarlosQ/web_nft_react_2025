@@ -9,12 +9,12 @@ const WhatsAppButton = () => {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-8 right-8 bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300 z-50 group"
+      className="bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300 group flex items-center justify-center animate-bounce-slow"
       aria-label="Contactar por WhatsApp"
     >
       {/* WhatsApp Icon */}
       <svg
-        className="w-6 h-6 fill-current"
+        className="w-7 h-7 fill-current"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 448 512"
       >

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Upload, X, Plus, Link as LinkIcon } from "lucide-react";
-import { useProducts } from "../../../../context/ProductsContext";
+import { useProducts } from "../../../../context/hooks/useProducts";
 
 export default function ResearchDetailForm({
   formData,

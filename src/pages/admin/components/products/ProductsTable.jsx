@@ -1,7 +1,8 @@
 import React, { useMemo } from "react";
 import { Eye, Pencil, Archive, RotateCcw, Columns } from "lucide-react";
 import { useResponsiveColumns } from "../common/useResponsiveColumns";
-import "../common/admin-table.css";
+import { Badge } from "../../../../components/ui/Badge";
+import { Button } from "../../../../components/ui/Button";
 
 export default function ProductsTable({
   products,
@@ -9,7 +10,6 @@ export default function ProductsTable({
   onEdit,
   onArchiveToggle,
 }) {
-  // Definición de columnas con prioridades
   const columns = useMemo(
     () => [
       { key: "id", label: "ID", priority: "always" },
@@ -43,48 +43,42 @@ export default function ProductsTable({
   } = useResponsiveColumns(columns, 480);
 
   const isColumnVisible = (key) => {
-    // Columnas sticky siempre visibles
     if (key === "status" || key === "actions") return true;
     return visibleColumns.some((col) => col.key === key);
   };
 
-  const isSticky = (key) => key === "status" || key === "actions";
-
-  const getStickyClass = (key) => {
-    if (!isSticky(key) || isMobile || showAllColumns) return "";
-    if (key === "actions") return "sticky-column sticky-column-actions";
-    if (key === "status") return "sticky-column sticky-column-status";
-    return "";
+  const getStickyStyle = (key) => {
+    if (isMobile || showAllColumns) return {};
+    if (key === "actions") return { position: 'sticky', right: 0, zIndex: 20, background: 'white', boxShadow: '-4px 0 8px -4px rgba(0,0,0,0.1)' };
+    return {};
   };
 
   return (
     <>
       <div
         ref={containerRef}
-        className={`admin-table rounded-xl ${
-          isMobile || showAllColumns ? "overflow-x-auto" : "overflow-x-hidden"
-        }`}
+        className={`relative w-full rounded-xl border border-gray-200 shadow-sm bg-white ${isMobile || showAllColumns ? "overflow-x-auto" : "overflow-x-hidden"
+          }`}
       >
-        <table ref={tableRef} className="text-sm">
-          <thead>
-            <tr className="text-left">
+        <table ref={tableRef} className="w-full caption-bottom text-sm text-left">
+          <thead className="bg-gray-50/75 backdrop-blur border-b border-gray-100">
+            <tr>
               {columns.map((col) => (
                 <th
                   key={col.key}
                   ref={getHeaderRef(col.key)}
-                  className={`th cell-sep ${getStickyClass(col.key)} ${
-                    !isColumnVisible(col.key) ? "column-hidden" : ""
-                  }`}
+                  className={`h-10 px-4 align-middle font-medium text-gray-500 text-xs uppercase tracking-wider relative group ${!isColumnVisible(col.key) ? "hidden" : ""
+                    }`}
                   style={{
-                    zIndex: isSticky(col.key) ? 4 : 1,
                     width: columnWidths[col.key] || "auto",
+                    ...getStickyStyle(col.key)
                   }}
                 >
-                  <div className="relative pr-2 select-none whitespace-nowrap">
+                  <div className="relative pr-2 select-none whitespace-nowrap flex items-center">
                     {col.label}
                     {col.key !== "actions" && (
                       <div
-                        className="col-resizer"
+                        className="absolute right-0 top-0 bottom-0 w-1 cursor-col-resize hover:bg-red-400/50 opacity-0 group-hover:opacity-100 transition-opacity"
                         onMouseDown={(e) => startResize(col.key, e)}
                         onDoubleClick={() => autoFitColumn(col.key)}
                         aria-hidden="true"
@@ -95,35 +89,26 @@ export default function ProductsTable({
               ))}
             </tr>
           </thead>
-          <tbody>
+          <tbody className="[&_tr:last-child]:border-0">
             {products.map((p) => (
-              <tr key={p.id} className="row hoverable">
-                {/* ID */}
+              <tr key={p.id} className="border-b border-gray-100 transition-colors hover:bg-gray-50/50">
                 <td
-                  className={`td cell-sep whitespace-nowrap truncate ${
-                    !isColumnVisible("id") ? "column-hidden" : ""
-                  }`}
+                  className={`p-4 align-middle whitespace-nowrap overflow-hidden text-ellipsis ${!isColumnVisible("id") ? "hidden" : ""}`}
                   title={p.id}
                   style={{ width: columnWidths.id || "auto" }}
                 >
-                  {p.id}
+                  <span className="font-mono text-xs text-gray-400">{p.id}</span>
                 </td>
 
-                {/* Orden */}
                 <td
-                  className={`td cell-sep text-center ${
-                    !isColumnVisible("order") ? "column-hidden" : ""
-                  }`}
+                  className={`p-4 align-middle text-center ${!isColumnVisible("order") ? "hidden" : ""}`}
                   style={{ width: columnWidths.order || "auto" }}
                 >
-                  {p.archived ? "-" : p.order ?? "-"}
+                  {p.archived ? <span className="text-gray-300">-</span> : p.order ?? "-"}
                 </td>
 
-                {/* Imagen */}
                 <td
-                  className={`td cell-sep text-center ${
-                    !isColumnVisible("image") ? "column-hidden" : ""
-                  }`}
+                  className={`p-4 align-middle text-center ${!isColumnVisible("image") ? "hidden" : ""}`}
                   style={{ width: columnWidths.image || "auto" }}
                 >
                   <div className="flex items-center justify-center">
@@ -131,97 +116,61 @@ export default function ProductsTable({
                       <img
                         src={p.image}
                         alt={p.name?.es || "Producto"}
-                        className="w-16 h-16 object-cover rounded-lg border border-gray-700"
+                        className="w-10 h-10 object-cover rounded border border-gray-200"
                       />
                     ) : (
-                      <div className="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center text-gray-500 text-xs">
-                        Sin imagen
+                      <div className="w-10 h-10 bg-gray-100 rounded flex items-center justify-center text-gray-400 text-[10px]">
+                        N/A
                       </div>
                     )}
                   </div>
                 </td>
 
-                {/* Nombre */}
                 <td
-                  className={`td cell-sep whitespace-nowrap truncate ${
-                    !isColumnVisible("name") ? "column-hidden" : ""
-                  }`}
+                  className={`p-4 align-middle whitespace-nowrap overflow-hidden text-ellipsis font-medium text-gray-900 ${!isColumnVisible("name") ? "hidden" : ""
+                    }`}
                   title={p.name?.es}
                   style={{ width: columnWidths.name || "auto" }}
                 >
                   {p.name?.es}
                 </td>
 
-                {/* Categoría (opcional) */}
                 <td
-                  className={`td cell-sep whitespace-nowrap truncate ${
-                    !isColumnVisible("category") ? "column-hidden" : ""
-                  }`}
-                  title={
-                    typeof p.category === "string"
-                      ? p.category
-                      : p.category?.es || "-"
-                  }
+                  className={`p-4 align-middle whitespace-nowrap overflow-hidden text-ellipsis text-gray-500 ${!isColumnVisible("category") ? "hidden" : ""
+                    }`}
                   style={{ width: columnWidths.category || "auto" }}
                 >
-                  {typeof p.category === "string"
-                    ? p.category
-                    : p.category?.es || "-"}
+                  {typeof p.category === "string" ? p.category : p.category?.es || "-"}
                 </td>
 
-                {/* Estado */}
                 <td
-                  className={`td cell-sep text-center ${getStickyClass(
-                    "status"
-                  )} ${!isColumnVisible("status") ? "column-hidden" : ""}`}
-                  style={{ width: columnWidths.status || "auto" }}
+                  className={`p-4 align-middle text-center ${!isColumnVisible("status") ? "hidden" : ""}`}
+                  style={{ width: columnWidths.status || "auto", ...getStickyStyle("status") }}
                 >
-                  <span
-                    className={`px-2.5 py-1 text-xs font-semibold rounded-full inline-block whitespace-nowrap ${
-                      p.archived
-                        ? "bg-yellow-500/15 text-yellow-300"
-                        : "bg-green-500/15 text-green-300"
-                    }`}
-                  >
+                  <Badge variant={p.archived ? "warning" : "success"}>
                     {p.archived ? "Archivado" : "Activo"}
-                  </span>
+                  </Badge>
                 </td>
 
-                {/* Acciones */}
                 <td
-                  className={`td cell-sep text-center ${getStickyClass(
-                    "actions"
-                  )} ${!isColumnVisible("actions") ? "column-hidden" : ""}`}
-                  style={{ width: columnWidths.actions || "auto" }}
+                  className={`p-4 align-middle text-center ${!isColumnVisible("actions") ? "hidden" : ""}`}
+                  style={{ width: columnWidths.actions || "auto", ...getStickyStyle("actions") }}
                 >
-                  <div className="flex items-center gap-1.5">
-                    <button
-                      className="icon-btn icon-view"
-                      onClick={() => onView(p)}
-                      title="Ver detalles"
-                    >
+                  <div className="flex items-center justify-center gap-2">
+                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => onView(p)}>
                       <Eye className="w-4 h-4" />
-                    </button>
-                    <button
-                      className="icon-btn icon-edit"
-                      onClick={() => onEdit(p)}
-                      title="Editar"
-                    >
+                    </Button>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50" onClick={() => onEdit(p)}>
                       <Pencil className="w-4 h-4" />
-                    </button>
-                    <button
-                      className={`icon-btn ${
-                        p.archived ? "icon-restore" : "icon-archive"
-                      }`}
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className={`h-8 w-8 ${p.archived ? "text-green-600 hover:bg-green-50" : "text-red-600 hover:bg-red-50"}`}
                       onClick={() => onArchiveToggle(p)}
-                      title={p.archived ? "Restaurar" : "Archivar"}
                     >
-                      {p.archived ? (
-                        <RotateCcw className="w-4 h-4" />
-                      ) : (
-                        <Archive className="w-4 h-4" />
-                      )}
-                    </button>
+                      {p.archived ? <RotateCcw className="w-4 h-4" /> : <Archive className="w-4 h-4" />}
+                    </Button>
                   </div>
                 </td>
               </tr>
@@ -230,15 +179,19 @@ export default function ProductsTable({
         </table>
       </div>
 
-      {/* Botón flotante para mostrar columnas ocultas */}
       {!isMobile && hiddenColumns.length > 0 && (
-        <button className="show-columns-btn" onClick={toggleShowAll}>
-          <Columns className="w-5 h-5" />
+        <button
+          className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 px-5 py-3 bg-red-600 text-white font-semibold rounded-full shadow-lg hover:bg-red-700 hover:-translate-y-0.5 transition-all text-sm"
+          onClick={toggleShowAll}
+        >
+          <Columns className="w-4 h-4" />
           <span>
-            {showAllColumns ? "Ocultar Columnas" : "Mostrar Columnas Ocultas"}
+            {showAllColumns ? "Ocultar" : "Mostrar Ocultas"}
           </span>
           {!showAllColumns && (
-            <span className="hidden-columns-badge">{hiddenColumns.length}</span>
+            <span className="ml-1 inline-flex items-center justify-center h-5 w-5 rounded-full bg-white/20 text-xs">
+              {hiddenColumns.length}
+            </span>
           )}
         </button>
       )}

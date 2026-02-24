@@ -17,7 +17,7 @@
         - link "Services" [ref=e17] [cursor=pointer]:
           - /url: /servicios
         - link "Research" [ref=e18] [cursor=pointer]:
-          - /url: /investigacion
+          - /url: /investigation
         - link "About" [ref=e19] [cursor=pointer]:
           - /url: /nosotros
         - link "Contact" [ref=e20] [cursor=pointer]:

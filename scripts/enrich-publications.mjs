@@ -19,7 +19,7 @@ const POSTS_PATH = path.join(
   "public",
   "assets",
   "images",
-  "investigacion",
+  "investigation",
   "posts.json"
 );
 const PDF_DIR = path.join(
@@ -27,7 +27,7 @@ const PDF_DIR = path.join(
   "public",
   "assets",
   "images",
-  "investigacion",
+  "investigation",
   "pdf"
 );
 

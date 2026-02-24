@@ -9,7 +9,7 @@ import {
   MessageCircle,
   Building,
 } from "lucide-react";
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../context/hooks/useLanguage";
 
 // Contact form component
 // - Simple controlled form
@@ -254,18 +254,14 @@ const Contact = () => {
       id="contacto"
       className="bg-gray-50 rounded-2xl shadow-lg pt-[50px] pb-[1px]"
     >
-      <div className="container-app">
+      <div className="w-full px-4">
         {/* Header */}
         <div className="grid-ctx mb-[40px]">
           <div className="span-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              {t("contact.talk").split(" ")[0]} de tu{" "}
+              {t("contact.talk").split(" ").slice(0, -1).join(" ")}{" "}
               <span className="text-red-600">
-                {
-                  t("contact.talk").split(" ")[
-                    t("contact.talk").split(" ").length - 1
-                  ]
-                }
+                {t("contact.talk").split(" ").slice(-1)[0]}
               </span>
             </h2>
             <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto">

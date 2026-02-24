@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Upload, X, Plus } from "lucide-react";
 import ArticleCard from "../../../../components/research/ArticleCard";
-import { useProducts } from "../../../../context/ProductsContext";
+import { useProducts } from "../../../../context/hooks/useProducts";
 
 export default function ResearchCardForm({
   formData,

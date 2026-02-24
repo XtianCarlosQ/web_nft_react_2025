@@ -332,7 +332,7 @@ export default function ResearchDetailForm({ formData, setFormData }) {
       <div className="bg-gray-800 border-l-4 border-red-500 p-4 rounded-lg">
         <p className="text-sm text-gray-300">
           <strong className="text-white">📋 Formato de Citación:</strong> El
-          componente InvestigacionDetail genera automáticamente las citas en
+          componente InvestigationDetail genera automáticamente las citas en
           formato APA y MLA usando los campos: autores, título, fecha, revista
           y DOI. No es necesario editar manualmente las citas.
         </p>

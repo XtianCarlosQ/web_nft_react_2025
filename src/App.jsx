@@ -1,8 +1,5 @@
 import React, { lazy, Suspense } from "react";
-import { ThemeProvider } from "./context/ThemeContext";
-import { LanguageProvider } from "./context/LanguageContext";
-import { GridProvider } from "./context/GridContext";
-import { ProductsProvider } from "./context/ProductsContext";
+import { AppProviders } from "./context/AppProviders";
 import Navbar from "./components/layout/Navbar";
 import { Routes, Route, Link } from "react-router-dom";
 
@@ -17,13 +14,15 @@ import Services from "./components/sections/Services";
 import Partners from "./components/sections/Partners";
 import Contact from "./components/sections/Contact";
 import ProductDetail from "./pages/products/ProductDetail";
-import InvestigacionLanding from "./pages/investigacion/InvestigacionLanding";
-import InvestigacionDetail from "./pages/investigacion/InvestigacionDetail";
+import InvestigationLanding from "./pages/investigation/investigationLanding.jsx";
+import InvestigationDetail from "./pages/investigation/investigationDetail.jsx";
 import Footer from "./components/layout/Footer";
 import WhatsAppButton from "./components/common/WhatsAppButton";
 import GridOverlay from "./components/GridOverlay";
 import ScrollToTop from "./components/ScrollToTop";
 import ErrorBoundary from "./components/ErrorBoundary";
+import FAQChatbot from "./components/faqChatbot/index.jsx";
+
 
 // ========================================
 // 🔐 CMS - Carga bajo demanda (lazy)
@@ -43,147 +42,131 @@ const LoadingScreen = () => (
 const App = () => {
   return (
     <ErrorBoundary>
-      <LanguageProvider>
-        <ThemeProvider>
-          <GridProvider>
-            <ProductsProvider>
-              <div className="min-h-screen bg-white transition-colors duration-300">
-                <Navbar />
-                <ScrollToTop />
-                <GridOverlay />
-                <Routes>
-                  <Route
-                    path="/"
-                    element={
-                      <>
-                        <main className="container-app pt-20">
-                          <Hero />
-                          <About resume />
-                          <Products limit={3} />
-                          <Services limit={3} />
-                          <Team />
-                          <Partners />
-                        </main>
-                        <Footer />
-                        <WhatsAppButton />
-                      </>
-                    }
-                  />
-                  <Route
-                    path="/productos"
-                    element={
-                      <>
-                        <main className="container-app pt-20">
-                          <Products />
-                        </main>
-                        <Footer />
-                        <WhatsAppButton />
-                      </>
-                    }
-                  />
-                  <Route
-                    path="/servicios"
-                    element={
-                      <>
-                        <main className="container-app pt-20">
-                          <Services />
-                        </main>
-                        <Footer />
-                        <WhatsAppButton />
-                      </>
-                    }
-                  />
-                  <Route
-                    path="/nosotros"
-                    element={
-                      <>
-                        <main className="container-app pt-20">
-                          <About />
-                        </main>
-                        <Footer />
-                        <WhatsAppButton />
-                      </>
-                    }
-                  />
-                  <Route
-                    path="/contacto"
-                    element={
-                      <>
-                        <main className="container-app pt-20">
-                          <Contact />
-                        </main>
-                        <Footer />
-                        <WhatsAppButton />
-                      </>
-                    }
-                  />
-                  <Route
-                    path="/productos/:productId"
-                    element={
-                      <>
-                        <main className="pt-16">
-                          <ProductDetail />
-                        </main>
-                        <Footer />
-                        <WhatsAppButton />
-                      </>
-                    }
-                  />
-                  <Route
-                    path="/investigacion"
-                    element={
-                      <>
-                        <main className="pt-16">
-                          <InvestigacionLanding />
-                        </main>
-                        <Footer />
-                        <WhatsAppButton />
-                      </>
-                    }
-                  />
-                  <Route
-                    path="/investigacion/:slug"
-                    element={
-                      <>
-                        <main className="pt-16">
-                          <InvestigacionDetail />
-                        </main>
-                        <Footer />
-                        <WhatsAppButton />
-                      </>
-                    }
-                  />
-                  
-                  {/* ========================================
+      <AppProviders>
+        <div className="min-h-screen bg-white transition-colors duration-300">
+          <Navbar />
+          <ScrollToTop />
+          <GridOverlay />
+          <Routes >
+            <Route
+              path="/"
+              element={
+                <>
+                  <main className="w-full max-w-[1110px] mx-auto px-4 pt-20">
+                    <Hero />
+                    <About resume />
+                    <Products limit={3} />
+                    <Services limit={3} />
+                    <Team />
+                    <Partners />
+                  </main>
+                </>
+              }
+            />
+            <Route
+              path="/productos"
+              element={
+                <>
+                  <main className="w-full max-w-[1110px] mx-auto px-4 pt-20">
+                    <Products />
+                  </main>
+                </>
+              }
+            />
+            <Route
+              path="/servicios"
+              element={
+                <>
+                  <main className="w-full max-w-[1110px] mx-auto px-4 pt-20">
+                    <Services />
+                  </main>
+                </>
+              }
+            />
+            <Route
+              path="/nosotros"
+              element={
+                <>
+                  <main className="w-full max-w-[1110px] mx-auto px-4 pt-20">
+                    <About />
+                  </main>
+                </>
+              }
+            />
+            <Route
+              path="/contacto"
+              element={
+                <>
+                  <main className="w-full max-w-[1110px] mx-auto px-4 pt-20">
+                    <Contact />
+                  </main>
+                </>
+              }
+            />
+            <Route
+              path="/productos/:productId"
+              element={
+                <>
+                  <main className="pt-16">
+                    <ProductDetail />
+                  </main>
+                </>
+              }
+            />
+            <Route
+              path="/investigacion"
+              element={
+                <>
+                  <main className="w-full max-w-[1110px] mx-auto px-4 pt-20">
+                    <InvestigationLanding />
+                  </main>
+                </>
+              }
+            />
+            <Route
+              path="/investigacion/:slug"
+              element={
+                <>
+                  <main className="pt-16">
+                    <InvestigationDetail />
+                  </main>
+                </>
+              }
+            />
+
+            {/* ========================================
                       🔐 CMS - ADMIN ONLY (lazy loading)
                       ======================================== */}
-                  <Route
-                    path="/adminx"
-                    element={
-                      <Suspense fallback={<LoadingScreen />}>
-                        <main className="pt-16">
-                          <AdminApp />
-                        </main>
-                      </Suspense>
-                    }
-                  />
-                  {/* Allow section-prefixed admin path, e.g., /contacto/adminx */}
-                  <Route
-                    path="/:prefix/adminx"
-                    element={
-                      <Suspense fallback={<LoadingScreen />}>
-                        <main className="pt-16">
-                          <AdminApp />
-                        </main>
-                      </Suspense>
-                    }
-                  />
-                </Routes>
-              </div>
-            </ProductsProvider>
-          </GridProvider>
-        </ThemeProvider>
-      </LanguageProvider>
+            <Route
+              path="/adminx"
+              element={
+                <Suspense fallback={<LoadingScreen />}>
+                  <main className="pt-16">
+                    <AdminApp />
+                  </main>
+                </Suspense>
+              }
+            />
+            {/* Allow section-prefixed admin path, e.g., /contacto/adminx */}
+            <Route
+              path="/:prefix/adminx"
+              element={
+                <Suspense fallback={<LoadingScreen />}>
+                  <main className="pt-16">
+                    <AdminApp />
+                  </main>
+                </Suspense>
+              }
+            />
+          </Routes>
+          <Footer />
+          <div className="fixed bottom-5 right-5 z-40 flex flex-row gap-4 items-end  ">
+            <WhatsAppButton />
+            <FAQChatbot />
+
+          </div>
+        </div>
+      </AppProviders>
     </ErrorBoundary>
   );
 };

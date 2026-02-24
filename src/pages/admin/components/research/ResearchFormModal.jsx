@@ -3,12 +3,10 @@ import { X, Edit, Globe, RotateCcw } from "lucide-react";
 import ResearchCardForm from "./ResearchCardForm";
 import ResearchDetailForm from "./ResearchDetailForm";
 import ArticleCard from "../../../../components/research/ArticleCard";
-import InvestigacionDetail from "../../../../pages/investigacion/InvestigacionDetail";
-import {
-  LanguageProvider,
-  useLanguage,
-} from "../../../../context/LanguageContext";
-import { validateOrder, getOrderRange } from "../../../../utils/crudHelpers";
+import InvestigationDetail from "../../../investigation/investigationDetail.jsx";
+import { LanguageProvider } from "../../../../context/LanguageContext.jsx";
+import { useLanguage } from "../../../../context/hooks/useLanguage.js";
+import { validateOrder, getOrderRange } from "../../../../lib/crud";
 import FieldRequiredModal from "./FieldRequiredModal";
 import DetailIncompleteConfirmModal from "../products/DetailIncompleteConfirmModal";
 import { useFileUpload } from "../../hooks/useFileUpload";
@@ -70,7 +68,7 @@ export default function ResearchFormModal({
   const uploadPDF = useFileUpload({
     accept: ".pdf,application/pdf",
     maxSize: 10 * 1024 * 1024, // 10MB
-    uploadPath: "public/assets/images/investigacion/pdf/",
+    uploadPath: "public/assets/images/investigation/pdf/",
     onSuccess: (fileUrl) =>
       setFormData((p) => ({ ...p, download_link_pdf: fileUrl })),
   });
@@ -78,7 +76,7 @@ export default function ResearchFormModal({
   const uploadImage = useFileUpload({
     accept: "image/*",
     maxSize: 5 * 1024 * 1024, // 5MB
-    uploadPath: "public/assets/images/investigacion/images/",
+    uploadPath: "public/assets/images/investigation/images/",
     onSuccess: (fileUrl) => setFormData((p) => ({ ...p, localImage: fileUrl })),
   });
 
@@ -202,8 +200,8 @@ export default function ResearchFormModal({
       currentMode === "restore"
         ? "restore"
         : currentMode === "create"
-        ? "create"
-        : "edit",
+          ? "create"
+          : "edit",
       article
     );
 
@@ -307,8 +305,8 @@ export default function ResearchFormModal({
       currentMode === "restore"
         ? "restore"
         : currentMode === "create"
-        ? "create"
-        : "edit",
+          ? "create"
+          : "edit",
       article
     );
 
@@ -339,8 +337,8 @@ export default function ResearchFormModal({
     currentMode === "restore"
       ? "restore"
       : currentMode === "create"
-      ? "create"
-      : "edit",
+        ? "create"
+        : "edit",
     article
   );
 
@@ -389,10 +387,10 @@ export default function ResearchFormModal({
                 {isViewMode
                   ? "Ver Artículo"
                   : isRestoreMode
-                  ? "Restaurar Artículo"
-                  : currentMode === "create"
-                  ? "Nuevo Artículo"
-                  : "Editar Artículo"}
+                    ? "Restaurar Artículo"
+                    : currentMode === "create"
+                      ? "Nuevo Artículo"
+                      : "Editar Artículo"}
               </h2>
               {isViewMode && (
                 <span className="bg-blue-500/20 text-blue-400 text-xs font-medium px-2 py-1 rounded-full">
@@ -424,21 +422,19 @@ export default function ResearchFormModal({
             <div className="flex gap-2">
               <button
                 onClick={() => setActiveTab("card")}
-                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                  activeTab === "card"
-                    ? "bg-red-600 text-white shadow-lg"
-                    : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                }`}
+                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${activeTab === "card"
+                  ? "bg-red-600 text-white shadow-lg"
+                  : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                  }`}
               >
                 Vista Card
               </button>
               <button
                 onClick={() => setActiveTab("detail")}
-                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                  activeTab === "detail"
-                    ? "bg-red-600 text-white shadow-lg"
-                    : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                }`}
+                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${activeTab === "detail"
+                  ? "bg-red-600 text-white shadow-lg"
+                  : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                  }`}
               >
                 Vista Detalle
               </button>
@@ -448,21 +444,19 @@ export default function ResearchFormModal({
             <div className="flex gap-2">
               <button
                 onClick={() => setPreviewLanguage("es")}
-                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                  previewLanguage === "es"
-                    ? "bg-red-600 text-white shadow-lg"
-                    : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                }`}
+                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${previewLanguage === "es"
+                  ? "bg-red-600 text-white shadow-lg"
+                  : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                  }`}
               >
                 Español (ES)
               </button>
               <button
                 onClick={() => setPreviewLanguage("en")}
-                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                  previewLanguage === "en"
-                    ? "bg-red-600 text-white shadow-lg"
-                    : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                }`}
+                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${previewLanguage === "en"
+                  ? "bg-red-600 text-white shadow-lg"
+                  : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                  }`}
               >
                 English (EN)
               </button>
@@ -532,7 +526,7 @@ export default function ResearchFormModal({
                 <LanguageProvider>
                   <PreviewWrapper language={previewLanguage}>
                     {/* Vista Detalle: renderizar componente completo sin wrappers adicionales */}
-                    <InvestigacionDetail
+                    <InvestigationDetail
                       article={previewArticle}
                       isPreview={true}
                     />
@@ -572,11 +566,10 @@ export default function ResearchFormModal({
                         type="number"
                         value={formData.order}
                         onChange={(e) => handleOrderChange(e.target.value)}
-                        className={`w-20 px-3 py-1.5 bg-gray-900/50 border rounded text-white text-sm transition-all ${
-                          orderError
-                            ? "border-red-500 animate-shake"
-                            : "border-gray-600 focus:border-red-500"
-                        }`}
+                        className={`w-20 px-3 py-1.5 bg-gray-900/50 border rounded text-white text-sm transition-all ${orderError
+                          ? "border-red-500 animate-shake"
+                          : "border-gray-600 focus:border-red-500"
+                          }`}
                         min={orderRange.min}
                         max={orderRange.max}
                         step="1"

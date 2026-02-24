@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Brain, Clock, Award, Microscope } from "lucide-react";
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../context/hooks/useLanguage";
 import { messages } from "../../config/i18n";
 // Eliminado: catálogo fallback en src/data. Usamos exclusivamente /content/products.json
 
@@ -35,7 +35,7 @@ export const ProductCard = ({
   // Button text with lang prop support
   const buttonText = lang
     ? messages[lang]?.products?.viewDetails ||
-      (lang === "es" ? "Ver Detalles" : "View Details")
+    (lang === "es" ? "Ver Detalles" : "View Details")
     : t("products.viewDetails");
 
   // Helper para placeholders dinámicos (admin)
@@ -68,9 +68,8 @@ export const ProductCard = ({
             {editable ? (
               <div className="relative">
                 <input
-                  className={`text-lg font-bold text-gray-900 mb-3 w-full border rounded px-2 py-1 ${
-                    invalid?.name ? "border-red-500 ring-1 ring-red-300" : ""
-                  }`}
+                  className={`text-lg font-bold text-gray-900 mb-3 w-full border rounded px-2 py-1 ${invalid?.name ? "border-red-500 ring-1 ring-red-300" : ""
+                    }`}
                   value={product.name || ""}
                   onChange={(e) => onEdit?.(["name"], e.target.value)}
                   placeholder={getPlaceholder("name")}
@@ -90,11 +89,10 @@ export const ProductCard = ({
             {editable ? (
               <div className="relative">
                 <textarea
-                  className={`text-sm text-gray-700 leading-relaxed w-full border rounded px-2 py-1 ${
-                    invalid?.description
-                      ? "border-red-500 ring-1 ring-red-300"
-                      : ""
-                  }`}
+                  className={`text-sm text-gray-700 leading-relaxed w-full border rounded px-2 py-1 ${invalid?.description
+                    ? "border-red-500 ring-1 ring-red-300"
+                    : ""
+                    }`}
                   rows={3}
                   value={product.description || ""}
                   onChange={(e) => onEdit?.(["description"], e.target.value)}
@@ -130,11 +128,10 @@ export const ProductCard = ({
                   <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 mt-1.5 flex-shrink-0"></span>
                   {editable ? (
                     <input
-                      className={`flex-1 border rounded px-2 py-1 text-sm ${
-                        showHints && invalid?.features && !feature?.trim()
-                          ? "border-red-500 ring-1 ring-red-300"
-                          : ""
-                      }`}
+                      className={`flex-1 border rounded px-2 py-1 text-sm ${showHints && invalid?.features && !feature?.trim()
+                        ? "border-red-500 ring-1 ring-red-300"
+                        : ""
+                        }`}
                       value={feature || ""}
                       onChange={(e) =>
                         onEdit?.(["features", index], e.target.value)
@@ -148,8 +145,8 @@ export const ProductCard = ({
                 </li>
               ))}
             </ul>
-            {/* Fade overlay para ocultar la zona recortada (ajusta colores si usas tema oscuro) */}
-            <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white/90 to-transparent dark:from-gray-900/90" />
+            {/* Fade overlay para ocultar la zona recortada con gradiente */}
+            <div className="product-fade-overlay" />
           </div>
 
           {/* Button Section - Fixed position at bottom */}
@@ -231,7 +228,7 @@ const Products = ({ limit }) => {
 
   return (
     <section id="productos" className="py-8 bg-gray-0 rounded-3xl shadow-lg">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="w-full mx-auto px-4">
         <div className="mb-10">
           <h2 className="text-2xl font-bold text-center mb-3 tracking-tight">
             {t("products.title").split(" ")[0]}{" "}
